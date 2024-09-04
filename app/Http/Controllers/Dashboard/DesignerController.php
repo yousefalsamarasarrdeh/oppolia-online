@@ -42,7 +42,8 @@ class DesignerController extends Controller
             'experience_years' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'portfolio_images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // تحقق من صحة كل صورة
-            'designer_code' => 'required|string|unique:designers,designer_code,' . ($designer ? ',' . $designer->id : ''),
+            'designer_code' => 'required|string|unique:designers,designer_code,' . ($designer ? $designer->id : ''),
+
         ]);
 
         // تحميل الصورة الشخصية إذا كانت موجودة

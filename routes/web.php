@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\AdminUserManagement;
 use App\Http\Controllers\Dashboard\DesignerController;
+use App\Http\Controllers\Dashboard\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,9 +23,32 @@ Route::middleware(['admin'])->group(function () {
     Route::post('designer/update/{user}', [DesignerController::class, 'storeOrUpdateDesigner'])->name('designer.storeOrUpdate');
     Route::get('designer/show/{user}', [DesignerController::class, 'showDesigner'])->name('designer.show');
 
+    Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+    Route::get('/admin/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    Route::put('/admin/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 });
+Route::get('set/lang/{lang}',function ($lang){
+    if(in_array($lang,['en','ar'])) {
+        setcookie('lang',$lang,time()+(68*24*365),'/');
+    }
+    return redirect()->back();
+}) ;
 
+
+
+
+Route::middleware(['set-locale'])->group(function () {
+
+
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+});
 
 Auth::routes();
 

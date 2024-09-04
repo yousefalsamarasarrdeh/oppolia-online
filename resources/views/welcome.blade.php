@@ -160,6 +160,9 @@
                                 </div>
                             </div>
                         </div>
+                        <p>@lang('auth.failed')</p>
+                        <a href="set/lang/ar">ar</a>
+                        <a href="set/lang/en">en</a>
                     </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
