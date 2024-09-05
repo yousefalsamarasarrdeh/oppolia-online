@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\AdminUserManagement;
 use App\Http\Controllers\Dashboard\DesignerController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +31,15 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/admin/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
     Route::delete('/admin/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
+
+//  product and its descriptions
+    Route::get('admin/products', [ProductController::class, 'index'])->name('admin.products.index');
+    Route::get('admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+    Route::post('admin/products', [ProductController::class, 'store'])->name('admin.products.store');
+    Route::get('admin/products/{product}', [ProductController::class, 'show'])->name('admin.products.show');
+    Route::get('/admin/products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+    Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 });
 Route::get('set/lang/{lang}',function ($lang){
     if(in_array($lang,['en','ar'])) {

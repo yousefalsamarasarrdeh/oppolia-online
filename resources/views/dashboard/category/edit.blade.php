@@ -38,6 +38,15 @@
                 <option value="inactive" @if($category->status == 'inactive') selected @endif>Inactive</option>
             </select>
         </div>
+        <div class="form-group">
+            <label for="parent_id">Parent Category (Optional)</label>
+            <select class="form-control" id="parent_id" name="parent_id">
+                <option value="">None</option>
+                @foreach ($categories as $cat)
+                    <option value="{{ $cat->id }}" {{ $category->parent_id == $cat->id ? 'selected' : '' }}>{{ $cat->title }}</option>
+                @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 @endsection

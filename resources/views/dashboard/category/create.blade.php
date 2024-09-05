@@ -1,4 +1,4 @@
-@extends('layouts.Dashboard.mainlayout') <!-- وراثة الواجهة الرئيسية -->
+@extends('layouts.Dashboard.mainlayout')
 
 @section('title', 'Category Management')
 
@@ -36,6 +36,15 @@
             <select class="form-control" id="status" name="status">
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="parent_id">Parent Category (Optional)</label>
+            <select class="form-control" id="parent_id" name="parent_id">
+                <option value="">None</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                @endforeach
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

@@ -28,6 +28,7 @@
             <th>ID</th>
             <th>Title</th>
             <th>Arabic Title</th>
+            <th>Parent Category</th> <!-- عمود جديد للفئة الأساسية -->
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -38,6 +39,7 @@
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->title }}</td>
                 <td>{{ $category->title_ar }}</td>
+                <td>{{ $category->parent ? $category->parent->title : 'N/A' }}</td> <!-- عرض الفئة الأساسية -->
                 <td>{{ $category->status }}</td>
                 <td>
                     <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-info">Edit</a>

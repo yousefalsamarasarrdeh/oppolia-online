@@ -15,7 +15,10 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('dashboard.category.create');
+        // جلب جميع الفئات التي يمكن أن تكون فئات أساسية
+        $categories = Category::whereNull('parent_id')->get(); // جلب فقط الفئات التي ليس لها فئات أساسية
+        // عرض صفحة إنشاء الفئة مع تمرير الفئات إلى العرض
+        return view('dashboard.category.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -24,7 +27,8 @@ class CategoryController extends Controller
             'title' => 'required|max:255|regex:/^[A-Za-z0-9\s\-_,\.;:()]+$/',
             'title_ar' => 'required|max:255|regex:/^[\p{Arabic}0-9\s\-_,\.;:()]+$/u',
             'image' => 'nullable|image',
-            'status' => 'required|in:active,inactive'
+            'status' => 'required|in:active,inactive',
+            'parent_id' => 'nullable|exists:categories,id' // تحقق من وجود parent_id في جدول categories إذا لم يكن null
         ]);
 
         try {
@@ -37,15 +41,18 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories.index')->with('success', 'Category created successfully!');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Failed to create category: ' . $e->getMessage()])->withInput();
-
         }
     }
 
     public function edit(Category $category)
     {
+        // جلب جميع الفئات باستثناء الفئة الحالية لمنع الفئة من أن تكون فئة أصل لنفسها
+        $categories = Category::whereNull('parent_id')->where('id', '!=', $category->id)->get();
 
-        return view('dashboard.category.edit', compact('category'));
+        // تمرير كل من 'category' و 'categories' إلى العرض
+        return view('dashboard.category.edit', compact('category', 'categories'));
     }
+
 
 
     public function update(Request $request, Category $category)
@@ -55,7 +62,8 @@ class CategoryController extends Controller
             'title' => 'required|max:255|regex:/^[A-Za-z0-9\s\-_,\.;:()]+$/',
             'title_ar' => 'required|max:255|regex:/^[\p{Arabic}0-9\s\-_,\.;:()]+$/u',
             'image' => 'nullable|image',
-            'status' => 'required|in:active,inactive'
+            'status' => 'required|in:active,inactive',
+            'parent_id' => 'nullable|exists:categories,id'
         ]);
 
         try {
@@ -84,13 +92,34 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         try {
+            // التحقق من وجود الصورة وحذفها إذا كانت موجودة
             if ($category->image) {
                 Storage::delete('public/' . $category->image);
             }
+
+            // حذف الفئات الفرعية تلقائيا
+            $this->deleteSubcategories($category);
+
+            // حذف الفئة الأساسية
             $category->delete();
-            return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully!');
+
+            return redirect()->route('admin.categories.index')->with('success', 'Category and its subcategories deleted successfully!');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to create category: ' . $e->getMessage()])->withInput();
+            return back()->withErrors(['error' => 'Failed to delete category: ' . $e->getMessage()])->withInput();
+        }
+    }
+
+    /**
+     * حذف الفئات الفرعية بشكل متكرر
+     */
+    private function deleteSubcategories($category)
+    {
+        foreach ($category->subcategories as $subcategory) {
+            if ($subcategory->image) {
+                Storage::delete('public/' . $subcategory->image);
+            }
+            $this->deleteSubcategories($subcategory);  // حذف الفئات الفرعية للفئة الفرعية
+            $subcategory->delete();
         }
     }
 }
