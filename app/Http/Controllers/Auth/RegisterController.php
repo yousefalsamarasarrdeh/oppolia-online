@@ -7,28 +7,14 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -43,7 +29,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -59,16 +45,105 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
+        try {
+            // إنشاء رمز OTP عشوائي
+            $otp = Str::random(6);
+
+            // إنشاء مستخدم جديد
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'password' => Hash::make($data['password']),
+                'otp' => $otp,
+                'otp_expires_at' => now()->addMinutes(10),
+            ]);
+
+            // إرسال رسالة SMS تحتوي على رمز OTP
+            $this->sendOtp($data['phone'], $otp);
+
+            // توجيه المستخدم إلى صفحة التحقق من OTP بدون تسجيل دخول
+            return $user;
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Send OTP to user via SMS.
+     *
+     * @param string $phone
+     * @param string $otp
+     * @return string
+     */
+    protected function sendOtp($phone, $otp)
+    {
+        $message = "Your OTP code is: $otp";
+
+        // إرسال طلب الـ SMS عبر API
+        $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+            'api_key' => env('SMS_API_KEY'),
+            'username' => env('SMS_USERNAME'),
+            'message' => $message,
+            'sender' => env('SMS_SENDER'),
+            'numbers' => $phone
         ]);
+
+        return $response->body();
+    }
+
+    /**
+     * Show OTP verification page.
+     *
+     * @param string $phone
+     * @return \Illuminate\View\View
+     */
+    public function showOtpVerifyPage($phone)
+    {
+        // عرض صفحة التحقق من OTP مع تمرير رقم الهاتف للمستخدم
+        return view('auth.verify-otp', ['phone' => $phone]);
+    }
+
+    /**
+     * Verify the entered OTP.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function verifyOtp(Request $request)
+    {
+        // التحقق من صحة البيانات المدخلة
+        $request->validate([
+            'otp' => ['required', 'string', 'size:6'],
+            'phone' => ['required', 'string'],
+        ]);
+
+        // البحث عن المستخدم بواسطة رقم الهاتف ورمز OTP
+        $user = User::where('phone', $request->phone)
+            ->where('otp', $request->otp)
+            ->where('otp_expires_at', '>=', now())
+            ->first();
+
+        // التحقق من صحة المستخدم ورمز OTP
+        if (!$user) {
+            return redirect()->back()->withErrors(['otp' => 'رمز OTP غير صحيح أو انتهت صلاحيته']);
+        }
+
+        // تسجيل الدخول للمستخدم
+        Auth::login($user);
+
+        // إزالة رمز OTP بعد الاستخدام
+        $user->otp = null;
+        $user->otp_expires_at = null;
+        $user->save();
+
+        // توجيه المستخدم إلى الصفحة الرئيسية مع رسالة نجاح
+        return redirect()->route('home')->with('success', 'تم تسجيل الدخول بنجاح');
     }
 }

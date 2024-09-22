@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Http;
 class HomeController extends Controller
 {
     /**
@@ -29,4 +29,22 @@ class HomeController extends Controller
     {
         return view('index');
     }
+
+    public function testotp() {
+
+        $number = '+966504686964';
+        $message = 'TEST APP';
+
+        $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+            'api_key' => env('SMS_API_KEY'),
+            'username' => env('SMS_USERNAME'),
+            'message' => $message,
+            'sender' => env('SMS_SENDER'),
+            'numbers' => $number
+        ]);
+         dd($response->body());
+        return view('welcome', ['response' => $response->body()]);
+
+    }
+
 }

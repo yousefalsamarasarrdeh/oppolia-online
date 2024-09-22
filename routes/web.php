@@ -5,7 +5,8 @@ use App\Http\Controllers\Dashboard\AdminUserManagement;
 use App\Http\Controllers\Dashboard\DesignerController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
-
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -63,4 +64,18 @@ Route::middleware(['set-locale'])->group(function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/homes', [App\Http\Controllers\HomeController::class, 'index1'])->name('home');
+//Route::get('/homes', [App\Http\Controllers\HomeController::class, 'index1'])->name('home');
+Route::get('/testotp', [App\Http\Controllers\HomeController::class, 'testotp']);
+
+Route::get('/verify-otp/{phone}', [RegisterController::class, 'showOtpVerifyPage'])->name('otp.verify.page');
+Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('otp.verify');
+
+
+
+
+
+// عرض صفحة إدخال رمز OTP باستخدام GET
+Route::get('otp/verify', [LoginController::class, 'showVerifyForm'])->name('otp.verify.log-page');
+
+// التحقق من رمز OTP المدخل باستخدام POST
+Route::post('otp/verify', [LoginController::class, 'verifyOTP'])->name('otp.verify.log');
