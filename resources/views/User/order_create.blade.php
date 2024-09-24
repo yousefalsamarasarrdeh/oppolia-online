@@ -109,7 +109,7 @@
         <button type="submit">تقديم الطلب</button>
     </form>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0Hl3euefPzU0CC5NHZA_v7FHh6njdVfw&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
             async defer></script>
 
         <script>
