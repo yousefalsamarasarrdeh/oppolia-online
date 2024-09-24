@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Users\OrderController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -42,6 +43,20 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 });
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+});
+Route::middleware(['admin_or_designer'])->group(function () {
+    Route::get('Dashboard/Designer', [\App\Http\Controllers\Designer\HomeController::class, 'index'])->name('designer.index');
+    Route::get('/designer/orders/{order}/{notificationId}', [\App\Http\Controllers\Designer\HomeController::class, 'show'])->name('designer.order.show');
+    Route::patch('/designer/orders/{order}/accept', [DesignerOrderController::class, 'accept'])->name('designer.orders.accept');
+    Route::patch('/designer/orders/{order}/reject', [DesignerOrderController::class, 'reject'])->name('designer.orders.reject');
+
+});
+
 Route::get('set/lang/{lang}',function ($lang){
     if(in_array($lang,['en','ar'])) {
         setcookie('lang',$lang,time()+(68*24*365),'/');

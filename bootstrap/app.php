@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-    $middleware->alias(['admin'=> \App\Http\Middleware\AdminMiddleware::class,  'set-locale'=>\App\Http\Middleware\LocaleMiddleware::class,]);
+    $middleware->alias(['admin'=> \App\Http\Middleware\AdminMiddleware::class,  'set-locale'=>\App\Http\Middleware\LocaleMiddleware::class,'admin_or_designer'=>\App\Http\Middleware\AdminOrDesignerMiddleware::class,]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

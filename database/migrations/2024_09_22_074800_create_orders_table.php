@@ -24,8 +24,16 @@ return new class extends Migration
             $table->decimal('length_step', 8, 5); // خطوة الطول من Google Maps
             $table->decimal('width_step', 8, 5); // خطوة العرض من Google Maps
             $table->string('designer_code')->nullable(); // كود المصمم (nullable)
-            $table->enum('order_status', ['مقبول', 'مرفوض', 'مغلق']); // حالة الطلب
-            $table->unsignedTinyInteger('processing_stage')->default(1); // مرحلة معالجة الطلب (1-7)
+            $table->enum('order_status', ['accepted', 'rejected', 'closed', 'pending'])->default('pending'); // حالة الطلب
+            $table->enum('processing_stage', [
+                'stage_one',
+                'stage_two',
+                'stage_three',
+                'stage_four',
+                'stage_five',
+                'stage_six',
+                'stage_seven'
+            ])->default('stage_one');
             $table->unsignedBigInteger('approved_designer_id')->nullable(); // المصمم الموافق
 
             $table->timestamps();
