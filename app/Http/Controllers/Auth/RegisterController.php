@@ -52,8 +52,8 @@ class RegisterController extends Controller
     {
         try {
             // إنشاء رمز OTP عشوائي
-            $otp = Str::random(6);
-
+            //$otp = Str::random(6);
+            $otp = rand(100000, 999999);
             // إنشاء مستخدم جديد
             $user = User::create([
                 'name' => $data['name'],

@@ -25,6 +25,7 @@
             <th>Role</th>
             <th>Experience</th>
             <th>Description</th>
+            <th>Description arabic</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -38,15 +39,17 @@
                 <td>{{ $designer->role }}</td>
                 <td>{{ optional($designer->designer)->experience_years }} years</td> <!-- استخدام optional لتجنب أخطاء إذا كان $designer->designer null -->
                 <td>{{ optional($designer->designer)->description ?? 'No description available' }}</td>
+                <td>{{ optional($designer->designer)->description_ar ?? 'No description available' }}</td>
                 <td>
                     <!-- زر التعديل -->
-                    <a href="{{ route('designer.showEditForm', $designer->id) }}" class="btn btn-primary">تعديل</a>
+                    <a href="{{ route('designer.showEditForm', $designer->id) }}" class="btn btn-primary">Edit</a>
                     <a href="{{ route('designer.show', $designer->id) }}" class="btn btn-primary">show</a>
                     <!-- زر الحذف -->
-                    <form action="{{ route('admin.designers.destroy', $designer->id) }}" method="POST" style="display:inline;">
+             <!--       <form action="{{ route('admin.designers.destroy', $designer->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من أنك تريد حذف هذا المستخدم؟')">حذف</button>
+                  -->
                     </form>
                 </td>
             </tr>

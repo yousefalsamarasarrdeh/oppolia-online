@@ -15,6 +15,7 @@ class Designer extends Model
         'profile_image',
         'experience_years',
         'description',
+        'description_ar',
         'portfolio_images', // هذا الحقل يستخدم json
         'designer_code',
     ];

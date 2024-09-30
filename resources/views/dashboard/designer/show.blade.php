@@ -37,6 +37,9 @@
     <div>
         <strong>Description:</strong> {{ $designer->description }}
     </div>
+    <div>
+        <strong>Description in arabic:</strong> {{ $designer->description_ar }}
+    </div>
 
     <div>
         <strong>Portfolio Images:</strong>

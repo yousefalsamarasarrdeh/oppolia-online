@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <h1>تقديم طلب مطبخ</h1>
+
 
     <!-- عرض رسالة النجاح -->
     @if (session('success'))
@@ -29,25 +29,29 @@
 
     <form action="{{ route('orders.store') }}" method="POST">
         @csrf
-
+      <div class="container" >
+          <h1 style="direction: rtl">تقديم طلب مطبخ</h1>
+          <div class="row">
+          <div class="col-6">
         <label for="kitchen_area">مساحة المطبخ:</label>
-        <input type="text" name="kitchen_area" id="kitchen_area" value="{{ old('kitchen_area') }}">
+        <input class="form-control" type="text" name="kitchen_area" id="kitchen_area" value="{{ old('kitchen_area') }}">
         @error('kitchen_area')
         <p style="color: red;">{{ $message }}</p>
         @enderror
 
-        <br>
-
-        <label for="kitchen_shape">شكل المطبخ:</label>
-        <input type="text" name="kitchen_shape" id="kitchen_shape" value="{{ old('kitchen_shape') }}">
+          </div>
+              <div class="col-6">
+              <label for="kitchen_shape">شكل المطبخ:</label>
+        <input  class="form-control" type="text" name="kitchen_shape" id="kitchen_shape" value="{{ old('kitchen_shape') }}">
         @error('kitchen_shape')
         <p style="color: red;">{{ $message }}</p>
         @enderror
 
-        <br>
+              </div>
+          </div>
 
         <label for="kitchen_type">نوع المطبخ:</label>
-        <select name="kitchen_type" id="kitchen_type">
+        <select class="form-control" name="kitchen_type" id="kitchen_type">
             <option value="قديم" {{ old('kitchen_type') == 'قديم' ? 'selected' : '' }}>قديم</option>
             <option value="جديد" {{ old('kitchen_type') == 'جديد' ? 'selected' : '' }}>جديد</option>
         </select>
@@ -58,7 +62,7 @@
         <br>
 
         <label for="expected_cost">الكلفة المتوقعة:</label>
-        <input type="text" name="expected_cost" id="expected_cost" value="{{ old('expected_cost') }}">
+        <input class="form-control" type="text" name="expected_cost" id="expected_cost" value="{{ old('expected_cost') }}">
         @error('expected_cost')
         <p style="color: red;">{{ $message }}</p>
         @enderror
@@ -66,7 +70,7 @@
         <br>
 
         <label for="time_range">المدة الزمنية:</label>
-        <input type="text" name="time_range" id="time_range" value="{{ old('time_range') }}">
+        <input class="form-control" type="text" name="time_range" id="time_range" value="{{ old('time_range') }}">
         @error('time_range')
         <p style="color: red;">{{ $message }}</p>
         @enderror
@@ -74,7 +78,7 @@
         <br>
 
         <label for="kitchen_style">ستايل المطبخ:</label>
-        <input type="text" name="kitchen_style" id="kitchen_style" value="{{ old('kitchen_style') }}">
+        <input class="form-control" type="text" name="kitchen_style" id="kitchen_style" value="{{ old('kitchen_style') }}">
         @error('kitchen_style')
         <p style="color: red;">{{ $message }}</p>
         @enderror
@@ -82,7 +86,7 @@
         <br>
 
         <label for="meeting_time">وقت اللقاء:</label>
-        <input type="datetime-local" name="meeting_time" id="meeting_time" value="{{ old('meeting_time') }}">
+        <input class="form-control" type="datetime-local" name="meeting_time" id="meeting_time" value="{{ old('meeting_time') }}">
         @error('meeting_time')
         <p style="color: red;">{{ $message }}</p>
         @enderror
@@ -105,8 +109,10 @@
         @enderror
 
         <br>
-
-        <button type="submit">تقديم الطلب</button>
+       <div class="align-items-center" style="text-align: center">
+        <button type="submit" style="text-align: center" >تقديم الطلب</button>
+       </div>
+       </div>
     </form>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"

@@ -14,6 +14,18 @@
 @endsection
 
 @section('content')
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="container">
         <h1>Order Details</h1>
 
@@ -54,11 +66,14 @@
                 </form>
             </div>
         @endif
-        @if($order->order_status==="accepted")
+        @if($order->order_status==="accepted"&& $order->approved_designer_id !=$designer->id)
         <H1>Another designer accepted the request</H1>
 
          @endif
+        @if($order->order_status==="accepted"&& $order->approved_designer_id ==$designer->id)
+            <H1>You accepted the request</H1>
 
+        @endif
 
         <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
 

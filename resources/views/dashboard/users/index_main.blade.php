@@ -22,7 +22,7 @@
             <th>name</th>
             <th>email</th>
             <th>phone</th>
-            <th>rola</th>
+            <th>role</th>
             <th>action</th>
         </tr>
         </thead>
@@ -36,12 +36,12 @@
                 <td>{{ $user->role }}</td>
                 <td>
                     <!-- زر التعديل -->
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">تعديل</a>
+                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                     <!-- زر الحذف -->
                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من أنك تريد حذف هذا المستخدم؟')">حذف</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                     </form>
                 </td>
             </tr>

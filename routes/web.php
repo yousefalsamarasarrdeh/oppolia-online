@@ -50,11 +50,22 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 });
 Route::middleware(['admin_or_designer'])->group(function () {
-    Route::get('Dashboard/Designer', [\App\Http\Controllers\Designer\HomeController::class, 'index'])->name('designer.index');
-    Route::get('/designer/orders/{order}/{notificationId}', [\App\Http\Controllers\Designer\HomeController::class, 'show'])->name('designer.order.show');
-    Route::patch('/designer/orders/{order}/accept', [DesignerOrderController::class, 'accept'])->name('designer.orders.accept');
-    Route::patch('/designer/orders/{order}/reject', [DesignerOrderController::class, 'reject'])->name('designer.orders.reject');
+    // معالجة الطلب - ثابت ويأتي أولاً
+    Route::get('/designer/orders/{order}/processing', [\App\Http\Controllers\Designer\HomeController::class, 'processing'])->name('designer.order.processing');
 
+// عرض الطلب باستخدام notificationId
+    Route::get('/designer/orders/{order}/{notificationId}', [\App\Http\Controllers\Designer\HomeController::class, 'show'])->name('designer.order.show');
+
+// المسارات الأخرى كما هي
+    Route::patch('/designer/orders/{order}/accept', [\App\Http\Controllers\Designer\HomeController::class, 'accept'])->name('designer.orders.accept');
+    Route::patch('/designer/orders/{order}/reject', [\App\Http\Controllers\Designer\HomeController::class, 'reject'])->name('designer.orders.reject');
+    Route::get('/designer/approved-orders', [\App\Http\Controllers\Designer\HomeController::class, 'approvedOrders'])->name('designer.approved.orders');
+    Route::get('/designer/orders/{order}', [\App\Http\Controllers\Designer\HomeController::class, 'showWithoutNotification'])->name('designer.order.show_without_notification');
+
+// تحديث معالجة الطلب
+    Route::post('/designer/orders/{order}/update_processing', [\App\Http\Controllers\Designer\DesignerMeetingCustomerController::class, 'UpdateMeeting'])->name('designer.order.update_processing');
+
+    Route::get('/dashborad/designer',[\App\Http\Controllers\Designer\HomeController::class,'index'])->name('designer.notification');
 });
 
 Route::get('set/lang/{lang}',function ($lang){

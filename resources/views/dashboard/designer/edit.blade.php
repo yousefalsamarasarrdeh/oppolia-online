@@ -28,7 +28,12 @@
 
         <div>
             <label for="description">Description:</label>
-            <textarea name="description">{{ old('description', $designer->description) }}></textarea>
+            <textarea name="description">{{ old('description', $designer->description) }}</textarea>
+        </div>
+
+        <div>
+            <label for="description_ar">Description (Arabic):</label>
+            <textarea name="description_ar">{{ old('description_ar', $designer->description_ar) }}</textarea>
         </div>
 
         <div>
@@ -44,4 +49,3 @@
         <button type="submit">Save Changes</button>
     </form>
 @endsection
-

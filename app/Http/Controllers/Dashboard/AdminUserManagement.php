@@ -54,13 +54,13 @@ class AdminUserManagement extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all()); // يقوم بتحديث بيانات المستخدم
-        return redirect()->route('admin.users.index.main')->with('success', 'تم تحديث المستخدم بنجاح');
+        return redirect()->route('admin.users.index.main')->with('success', 'The user has been updated successfully');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete(); // يقوم بحذف المستخدم
-        return redirect()->route('admin.users.index.main')->with('success', 'تم حذف المستخدم بنجاح');
+        return redirect()->route('admin.users.index.main')->with('success', 'The user has been deleted successfully');
     }
 }

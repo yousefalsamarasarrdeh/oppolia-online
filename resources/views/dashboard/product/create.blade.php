@@ -29,7 +29,7 @@
 @csrf
 <!-- Input for Category -->
     <div>
-        <label for="category_id">الفئة:</label>
+        <label for="category_id">category :</label>
         <select name="category_id" id="category_id" required>
             <!-- Assuming you have a list of categories -->
             @foreach($categories as $category)
@@ -40,12 +40,12 @@
 
     <!-- Input for Product Name -->
     <div>
-        <label for="name">اسم المنتج:</label>
+        <label for="name">product name :</label>
         <input type="text" name="name" id="name" required>
     </div>
 
     <div>
-        <label for="name_ar">اسم المنتج بالعربية:</label>
+        <label for="name_ar">product name in arabic</label>
         <input type="text" name="name_ar" id="name_ar" required>
     </div>
 
@@ -55,29 +55,30 @@
     </div>
 
     <div>
-        <label for="image">صورة المنتج:</label>
+        <label for="image">product image</label>
         <input type="file" name="image" id="image">
     </div>
 
     <!-- Descriptions Section -->
     <div id="descriptions-wrapper">
         <div class="description-item">
-            <label for="description">الوصف:</label>
+            <label for="description">description :</label>
+
             <textarea name="descriptions[0][description]" required></textarea>
-
-            <label for="description_ar">الوصف بالعربية:</label>
+            </br>
+            <label for="description_ar">description in arabic :</label>
             <textarea name="descriptions[0][description_ar]" required></textarea>
-
-            <label for="description_images">صور الوصف (يمكن اختيار عدة صور):</label>
+            </br>
+            <label for="description_images">Description pictures (several pictures can be selected):</label>
             <input type="file" name="descriptions[0][images][]" multiple>
         </div>
     </div>
 
     <!-- Button to add more descriptions -->
-    <button type="button" id="add-description-btn">إضافة وصف آخر</button>
+    <button type="button" id="add-description-btn">Add another description</button>
 
     <!-- Submit button -->
-    <button type="submit">إضافة المنتج</button>
+    <button type="submit">add product</button>
 </form>
 @endsection
 @section('script')
@@ -87,13 +88,13 @@
         const wrapper = document.getElementById('descriptions-wrapper');
         const newDescription = `
             <div class="description-item">
-                <label for="description">الوصف:</label>
+                <label for="description">description :</label>
                 <textarea name="descriptions[${descriptionCount}][description]" required></textarea>
-
-                <label for="description_ar">الوصف بالعربية:</label>
+                          </br>
+                <label for="description_ar">description in arabic :</label>
                 <textarea name="descriptions[${descriptionCount}][description_ar]" required></textarea>
-
-                <label for="description_images">صور الوصف (يمكن اختيار عدة صور):</label>
+                          </br>
+                <label for="description_images">Description pictures (several pictures can be selected):</label>
                 <input type="file" name="descriptions[${descriptionCount}][images][]" multiple>
             </div>
         `;

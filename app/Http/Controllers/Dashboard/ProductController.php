@@ -42,13 +42,13 @@ class ProductController extends Controller
             // Validate the product fields
             $request->validate([
                 'category_id' => 'required|exists:categories,id',
-                'name' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
-                'name_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
+      //          'name' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
+      //          'name_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
                 'sku' => 'required|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'descriptions.*.description' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
-                'descriptions.*.description_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
-                'descriptions.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+     //           'descriptions.*.description' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
+     //           'descriptions.*.description_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
+                'descriptions.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ], [
                 'name.regex' => 'The name must be in English.',
                 'name_ar.regex' => 'The name must be in Arabic.',
@@ -108,13 +108,13 @@ class ProductController extends Controller
             // Validate the product fields
             $request->validate([
                 'category_id' => 'required|exists:categories,id',
-                'name' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
-                'name_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
+        //        'name' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
+         //       'name_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
                 'sku' => 'required|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'descriptions.*.description' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
-                'descriptions.*.description_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
-                'descriptions.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+          //      'descriptions.*.description' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
+         //       'descriptions.*.description_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
+                'descriptions.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
             // Handle the product image

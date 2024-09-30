@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Designer;
+use App\Models\DesignerMeetingCustomer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
@@ -38,5 +39,9 @@ class Order extends Model
     public function designer()
     {
         return $this->belongsTo(Designer::class, 'approved_designer_id');
+    }
+    public function designerMeetings()
+    {
+        return $this->hasMany(DesignerMeetingCustomer::class);
     }
 }
