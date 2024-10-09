@@ -44,4 +44,11 @@ class Order extends Model
     {
         return $this->hasMany(DesignerMeetingCustomer::class);
     }
+    public function surveyQuestions()
+    {
+        return $this->hasMany(SurveyQuestion::class);
+    }
+    Public function orderDraft(){
+        return $this->hasMany(OrderDraft::class);
+    }
 }

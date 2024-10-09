@@ -143,11 +143,21 @@ class HomeController extends Controller
 
         // التحقق مما إذا كان المصمم هو الذي وافق على الطلب
         if ($order->approved_designer_id == $designer->id) {
-            return view('designer.create_meeting', compact('order', 'notifications'));
+            // التحقق من stage الطلب
+            if ($order->processing_stage == 'stage_two') {
+                return view('designer.create_meeting', compact('order', 'notifications'));
+            } elseif ($order->processing_stage == 'stage_three') {
+
+                return view('designer.survey_question', compact('order', 'notifications'));
+            } elseif ($order->processing_stage == 'stage_four') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.order_draft', compact('order', 'notifications'));
+            }
         } else {
             return redirect()->route('designer.orders.index')->with('error', 'You do not have permission to process this order.');
         }
     }
+
 
 
 }

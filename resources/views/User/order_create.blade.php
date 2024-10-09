@@ -115,39 +115,79 @@
        </div>
     </form>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry&callback=initMap"
             async defer></script>
 
-        <script>
+    <script>
+
+        var map, marker;
 
         function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
+            // إنشاء الخريطة
+            map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 24.7136, lng: 46.6753}, // مركز الخريطة على السعودية
                 zoom: 8
             });
 
-            var marker;
+            // تحميل بيانات GeoJSON للمناطق في السعودية
+            map.data.loadGeoJson('/saudi-arabia-with-regions_1509.geojson', null, function(features) {
+                console.log('تم تحميل ملف GeoJSON بنجاح.');
 
-            // إضافة حدث النقر على الخريطة لتحديد الموقع
-            map.addListener('click', function(e) {
-                placeMarkerAndPanTo(e.latLng, map);
+                // إضافة حدث النقر على كل ميزة (Feature) في ملف GeoJSON
+                map.data.addListener('click', function(event) {
+                    var regionName = event.feature.getProperty('name'); // الحصول على اسم المنطقة
+                    var coordinates = event.latLng; // إحداثيات النقطة التي تم النقر عليها
+                    alert('تم النقر على منطقة: ' + regionName);
+                    console.log("إحداثيات النقطة:", coordinates.lat(), coordinates.lng());
+                });
             });
 
-            function placeMarkerAndPanTo(latLng, map) {
-                if (marker) {
-                    marker.setPosition(latLng);
-                } else {
-                    marker = new google.maps.Marker({
-                        position: latLng,
-                        map: map
-                    });
-                }
+            // إضافة حدث النقر على الخريطة لتحديد الموقع خارج GeoJSON
+            map.addListener('click', function(e) {
+                checkRegionAndPlaceMarker(e.latLng, map); // التحقق من المنطقة قبل إضافة النقطة
+            });
+        }
 
-                // تخزين إحداثيات خطوط الطول والعرض في الحقول المخفية
-                document.getElementById('length_step').value = latLng.lat();
-                document.getElementById('width_step').value = latLng.lng();
+        function checkRegionAndPlaceMarker(latLng, map) {
+            let isInsideRegion = false; // متغير لتحديد ما إذا كانت النقطة داخل السعودية
+            let regionName = ""; // متغير لتخزين اسم المنطقة
+
+            // التحقق مما إذا كانت النقطة داخل حدود المنطقة الجغرافية
+            map.data.forEach(function(feature) {
+                var geometry = feature.getGeometry();
+
+                // استخدام containsLocation للتحقق إذا كانت النقطة ضمن المنطقة
+                if (google.maps.geometry.poly.containsLocation(latLng, geometry)) {
+                    isInsideRegion = true;
+                    regionName = feature.getProperty('name'); // الحصول على اسم المنطقة
+                    console.log('النقطة تقع داخل منطقة في السعودية:', regionName);
+                }
+            });
+
+            // إذا كانت النقطة داخل السعودية، نقوم بإضافة المؤشر
+            if (isInsideRegion) {
+                placeMarkerAndPanTo(latLng, map, regionName);
+            } else {
+                alert('لا يمكنك وضع نقطة خارج مناطق السعودية.');
             }
         }
+
+        function placeMarkerAndPanTo(latLng, map, regionName) {
+            if (marker) {
+                marker.setPosition(latLng); // نقل المؤشر إلى الموقع الجديد
+            } else {
+                marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
+            }
+
+            // طباعة إحداثيات النقطة للتحقق وإظهار المنطقة
+            console.log("إحداثيات النقطة:", latLng.lat(), latLng.lng());
+            console.log("المنطقة التابعة:", regionName);
+            alert('النقطة تقع في منطقة: ' + regionName);
+        }
+
     </script>
 
 @endsection

@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Users\OrderController;
+use App\Http\Controllers\Designer\OrderDraftController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -66,6 +67,15 @@ Route::middleware(['admin_or_designer'])->group(function () {
     Route::post('/designer/orders/{order}/update_processing', [\App\Http\Controllers\Designer\DesignerMeetingCustomerController::class, 'UpdateMeeting'])->name('designer.order.update_processing');
 
     Route::get('/dashborad/designer',[\App\Http\Controllers\Designer\HomeController::class,'index'])->name('designer.notification');
+
+
+
+// تخزين استبيان الطلب
+    Route::post('/designer/orders/{order}/survey', [\App\Http\Controllers\Designer\SurveyQuestionController::class, 'store'])->name('designer.order.survey.store');
+
+
+    Route::post('/designer/orders/{orderId}/order_draft', [OrderDraftController::class, 'store'])->name('designer.order_draft.store');
+
 });
 
 Route::get('set/lang/{lang}',function ($lang){
