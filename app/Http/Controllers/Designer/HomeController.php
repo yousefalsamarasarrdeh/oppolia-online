@@ -17,16 +17,20 @@ class HomeController extends Controller
         // جلب المصمم الحالي
         $designer = auth()->user()->designer;
 
-        // جلب كل الإشعارات الخاصة بالمصمم
-        $notifications = $designer->unreadNotifications;
-        $notifications1 = $designer->notifications;
+        // تحقق مما إذا كان المصمم موجودًا
+        if ($designer) {
+            // جلب كل الإشعارات الخاصة بالمصمم
+            $notifications = $designer->unreadNotifications;
+            $notifications1 = $designer->notifications;
+        } else {
+            // إذا لم يكن هناك مصمم مرتبط بالمستخدم
+            $notifications = collect(); // مجموعة فارغة
+            $notifications1 = collect(); // مجموعة فارغة
+        }
 
-
-        return view('designer.index', compact('notifications1','notifications'));
-
-
-
+        return view('designer.index', compact('notifications1', 'notifications'));
     }
+
     public function show(Order $order, $notificationId)
     {
         // تأكد أن المستخدم هو المصمم الموافق على الطلب أو لديه الصلاحيات اللازمة
@@ -102,14 +106,24 @@ class HomeController extends Controller
         // الحصول على المصمم الحالي
         $designer = auth()->user()->designer;
 
+        // تحقق مما إذا كان المصمم موجودًا
+        if (!$designer) {
+            // إذا لم يكن المصمم موجودًا، قم بإعادة توجيه المستخدم أو عرض رسالة
+            return redirect()->route('designer.notification')->withErrors('You are not authorized to access this page.');
+        }
+
         // استرجاع الطلبات التي وافق عليها المصمم الحالي
         $approvedOrders = Order::where('approved_designer_id', $designer->id)
             ->where('order_status', 'accepted')
             ->get();
+
+        // استرجاع الإشعارات غير المقروءة
         $notifications = $designer->unreadNotifications;
+
         // إعادة توجيه البيانات إلى صفحة العرض
-        return view('designer.order_list_approved', compact('approvedOrders','notifications'));
+        return view('designer.order_list_approved', compact('approvedOrders', 'notifications'));
     }
+
 
     public function showWithoutNotification($orderId)
     {

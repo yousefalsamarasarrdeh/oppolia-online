@@ -67,7 +67,9 @@ class DesignerController extends Controller
                 'portfolio_images' => json_encode($portfolioImages),
                 'designer_code' => $request->designer_code,
             ]
+
         );
+        
 
         // إعادة توجيه المستخدم بعد النجاح
         return redirect()->route('designer.showEditForm', $user->id)->with('success', 'Designer details updated successfully.');

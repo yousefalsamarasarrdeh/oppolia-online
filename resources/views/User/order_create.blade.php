@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app')php
 @section('content')
 
 
@@ -115,11 +115,9 @@
        </div>
     </form>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry&callback=initMap"
-            async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry&callback=initMap" async defer></script>
 
     <script>
-
         var map, marker;
 
         function initMap() {
@@ -138,6 +136,7 @@
                     var regionName = event.feature.getProperty('name'); // الحصول على اسم المنطقة
                     var coordinates = event.latLng; // إحداثيات النقطة التي تم النقر عليها
                     alert('تم النقر على منطقة: ' + regionName);
+                    placeMarker(event.latLng, map); // إضافة المؤشر عند النقر
                     console.log("إحداثيات النقطة:", coordinates.lat(), coordinates.lng());
                 });
             });
@@ -172,16 +171,21 @@
             }
         }
 
-        function placeMarkerAndPanTo(latLng, map, regionName) {
+        function placeMarker(location, map) {
             if (marker) {
-                marker.setPosition(latLng); // نقل المؤشر إلى الموقع الجديد
+                marker.setPosition(location); // نقل المؤشر إلى الموقع الجديد
             } else {
                 marker = new google.maps.Marker({
-                    position: latLng,
+                    position: location,
                     map: map
                 });
             }
+            document.getElementById('length_step').value = location.lat();
+            document.getElementById('width_step').value = location.lng();
+        }
 
+        function placeMarkerAndPanTo(latLng, map, regionName) {
+            placeMarker(latLng, map); // إضافة المؤشر
             // طباعة إحداثيات النقطة للتحقق وإظهار المنطقة
             console.log("إحداثيات النقطة:", latLng.lat(), latLng.lng());
             console.log("المنطقة التابعة:", regionName);
@@ -189,5 +193,4 @@
         }
 
     </script>
-
 @endsection

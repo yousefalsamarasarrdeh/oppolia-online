@@ -6,9 +6,13 @@ use App\Http\Controllers\Dashboard\DesignerController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Frontend\JoinAsDesignerController;
+use App\Http\Controllers\Dashboard\JoinAsDesignerController as DashboardJoinAsDesignerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Users\OrderController;
 use App\Http\Controllers\Designer\OrderDraftController;
+use App\Http\Controllers\Dashboard\RegionController;
+use App\Http\Controllers\Auth\OtpLoginController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -43,6 +47,14 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
     Route::put('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+
+
+    Route::get('admin/regions', [RegionController::class, 'index'])->name('admin.regions');
+
+
+    Route::get('/admin/join-as-designer', [DashboardJoinAsDesignerController::class, 'index'])->name('admin.joinasdesigner.index');
+    Route::get('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'show'])->name('admin.joinasdesigner.show');
+    Route::delete('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'destroy'])->name('admin.joinasdesigner.delete');
 });
 
 
@@ -96,22 +108,41 @@ Route::middleware(['set-locale'])->group(function () {
     });
 
 });
+Route::middleware('guest')->group(function () {
+ //   Route::get('/login-phone', [OtpLoginController::class, 'showPhoneForm'])->name('login.phone');
+    Route::post('/login-phone', [OtpLoginController::class, 'sendOtp'])->name('otp.send');
+    Route::get('/verify-otp', [OtpLoginController::class, 'showOtpForm'])->name('otp.verify');
+    Route::post('/verify-otp', [OtpLoginController::class, 'verifyOtp'])->name('otp.verify');
 
-Auth::routes();
+    // إضافة مسار تسجيل الدخول يدويًا
+    Route::get('/login', [OtpLoginController::class, 'showPhoneForm'])->name('login');
+    Route::post('/login', [OtpLoginController::class, 'sendOtp'])->name('login');
+});
 
+// مسار تسجيل الخروج
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// مسار الصفحة الرئيسية
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//Route::get('/homes', [App\Http\Controllers\HomeController::class, 'index1'])->name('home');
-Route::get('/testotp', [App\Http\Controllers\HomeController::class, 'testotp']);
 
-Route::get('/verify-otp/{phone}', [RegisterController::class, 'showOtpVerifyPage'])->name('otp.verify.page');
-Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('otp.verify');
+
+Route::get('/joinasdesigner', [JoinAsDesignerController::class, 'create'])->name('joinasdesigner.create');
+Route::post('/joinasdesigner', [JoinAsDesignerController::class, 'store'])->name('joinasdesigner.store');
+//Auth::routes();
+
+
+//Route::get('/homes', [App\Http\Controllers\HomeController::class, 'index1'])->name('home');
+//Route::get('/testotp', [App\Http\Controllers\HomeController::class, 'testotp']);
+
+//Route::get('/verify-otp/{phone}', [RegisterController::class, 'showOtpVerifyPage'])->name('otp.verify.page');
+//Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('otp.verify');
 
 
 
 
 
 // عرض صفحة إدخال رمز OTP باستخدام GET
-Route::get('otp/verify', [LoginController::class, 'showVerifyForm'])->name('otp.verify.log-page');
+//Route::get('otp/verify', [LoginController::class, 'showVerifyForm'])->name('otp.verify.log-page');
 
 // التحقق من رمز OTP المدخل باستخدام POST
-Route::post('otp/verify', [LoginController::class, 'verifyOTP'])->name('otp.verify.log');
+//Route::post('otp/verify', [LoginController::class, 'verifyOTP'])->name('otp.verify.log');

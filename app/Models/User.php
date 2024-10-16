@@ -24,6 +24,7 @@ class User extends Authenticatable
         'role',
         'otp',
         'otp_expires_at',
+        'region_id',
     ];
 
     /**
@@ -47,6 +48,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
     }
 
     public function designer()

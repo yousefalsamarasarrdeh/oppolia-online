@@ -133,7 +133,7 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         // إعادة التوجيه لصفحة تسجيل الدخول أو أي صفحة أخرى تريدها
-        return redirect('/login'); // يمكنك تغييرها لأي مسار مناسب
+        return redirect('/home'); // يمكنك تغييرها لأي مسار مناسب
     }
 
 

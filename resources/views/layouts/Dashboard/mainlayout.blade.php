@@ -343,6 +343,12 @@
 
               </ul>
           </li><!-- End Forms Nav -->
+          <li class="nav-item">
+              <a class="nav-link collapsed" href="{{route('admin.regions')}}">
+                  <i class="bi bi-card-list"></i>
+                  <span>Regions</span>
+              </a>
+          </li><!-- End Contact Page Nav -->
 
 
       </ul>
