@@ -14,7 +14,7 @@ class OrderDraft extends Model
         'order_id',
         'price',
         'images',
-        'measurements_images',
+
         'pdf',
         'state',
     ];

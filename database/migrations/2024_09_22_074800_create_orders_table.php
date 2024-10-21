@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id'); // id_user
+            $table->unsignedBigInteger('region_id'); // id_region
             $table->decimal('kitchen_area', 8, 2); // مساحة المطبخ
             $table->string('kitchen_shape'); // شكل المطبخ
             $table->enum('kitchen_type', ['قديم', 'جديد']); // نوع المطبخ (قديم أو جديد)
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->timestamp('meeting_time'); // وقت اللقاء
             $table->decimal('length_step', 8, 5); // خطوة الطول من Google Maps
             $table->decimal('width_step', 8, 5); // خطوة العرض من Google Maps
+            $table->string('geocode_string'); // العنوان الجغرافي كنص (Geocode)
             $table->string('designer_code')->nullable(); // كود المصمم (nullable)
             $table->enum('order_status', ['accepted', 'rejected', 'closed', 'pending'])->default('pending'); // حالة الطلب
             $table->enum('processing_stage', [
@@ -40,9 +42,9 @@ return new class extends Migration
 
             // Foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade'); // علاقة بالمنطقة
             $table->foreign('approved_designer_id')->references('id')->on('designers')->onDelete('set null');
             $table->softDeletes();
-
         });
     }
 

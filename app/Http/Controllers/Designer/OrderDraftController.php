@@ -29,7 +29,7 @@ class OrderDraftController extends Controller
             $validated = $request->validate([
                 'price' => 'required|numeric',
                 'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // التحقق من الصور
-                'measurements_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // التحقق من الصور
+
                 'pdf' => 'required|mimes:pdf|max:10240', // التحقق من PDF
                 'state' => 'required|in:draft,finalized,approved,rejected',
             ]);
@@ -44,13 +44,7 @@ class OrderDraftController extends Controller
             }
 
             // رفع صور القياسات وتخزين المسارات
-            $measurementsImagesPaths = [];
-            if ($request->hasFile('measurements_images')) {
-                foreach ($request->file('measurements_images') as $measurementImage) {
-                    $path = $measurementImage->store('measurements_images', 'public'); // تخزين الصورة في مجلد measurements_images
-                    $measurementsImagesPaths[] = $path;
-                }
-            }
+
 
             // رفع PDF وتخزين المسار
             $pdfPath = null;
@@ -63,7 +57,7 @@ class OrderDraftController extends Controller
                 'order_id' => $order->id,
                 'price' => $validated['price'],
                 'images' => json_encode($imagesPaths), // تخزين المسارات كـ JSON
-                'measurements_images' => json_encode($measurementsImagesPaths), // تخزين المسارات كـ JSON
+
                 'pdf' => $pdfPath, // تخزين مسار PDF
                 'state' => $validated['state'],
             ]);

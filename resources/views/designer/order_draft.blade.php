@@ -18,10 +18,6 @@
                 <input type="file" name="images[]" id="images" class="form-control" multiple required>
             </div>
 
-            <div class="form-group">
-                <label for="measurements_images">Upload Measurement Images</label>
-                <input type="file" name="measurements_images[]" id="measurements_images" class="form-control" multiple required>
-            </div>
 
             <div class="form-group">
                 <label for="pdf">Upload PDF</label>

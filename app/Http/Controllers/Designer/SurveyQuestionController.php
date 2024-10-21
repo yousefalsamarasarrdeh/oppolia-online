@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SurveyQuestion;
 use App\Models\Order;
+use Illuminate\Support\Facades\Http;
 
 class SurveyQuestionController extends Controller
 {
@@ -41,7 +42,17 @@ class SurveyQuestionController extends Controller
                 'next_steps_strategy' => 'nullable|string',
                 'reminder_details' => 'nullable|date',
                 'deal_closing_likelihood' => 'nullable|integer|min:1|max:10',
+                'measurements_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // التحقق من الصور
             ]);
+
+            $measurementsImagesPaths = [];
+            if ($request->hasFile('measurements_images')) {
+                foreach ($request->file('measurements_images') as $measurementImage) {
+                    $path = $measurementImage->store('measurements_images', 'public'); // تخزين الصورة في مجلد measurements_images
+                    $measurementsImagesPaths[] = $path;
+                }
+            }
+
 
             // إنشاء استبيان جديد في جدول survey_questions مع الحقول الجديدة
             \App\Models\SurveyQuestion::create([
@@ -60,6 +71,7 @@ class SurveyQuestionController extends Controller
                 'next_steps_strategy' => $validated['next_steps_strategy'],
                 'reminder_details' => $validated['reminder_details'],
                 'deal_closing_likelihood' => $validated['deal_closing_likelihood'],
+                'measurements_images' => json_encode($measurementsImagesPaths),
             ]);
 
             // تحديث مرحلة المعالجة إلى "stage_four" أو المرحلة المطلوبة

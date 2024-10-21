@@ -15,4 +15,9 @@ class Region extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

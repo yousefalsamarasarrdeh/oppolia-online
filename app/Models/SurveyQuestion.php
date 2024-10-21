@@ -26,6 +26,7 @@ class SurveyQuestion extends Model
         'next_steps_strategy',
         'reminder_details',
         'deal_closing_likelihood',
+        'measurements_images',
     ];
 
     // علاقة SurveyQuestion بـ Order

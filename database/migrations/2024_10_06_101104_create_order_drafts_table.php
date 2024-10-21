@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id'); // مرتبط بالطلب
             $table->decimal('price', 15, 3); // السعر
             $table->json('images')->nullable(); // JSON for multiple images
-            $table->json('measurements_images')->nullable(); // JSON for measurement images
+
             $table->string('pdf')->nullable(); // Path to PDF file
             $table->enum('state', ['draft', 'finalized', 'approved', 'rejected']); // State of the draft
             $table->timestamps();

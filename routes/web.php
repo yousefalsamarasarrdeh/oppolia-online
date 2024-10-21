@@ -61,6 +61,8 @@ Route::middleware(['admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.myOrders');
+    Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
 });
 Route::middleware(['admin_or_designer'])->group(function () {
     // معالجة الطلب - ثابت ويأتي أولاً

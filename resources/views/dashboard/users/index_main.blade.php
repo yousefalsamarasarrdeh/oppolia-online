@@ -15,6 +15,12 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div style="color: green;">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <table class="table datatable">
         <thead>
         <tr>

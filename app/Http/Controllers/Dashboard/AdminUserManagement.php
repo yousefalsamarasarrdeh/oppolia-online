@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Yajra\DataTables\DataTables;
+use App\Models\Region;
 
 
 class AdminUserManagement extends Controller
@@ -45,17 +46,32 @@ class AdminUserManagement extends Controller
 
 
     public function edit($id)
-    {
+    {    $regions = Region::all();
         $user = User::findOrFail($id); // يجلب المستخدم أو يرجع خطأ إذا لم يتم العثور عليه
-        return view('dashboard.users.edit', compact('user')); // يعرض نموذج التعديل للمستخدم
+        return view('dashboard.users.edit', compact('user','regions')); // يعرض نموذج التعديل للمستخدم
     }
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->update($request->all()); // يقوم بتحديث بيانات المستخدم
-        return redirect()->route('admin.users.index.main')->with('success', 'The user has been updated successfully');
+        try {
+            // العثور على المستخدم بناءً على الـ id
+            $user = User::findOrFail($id);
+
+            // تحديث بيانات المستخدم
+            $user->update($request->all());
+
+            // إرجاع رسالة نجاح في حال نجاح العملية
+            return redirect()->route('admin.users.index.main')->with('success', 'The user has been updated successfully');
+        } catch (\Exception $e) {
+            // في حال حدوث خطأ، سيتم التقاطه هنا
+
+            // يمكنك تسجيل الخطأ إذا أردت مثلًا: Log::error($e->getMessage());
+
+            // إرجاع رسالة خطأ للمستخدم
+            return redirect()->back()->with('error', 'An error occurred while updating the user: ' . $e->getMessage());
+        }
     }
+
 
     public function destroy($id)
     {

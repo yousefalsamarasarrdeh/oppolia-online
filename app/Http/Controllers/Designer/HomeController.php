@@ -166,9 +166,13 @@ class HomeController extends Controller
             } elseif ($order->processing_stage == 'stage_four') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.order_draft', compact('order', 'notifications'));
+            } elseif ($order->processing_stage == 'stage_five') {
+                return redirect()->route('designer.approved.orders')->with('error', 'The final design cannot be submitted unless the user approves the design.');
             }
+
+
         } else {
-            return redirect()->route('designer.orders.index')->with('error', 'You do not have permission to process this order.');
+            return redirect()->route('designer.approved.orders')->with('error', 'You do not have permission to process this order.');
         }
     }
 

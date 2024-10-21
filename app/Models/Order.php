@@ -14,6 +14,7 @@ class Order extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
+        'region_id',
         'kitchen_area',
         'kitchen_shape',
         'kitchen_type',
@@ -23,6 +24,7 @@ class Order extends Model
         'meeting_time',
         'length_step',
         'width_step',
+        'geocode_string',
         'designer_code',
         'order_status',
         'processing_stage',
@@ -33,6 +35,11 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
     }
 
     // علاقة order بـ designer

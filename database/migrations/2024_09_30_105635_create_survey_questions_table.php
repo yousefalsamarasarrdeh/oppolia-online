@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('customer_concerns')->nullable(); // تساؤلات أو مخاوف العميل
             $table->text('next_steps_strategy')->nullable(); // الخطوات التالية واستراتيجيتك
             $table->timestamp('reminder_details')->nullable(); // تفاصيل التذكير
+            $table->json('measurements_images')->nullable(); // JSON for measurement images
             $table->unsignedTinyInteger('deal_closing_likelihood')->nullable(); // احتمالية إتمام الصفقة (1-10)
             $table->timestamps();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
