@@ -10,6 +10,7 @@ use App\Notifications\OrderCreated;
 use App\Models\Region;
 use Illuminate\Support\Facades\Auth; // استدعاء Auth
 use Illuminate\Support\Facades\Log;  // استدعاء Log
+use App\Notifications\CustomerRequestRedesign;
 
 
 
@@ -108,14 +109,143 @@ class OrderController extends Controller
 
     public function show($orderId)
     {
-        // جلب الطلب بناءً على الـ ID
+        // جلب الطلب بناءً على الـ ID مع المسودات
         $order = Order::with('orderDraft')->findOrFail($orderId);
 
-        // تحقق ما إذا كانت هناك مسودة مرتبطة بالطلب
-        $orderDraft = $order->orderDraft;
+        // تصفية المسودات بحيث يتم استبعاد المسودات التي حالتها "rejected"
+        $orderDraft = $order->orderDraft->filter(function ($draft) {
+            return !in_array($draft->state, ['rejected', 'designer_changed', 'redesign', 'modified']);
+        });
+
 
         return view('User.show_order', compact('order', 'orderDraft'));
     }
+
+    public function changeDesigner(Request $request, Order $order)
+    {
+        // جلب جميع المصممين في نفس المنطقة
+        $designers = Designer::join('users', 'designers.user_id', '=', 'users.id')
+            ->where('users.region_id', $order->region_id)
+            ->select('designers.*')
+            ->get();
+
+        // حذف الإشعارات المرتبطة بالطلب والمصمم السابق بغض النظر عن النوع
+        $previousDesigner = Designer::find($order->approved_designer_id); // جلب المصمم السابق
+        if ($previousDesigner) {
+            // جلب جميع الإشعارات التي تحتوي على order_id و designer_id في حقل الـ data بغض النظر عن نوع الإشعار
+            $previousDesignerNotifications = $previousDesigner->notifications()
+                ->whereJsonContains('data', ['order_id' => $order->id]) // مرتبط بنفس الـ order_id
+                ->whereJsonContains('data', ['designer_id' => $order->approved_designer_id]) // مرتبط بنفس الـ designer_id
+                ->get();
+
+            // حذف كل إشعار قديم مرتبط بالطلب والمصمم السابق
+            foreach ($previousDesignerNotifications as $notification) {
+                $notification->delete();
+            }
+        }
+
+        // حذف الإشعارات القديمة المرتبطة بالطلب لكل المصممين (بما في ذلك المصمم السابق)
+        foreach ($designers as $designer) {
+            // جلب جميع الإشعارات المرتبطة بالطلب لهذا المصمم بغض النظر عن النوع
+            $designerNotifications = $designer->notifications()
+                ->where('type', OrderCreated::class) // نوع الإشعار هو OrderCreated
+                ->whereJsonContains('data', ['order_id' => $order->id]) // مرتبط بنفس الطلب
+                ->get();
+
+            // حذف كل إشعار قديم مرتبط بالطلب
+            foreach ($designerNotifications as $notification) {
+                $notification->delete();
+            }
+
+            // إرسال إشعار جديد فقط للمصممين الجدد باستثناء المصمم السابق
+            if ($designer->id != $order->approved_designer_id) {
+                $designer->notify(new OrderCreated($order, $designer)); // إشعار المصممين الجدد
+            }
+        }
+
+        // تحديث حالة الطلب
+        $order->order_status = 'pending'; // تغيير حالة الطلب إلى معلق
+        $order->approved_designer_id = null; // تعيين المصمم الحالي إلى null
+        $order->processing_stage = 'stage_one'; // تعيين المرحلة إلى المرحلة الأولى
+        $order->save();
+
+        // تحديث حالة مسودة الطلب
+        $order->orderDraft()->update(['state' => 'designer_changed']);
+
+        return redirect()->route('orders.myOrders')->with('success', 'تم تغيير المصمم وإرسال إشعار للمصممين في نفس المنطقة.');
+    }
+
+
+
+    public function redesignDraft(Request $request, $orderId, $draftId)
+    {
+        try {
+            // جلب الطلب بناءً على الـ ID
+            $order = Order::findOrFail($orderId);
+
+            // جلب المسودة المرتبطة بالطلب والتي سيتم إعادة تصميمها
+            $draft = $order->orderDraft()->where('id', $draftId)->firstOrFail();
+
+            // جلب المصمم المرتبط بالطلب
+            $designer = $order->designer;
+
+            // تحديث حالة المسودة إلى 'redesign'
+            $draft->update([
+                'state' => 'redesign',
+            ]);
+
+            // تحديث مرحلة المعالجة في الطلب إلى "state_four"
+            $order->update([
+                'processing_stage' => 'stage_four',
+            ]);
+
+            // إرسال إشعار للمصمم الذي صمم هذه المسودة
+            if ($designer) {
+                $designer->notify(new CustomerRequestRedesign($order, $designer)); // إشعار المصمم
+            }
+
+            return redirect()->route('orders.myOrders')->with('success', 'تم تغيير حالة المسودة إلى إعادة التصميم وإشعار المصمم.');
+        } catch (\Exception $e) {
+            // التعامل مع أي خطأ
+            return redirect()->route('orders.myOrders')->with('error', 'حدث خطأ أثناء تحديث المسودة: ' . $e->getMessage());
+        }
+    }
+
+    public function acceptDraft($orderId, $draftId)
+    {
+        try {
+            // جلب الطلب بناءً على الـ ID
+            $order = Order::findOrFail($orderId);
+
+            // جلب المسودة بناءً على الـ draftId
+            $draft = $order->orderDraft()->where('id', $draftId)->firstOrFail();
+
+            // جلب المصمم المرتبط بالطلب
+            $designer = $order->designer;
+
+            // تحديث حالة المسودة إلى 'approved'
+            $draft->update([
+                'state' => 'approved',
+            ]);
+
+            // تحديث مرحلة المعالجة في الطلب إلى "stage_six"
+            $order->update([
+                'processing_stage' => 'stage_six',
+            ]);
+
+            // إرسال إشعار للمصمم بأن العميل وافق على التصميم
+            if ($designer) {
+                $designer->notify(new \App\Notifications\CustomerApprovedDesign($order, $designer)); // إشعار المصمم
+            }
+
+            // إعادة التوجيه مع رسالة نجاح
+            return redirect()->route('orders.myOrders')->with('success', 'تم قبول التصميم بنجاح وتم إشعار المصمم.');
+        } catch (\Exception $e) {
+            // التعامل مع أي خطأ
+            return redirect()->route('orders.myOrders')->with('error', 'حدث خطأ أثناء قبول التصميم: ' . $e->getMessage());
+        }
+    }
+
 
 
 

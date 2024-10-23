@@ -29,13 +29,6 @@ class DesignerMeetingCustomerController extends Controller
                 return redirect()->route('designer.approved.orders')->with('error', 'You do not have permission to create a meeting for this order.');
             }
 
-            // التحقق مما إذا كان اللقاء قد تم إنشاؤه مسبقًا
-            $existingMeeting = \App\Models\DesignerMeetingCustomer::where('order_id', $order->id)->first();
-
-            if ($existingMeeting) {
-                return redirect()->route('designer.approved.orders')->with('error', 'A meeting for this order has already been created.');
-            }
-
             // التحقق من المدخلات
             $validated = $request->validate([
                 'is_verified' => 'required|boolean',

@@ -69,10 +69,11 @@
                     <th>الحالة</th>
                     <th>ملفات الصور</th>
                     <th>ملف PDF</th>
+                    <th>إجراءات</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($order->orderDraft as $draft)
+                @foreach ( $orderDraft as $draft)
                     <tr>
                         <td>{{ $draft->id }}</td>
                         <td>{{ $draft->price }} ريال</td>
@@ -92,6 +93,21 @@
                             @else
                                 لا يوجد ملف PDF
                             @endif
+                        </td>
+                        <td>
+                            <!-- أزرار التحكم -->
+                            <form action="{{ route('order.acceptDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-success">قبول التصميم</button>
+                            </form>
+                            <form action="{{ route('order.redesignDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">إعادة التصميم</button>
+                            </form>
+                            <form action="{{ route('order.changeDesigner', $order->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-warning">تغيير المصمم</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

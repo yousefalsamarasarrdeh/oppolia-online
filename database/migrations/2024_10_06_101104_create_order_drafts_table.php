@@ -18,7 +18,7 @@ return new class extends Migration
             $table->json('images')->nullable(); // JSON for multiple images
 
             $table->string('pdf')->nullable(); // Path to PDF file
-            $table->enum('state', ['draft', 'finalized', 'approved', 'rejected']); // State of the draft
+            $table->enum('state', ['draft', 'finalized', 'approved', 'rejected', 'designer_changed', 'redesign', 'modified']); // State of the draft
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
