@@ -118,7 +118,7 @@
     </form>
 
     <!-- Google Maps JavaScript -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9yIiQdn5i39-BkGAsLOathyaJ-VhIHGU&libraries=geometry&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry&callback=initMap" async defer></script>
 
     <script>
         var map, marker, geocoder;
