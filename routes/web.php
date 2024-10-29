@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Frontend\JoinAsDesignerController;
 use App\Http\Controllers\Dashboard\JoinAsDesignerController as DashboardJoinAsDesignerController;
+use App\Http\Controllers\Dashboard\OrderController as DashboardOrderController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Users\OrderController;
 use App\Http\Controllers\Designer\OrderDraftController;
@@ -55,6 +56,10 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/join-as-designer', [DashboardJoinAsDesignerController::class, 'index'])->name('admin.joinasdesigner.index');
     Route::get('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'show'])->name('admin.joinasdesigner.show');
     Route::delete('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'destroy'])->name('admin.joinasdesigner.delete');
+
+    Route::get('admin/orders', [DashboardOrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/orders/filter', [DashboardOrderController::class, 'filter'])->name('admin.orders.filter');
+
 });
 
 
@@ -95,6 +100,10 @@ Route::middleware(['admin_or_designer'])->group(function () {
 
 
     Route::post('/designer/orders/{orderId}/order_draft', [OrderDraftController::class, 'store'])->name('designer.order_draft.store');
+
+    Route::post('/designer/orders/{orderId}/order_draft_finalized', [OrderDraftController::class, 'store_finalized'])->name('designer.order_draft_finalized.store');
+
+
 
 });
 

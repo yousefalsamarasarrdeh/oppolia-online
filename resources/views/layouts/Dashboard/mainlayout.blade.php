@@ -349,6 +349,23 @@
                   <span>Regions</span>
               </a>
           </li><!-- End Contact Page Nav -->
+          <li class="nav-item">
+              <a class="nav-link collapsed" href="{{route('admin.joinasdesigner.index')}}">
+                  <i class="bi bi-card-list"></i>
+                  <span>Join as designer</span>
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a class="nav-link collapsed" href="{{ route('admin.orders.index') }}">
+                  <i class="bi bi-card-list"></i>
+                  <span>orders</span>
+                  @if(isset($orderCount) && $orderCount > 0)
+                      <span class="badge bg-primary ms-2">{{ $orderCount }}</span> <!-- عرض عدد الطلبات فقط إذا كان أكبر من صفر -->
+                  @endif
+              </a>
+          </li>
+
 
 
       </ul>

@@ -60,7 +60,7 @@
         </table>
 
         <h2>تفاصيل المسودات</h2>
-        @if ($order->orderDraft->isNotEmpty())
+        @if ($orderDraft->isNotEmpty())
             <table class="table">
                 <thead>
                 <tr>
@@ -73,7 +73,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ( $orderDraft as $draft)
+                @foreach ($orderDraft as $draft)
                     <tr>
                         <td>{{ $draft->id }}</td>
                         <td>{{ $draft->price }} ريال</td>
@@ -96,18 +96,25 @@
                         </td>
                         <td>
                             <!-- أزرار التحكم -->
-                            <form action="{{ route('order.acceptDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-success">قبول التصميم</button>
-                            </form>
-                            <form action="{{ route('order.redesignDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">إعادة التصميم</button>
-                            </form>
-                            <form action="{{ route('order.changeDesigner', $order->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-warning">تغيير المصمم</button>
-                            </form>
+                            @if($draft->state === 'finalized')
+                                <form action="#" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">شراء</button>
+                                </form>
+                            @else
+                                <form action="{{ route('order.acceptDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">قبول التصميم</button>
+                                </form>
+                                <form action="{{ route('order.redesignDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">إعادة التصميم</button>
+                                </form>
+                                <form action="{{ route('order.changeDesigner', $order->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-warning">تغيير المصمم</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

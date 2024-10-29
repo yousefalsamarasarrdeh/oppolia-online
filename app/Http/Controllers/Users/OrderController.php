@@ -112,11 +112,20 @@ class OrderController extends Controller
         // جلب الطلب بناءً على الـ ID مع المسودات
         $order = Order::with('orderDraft')->findOrFail($orderId);
 
-        // تصفية المسودات بحيث يتم استبعاد المسودات التي حالتها "rejected"
-        $orderDraft = $order->orderDraft->filter(function ($draft) {
-            return !in_array($draft->state, ['rejected', 'designer_changed', 'redesign', 'modified']);
+        // البحث عن مسودة بحالة "finalized"
+        $orderDraft = $order->orderDraft->first(function ($draft) {
+            return $draft->state === 'finalized';
         });
 
+        // إذا لم توجد مسودة بحالة "finalized"، قم بتطبيق التصفية لاستبعاد الحالات غير المرغوبة
+        if (!$orderDraft) {
+            $orderDraft = $order->orderDraft->filter(function ($draft) {
+                return !in_array($draft->state, ['rejected', 'designer_changed', 'redesign', 'modified']);
+            });
+        } else {
+            // إذا وُجدت مسودة بحالة "finalized"، تحويلها إلى مجموعة لتسهيل التعامل معها في الـ view
+            $orderDraft = collect([$orderDraft]);
+        }
 
         return view('User.show_order', compact('order', 'orderDraft'));
     }

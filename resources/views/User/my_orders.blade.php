@@ -56,7 +56,12 @@
                                 بانتظار التصميم الأولي
                             @elseif($order->processing_stage == 'stage_five')
                                 شاهد التصميم الاولي
+                            @elseif($order->processing_stage == 'stage_six')
+                                سوف يرسل لك المصمم التصمييم النهائي
+                            @elseif($order->processing_stage == 'stage_seven')
+                                شاهد التصميم النهائي
                             @else
+
                                 {{ $order->processing_stage }}
                             @endif
                         </td>
@@ -64,7 +69,7 @@
                         <td>{{ $order->expected_cost }}</td>
                         <td>{{ $order->created_at->format('Y-m-d') }}</td>
                         <td>
-                            @if($order->processing_stage == 'stage_five')
+                            @if($order->processing_stage == 'stage_five' or $order->processing_stage == 'stage_seven')
                                 <a href="{{ route('order.show', $order->id) }}" class="btn btn-primary">عرض الطلب</a>
                             @endif
                         </td>

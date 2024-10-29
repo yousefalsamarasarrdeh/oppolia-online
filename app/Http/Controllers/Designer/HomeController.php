@@ -168,7 +168,12 @@ class HomeController extends Controller
                 return view('designer.order_draft', compact('order', 'notifications'));
             } elseif ($order->processing_stage == 'stage_five') {
                 return redirect()->route('designer.approved.orders')->with('error', 'The final design cannot be submitted unless the user approves the design.');
+            } elseif ($order->processing_stage == 'stage_six') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                $approvedDrafts = $order->orderDraft()->where('state', 'approved')->get();
+                return view('designer.order_draft_finalized', compact('order', 'notifications','approvedDrafts'));
             }
+
 
 
         } else {
