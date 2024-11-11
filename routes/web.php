@@ -18,19 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/users', [AdminUserManagement::class, 'index_Datatabel'])->name('admin.users.index');
-    Route::get('/admin/users_main', [AdminUserManagement::class, 'main_index'])->name('admin.users.index.main');
-    Route::get('/users/{user}/edit', [AdminUserManagement::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}', [AdminUserManagement::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}', [AdminUserManagement::class, 'destroy'])->name('users.destroy');
 
 
     // إضافة طرق لـ DesignerController مع تحديد الأسماء
-    Route::get('/admin/designers', [DesignerController::class, 'index'])->name('admin.designers.index');
-    Route::delete('/admin/designers/{designer}', [DesignerController::class, 'destroy'])->name('admin.designers.destroy');
-    Route::get('designer/edit/{user}', [DesignerController::class, 'showEditForm'])->name('designer.showEditForm');
-    Route::post('designer/update/{user}', [DesignerController::class, 'storeOrUpdateDesigner'])->name('designer.storeOrUpdate');
-    Route::get('designer/show/{user}', [DesignerController::class, 'showDesigner'])->name('designer.show');
+
 
     Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
     Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
@@ -57,9 +48,24 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'show'])->name('admin.joinasdesigner.show');
     Route::delete('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'destroy'])->name('admin.joinasdesigner.delete');
 
-    Route::get('admin/orders', [DashboardOrderController::class, 'index'])->name('admin.orders.index');
-    Route::get('/orders/filter', [DashboardOrderController::class, 'filter'])->name('admin.orders.filter');
 
+
+});
+
+Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->group(function () {
+    Route::get('orders', [DashboardOrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('orders/filter', [DashboardOrderController::class, 'filter'])->name('admin.orders.filter');
+
+    Route::get('users_main', [AdminUserManagement::class, 'main_index'])->name('admin.users.index.main');
+    Route::get('/users/{user}/edit', [AdminUserManagement::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [AdminUserManagement::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [AdminUserManagement::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/designers', [DesignerController::class, 'index'])->name('admin.designers.index');
+    Route::delete('/designers/{designer}', [DesignerController::class, 'destroy'])->name('admin.designers.destroy');
+    Route::get('designer/edit/{user}', [DesignerController::class, 'showEditForm'])->name('designer.showEditForm');
+    Route::post('designer/update/{user}', [DesignerController::class, 'storeOrUpdateDesigner'])->name('designer.storeOrUpdate');
+    Route::get('designer/show/{user}', [DesignerController::class, 'showDesigner'])->name('designer.show');
 });
 
 
@@ -75,7 +81,10 @@ Route::middleware(['auth'])->group(function () {
 // تغيير المصمم
     Route::post('/order/{order}/change-designer', [OrderController::class, 'changeDesigner'])->name('order.changeDesigner');
 });
-Route::middleware(['admin_or_designer'])->group(function () {
+
+
+
+Route::middleware(['designer'])->group(function () {
     // معالجة الطلب - ثابت ويأتي أولاً
     Route::get('/designer/orders/{order}/processing', [\App\Http\Controllers\Designer\HomeController::class, 'processing'])->name('designer.order.processing');
 

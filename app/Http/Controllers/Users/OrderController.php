@@ -11,6 +11,7 @@ use App\Models\Region;
 use Illuminate\Support\Facades\Auth; // استدعاء Auth
 use Illuminate\Support\Facades\Log;  // استدعاء Log
 use App\Notifications\CustomerRequestRedesign;
+use App\Models\User;
 
 
 
@@ -27,6 +28,8 @@ class OrderController extends Controller
         try {
             // التحقق من البيانات
             $request->validate([
+                'name' => 'sometimes|string', // Optional name field
+                'email' => 'sometimes|email', // Optional email field
                 'kitchen_area' => 'required|numeric',
                 'kitchen_shape' => 'required|string',
                 'kitchen_type' => 'required|in:قديم,جديد',
@@ -38,6 +41,16 @@ class OrderController extends Controller
                 'width_step' => 'required|numeric',
                 'geocode_string' => 'required|string',
             ]);
+
+
+            $user = auth()->user();
+            if ($request->filled('name') && !$user->name) {
+                $user->name = $request->name;
+            }
+            if ($request->filled('email') && !$user->email) {
+                $user->email = $request->email;
+            }
+            $user->save();
 
             // جلب المنطقة بناءً على الاسم الإنجليزي
             $region = Region::where('name_en', $request->region_name)->first();
@@ -63,6 +76,13 @@ class OrderController extends Controller
                 'order_status' => 'pending', // حالة الطلب الافتراضية
                 'processing_stage' => 'stage_one',  // مرحلة الطلب الافتراضية
             ]);
+            $areaManagers = User::where('role', 'Area manager')
+                ->where('region_id', $region->id)
+                ->get();
+
+            $salesManagers = User::where('role', 'Sales manager')
+
+                ->get();
 
             // جلب جميع المصممين في نفس المنطقة
             $designers = Designer::join('users', 'designers.user_id', '=', 'users.id')
@@ -75,6 +95,14 @@ class OrderController extends Controller
             // إرسال إشعار لكل مصمم في نفس المنطقة
             foreach ($designers as $designer) {
                 $designer->notify(new OrderCreated($order, $designer));
+            }
+            foreach ($areaManagers as $manager) {
+                $manager->notify(new OrderCreated($order, $manager));
+            }
+
+            // إرسال إشعار لكل مدير مبيعات في نفس المنطقة
+            foreach ($salesManagers as $manager) {
+                $manager->notify(new OrderCreated($order, $manager));
             }
 
             // إعادة التوجيه بعد نجاح الطلب

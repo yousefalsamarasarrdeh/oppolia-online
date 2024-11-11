@@ -36,9 +36,19 @@ class OrderCreated extends Notification
      */
     public function toDatabase($notifiable)
     {
+        // إذا كان الكائن من نوع App\Models\User، نستخدم user_id بدلاً من designer_id
+        if ($notifiable instanceof \App\Models\User) {
+            return [
+                'order_id' => $this->order->id,
+                'user_id' => $this->designer->id, // استخدام user_id في حال كان notifiable هو User
+                'message' => 'طلب جديد بحاجة لمصمم!',
+            ];
+        }
+
+        // إذا كان الكائن ليس من نوع User (أي أنه مصمم)، نستخدم designer_id
         return [
             'order_id' => $this->order->id,
-            'designer_id' => $this->designer->id, // حفظ المصمم
+            'designer_id' => $this->designer->id, // استخدام designer_id في حال كان notifiable ليس User
             'message' => 'طلب جديد بحاجة لمصمم!',
         ];
     }

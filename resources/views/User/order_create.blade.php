@@ -31,6 +31,29 @@
         <div class="container">
             <h1 style="direction: rtl">تقديم طلب مطبخ</h1>
             <div class="row">
+                <!-- Name Input (only if not set for the authenticated user) -->
+                @if (empty(auth()->user()->name))
+                    <div class="col-6">
+                        <label for="name">اسم المستخدم:</label>
+                        <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}">
+                        @error('name')
+                        <p style="color: red;">{{ $message }}</p>
+                        @enderror
+                    </div>
+                @endif
+
+            <!-- Email Input (only if not set for the authenticated user) -->
+                @if (empty(auth()->user()->email))
+                    <div class="col-6">
+                        <label for="email">البريد الإلكتروني:</label>
+                        <input class="form-control" type="text" name="email" id="email" value="{{ old('email') }}">
+                        @error('email')
+                        <p style="color: red;">{{ $message }}</p>
+                        @enderror
+                    </div>
+                @endif
+            </div>
+            <div class="row">
                 <div class="col-6">
                     <label for="kitchen_area">مساحة المطبخ:</label>
                     <input class="form-control" type="text" name="kitchen_area" id="kitchen_area" value="{{ old('kitchen_area') }}">
@@ -118,7 +141,7 @@
     </form>
 
     <!-- Google Maps JavaScript -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9yIiQdn5i39-BkGAsLOathyaJ-VhIHGU&libraries=geometry&callback=initMap" async defer></script>
 
     <script>
         var map, marker, geocoder;

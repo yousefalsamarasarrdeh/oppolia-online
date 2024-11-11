@@ -29,26 +29,45 @@ class AdminUserManagement extends Controller
         return view('dashboard.users.index');
     }
 
-    public function main_index(){
-        $users = User::all(); // Retrieve all users
+    public function main_index()
+    {
+        // Check if the logged-in user is an Area Manager
+        if (auth()->user()->role === 'Area manager') {
+            // Retrieve only users who are not Sales Managers, Admins, or other Area Managers
+            $users = User::whereNotIn('role', ['Sales manager', 'admin', 'Area manager'])->get();
+        }
+        elseif (auth()->user()->role === 'Sales manager')
+        {
+            $users = User::whereNotIn('role', ['admin', ])->get();
+        }
 
-        return view('dashboard.users.index_main', compact('users'));
+        else {
+            // If the logged-in user is not an Area Manager, retrieve all users
+            $users = User::all();
+        }
 
+        // Retrieve unread notifications for the authenticated user
+        $notifications = auth()->user()->unreadNotifications;
+
+        // Pass variables to the view
+        return view('dashboard.users.index_main', compact('users', 'notifications'));
     }
+
 
     /**
      * عرض صفحة المستخدمين.
      */
     public function show()
-    {
-        return view('dashboard.users'); // عرض صفحة users.blade.php
+    {   $notifications= auth()->user()->unreadNotifications;
+        return view('dashboard.users',compact('notifications')); // عرض صفحة users.blade.php
     }
 
 
     public function edit($id)
     {    $regions = Region::all();
         $user = User::findOrFail($id); // يجلب المستخدم أو يرجع خطأ إذا لم يتم العثور عليه
-        return view('dashboard.users.edit', compact('user','regions')); // يعرض نموذج التعديل للمستخدم
+        $notifications= auth()->user()->unreadNotifications;
+        return view('dashboard.users.edit', compact('user','regions','notifications')); // يعرض نموذج التعديل للمستخدم
     }
 
     public function update(Request $request, $id)

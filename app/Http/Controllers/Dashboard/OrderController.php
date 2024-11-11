@@ -12,17 +12,34 @@ class OrderController extends Controller
 {
     public function index()
     {
-        // استرجاع جميع الطلبات مع علاقاتها
-        $orders = Order::with(['user', 'region', 'designer'])->get();
-        $orderCount = Order::count();
+        // Check if the user is an Area Manager
+        if (auth()->user()->role === 'Area manager') {
+            // Get the region of the Area Manager
+            $regionId = auth()->user()->region_id;
 
-        // جلب قائمة المصممين والمناطق للفلترة
-        $designers = Designer::withCount('orders')->get(); // حساب عدد الطلبات لكل مصمم
-        $regions = Region::withCount('orders')->get();     // حساب عدد الطلبات لكل منطقة
+            // Retrieve only orders within the Area Manager's region
+            $orders = Order::with(['user', 'region', 'designer'])
+                ->where('region_id', $regionId)
+                ->get();
+        } else {
+            // If not an Area Manager, retrieve all orders
+            $orders = Order::with(['user', 'region', 'designer'])->get();
+        }
 
-        // تمرير المتغيرات إلى الفيو
-        return view('dashboard.orders.index', compact('orders', 'orderCount', 'designers', 'regions'));
+        // Count total orders
+        $orderCount = $orders->count();
+
+        // Get list of designers and regions for filtering
+        $designers = Designer::withCount('orders')->get(); // Count orders per designer
+        $regions = Region::withCount('orders')->get();     // Count orders per region
+
+        $notifications= auth()->user()->unreadNotifications;
+
+
+        // Pass variables to the view
+        return view('dashboard.orders.index', compact('orders', 'orderCount', 'designers', 'regions','notifications'));
     }
+
 
     public function filter(Request $request)
     {

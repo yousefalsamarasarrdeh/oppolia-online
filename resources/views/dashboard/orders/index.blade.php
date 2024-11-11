@@ -11,35 +11,36 @@
         <h2>Order List</h2>
 
         <!-- Form for Filtering Orders -->
-        <form action="{{ route('admin.orders.filter') }}" method="GET">
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="designer_id">Filter by Designer:</label>
-                    <select name="designer_id" id="designer_id" class="form-select">
-                        <option value="">Select Designer</option>
-                        @foreach($designers as $designer)
-                            <option value="{{ $designer->id }}">
-                                {{ $designer->user->name ?? 'Unknown' }} ({{ $designer->orders_count }} Orders)
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="region_id">Filter by Region:</label>
-                    <select name="region_id" id="region_id" class="form-select">
-                        <option value="">Select Region</option>
-                        @foreach($regions as $region)
-                            <option value="{{ $region->id }}">
-                                {{ $region->name_en }} ({{ $region->orders_count }} Orders)
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-4 align-self-end">
-                    <button type="submit" class="btn btn-primary">Filter</button>
-                </div>
-            </div>
-        </form>
+
+    {{-- <form action="{{ route('admin.orders.filter') }}" method="GET">
+     <div class="row mb-3">
+         <div class="col-md-4">
+             <label for="designer_id">Filter by Designer:</label>
+             <select name="designer_id" id="designer_id" class="form-select">
+                 <option value="">Select Designer</option>
+                 @foreach($designers as $designer)
+                     <option value="{{ $designer->id }}">
+                         {{ $designer->user->name ?? 'Unknown' }} ({{ $designer->orders_count }} Orders)
+                     </option>
+                 @endforeach
+             </select>
+         </div>
+         <div class="col-md-4">
+             <label for="region_id">Filter by Region:</label>
+             <select name="region_id" id="region_id" class="form-select">
+                 <option value="">Select Region</option>
+                 @foreach($regions as $region)
+                     <option value="{{ $region->id }}">
+                         {{ $region->name_en }} ({{ $region->orders_count }} Orders)
+                     </option>
+                 @endforeach
+             </select>
+         </div>
+         <div class="col-md-4 align-self-end">
+             <button type="submit" class="btn btn-primary">Filter</button>
+         </div>
+     </div>
+ </form> --}}
 
         <!-- Orders Table -->
         <table class="table table-bordered datatable">

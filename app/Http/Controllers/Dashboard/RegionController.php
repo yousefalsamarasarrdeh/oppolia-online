@@ -12,8 +12,9 @@ class RegionController extends Controller
     {
 
         $regions = Region::all();
+        $notifications= auth()->user()->unreadNotifications;
 
 
-        return view('dashboard.Region.index', compact('regions'));
+        return view('dashboard.Region.index', compact('regions','notifications'));
     }
 }

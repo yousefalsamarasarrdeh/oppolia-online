@@ -12,9 +12,9 @@ class JoinAsDesignerController extends Controller
     {
         // جلب جميع الطلبات من قاعدة البيانات
         $designerRequests = JoinAsADesigner::all();
-
+        $notifications= auth()->user()->unreadNotifications;
         // عرض الطلبات في الصفحة
-        return view('dashboard.join_as_designer.index', compact('designerRequests'));
+        return view('dashboard.join_as_designer.index', compact('designerRequests','notifications'));
     }
 
     public function show($id)
@@ -27,9 +27,10 @@ class JoinAsDesignerController extends Controller
             $designerRequest->status = 'read';
             $designerRequest->save(); // حفظ التغييرات في قاعدة البيانات
         }
+        $notifications= auth()->user()->unreadNotifications;
 
         // عرض الطلب في الصفحة
-        return view('dashboard.join_as_designer.show', compact('designerRequest'));
+        return view('dashboard.join_as_designer.show', compact('designerRequest','notifications'));
     }
 
     public function  destroy($id) {

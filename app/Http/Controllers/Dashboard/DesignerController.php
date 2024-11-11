@@ -14,17 +14,19 @@ class DesignerController extends Controller
         $user = User::with('designer') // تحميل البيانات المرتبطة من جدول designers
         ->where('role', 'designer') // فلترة البيانات بناءً على الدور
         ->get();
+        $notifications= auth()->user()->unreadNotifications;
 
-        return view('dashboard.Designer.index', compact('user'));
+        return view('dashboard.Designer.index', compact('user','notifications'));
     }
 
     public function showEditForm(User $user)
     {
         // جلب المصمم المرتبط بهذا المستخدم، أو إنشاء مصمم جديد فارغ إذا لم يكن موجودًا
         $designer = Designer::firstOrNew(['user_id' => $user->id]);
+        $notifications= auth()->user()->unreadNotifications;
 
         // عرض الواجهة مع تمرير نموذج المصمم إليها
-        return view('dashboard.designer.edit', compact('designer'));
+        return view('dashboard.designer.edit', compact('designer','notifications'));
     }
 
     public function storeOrUpdateDesigner(Request $request, User $user)
@@ -69,7 +71,7 @@ class DesignerController extends Controller
             ]
 
         );
-        
+
 
         // إعادة توجيه المستخدم بعد النجاح
         return redirect()->route('designer.showEditForm', $user->id)->with('success', 'Designer details updated successfully.');
@@ -79,8 +81,9 @@ class DesignerController extends Controller
     {
         // جلب المصمم المرتبط بالمستخدم
         $designer = Designer::where('user_id', $user->id)->firstOrFail();
+        $notifications= auth()->user()->unreadNotifications;
 
         // عرض الواجهة مع تمرير نموذج المصمم إليها
-        return view('dashboard.designer.show', compact('designer'));
+        return view('dashboard.designer.show', compact('designer','notifications'));
     }
 }
