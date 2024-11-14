@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Yajra\DataTables\DataTables;
 use App\Models\Region;
+use App\Models\Designer;
+use Illuminate\Support\Str;
 
 
 class AdminUserManagement extends Controller
@@ -70,26 +72,93 @@ class AdminUserManagement extends Controller
         return view('dashboard.users.edit', compact('user','regions','notifications')); // يعرض نموذج التعديل للمستخدم
     }
 
+
+
     public function update(Request $request, $id)
     {
         try {
             // العثور على المستخدم بناءً على الـ id
             $user = User::findOrFail($id);
 
-            // تحديث بيانات المستخدم
-            $user->update($request->all());
+            // التحقق من صحة البيانات الخاصة بالمستخدم فقط
+            $request->validate([
+                'name' => 'nullable|string|max:255',
+                'email' => 'nullable|email|max:255',
+                'phone' => 'required|string|max:20|unique:users,phone,' . $id,
+                'role' => 'required|in:admin,designer,user,Sales manager,Area manager',
+                'region_id' => 'nullable|exists:regions,id',
+            ]);
 
-            // إرجاع رسالة نجاح في حال نجاح العملية
-            return redirect()->route('admin.users.index.main')->with('success', 'The user has been updated successfully');
+            // تحديث بيانات المستخدم
+            $user->update($request->only(['name', 'email', 'phone', 'role', 'region_id']));
+
+            // إذا كان الدور هو "designer"، قم بتحديث بيانات المصمم
+            if ($user->role === 'designer') {
+                // تحقق من صحة البيانات الخاصة بالمصمم فقط إذا كان الدور "designer"
+                $request->validate([
+                    'profile_image' => 'sometimes|image|mimes:jpg,jpeg,png,webp|max:2048',
+                    'experience_years' => 'sometimes|integer|min:0',
+                    'description' => 'sometimes|string',
+                    'description_ar' => 'sometimes|string|regex:/^[\p{Arabic}0-9\s]+$/u',
+                    'portfolio_images.*' => 'sometimes|image|mimes:jpg,jpeg,png,webp|max:2048',
+                ]);
+
+                // جلب المصمم المرتبط بالمستخدم إن وجد أو إنشاء نموذج جديد
+                $designer = $user->designer ?? new Designer(['user_id' => $user->id]);
+
+                // توليد كود المصمم بشكل عشوائي إذا لم يكن موجودًا
+                if (!$request->has('designer_code') || empty($request->input('designer_code'))) {
+                    do {
+                        $designerCode = Str::random(8); // توليد كود عشوائي بطول 8 أحرف
+                    } while (Designer::where('designer_code', $designerCode)->exists()); // التحقق من عدم تكرار الكود
+
+                    $designer->designer_code = $designerCode;
+                } else {
+                    $designer->designer_code = $request->input('designer_code');
+                }
+
+                // تحميل الصورة الشخصية إذا كانت موجودة
+                if ($request->hasFile('profile_image')) {
+                    $designer->profile_image = $request->file('profile_image')->store('profile_images', 'public');
+                }
+                $portfolioImages = [];
+                if ($request->hasFile('portfolio_images')) {
+                    foreach ($request->file('portfolio_images') as $image) {
+                        $portfolioImages[] = $image->store('portfolio_images', 'public');
+                    }
+                }
+                // تحميل الصور المتعددة إذا كانت موجودة
+               $portfolioImages = $designer->portfolio_images ?? [];
+                if ($request->hasFile('portfolio_images')) {
+                    foreach ($request->file('portfolio_images') as $image) {
+                        $portfolioImages[] = $image->store('portfolio_images', 'public');
+                    }
+                }
+
+                // تحديث أو إنشاء بيانات المصمم
+                $designer->fill([
+                    'experience_years' => $request->input('experience_years', $designer->experience_years),
+                    'description' => $request->input('description', $designer->description),
+                    'description_ar' => $request->input('description_ar', $designer->description_ar),
+                    'portfolio_images' => json_encode($portfolioImages), // هنا يتم تحويل المصفوفة إلى JSON
+                ]);
+                $designer->save();
+            } else {
+                // إذا لم يكن الدور "designer"، حذف بيانات المصمم إذا كانت موجودة
+                if ($user->designer) {
+                    $user->designer->delete();
+                }
+            }
+
+            // إعادة توجيه المستخدم بعد النجاح
+            return redirect()->route('admin.users.index.main')->with('success', ' updated successfully.');
         } catch (\Exception $e) {
             // في حال حدوث خطأ، سيتم التقاطه هنا
-
-            // يمكنك تسجيل الخطأ إذا أردت مثلًا: Log::error($e->getMessage());
-
-            // إرجاع رسالة خطأ للمستخدم
-            return redirect()->back()->with('error', 'An error occurred while updating the user: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while updating the user and designer: ' . $e->getMessage());
         }
     }
+
+
 
 
     public function destroy($id)

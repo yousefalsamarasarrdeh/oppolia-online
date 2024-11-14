@@ -1,23 +1,27 @@
-@extends('layouts.Dashboard.mainlayout') <!-- وراثة الواجهة الرئيسية -->
+@extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'User Management')
+@section('title', 'User and Designer Management')
 
 @section('css')
     <!-- تضمين CSS الخاص بـ DataTables -->
 @endsection
 
 @section('content')
-
-    @if (session('error'))
-        <div style="color: green;">
+    @if (session('success'))
+        <div>{{ session('success') }}</div>
+    @elseif (session('error'))
+        <div style="color: red;">
             {{ session('error') }}
         </div>
     @endif
-    <h1>Edit User</h1>
-    <form action="{{ route('users.update', $user->id) }}" method="POST">
-    @csrf
-    @method('PUT') <!-- Use PUT method to update data -->
 
+    <h1>Edit User and Designer</h1>
+    <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+
+    <!-- User Information Fields -->
+        <h2>User Information</h2>
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" name="name" class="form-control" value="{{ $user->name }}">
@@ -35,7 +39,7 @@
 
         <div class="form-group">
             <label for="role">Role:</label>
-            <select name="role" id="role" class="form-control">
+            <select name="role" id="role" class="form-control" onchange="toggleDesignerFields()">
                 <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
                 <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="designer" {{ $user->role == 'designer' ? 'selected' : '' }}>Designer</option>
@@ -56,6 +60,68 @@
             </select>
         </div>
 
+        <!-- Designer Information Fields -->
+        <div id="designerFields" style="display: none;">
+            <h2>Designer Information</h2>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="profile_image">Profile Image:</label>
+                    <input type="file" name="profile_image" accept="image/*" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="experience_years">Experience Years:</label>
+                    <input type="number" name="experience_years" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="description">Description:</label>
+                    <textarea name="description" class="form-control"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="description_ar">Description (Arabic):</label>
+                    <textarea name="description_ar" class="form-control"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="portfolio_images">Portfolio Images:</label>
+                    <input type="file" name="portfolio_images[]" accept="image/*" multiple>
+                </div>
+            </div>
+
+
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
+@endsection
+
+@section('script')
+    <script>
+        // Function to show/hide designer fields based on role
+        function toggleDesignerFields() {
+            var role = document.getElementById("role").value;
+            var designerFields = document.getElementById("designerFields");
+
+            if (role === "designer") {
+                designerFields.style.display = "block";
+            } else {
+                designerFields.style.display = "none";
+            }
+        }
+
+        // Initial call to set the correct visibility on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            toggleDesignerFields();
+        });
+    </script>
 @endsection

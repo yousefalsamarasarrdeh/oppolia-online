@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Region extends Model
 {
     use HasFactory;
-    protected $fillable = ['name_ar', 'name_en'];
 
+    protected $fillable = ['name_ar', 'name_en'];
 
     public function users()
     {
@@ -19,5 +19,11 @@ class Region extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    // العلاقة مع sub_regions
+    public function subRegions()
+    {
+        return $this->hasMany(SubRegion::class);
     }
 }

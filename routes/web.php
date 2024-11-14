@@ -43,14 +43,18 @@ Route::middleware(['admin'])->group(function () {
 
     Route::get('admin/regions', [RegionController::class, 'index'])->name('admin.regions');
 
+});
 
+
+Route::prefix('dashboard')->middleware(['adminOrsales_manager'])->group(function () {
     Route::get('/admin/join-as-designer', [DashboardJoinAsDesignerController::class, 'index'])->name('admin.joinasdesigner.index');
     Route::get('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'show'])->name('admin.joinasdesigner.show');
     Route::delete('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'destroy'])->name('admin.joinasdesigner.delete');
-
-
-
 });
+
+
+
+
 
 Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->group(function () {
     Route::get('orders', [DashboardOrderController::class, 'index'])->name('admin.orders.index');
@@ -64,7 +68,7 @@ Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->gr
     Route::get('/designers', [DesignerController::class, 'index'])->name('admin.designers.index');
     Route::delete('/designers/{designer}', [DesignerController::class, 'destroy'])->name('admin.designers.destroy');
     Route::get('designer/edit/{user}', [DesignerController::class, 'showEditForm'])->name('designer.showEditForm');
-    Route::post('designer/update/{user}', [DesignerController::class, 'storeOrUpdateDesigner'])->name('designer.storeOrUpdate');
+    Route::post('designer/update/{user}', [DesignerController::class, 'update'])->name('designer.storeOrUpdate');
     Route::get('designer/show/{user}', [DesignerController::class, 'showDesigner'])->name('designer.show');
 });
 

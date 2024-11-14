@@ -6,17 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Models\Designer;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class DesignerController extends Controller
 {
     public function index()
     {
-        $user = User::with('designer') // تحميل البيانات المرتبطة من جدول designers
-        ->where('role', 'designer') // فلترة البيانات بناءً على الدور
-        ->get();
-        $notifications= auth()->user()->unreadNotifications;
+        // جلب الإشعارات غير المقروءة
+        $notifications = auth()->user()->unreadNotifications;
 
-        return view('dashboard.Designer.index', compact('user','notifications'));
+        // التحقق إذا كان المستخدم الحالي هو "مدير منطقة"
+        if (auth()->user()->role === 'Area manager') {
+            // جلب المصممين الذين ينتمون إلى نفس المنطقة الخاصة بمدير المنطقة
+            $user = User::with('designer')
+                ->where('role', 'designer')
+                ->where('region_id', auth()->user()->region_id) // فلترة بناءً على region_id للمستخدم الحالي
+                ->get();
+        } else {
+            // جلب جميع المصممين إذا لم يكن المستخدم "مدير منطقة"
+            $user = User::with('designer')
+                ->where('role', 'designer')
+                ->get();
+        }
+
+        return view('dashboard.Designer.index', compact('user', 'notifications'));
     }
 
     public function showEditForm(User $user)
@@ -29,53 +42,69 @@ class DesignerController extends Controller
         return view('dashboard.designer.edit', compact('designer','notifications'));
     }
 
-    public function storeOrUpdateDesigner(Request $request, User $user)
+    public function update(Request $request, User $user)
     {
-        // جلب المصمم المرتبط بالمستخدم إن وجد
-        $designer = $user->designer;
+        try {
+            // التأكد من أن المستخدم لديه مصمم مرتبط به
+            $designer = $user->designer;
 
-        // التحقق من صحة البيانات
-        $request->validate([
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'experience_years' => 'required|integer|min:0',
-            'description' => 'nullable|string',
-            'description_ar' => 'nullable|string', // التحقق من صحة الحقل الجديد
-            'portfolio_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // تحقق من صحة كل صورة
-            'designer_code' => 'required|string|unique:designers,designer_code,' . ($designer ? $designer->id : ''),
-        ]);
-
-        // تحميل الصورة الشخصية إذا كانت موجودة
-        if ($request->hasFile('profile_image')) {
-            $path = $request->file('profile_image')->store('profile_images', 'public');
-        }
-
-        // تحميل الصور المتعددة إذا كانت موجودة
-        $portfolioImages = [];
-        if ($request->hasFile('portfolio_images')) {
-            foreach ($request->file('portfolio_images') as $image) {
-                $portfolioImages[] = $image->store('portfolio_images', 'public');
+            if (!$designer) {
+                return redirect()->back()->with('error', 'Designer not found for this user.');
             }
-        }
 
-        // تحديث أو إنشاء نموذج المصمم
-        $designer = Designer::updateOrCreate(
-            ['user_id' => $user->id],
-            [
+            // التحقق من صحة البيانات
+            $request->validate([
+                'profile_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'experience_years' => 'required|integer|min:0',
+                'description' => 'nullable|string',
+                'description_ar' => 'nullable|string|regex:/^[\p{Arabic}0-9\s]+$/u', // التحقق من صحة الحقل للتأكد من الأحرف العربية والأرقام فقط
+                'portfolio_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // تحقق من صحة كل صورة
+            ]);
 
-                'profile_image' => $path ?? $user->designer->profile_image ?? null,
+            // حذف الصورة الشخصية القديمة إذا تم تحميل صورة جديدة
+            if ($request->hasFile('profile_image')) {
+                if ($designer->profile_image) {
+                    // حذف الصورة القديمة من التخزين
+                    Storage::disk('public')->delete($designer->profile_image);
+                }
+                // تخزين الصورة الجديدة
+                $path = $request->file('profile_image')->store('profile_images', 'public');
+            } else {
+                // الاحتفاظ بالصورة القديمة إذا لم يتم تحميل صورة جديدة
+                $path = $designer->profile_image;
+            }
+
+            // تحميل الصور المتعددة وحذف القديمة في حال وجود صور جديدة
+            $portfolioImages = json_decode($designer->portfolio_images, true) ?? [];
+            if ($request->hasFile('portfolio_images')) {
+                // حذف الصور القديمة من التخزين
+                foreach ($portfolioImages as $oldImage) {
+                    Storage::disk('public')->delete($oldImage);
+                }
+                // تحميل الصور الجديدة وتخزين المسارات
+                $portfolioImages = [];
+                foreach ($request->file('portfolio_images') as $image) {
+                    $portfolioImages[] = $image->store('portfolio_images', 'public');
+                }
+            }
+
+            // تحديث بيانات المصمم
+            $designer->update([
+                'profile_image' => $path,
                 'experience_years' => $request->experience_years,
                 'description' => $request->description,
-                'description_ar' => $request->description_ar, // حفظ الحقل الجديد
-                'portfolio_images' => json_encode($portfolioImages),
-                'designer_code' => $request->designer_code,
-            ]
+                'description_ar' => $request->description_ar,
+                'portfolio_images' => json_encode($portfolioImages), // تخزين المصفوفة كـ JSON
+            ]);
 
-        );
-
-
-        // إعادة توجيه المستخدم بعد النجاح
-        return redirect()->route('designer.showEditForm', $user->id)->with('success', 'Designer details updated successfully.');
+            // إعادة توجيه المستخدم بعد النجاح
+            return redirect()->route('designer.showEditForm', $user->id)->with('success', 'Designer details updated successfully.');
+        } catch (\Exception $e) {
+            // في حال حدوث خطأ، يتم التقاطه هنا وإرجاع رسالة خطأ للمستخدم
+            return redirect()->back()->with('error', 'An error occurred while updating the designer details: ' . $e->getMessage());
+        }
     }
+
 
     public function showDesigner(User $user)
     {
