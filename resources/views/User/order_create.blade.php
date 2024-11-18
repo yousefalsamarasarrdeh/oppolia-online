@@ -144,7 +144,7 @@
     <label for="search_map">ابحث عن موقع:</label>
     <input id="search_map" type="text" placeholder="ابحث هنا..." class="form-control">
     <!-- Google Maps JavaScript -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ3KkskiyMrb8ESEAH99o0_ZyoInO8caA&libraries=geometry,places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry,places&callback=initMap" async defer></script>
 
     <script>
         var map, marker, geocoder, autocomplete;
