@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Designer;
-use App\Models\DesignerMeetingCustomer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
-{   use SoftDeletes;
+{
+    use SoftDeletes;
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'region_id',
+        'sub_region_id', // حقل sub_region_id لإضافة العلاقة مع SubRegion
         'kitchen_area',
         'kitchen_shape',
         'kitchen_type',
@@ -37,9 +37,16 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    // علاقة order بـ region
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    // علاقة order بـ sub_region
+    public function subRegion()
+    {
+        return $this->belongsTo(SubRegion::class);
     }
 
     // علاقة order بـ designer
@@ -47,15 +54,19 @@ class Order extends Model
     {
         return $this->belongsTo(Designer::class, 'approved_designer_id');
     }
+
     public function designerMeetings()
     {
         return $this->hasMany(DesignerMeetingCustomer::class);
     }
+
     public function surveyQuestions()
     {
         return $this->hasMany(SurveyQuestion::class);
     }
-    Public function orderDraft(){
+
+    public function orderDraft()
+    {
         return $this->hasMany(OrderDraft::class);
     }
 }

@@ -36,6 +36,8 @@ class JoinAsADesigner extends Model
         'kitchen_furniture_experience_description',
         'cv_pdf_path',
         'status', // Default is 'unread'
+        'region_id', // Foreign key for Region
+        'sub_region_id', // Foreign key for SubRegion
     ];
 
     // Cast boolean fields
@@ -46,4 +48,16 @@ class JoinAsADesigner extends Model
         'own_car' => 'boolean',
         'experience_in_kitchen_furniture_business' => 'boolean',
     ];
+
+    // علاقة مع Region
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    // علاقة مع SubRegion
+    public function subRegion()
+    {
+        return $this->belongsTo(SubRegion::class);
+    }
 }

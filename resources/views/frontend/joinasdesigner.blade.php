@@ -44,10 +44,7 @@
                 <input type="text" name="name" class="form-control" required>
             </div>
 
-            <div class="mb-3">
-                <label for="city_town" class="form-label">City/Town:</label>
-                <input type="text" name="city_town" class="form-control" required>
-            </div>
+
 
             <div class="mb-3">
                 <label for="country" class="form-label">Country:</label>
@@ -91,20 +88,18 @@
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label for="current_country" class="form-label">Current Country:</label>
-                <input type="text" name="current_country" class="form-control" required>
-            </div>
 
             <div class="mb-3">
-                <label for="current_city" class="form-label">Current City:</label>
-                <input type="text" name="current_city" class="form-control" required>
+                <label for="region_id" class="form-label">Region:</label>
+                <select name="region_id" id="region_id" class="form-control" required>
+                    <option value="" disabled selected>Select Region</option>
+                    @foreach($regions as $region)
+                        <option value="{{ $region->id }}">{{ $region->name_en }}</option> <!-- فقط تمرير المعرف -->
+                    @endforeach
+                </select>
             </div>
 
-            <div class="mb-3">
-                <label for="preferred_city" class="form-label">Which City Do You Prefer to Work?</label>
-                <input type="text" name="preferred_city" class="form-control" required>
-            </div>
+
 
             <div class="mb-3">
                 <label for="major_in_education" class="form-label">Major in Education:</label>

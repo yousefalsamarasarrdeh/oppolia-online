@@ -114,18 +114,20 @@
 
             <br>
 
-            <!-- إضافة خريطة Google -->
+            <!-- Search Box for Google Maps -->
+
+
             <label>اختر موقع المطبخ على الخريطة:</label>
             <div id="map" style="width: 100%; height: 400px;"></div>
 
-            <!-- حقول مخفية لتخزين خطوط الطول والعرض واسم المنطقة -->
+            <!-- Hidden fields for longitude, latitude, and region name -->
             <input type="hidden" name="length_step" id="length_step" value="{{ old('length_step') }}">
             <input type="hidden" name="width_step" id="width_step" value="{{ old('width_step') }}">
             <input type="hidden" name="region_name" id="region_name" value="{{ old('region_name') }}">
 
             <br>
 
-            <!-- حقل geocode_string لعرض العنوان الجغرافي -->
+            <!-- Geocode address field -->
             <label for="geocode_string">العنوان الجغرافي:</label>
             <input type="text" name="geocode_string" id="geocode_string" class="form-control" value="{{ old('geocode_string') }}" readonly>
             @error('geocode_string')
@@ -139,71 +141,88 @@
             </div>
         </div>
     </form>
-
+    <label for="search_map">ابحث عن موقع:</label>
+    <input id="search_map" type="text" placeholder="ابحث هنا..." class="form-control">
     <!-- Google Maps JavaScript -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ3KkskiyMrb8ESEAH99o0_ZyoInO8caA&libraries=geometry,places&callback=initMap" async defer></script>
 
     <script>
-        var map, marker, geocoder;
+        var map, marker, geocoder, autocomplete;
 
         function initMap() {
-            // إنشاء الخريطة
+            // Initialize map
             map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 24.7136, lng: 46.6753 }, // مركز الخريطة على السعودية
+                center: { lat: 24.7136, lng: 46.6753 },
                 zoom: 8
             });
 
             geocoder = new google.maps.Geocoder();
 
-            // تحميل بيانات GeoJSON للمناطق في السعودية
+            // Load GeoJSON data for Saudi Arabia regions
             map.data.loadGeoJson('/saudi-arabia-with-regions_1509.geojson', null, function (features) {
-                console.log('تم تحميل ملف GeoJSON بنجاح.');
+                console.log('GeoJSON loaded successfully.');
 
-                // إضافة حدث النقر على كل ميزة (Feature) في ملف GeoJSON
                 map.data.addListener('click', function (event) {
-                    var regionName = event.feature.getProperty('name'); // الحصول على اسم المنطقة
-                    var coordinates = event.latLng; // إحداثيات النقطة التي تم النقر عليها
-                    alert('تم النقر على منطقة: ' + regionName);
+                    var regionName = event.feature.getProperty('name');
+                    var coordinates = event.latLng;
+                    alert('Clicked on region: ' + regionName);
                     document.getElementById('region_name').value = regionName;
-                    placeMarker(event.latLng, map); // إضافة المؤشر عند النقر
-                    geocodeLatLng(event.latLng); // تحويل الإحداثيات إلى عنوان
+                    placeMarker(event.latLng, map);
+                    geocodeLatLng(event.latLng);
                 });
             });
 
-            // إضافة حدث النقر على الخريطة لتحديد الموقع خارج GeoJSON
+            // Map click event for setting location outside GeoJSON
             map.addListener('click', function (e) {
-                checkRegionAndPlaceMarker(e.latLng, map); // التحقق من المنطقة قبل إضافة النقطة
+                checkRegionAndPlaceMarker(e.latLng, map);
+            });
+
+            // Initialize Places Autocomplete for search
+            var input = document.getElementById('search_map');
+            autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);
+                }
+                placeMarker(place.geometry.location, map);
+                geocodeLatLng(place.geometry.location);
             });
         }
 
         function checkRegionAndPlaceMarker(latLng, map) {
-            let isInsideRegion = false; // متغير لتحديد ما إذا كانت النقطة داخل السعودية
-            let regionName = ""; // متغير لتخزين اسم المنطقة
+            let isInsideRegion = false;
+            let regionName = "";
 
-            // التحقق مما إذا كانت النقطة داخل حدود المنطقة الجغرافية
             map.data.forEach(function (feature) {
                 var geometry = feature.getGeometry();
-
-                // استخدام containsLocation للتحقق إذا كانت النقطة ضمن المنطقة
                 if (google.maps.geometry.poly.containsLocation(latLng, geometry)) {
                     isInsideRegion = true;
-                    regionName = feature.getProperty('name'); // الحصول على اسم المنطقة
-                    console.log('النقطة تقع داخل منطقة في السعودية:', regionName);
+                    regionName = feature.getProperty('name');
+                    console.log('Point is inside a Saudi region:', regionName);
                 }
             });
 
-            // إذا كانت النقطة داخل السعودية، نقوم بإضافة المؤشر
             if (isInsideRegion) {
                 placeMarkerAndPanTo(latLng, map, regionName);
-                geocodeLatLng(latLng); // تحويل الإحداثيات إلى عنوان
+                geocodeLatLng(latLng);
             } else {
-                alert('لا يمكنك وضع نقطة خارج مناطق السعودية.');
+                alert('You cannot place a marker outside Saudi regions.');
             }
         }
 
         function placeMarker(location, map) {
             if (marker) {
-                marker.setPosition(location); // نقل المؤشر إلى الموقع الجديد
+                marker.setPosition(location);
             } else {
                 marker = new google.maps.Marker({
                     position: location,
@@ -215,13 +234,10 @@
         }
 
         function placeMarkerAndPanTo(latLng, map, regionName) {
-            placeMarker(latLng, map); // إضافة المؤشر
-            console.log("إحداثيات النقطة:", latLng.lat(), latLng.lng());
-            console.log("المنطقة التابعة:", regionName);
-            alert('النقطة تقع في منطقة: ' + regionName);
-
-            // تحديث الحقل المخفي باسم المنطقة
-
+            placeMarker(latLng, map);
+            console.log("Coordinates:", latLng.lat(), latLng.lng());
+            console.log("Region:", regionName);
+            alert('Point is in region: ' + regionName);
         }
 
         function geocodeLatLng(latLng) {
@@ -230,10 +246,10 @@
                     if (results[0]) {
                         document.getElementById('geocode_string').value = results[0].formatted_address;
                     } else {
-                        alert('لم يتم العثور على عنوان.');
+                        alert('No address found.');
                     }
                 } else {
-                    alert('فشل geocoder بسبب: ' + status);
+                    alert('Geocoder failed due to: ' + status);
                 }
             });
         }

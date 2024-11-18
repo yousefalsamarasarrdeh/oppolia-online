@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth; // استدعاء Auth
 use Illuminate\Support\Facades\Log;  // استدعاء Log
 use App\Notifications\CustomerRequestRedesign;
 use App\Models\User;
-
+use App\Models\SubRegion;
 
 
 class OrderController extends Controller
@@ -40,8 +40,8 @@ class OrderController extends Controller
                 'length_step' => 'required|numeric',
                 'width_step' => 'required|numeric',
                 'geocode_string' => 'required|string',
+                'region_name' => 'required|string', // اسم sub_region مطلوب
             ]);
-
 
             $user = auth()->user();
             if ($request->filled('name') && !$user->name) {
@@ -52,17 +52,21 @@ class OrderController extends Controller
             }
             $user->save();
 
-            // جلب المنطقة بناءً على الاسم الإنجليزي
-            $region = Region::where('name_en', $request->region_name)->first();
+            // جلب الـ SubRegion بناءً على الاسم الإنجليزي
+            $subRegion = SubRegion::where('name_en', $request->region_name)->first();
 
-            if (!$region) {
-                return redirect()->route('orders.create')->with('error', 'لم يتم العثور على المنطقة المطلوبة.');
+            if (!$subRegion) {
+                return redirect()->route('orders.create')->with('error', 'لم يتم العثور على المنطقة الفرعية المطلوبة.');
             }
+
+            // جلب المنطقة الأساسية بناءً على الـ SubRegion
+            $region = $subRegion->region;
 
             // إنشاء الطلب
             $order = Order::create([
                 'user_id' => auth()->id(), // id المستخدم الذي طلب الطلب
                 'region_id' => $region->id,
+                'sub_region_id' => $subRegion->id,
                 'kitchen_area' => $request->kitchen_area,
                 'kitchen_shape' => $request->kitchen_shape,
                 'kitchen_type' => $request->kitchen_type,
@@ -76,12 +80,13 @@ class OrderController extends Controller
                 'order_status' => 'pending', // حالة الطلب الافتراضية
                 'processing_stage' => 'stage_one',  // مرحلة الطلب الافتراضية
             ]);
+
+            // جلب المدراء والمصممين بناءً على الـ Region
             $areaManagers = User::where('role', 'Area manager')
                 ->where('region_id', $region->id)
                 ->get();
 
             $salesManagers = User::where('role', 'Sales manager')
-
                 ->get();
 
             // جلب جميع المصممين في نفس المنطقة
@@ -89,8 +94,6 @@ class OrderController extends Controller
                 ->where('users.region_id', $region->id)
                 ->select('designers.*')
                 ->get();
-
-
 
             // إرسال إشعار لكل مصمم في نفس المنطقة
             foreach ($designers as $designer) {

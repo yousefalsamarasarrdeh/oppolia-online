@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('join_as_a_designer', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('city_town');
+
             $table->string('country');
             $table->string('email_address')->unique();
             $table->string('phone_number')->unique();
             $table->integer('age');
             $table->string('nationality');
-            $table->enum('gender', ['male', 'female',]);
+            $table->enum('gender', ['male', 'female']);
             $table->enum('marital_status', ['single', 'married', 'other']);
-            $table->string('current_country');
-            $table->string('current_city');
-            $table->string('preferred_city');
+
+
+
             $table->string('major_in_education');
             $table->integer('years_of_experience');
             $table->boolean('experience_in_sales');
@@ -35,6 +35,8 @@ return new class extends Migration
             $table->text('kitchen_furniture_experience_description')->nullable();
             $table->string('cv_pdf_path'); // Path to the uploaded CV PDF file
             $table->enum('status', ['read', 'unread', 'rejected', 'pending', 'accepted'])->default('unread');
+            $table->foreignId('region_id')->constrained('regions')->onDelete('cascade'); // Foreign key to regions table
+            $table->foreignId('sub_region_id')->constrained('sub_regions')->onDelete('cascade'); // Foreign key to sub_regions table
             $table->timestamps();
         });
     }

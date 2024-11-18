@@ -49,6 +49,8 @@
                 <th>Order ID</th>
                 <th>User Name</th>
                 <th>Region</th>
+                <th>SubRegion</th>
+
                 <th>Kitchen Area</th>
                 <th>Kitchen Shape</th>
                 <th>Kitchen Type</th>
@@ -71,6 +73,7 @@
                     <td>{{ $order->id }}</td>
                     <td>{{ $order->user->name ?? 'Not Available' }}</td>
                     <td>{{ $order->region->name_en ?? 'Not Available' }}</td>
+                    <td>{{ $order->subregion->name_en ?? 'Not Available' }}</td>
                     <td>{{ $order->kitchen_area }}</td>
                     <td>{{ $order->kitchen_shape }}</td>
                     <td>{{ $order->kitchen_type }}</td>

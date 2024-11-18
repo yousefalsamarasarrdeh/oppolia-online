@@ -37,8 +37,8 @@
                     <td>{{ $request->name }}</td>
                     <td>{{ $request->email_address }}</td>
                     <td>{{ $request->phone_number }}</td>
-                    <td>{{ $request->city_town }}</td>
-                   
+                    <td>{{ $request->subRegion->name_en }}</td>
+
                     <td>
                         <a href="{{ route('admin.joinasdesigner.show', $request->id) }}" class="btn btn-primary">View</a>
 

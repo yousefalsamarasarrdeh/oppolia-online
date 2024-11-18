@@ -14,12 +14,11 @@
                 <p><strong>Name:</strong> {{ $designerRequest->name }}</p>
                 <p><strong>Email:</strong> {{ $designerRequest->email_address }}</p>
                 <p><strong>Phone:</strong> {{ $designerRequest->phone_number }}</p>
-                <p><strong>City:</strong> {{ $designerRequest->city_town }}</p>
-                <p><strong>Country:</strong> {{ $designerRequest->country }}</p>
+                <p><strong>City:</strong> {{ $designerRequest->subRegion->name_en}}</p>
+
                 <p><strong>Gender:</strong> {{ $designerRequest->gender }}</p>
                 <p><strong>Marital Status:</strong> {{ $designerRequest->marital_status }}</p>
-                <p><strong>Current Country:</strong> {{ $designerRequest->current_country }}</p>
-                <p><strong>Preferred City:</strong> {{ $designerRequest->preferred_city }}</p>
+
                 <p><strong>Years of Experience:</strong> {{ $designerRequest->years_of_experience }}</p>
 
 

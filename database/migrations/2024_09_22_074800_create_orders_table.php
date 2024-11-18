@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id'); // id_user
             $table->unsignedBigInteger('region_id'); // id_region
+            $table->unsignedBigInteger('sub_region_id')->nullable(); // id_sub_region (nullable)
             $table->decimal('kitchen_area', 8, 2); // مساحة المطبخ
             $table->string('kitchen_shape'); // شكل المطبخ
             $table->enum('kitchen_type', ['قديم', 'جديد']); // نوع المطبخ (قديم أو جديد)
@@ -43,6 +44,7 @@ return new class extends Migration
             // Foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade'); // علاقة بالمنطقة
+            $table->foreign('sub_region_id')->references('id')->on('sub_regions')->onDelete('set null'); // علاقة بالـ sub_region
             $table->foreign('approved_designer_id')->references('id')->on('designers')->onDelete('set null');
             $table->softDeletes();
         });

@@ -16,4 +16,10 @@ class SubRegion extends Model
     {
         return $this->belongsTo(Region::class);
     }
+
+    // علاقة sub_region بـ orders
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'sub_region_id');
+    }
 }
