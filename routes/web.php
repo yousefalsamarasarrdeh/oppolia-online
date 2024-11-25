@@ -41,15 +41,13 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
 
-    Route::get('admin/regions', [RegionController::class, 'index'])->name('admin.regions');
+
 
 });
 
 
 Route::prefix('dashboard')->middleware(['adminOrsales_manager'])->group(function () {
-    Route::get('/admin/join-as-designer', [DashboardJoinAsDesignerController::class, 'index'])->name('admin.joinasdesigner.index');
-    Route::get('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'show'])->name('admin.joinasdesigner.show');
-    Route::delete('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'destroy'])->name('admin.joinasdesigner.delete');
+    Route::get('admin/regions', [RegionController::class, 'index'])->name('admin.regions');
 });
 
 
@@ -57,6 +55,9 @@ Route::prefix('dashboard')->middleware(['adminOrsales_manager'])->group(function
 
 
 Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->group(function () {
+
+
+
     Route::get('orders', [DashboardOrderController::class, 'index'])->name('admin.orders.index');
     Route::get('orders/filter', [DashboardOrderController::class, 'filter'])->name('admin.orders.filter');
 
@@ -70,6 +71,23 @@ Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->gr
     Route::get('designer/edit/{user}', [DesignerController::class, 'showEditForm'])->name('designer.showEditForm');
     Route::post('designer/update/{user}', [DesignerController::class, 'update'])->name('designer.storeOrUpdate');
     Route::get('designer/show/{user}', [DesignerController::class, 'showDesigner'])->name('designer.show');
+
+
+    Route::get('/admin/join-as-designer/{joinasdesigner}/{notificationId}', [DashboardJoinAsDesignerController::class, 'showWithNotifaction'])->name('admin.joinasdesigner.showWhitNotficition');
+    Route::get('/admin/join-as-designer', [DashboardJoinAsDesignerController::class, 'index'])->name('admin.joinasdesigner.index');
+    Route::get('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'show'])->name('admin.joinasdesigner.show');
+    Route::delete('/admin/join-as-designer/{id}', [DashboardJoinAsDesignerController::class, 'destroy'])->name('admin.joinasdesigner.delete');
+
+
+
+    Route::get('/admin/orders/{order}/{notificationId}', [\App\Http\Controllers\Dashboard\OrderController::class, 'show'])->name('admin.order.show');
+    Route::get('/admin/notifications', [\App\Http\Controllers\Dashboard\NotificationController::class, 'index'])->name('admin.notifications.index');
+    Route::delete('/notifications/{id}', [\App\Http\Controllers\Dashboard\NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::post('/notifications/delete-all-read', [\App\Http\Controllers\Dashboard\NotificationController::class, 'deleteAllReadNotifications'])->name('notifications.deleteAllRead');
+
+
+
+
 });
 
 
@@ -115,7 +133,8 @@ Route::middleware(['designer'])->group(function () {
     Route::post('/designer/orders/{orderId}/order_draft', [OrderDraftController::class, 'store'])->name('designer.order_draft.store');
 
     Route::post('/designer/orders/{orderId}/order_draft_finalized', [OrderDraftController::class, 'store_finalized'])->name('designer.order_draft_finalized.store');
-
+    Route::delete('/notifications/{id}', [\App\Http\Controllers\Designer\NotificationController::class, 'destroy'])->name('delete.notification');
+    Route::post('/notifications/delete-all-read', [\App\Http\Controllers\Designer\NotificationController::class, 'deleteAllReadNotifications'])->name('delete.allReadnotification');
 
 
 });

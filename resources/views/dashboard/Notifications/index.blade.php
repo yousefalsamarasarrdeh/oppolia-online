@@ -1,10 +1,8 @@
-@extends('layouts.designer.mainlayout')
+@extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'Product Management')
+@section('title', 'Notification Management')
 
 @section('css')
-    <!-- هنا يمكنك تضمين أنماط CSS الخاصة بـ DataTables إذا كان لديك -->
-
     <style>
         .bg-light-blue {
             background-color: #e7f3ff; /* لون أزرق فاتح */
@@ -15,12 +13,11 @@
         .hidden {
             display: none !important;
         }
-
     </style>
+
 @endsection
 
 @section('content')
-
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -35,64 +32,68 @@
         </div>
     @endif
 
-    <section class="section dashboard">
+    <div class="mb-4">
         <h2 class="mb-4">Notifications</h2>
         <div class="row">
             <div class="col-9">
-                <button id="hideBlueButton" class="btn btn-warning  mb-3">Read</button>
-                <button id="hideGrayButton" class="btn btn-primary mb-3">UnRead</button>
-                <button id="showAllButton" class="btn btn-success mb-3">Show All</button>
+        <button id="hideBlueButton" class="btn btn-warning  mb-3">Read</button>
+        <button id="hideGrayButton" class="btn btn-primary mb-3">UnRead</button>
+        <button id="showAllButton" class="btn btn-success mb-3">Show All</button>
             </div>
+
             <div class="col-3">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    delete all Notification Read
+                   delete all Notification Read
                 </button>
             </div>
 
         </div>
 
-            <div class="row">
-
-                <!-- إشعارات المصمم -->
-                <div class="col-lg-12">
-
-                    <div class="card-body">
-
-
-                        @if($notifications1->count() > 0)
-                            <ul class="list-group">
-                                @foreach($notifications1 as $notification)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center @if(is_null($notification->read_at)) bg-light-blue @else bg-light-gray @endif">
-                                        <div>
-                                            <strong>{{ $notification->data['message'] }}</strong> - {{ $notification->created_at->diffForHumans() }}
-                                            <a href="{{ route('designer.order.show', ['order' => $notification->data['order_id'], 'notificationId' => $notification->id]) }}">
-                                                <i class="bi bi-exclamation-circle text-warning"></i>
-                                                <div>
-                                                    <p>Order ID: {{ $notification->data['order_id'] }}</p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div>
-                                            @if(is_null($notification->read_at))
-                                                <span class="badge bg-primary rounded-pill">New</span>
-                                            @else
-                                                <button class="btn btn-danger btn-sm delete-notification" data-id="{{ $notification->id }}">Delete</button>
-                                            @endif
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
+        @if($notifications1->count())
+            <ul class="list-group">
+                @foreach ($notifications1 as $notification)
+                    <li class="list-group-item d-flex justify-content-between align-items-start
+                    @if(is_null($notification->read_at))
+                        bg-light-blue
+                    @else
+                        bg-light-gray
+                    @endif">
+                        <div class="ms-2 me-auto">
+                            @if(isset($notification->data['order_id']))
+                                <div class="fw-bold">
+                                    <a href="{{ route('admin.order.show', ['order' => $notification->data['order_id'], 'notificationId' => $notification->id]) }}">
+                                        {{ $notification->data['message'] }}
+                                    </a>
+                                </div>
+                                <small>Order ID: {{ $notification->data['order_id'] }}</small>
+                            @elseif(isset($notification->data['join_as_designer_id']))
+                                <div class="fw-bold">
+                                    <a href="{{ route('admin.joinasdesigner.showWhitNotficition', ['joinasdesigner' => $notification->data['join_as_designer_id'], 'notificationId' => $notification->id]) }}">
+                                        {{ $notification->data['message'] }}
+                                    </a>
+                                </div>
+                                <small>Designer ID: {{ $notification->data['join_as_designer_id'] }}</small>
+                            @endif
+                            <br>
+                            <small>{{ $notification->created_at->diffForHumans() }}</small>
+                        </div>
+                        @if(is_null($notification->read_at))
+                            <span class="badge bg-primary rounded-pill">New</span>
                         @else
-                            <p>No notifications available.</p>
+                            <button class="btn btn-danger btn-sm delete-notification" data-id="{{ $notification->id }}">Delete</button>
                         @endif
-                    </div>
-                </div>
-            </div><!-- End Notifications Section -->
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <div class="alert alert-info mt-3">
+                No notifications to show.
+            </div>
+        @endif
+    </div>
 
-        </div>
-    </section>
 
-
+    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -101,11 +102,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    do you need delete all Notification Read
+                  do you need delete all Notification Read
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form action="{{ route('delete.allReadnotification') }}" method="POST">
+                    <form action="{{ route('notifications.deleteAllRead') }}" method="POST">
                         @csrf
                         @method('post')
                         <button type="submit" class="btn btn-danger">Yes, Delete All</button>
@@ -115,6 +116,7 @@
         </div>
     </div>
 @endsection
+
 
 @section('script')
     <script>
@@ -167,36 +169,34 @@
                         element.classList.remove('hidden'); // إزالة كلاس الإخفاء
                     });
                 });
-            } });
-    </script>
+            }
 
-
-    <script>
-        const deleteButtons = document.querySelectorAll('.delete-notification');
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const notificationId = this.getAttribute('data-id');
-                fetch(`/notifications/${notificationId}`, {
-                    method: 'delete',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Content-Type': 'application/json'
-                    },
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            this.closest('li').remove();
-                        } else {
-                            alert('Failed to delete notification. Please try again.');
-                        }
+            // حذف الإشعار عند الضغط على زر الحذف
+            const deleteButtons = document.querySelectorAll('.delete-notification');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const notificationId = this.getAttribute('data-id');
+                    fetch(`/dashboard/notifications/${notificationId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        },
                     })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                        .then(response => {
+                            if (response.ok) {
+                                this.closest('li').remove();
+                            } else {
+                                alert('Failed to delete notification. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
             });
         });
-
-
-
     </script>
 @endsection
+
+

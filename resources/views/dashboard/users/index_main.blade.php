@@ -1,10 +1,9 @@
 @extends('layouts.Dashboard.mainlayout') <!-- وراثة الواجهة الرئيسية -->
 
-@section('title', 'User Management')
+@section('title', 'إدارة المستخدمين')
 
 @section('css')
     <!-- تضمين CSS الخاص بـ DataTables -->
-    <
 @endsection
 
 @section('content')
@@ -16,38 +15,58 @@
     @endif
 
     @if (session('error'))
-        <div style="color: green;">
+        <div style="color: red;">
             {{ session('error') }}
         </div>
     @endif
 
-    <table class="table datatable">
+    <table class="table datatable" dir="rtl">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>name</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>role</th>
-            <th>action</th>
+            <th>المعرف</th>
+            <th>الاسم</th>
+            <th>البريد الإلكتروني</th>
+            <th>رقم الهاتف</th>
+            <th>الدور</th>
+            <th>الإجراء</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody style="text-align: center!important;">
         @foreach ($users as $user)
-            <tr>
+            <tr style="text-align: center!important;">
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->phone }}</td>
-                <td>{{ $user->role }}</td>
+                <td>
+                    @switch($user->role)
+                        @case('admin')
+                        مدير النظام
+                        @break
+                        @case('designer')
+                        مصمم
+                        @break
+                        @case('user')
+                        مستخدم
+                        @break
+                        @case('Sales manager')
+                        مدير المبيعات
+                        @break
+                        @case('Area manager')
+                        مدير المنطقة
+                        @break
+                        @default
+                        غير معروف
+                    @endswitch
+                </td>
                 <td>
                     <!-- زر التعديل -->
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">تعديل</a>
                     <!-- زر الحذف -->
                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد أنك تريد حذف هذا المستخدم؟')">حذف</button>
                     </form>
                 </td>
             </tr>
@@ -55,10 +74,5 @@
         </tbody>
     </table>
 
-    <!-- إضافة سكربت Simple DataTables -->
-
-
-
 
 @endsection
-

@@ -65,4 +65,28 @@ class OrderController extends Controller
 
         return view('dashboard.orders.index', compact('orders', 'orderCount', 'designers', 'regions'));
     }
+
+
+    public function show(Order $order, $notificationId)
+    {
+        // جلب المستخدم الحالي
+        $user = auth()->user();
+
+        // جلب الإشعار المحدد بناءً على الـ notificationId وتحديث حالته إلى مقروء
+        $notification = $user->notifications()->where('id', $notificationId)->first();
+
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        // جلب الإشعارات الغير مقروءة
+        $notifications = $user->unreadNotifications;
+
+        // عرض صفحة تفاصيل الطلب مع إمكانية القبول أو الرفض
+        return view('dashboard.orders.show', [
+            'order' => $order,
+            'notifications' => $notifications,
+        ]);
+    }
+
 }

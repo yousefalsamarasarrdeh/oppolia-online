@@ -39,7 +39,7 @@ class OrderController extends Controller
                 'meeting_time' => 'required|date',
                 'length_step' => 'required|numeric',
                 'width_step' => 'required|numeric',
-                'geocode_string' => 'required|string',
+              //  'geocode_string' => 'required|string',
                 'region_name' => 'required|string', // اسم sub_region مطلوب
             ]);
 
@@ -76,7 +76,8 @@ class OrderController extends Controller
                 'meeting_time' => $request->meeting_time,
                 'length_step' => $request->length_step,
                 'width_step' => $request->width_step,
-                'geocode_string' => $request->geocode_string, // إضافة geocode_string هنا
+             //   'geocode_string' => $request->geocode_string, // إضافة geocode_string هنا
+                'geocode_string' => '111',
                 'order_status' => 'pending', // حالة الطلب الافتراضية
                 'processing_stage' => 'stage_one',  // مرحلة الطلب الافتراضية
             ]);

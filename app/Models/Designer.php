@@ -37,5 +37,7 @@ class Designer extends Model
     {
         return $this->hasMany(Order::class, 'approved_designer_id');
     }
+
+
 }
 

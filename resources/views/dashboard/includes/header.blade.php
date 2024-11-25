@@ -1,5 +1,29 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
+    <style>
+        .dropdown-menu.notifications {
+            max-height: 300px; /* أو أي ارتفاع يناسبك */
+            overflow-y: auto;
+        }
+        .dropdown-menu.notifications {
+            scrollbar-width: thin; /* لتقليل عرض شريط التمرير */
+            scrollbar-color: #007bff #f1f1f1; /* تغيير ألوان شريط التمرير */
+        }
+
+        .dropdown-menu.notifications::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .dropdown-menu.notifications::-webkit-scrollbar-thumb {
+            background: #007bff;
+            border-radius: 10px;
+        }
+
+        .dropdown-menu.notifications::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+    </style>
     <div class="d-flex align-items-center justify-content-between">
         <a href="mainlayout.blade.php" class="logo d-flex align-items-center">
             <img src="{{url('Dashboard/assets/img/Oppolia-logo-website.png')}}" alt="">
@@ -37,22 +61,38 @@
                         </li>
                         <li><hr class="dropdown-divider"></li>
 
-                        @foreach ($notifications as $notification)
-                            <li class="notification-item">
-                                <a href="{{ route('designer.order.show', ['order' => $notification->data['order_id'], 'notificationId' => $notification->id]) }}">
-                                    <i class="bi bi-exclamation-circle text-warning"></i>
-                                    <div>
-                                        <h4>{{ $notification->data['message'] }}</h4>
-                                        <p>Order ID: {{ $notification->data['order_id'] }}</p>
-                                        <p>{{ $notification->created_at->diffForHumans() }}</p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
+                    @foreach ($notifications as $notification)
+                        <!-- تحقق من وجود order_id -->
+                            @if(isset($notification->data['order_id']))
+                                <li class="notification-item">
+                                    <a href="{{ route('admin.order.show', ['order' => $notification->data['order_id'], 'notificationId' => $notification->id]) }}">
+                                        <i class="bi bi-exclamation-circle text-warning"></i>
+                                        <div>
+                                            <h4>{{ $notification->data['message'] }}</h4>
+                                            <p>Order ID: {{ $notification->data['order_id'] }}</p>
+                                            <p>{{ $notification->created_at->diffForHumans() }}</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <!-- تحقق من وجود join_as_designer_id -->
+                            @elseif(isset($notification->data['join_as_designer_id']))
+                                <li class="notification-item">
+                                    <a href="{{ route('admin.joinasdesigner.showWhitNotficition', ['joinasdesigner' => $notification->data['join_as_designer_id'], 'notificationId' => $notification->id]) }}">
+                                        <i class="bi bi-person-circle text-info"></i>
+                                        <div>
+                                            <h4>{{ $notification->data['message'] }}</h4>
+                                            <p>Designer ID: {{ $notification->data['join_as_designer_id'] }}</p>
+                                            <p>{{ $notification->created_at->diffForHumans() }}</p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                            @endif
                         @endforeach
 
                         <li class="dropdown-footer">
-                            <a href="{{ route('designer.notification') }}">Show all notifications</a>
+                            <a href="{{ route('admin.notifications.index') }}">Show all notifications</a>
                         </li>
                     </ul><!-- End Notification Dropdown Items -->
                 @else
@@ -63,6 +103,8 @@
                     </ul>
                 @endif
             </li><!-- End Notification Nav -->
+
+
 
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">

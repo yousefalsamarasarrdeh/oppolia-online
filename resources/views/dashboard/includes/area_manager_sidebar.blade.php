@@ -43,6 +43,13 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{route('admin.joinasdesigner.index')}}">
+                <i class="bi bi-card-list"></i>
+                <span>Join as designer</span>
+            </a>
+        </li>
+
 
 
     </ul>
