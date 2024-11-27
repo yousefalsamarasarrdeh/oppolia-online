@@ -32,9 +32,9 @@ class SurveyQuestionController extends Controller
                 'expected_delivery_time' => 'nullable|string',
                 'client_budget' => 'nullable|numeric',
                 'kitchen_room_size' => 'nullable|string',
-                'kitchen_use' => 'nullable|string',
+                'kitchen_use' => 'nullable|array', // تعديل ليتحقق من أن المدخلات هي مصفوفة
                 'kitchen_style_preference' => 'nullable|string',
-                'appliances_needed' => 'nullable|string',
+                'appliances_needed' => 'nullable|array', // تعديل ليتحقق من أن المدخلات هي مصفوفة
                 'sink_type' => 'nullable|string',
                 'worktop_preference' => 'nullable|string',
                 'general_info' => 'nullable|string',
@@ -45,6 +45,7 @@ class SurveyQuestionController extends Controller
                 'measurements_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // التحقق من الصور
             ]);
 
+            // إذا كان هناك صور للقياسات، نقوم بتخزينها
             $measurementsImagesPaths = [];
             if ($request->hasFile('measurements_images')) {
                 foreach ($request->file('measurements_images') as $measurementImage) {
@@ -53,7 +54,6 @@ class SurveyQuestionController extends Controller
                 }
             }
 
-
             // إنشاء استبيان جديد في جدول survey_questions مع الحقول الجديدة
             \App\Models\SurveyQuestion::create([
                 'order_id' => $order->id,
@@ -61,9 +61,9 @@ class SurveyQuestionController extends Controller
                 'expected_delivery_time' => $validated['expected_delivery_time'],
                 'client_budget' => $validated['client_budget'],
                 'kitchen_room_size' => $validated['kitchen_room_size'],
-                'kitchen_use' => $validated['kitchen_use'],
+                'kitchen_use' => json_encode($validated['kitchen_use']), // تخزين كـ JSON
                 'kitchen_style_preference' => $validated['kitchen_style_preference'],
-                'appliances_needed' => $validated['appliances_needed'],
+                'appliances_needed' => json_encode($validated['appliances_needed']), // تخزين كـ JSON
                 'sink_type' => $validated['sink_type'],
                 'worktop_preference' => $validated['worktop_preference'],
                 'general_info' => $validated['general_info'],
@@ -71,7 +71,7 @@ class SurveyQuestionController extends Controller
                 'next_steps_strategy' => $validated['next_steps_strategy'],
                 'reminder_details' => $validated['reminder_details'],
                 'deal_closing_likelihood' => $validated['deal_closing_likelihood'],
-                'measurements_images' => json_encode($measurementsImagesPaths),
+                'measurements_images' => json_encode($measurementsImagesPaths), // تخزين مسارات الصور كـ JSON
             ]);
 
             // تحديث مرحلة المعالجة إلى "stage_four" أو المرحلة المطلوبة
@@ -81,7 +81,7 @@ class SurveyQuestionController extends Controller
 
             // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')
-                ->with('success', 'Survey submitted and order processing stage updated successfully.')
+                ->with('success', 'تم إرسال الاستبيان وتم تحديث مرحلة معالجة الطلب بنجاح.')
                 ->with('notifications', $notifications);
 
         } catch (\Exception $e) {
@@ -90,5 +90,6 @@ class SurveyQuestionController extends Controller
                 ->with('error', 'An error occurred while submitting the survey: ' . $e->getMessage());
         }
     }
+
 
 }

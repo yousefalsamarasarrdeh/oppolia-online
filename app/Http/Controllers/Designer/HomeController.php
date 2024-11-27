@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
+use App\Notifications\OrderAcceptedByDesignerNotification;
+use App\Models\User;
+
 
 
 class HomeController extends Controller
@@ -56,6 +59,8 @@ class HomeController extends Controller
         try {
             // الحصول على المصمم الحالي
             $designer = auth()->user()->designer;
+            $reginid = auth()->user()->region_id;
+
 
             // تحديث الطلب بالمعلومات الجديدة
             $order->update([
@@ -63,26 +68,51 @@ class HomeController extends Controller
                 'processing_stage' => 'stage_two', // تعيين المرحلة التالية
                 'order_status' => 'accepted' // تعيين حالة الطلب
             ]);
-            $message = "One of the designers has approved your request";
 
-            // إرسال الـ SMS باستخدام رقم هاتف المستخدم المرتبط بالطلب
-            $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+            // رسالة SMS للمستخدم
+            $smsMessage = "لقد وافق أحد المصممين على طلبك رقم {$order->id}.";
+
+            // إرسال الـ SMS
+            Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
-                'message' => $message,
+                'message' => $smsMessage,
                 'sender' => env('SMS_SENDER'),
-                'numbers' => $order->user->phone // الوصول إلى رقم هاتف المستخدم
+                'numbers' => $order->user->phone // رقم المستخدم
             ]);
 
+            // إرسال الإشعار للمستخدم
+            $userNotificationMessage = "تمت الموافقة على طلبك رقم {$order->id} من قبل المصمم {$designer->user->name}.";
+            $order->user->notify(new OrderAcceptedByDesignerNotification($order, $designer, $userNotificationMessage));
+
+            // إرسال الإشعار لمدير المنطقة
+            $regionManager = User::where('role', 'Area manager')
+                ->where('region_id', $reginid) // مدير المنطقة حسب منطقة المصمم
+                ->first();
+
+
+            if ($regionManager) {
+                $regionManagerNotificationMessage = "المصمم {$designer->user->name} وافق على الطلب رقم {$order->id} الخاص بمنطقته.";
+                $regionManager->notify(new OrderAcceptedByDesignerNotification($order, $designer, $regionManagerNotificationMessage));
+            }
+
+            // إرسال الإشعار لمدير المبيعات
+            $salesManager = User::where('role', 'Sales manager')->first(); // الحصول على مدير المبيعات
+            if ($salesManager) {
+                $salesManagerNotificationMessage = "تمت الموافقة على الطلب رقم {$order->id} من قبل المصمم {$designer->user->name}.";
+                $salesManager->notify(new OrderAcceptedByDesignerNotification($order, $designer, $salesManagerNotificationMessage));
+            }
 
             // إعادة توجيه مع رسالة نجاح
-            return redirect()->back()->with('success', 'Order accepted successfully.');
+            return redirect()->back()->with('success', 'تمت الموافقة على الطلب وتم إرسال الإشعارات.');
 
         } catch (\Exception $e) {
             // التعامل مع أي أخطاء تحدث أثناء عملية التحديث
-            return redirect()->back()->with('error', 'There was an error accepting the order: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'حدث خطأ أثناء الموافقة على الطلب: ' . $e->getMessage());
         }
     }
+
+
 
     // رفض الطلب
     public function reject(Order $order)
@@ -115,8 +145,8 @@ class HomeController extends Controller
         // استرجاع الطلبات التي وافق عليها المصمم الحالي
         $approvedOrders = Order::where('approved_designer_id', $designer->id)
             ->where('order_status', 'accepted')
+            ->orderBy('created_at', 'desc') // ترتيب من الأحدث إلى الأقدم
             ->get();
-
         // استرجاع الإشعارات غير المقروءة
         $notifications = $designer->unreadNotifications;
 

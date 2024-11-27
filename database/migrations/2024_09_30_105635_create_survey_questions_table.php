@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id'); // مرتبط بالطلب
             $table->string('hear_about_oppolia')->nullable(); // كيف سمعت بابوليا
-            $table->string('expected_delivery_time')->nullable(); // وقت التسليم المتوقع
+            $table->date('expected_delivery_time')->nullable(); // وقت التسليم المتوقع
             $table->decimal('client_budget', 10, 2)->nullable(); // ميزانية العميل
             $table->string('kitchen_room_size')->nullable(); // حجم المطبخ
-            $table->string('kitchen_use')->nullable(); // استخدام المطبخ متعدد الاختيارات
+            $table->json('kitchen_use')->nullable(); // استخدام المطبخ متعدد الاختيارات
             $table->string('kitchen_style_preference')->nullable(); // النمط المفضل للمطبخ
-            $table->string('appliances_needed')->nullable(); // الأجهزة المطلوبة متعدد الاختيارات
+            $table->json('appliances_needed')->nullable(); // الأجهزة المطلوبة متعدد الاختيارات
             $table->string('sink_type')->nullable(); // نوع الحوض
             $table->string('worktop_preference')->nullable(); // نوع سطح العمل المفضل
             $table->text('general_info')->nullable(); // معلومات عامة عن الموقع والبناء

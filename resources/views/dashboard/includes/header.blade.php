@@ -97,8 +97,9 @@
                     </ul><!-- End Notification Dropdown Items -->
                 @else
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                        <li class="dropdown-header">
-                            No new notifications
+
+                        <li class="dropdown-footer">
+                            <a href="{{ route('admin.notifications.index') }}">Show all notifications</a>
                         </li>
                     </ul>
                 @endif

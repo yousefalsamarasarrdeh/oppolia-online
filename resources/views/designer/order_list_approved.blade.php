@@ -1,6 +1,6 @@
 @extends('layouts.designer.mainlayout')
 
-@section('title', 'Approved Orders')
+@section('title', 'الطلبات المعتمدة')
 
 @section('css')
     <style>
@@ -26,15 +26,15 @@
 @endsection
 
 @section('content')
-    <div class="pagetitle">
-        <h1>Approved Orders</h1>
+    <div class="pagetitle" dir="rtl" >
+        <h1>الطلبات المعتمدة</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Approved Orders</li>
+                <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
+                <li class="breadcrumb-item active">الطلبات المعتمدة</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div><!-- نهاية عنوان الصفحة -->
 
     <!-- عرض رسائل النجاح أو الفشل -->
     @if(session('success'))
@@ -49,24 +49,25 @@
         </div>
     @endif
 
-    <section class="section dashboard">
+    <section class="section dashboard " dir="rtl" >
         <div class="row">
 
             <!-- عرض الطلبات التي وافق عليها المصمم -->
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Orders You Approved</h5>
+                        <h5 class="card-title">الطلبات التي قمت بالموافقة عليها</h5>
 
                         @if($approvedOrders->count() > 0)
                             <table class="table table-striped table table-bordered datatable">
                                 <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>User Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Processing Stage</th>
-                                    <th>Actions</th> <!-- إضافة عمود للإجراءات -->
+                                    <th>رقم الطلب</th>
+                                    <th>اسم المستخدم</th>
+                                    <th>رقم الهاتف</th>
+                                    <th>مرحلة المعالجة</th>
+                                    <th>تاريخ الطلب</th>
+                                    <th>الإجراءات</th> <!-- إضافة عمود للإجراءات -->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -76,22 +77,23 @@
                                         <td>{{ $order->user->name }}</td>
                                         <td>{{ $order->user->phone }}</td> <!-- تأكد من وجود حقل phone_number في جدول المستخدم -->
                                         <td>{{ $order->processing_stage }}</td>
+                                        <td>{{ $order->created_at }}</td>
                                         <td>
                                             <!-- زر عرض الطلب -->
-                                            <a href="{{ route('designer.order.show_without_notification', ['order' => $order->id]) }}" class="btn-view-order">View Order</a>
-                                            <!-- زر Processing -->
-                                            <a href="{{ route('designer.order.processing', ['order' => $order->id]) }}" class="btn-processing">Processing</a>
+                                            <a href="{{ route('designer.order.show_without_notification', ['order' => $order->id]) }}" class="btn-view-order">عرض الطلب</a>
+                                            <!-- زر المعالجة -->
+                                            <a href="{{ route('designer.order.processing', ['order' => $order->id]) }}" class="btn-processing">معالجة</a>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         @else
-                            <p>No approved orders found.</p>
+                            <p>لا توجد طلبات معتمدة.</p>
                         @endif
                     </div>
                 </div>
-            </div><!-- End Approved Orders Section -->
+            </div><!-- نهاية قسم الطلبات المعتمدة -->
 
         </div>
     </section>

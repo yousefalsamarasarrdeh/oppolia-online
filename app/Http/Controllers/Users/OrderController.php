@@ -18,8 +18,8 @@ use App\Models\SubRegion;
 class OrderController extends Controller
 {
     public function create()
-    {
-        return view('user.order_create');
+    {  $notifications= auth()->user()->unreadNotifications;
+        return view('user.order_create', compact( 'notifications'));
     }
 
     // حفظ الطلب المقدم
@@ -124,12 +124,13 @@ class OrderController extends Controller
     try {
         // Get the current authenticated user
         $user = Auth::user();
+        $notifications= auth()->user()->unreadNotifications;
 
         // Get all orders for the current user
         $orders = Order::where('user_id', $user->id)->get();
 
         // Return the view with the orders
-        return view('User.my_orders', compact('orders'));
+        return view('User.my_orders', compact('orders','notifications'));
      } catch (\Exception $e) {
         // Log the error for debugging purposes
         Log::error('Error fetching user orders: '.$e->getMessage());
@@ -139,10 +140,19 @@ class OrderController extends Controller
       }
     }
 
-    public function show($orderId)
+    public function show($orderId,$notificationId = null)
     {
         // جلب الطلب بناءً على الـ ID مع المسودات
         $order = Order::with('orderDraft')->findOrFail($orderId);
+        $notification =auth()->user()->notifications()->where('id', $notificationId)->first();
+
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        $notifications= auth()->user()->unreadNotifications;
+
+
 
         // البحث عن مسودة بحالة "finalized"
         $orderDraft = $order->orderDraft->first(function ($draft) {
@@ -159,7 +169,7 @@ class OrderController extends Controller
             $orderDraft = collect([$orderDraft]);
         }
 
-        return view('User.show_order', compact('order', 'orderDraft'));
+        return view('User.show_order', compact('order', 'orderDraft','notifications'));
     }
 
     public function changeDesigner(Request $request, Order $order)

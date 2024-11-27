@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
+use App\Models\User;
+use App\Notifications\DesignerMeetingNotification;
 
 
 class DesignerMeetingCustomerController extends Controller
@@ -19,7 +21,7 @@ class DesignerMeetingCustomerController extends Controller
         try {
             // جلب الطلب باستخدام $orderId
             $order = Order::findOrFail($orderId);
-
+            $regionId = auth()->user()->region_id;
             // جلب المصمم الحالي
             $designer = auth()->user()->designer;
             $notifications = $designer->unreadNotifications;
@@ -46,10 +48,20 @@ class DesignerMeetingCustomerController extends Controller
             $order->update([
                 'processing_stage' => 'stage_three',
             ]);
+            $regionManager = User::where('role', 'Area manager')
+                ->where('region_id', $regionId) // مدير المنطقة حسب منطقة المصمم
+                ->first();
+
+            // إرسال إشعار إلى مدير المنطقة إذا كان موجودًا
+            if ($regionManager) {
+
+                $regionManager->notify(new DesignerMeetingNotification($order, $designer, $validated['meeting_time']));
+            }
+
 
             // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')
-                ->with('success', 'Meeting created and order processing stage updated successfully.')
+                ->with('success', 'تم إنشاء الاجتماع وتحديث مرحلة معالجة الطلب بنجاح.')
                 ->with('notifications', $notifications);
 
         } catch (\Exception $e) {

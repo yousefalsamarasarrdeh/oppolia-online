@@ -36,16 +36,16 @@
     @endif
 
     <section class="section dashboard">
-        <h2 class="mb-4">Notifications</h2>
+        <h2 class="mb-4">الاشعارات</h2>
         <div class="row">
             <div class="col-9">
-                <button id="hideBlueButton" class="btn btn-warning  mb-3">Read</button>
-                <button id="hideGrayButton" class="btn btn-primary mb-3">UnRead</button>
-                <button id="showAllButton" class="btn btn-success mb-3">Show All</button>
+                <button id="hideBlueButton" class="btn btn-warning  mb-3">مقروء</button>
+                <button id="hideGrayButton" class="btn btn-primary mb-3">غير مقروء</button>
+                <button id="showAllButton" class="btn btn-success mb-3">عرض الكل</button>
             </div>
             <div class="col-3">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    delete all Notification Read
+                    حذف كل الإشعارات المقروءة
                 </button>
             </div>
 
@@ -74,9 +74,9 @@
                                         </div>
                                         <div>
                                             @if(is_null($notification->read_at))
-                                                <span class="badge bg-primary rounded-pill">New</span>
+                                                <span class="badge bg-primary rounded-pill">جديد</span>
                                             @else
-                                                <button class="btn btn-danger btn-sm delete-notification" data-id="{{ $notification->id }}">Delete</button>
+                                                <button class="btn btn-danger btn-sm delete-notification" data-id="{{ $notification->id }}">حذف</button>
                                             @endif
                                         </div>
                                     </li>

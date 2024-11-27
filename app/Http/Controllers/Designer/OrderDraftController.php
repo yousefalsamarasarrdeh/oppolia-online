@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDraft;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\OrderDraftNotification;
 
 class OrderDraftController extends Controller
 {
@@ -77,7 +79,7 @@ class OrderDraftController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone // الوصول إلى رقم هاتف المستخدم
             ]);
-
+            Notification::send($order->user, new OrderDraftNotification($order));
             // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')
                 ->with('success', 'Order draft created successfully and order processing stage updated.')
@@ -157,6 +159,8 @@ class OrderDraftController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone // الوصول إلى رقم هاتف المستخدم
             ]);
+
+
 
             // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')

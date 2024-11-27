@@ -169,7 +169,7 @@
           <li class="nav-item">
               <a class="nav-link " href="index.html">
                   <i class="bi bi-grid"></i>
-                  <span>Dashboard</span>
+                  <span>لوحة التحكم</span>
               </a>
           </li><!-- End Dashboard Nav -->
 
@@ -177,12 +177,12 @@
 
           <li class="nav-item">
               <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                  <i class="bi bi-journal-text"></i><span>Order</span><i class="bi bi-chevron-down ms-auto"></i>
+                  <i class="bi bi-journal-text"></i><span>الطلبات</span><i class="bi bi-chevron-down ms-auto"></i>
               </a>
               <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                   <li>
                       <a href="{{route('designer.approved.orders')}}">
-                          <i class="bi bi-circle"></i><span>Order accept</span>
+                          <i class="bi bi-circle"></i><span>الطلبات التي قبلتها</span>
                       </a>
                   </li>
 

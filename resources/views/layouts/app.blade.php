@@ -71,6 +71,47 @@
                     </ul>
                 </div>
             </div>
+
+            @if(isset($notifications) && $notifications->isNotEmpty())
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-primary badge-number">{{ $notifications->count() }}</span>
+                    </a><!-- End Notification Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                        <li class="dropdown-header">
+                            You have {{ $notifications->count() }} new notifications
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+
+                        @foreach ($notifications as $notification)
+                            <li class="notification-item">
+                                <a href="{{ route('user.order.show', ['order' => $notification->data['order_id'], 'notificationId' => $notification->id]) }}">
+                                    <i class="bi bi-exclamation-circle text-warning"></i>
+                                    <div>
+                                        <h4>{{ $notification->data['message'] }}</h4>
+                                        <p>Order ID: {{ $notification->data['order_id'] }}</p>
+                                        <p>{{ $notification->created_at->diffForHumans() }}</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                        @endforeach
+
+                        <li class="dropdown-footer">
+                            <a href="{{ route('user.notifications.index') }}">Show all notifications</a>
+                        </li>
+                    </ul><!-- End Notification Dropdown Items -->
+                </li><!-- End Notification Nav -->
+
+            @else<li class="dropdown-footer">
+                <a href="{{ route('user.notifications.index') }}">Show all notifications</a>
+            </li>
+            @endif
+
+
         </nav>
 
         <main class="py-4">

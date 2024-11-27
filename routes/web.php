@@ -95,6 +95,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.myOrders');
+    Route::get('/order/{order}/{notificationId}', [OrderController::class, 'show'])->name('user.order.show');
     Route::get('/order/{order}', [OrderController::class, 'show'])->name('order.show');
     // قبول التصميم
     Route::post('/order/{order}/accept-draft/{draft}', [OrderController::class, 'acceptDraft'])->name('order.acceptDraft');
@@ -102,6 +103,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/order/{order}/redesign-draft/{draft}', [OrderController::class, 'redesignDraft'])->name('order.redesignDraft');
 // تغيير المصمم
     Route::post('/order/{order}/change-designer', [OrderController::class, 'changeDesigner'])->name('order.changeDesigner');
+
+
+    Route::get('user/notifications', [\App\Http\Controllers\Users\NotificationController::class, 'index'])->name('user.notifications.index');
 });
 
 

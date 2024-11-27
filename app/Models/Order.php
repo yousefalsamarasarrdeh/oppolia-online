@@ -55,14 +55,14 @@ class Order extends Model
         return $this->belongsTo(Designer::class, 'approved_designer_id');
     }
 
-    public function designerMeetings()
+    public function designerMeeting()
     {
-        return $this->hasMany(DesignerMeetingCustomer::class);
+        return $this->hasOne(DesignerMeetingCustomer::class);
     }
 
-    public function surveyQuestions()
+    public function surveyQuestion()
     {
-        return $this->hasMany(SurveyQuestion::class);
+        return $this->hasOne(SurveyQuestion::class);
     }
 
     public function orderDraft()
