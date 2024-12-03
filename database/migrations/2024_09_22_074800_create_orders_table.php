@@ -35,7 +35,8 @@ return new class extends Migration
                 'stage_four',
                 'stage_five',
                 'stage_six',
-                'stage_seven'
+                'stage_seven',
+                'change_designer'
             ])->default('stage_one');
             $table->unsignedBigInteger('approved_designer_id')->nullable(); // المصمم الموافق
 

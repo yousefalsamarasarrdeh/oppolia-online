@@ -187,8 +187,8 @@
 
                             <!-- رفع صور القياسات -->
                             <div class="mb-3">
-                                <label for="measurements_images" class="form-label">رفع صور القياسات</label>
-                                <input type="file" class="form-control" name="measurements_images[]" id="measurements_images" multiple>
+                                <label for="measurements_images" class="form-label" >رفع صور القياسات</label>
+                                <input type="file" class="form-control" name="measurements_images[]" id="measurements_images" multiple required>
                             </div>
 
                             <!-- زر إرسال الاستبيان -->

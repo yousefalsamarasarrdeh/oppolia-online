@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Designer;
 use App\Models\Region;
+use App\Notifications\DesignerAssigned;
 
 class OrderController extends Controller
 {
@@ -71,6 +73,15 @@ class OrderController extends Controller
     {
         // جلب المستخدم الحالي
         $user = auth()->user();
+       // $designers=Designer::all();
+        $region = $order->region;
+
+
+        $designers = Designer::whereHas('user.region', function($query) use ($region) {
+            $query->where('id', $region->id);
+        })->get();
+
+
 
         // جلب الإشعار المحدد بناءً على الـ notificationId وتحديث حالته إلى مقروء
         $notification = $user->notifications()->where('id', $notificationId)->first();
@@ -86,7 +97,32 @@ class OrderController extends Controller
         return view('dashboard.orders.show', [
             'order' => $order,
             'notifications' => $notifications,
+            'designers'=> $designers
         ]);
+    }
+
+    public function changeDesigner(Request $request, Order $order)
+    {
+
+        // التحقق إذا كان الطلب موجودًا والمستخدم لديه الصلاحيات
+        $validated = $request->validate([
+            'designer_id' => 'required|exists:designers,id', // تحقق من وجود المصمم في قاعدة البيانات
+        ]);
+
+        // العثور على المصمم المختار
+        $designer = Designer::find($validated['designer_id']);
+
+        // تحديث الـ approved_designer_id في الطلب
+        $order->approved_designer_id = $designer->id;
+        $order->processing_stage='stage_four';
+        $order->order_status='accepted';
+        $order->update();
+
+        $designer->notify(new DesignerAssigned($order, $designer));
+
+        // إرجاع إلى صفحة تفاصيل الطلب مع رسالة نجاح
+        return redirect()->route('admin.orders.index', $order->id)
+            ->with('success', 'تم تغيير المصمم بنجاح!');
     }
 
 }

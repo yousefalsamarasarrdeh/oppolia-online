@@ -28,23 +28,22 @@ class SurveyQuestionController extends Controller
 
             // التحقق من المدخلات بناءً على الحقول الجديدة
             $validated = $request->validate([
-                'hear_about_oppolia' => 'nullable|string',
-                'expected_delivery_time' => 'nullable|string',
-                'client_budget' => 'nullable|numeric',
-                'kitchen_room_size' => 'nullable|string',
-                'kitchen_use' => 'nullable|array', // تعديل ليتحقق من أن المدخلات هي مصفوفة
-                'kitchen_style_preference' => 'nullable|string',
-                'appliances_needed' => 'nullable|array', // تعديل ليتحقق من أن المدخلات هي مصفوفة
-                'sink_type' => 'nullable|string',
-                'worktop_preference' => 'nullable|string',
-                'general_info' => 'nullable|string',
-                'customer_concerns' => 'nullable|string',
-                'next_steps_strategy' => 'nullable|string',
-                'reminder_details' => 'nullable|date',
-                'deal_closing_likelihood' => 'nullable|integer|min:1|max:10',
-                'measurements_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // التحقق من الصور
+                'hear_about_oppolia' => 'required|string',  // أصبح مطلوبًا
+                'expected_delivery_time' => 'required|string',  // أصبح مطلوبًا
+                'client_budget' => 'required|numeric',  // أصبح مطلوبًا
+                'kitchen_room_size' => 'required|string',  // أصبح مطلوبًا
+                'kitchen_use' => 'required|array',  // أصبح مطلوبًا ويجب أن يكون مصفوفة
+                'kitchen_style_preference' => 'required|string',  // أصبح مطلوبًا
+                'appliances_needed' => 'required|array',  // أصبح مطلوبًا ويجب أن يكون مصفوفة
+                'sink_type' => 'required|string',  // أصبح مطلوبًا
+                'worktop_preference' => 'required|string',  // أصبح مطلوبًا
+                'general_info' => 'required|string',  // أصبح مطلوبًا
+                'customer_concerns' => 'required|string',  // أصبح مطلوبًا
+                'next_steps_strategy' => 'required|string',  // أصبح مطلوبًا
+                'reminder_details' => 'required|date',  // أصبح مطلوبًا ويجب أن يكون تاريخ
+                'deal_closing_likelihood' => 'required|integer|min:1|max:10',  // أصبح مطلوبًا ويجب أن يكون عددًا صحيحًا
+                'measurements_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',  // أصبح مطلوبًا ويجب أن تكون صور
             ]);
-
             // إذا كان هناك صور للقياسات، نقوم بتخزينها
             $measurementsImagesPaths = [];
             if ($request->hasFile('measurements_images')) {

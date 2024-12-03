@@ -60,6 +60,7 @@ Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->gr
 
     Route::get('orders', [DashboardOrderController::class, 'index'])->name('admin.orders.index');
     Route::get('orders/filter', [DashboardOrderController::class, 'filter'])->name('admin.orders.filter');
+    Route::patch('orders/{order}/change-designer', [DashboardOrderController::class, 'changeDesigner'])->name('dashboard.orders.changeDesigner');
 
     Route::get('users_main', [AdminUserManagement::class, 'main_index'])->name('admin.users.index.main');
     Route::get('/users/{user}/edit', [AdminUserManagement::class, 'edit'])->name('users.edit');

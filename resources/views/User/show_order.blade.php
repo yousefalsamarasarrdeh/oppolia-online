@@ -69,7 +69,9 @@
                     <th>الحالة</th>
                     <th>ملفات الصور</th>
                     <th>ملف PDF</th>
+                    @if ($order->processing_stage != 'stage_six')
                     <th>إجراءات</th>
+                        @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -95,6 +97,7 @@
                             @endif
                         </td>
                         <td>
+
                             <!-- أزرار التحكم -->
                             @if($draft->state === 'finalized')
                                 <form action="#" method="POST" style="display:inline;">
@@ -102,18 +105,20 @@
                                     <button type="submit" class="btn btn-primary">شراء</button>
                                 </form>
                             @else
-                                <form action="{{ route('order.acceptDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">قبول التصميم</button>
-                                </form>
-                                <form action="{{ route('order.redesignDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger">إعادة التصميم</button>
-                                </form>
-                                <form action="{{ route('order.changeDesigner', $order->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-warning">تغيير المصمم</button>
-                                </form>
+                                @if ($order->processing_stage != 'stage_six')
+                                    <form action="{{ route('order.acceptDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">قبول التصميم</button>
+                                    </form>
+                                    <form action="{{ route('order.redesignDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">إعادة التصميم</button>
+                                    </form>
+                                    <form action="{{ route('order.changeDesigner', $order->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-warning">تغيير المصمم</button>
+                                    </form>
+                                @endif
                             @endif
                         </td>
                     </tr>

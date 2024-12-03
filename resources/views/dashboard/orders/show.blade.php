@@ -27,6 +27,31 @@
         </div>
     @endif
 
+    @if($order->approved_designer_id == null && $order->orderDraft && $order->processing_stage =='change_designer')
+        <p><strong>ملاحظة:</strong> العميل طلب تغيير المصمم.</p>
+
+        <form action="{{ route('dashboard.orders.changeDesigner', $order->id) }}" method="POST">
+            @csrf
+            @method('PATCH')
+
+            <div class="form-group">
+                <label for="designer_id"><strong>اختر المصمم:</strong></label>
+                <select name="designer_id" id="designer_id" class="form-control" required>
+                    <option value="" disabled selected>اختر المصمم</option>
+                    @foreach($designers as $designer)
+                        @if($designer->user)
+                            <option value="{{ $designer->id }}">{{ $designer->user->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">تغيير المصمم</button>
+        </form>
+    @endif
+
+
+
     <div class="container" dir="rtl">
         <h1>تفاصيل الطلب</h1>
 
@@ -54,6 +79,9 @@
         @endphp
 
         <div class="designer-info">
+            @isset($order->approved_designer_id)
+                <p><strong>اسم المصمم:</strong> {{ $order->designer->user->name }}</p>
+
             @if ($order->designerMeeting)
                 <h2>تفاصيل زيارة المصمم</h2>
                 <p><strong>اسم المصمم:</strong> {{ $order->designerMeeting->order->designer->user->name }}</p>
@@ -61,6 +89,7 @@
             @else
                 <p>لم يتم تحديد موعد زيارة المصمم بعد.</p>
             @endif
+            @endisset
         </div>
 
         <div class="survey-questions">
@@ -97,6 +126,53 @@
         </div>
 
     </div>
+
+    @if ($order->orderDraft->count() > 0)
+        <h2>مسودات الطلب</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>السعر</th>
+                <th>الصور</th>
+                <th>PDF</th>
+                <th>الحالة</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($order->orderDraft as $draft)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $draft->price }}SAR</td>
+                    <td>
+                        @if (!empty($draft->images))
+                            <ul>
+                                @foreach (json_decode($draft->images, true) as $image)
+                                    <li>
+                                        <img src="{{ asset('storage/' . $image) }}" alt="صورة" style="max-width: 100px;">
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p>لا توجد صور.</p>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($draft->pdf)
+                            <a href="{{ asset('storage/' . $draft->pdf) }}" target="_blank">عرض PDF</a>
+                        @else
+                            <p>لا يوجد ملف PDF.</p>
+                        @endif
+                    </td>
+                    <td>{{ $draft->state }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+        @else
+
+        @endif
+        </div>
 @endsection
 
 @section('script')

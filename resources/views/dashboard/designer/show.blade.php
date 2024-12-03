@@ -1,6 +1,6 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'Designer Management')
+@section('title', 'إدارة المصممين')
 
 @section('css')
     <!-- هنا يمكنك تضمين أنماط CSS الخاصة بـ DataTables إذا كان لديك -->
@@ -14,46 +14,50 @@
             {{ session('success') }}
         </div>
     @endif
+    <div class="container" dir="rtl">
 
-    <h1>Designer Details</h1>
+    <h1>تفاصيل المصمم</h1>
 
     <div>
-        <strong>User Name:</strong> {{ $designer->user->name }}
+        <strong>اسم المستخدم:</strong> {{ $designer->user->name }}
     </div>
 
     <div>
-        <strong>Profile Image:</strong>
+        <strong>صورة الملف الشخصي:</strong>
         @if ($designer->profile_image)
             <img src="{{ asset('storage/' . $designer->profile_image) }}" alt="Profile Image" width="150">
         @else
-            <p>No profile image available.</p>
+            <p>لا توجد صورة للملف الشخصي.</p>
         @endif
     </div>
 
     <div>
-        <strong>Experience Years:</strong> {{ $designer->experience_years }}
+        <strong>سنوات الخبرة:</strong> {{ $designer->experience_years }}
     </div>
 
     <div>
-        <strong>Description:</strong> {{ $designer->description }}
-    </div>
-    <div>
-        <strong>Description in arabic:</strong> {{ $designer->description_ar }}
+        <strong>الوصف:</strong> {{ $designer->description }}
     </div>
 
     <div>
-        <strong>Portfolio Images:</strong>
+        <strong>الوصف بالعربية:</strong> {{ $designer->description_ar }}
+    </div>
+
+    <div>
+        <strong>صور البورتفوليو:</strong>
         @if ($designer->portfolio_images)
             @foreach (json_decode($designer->portfolio_images) as $image)
                 <img src="{{ asset('storage/' . $image) }}" alt="Portfolio Image" width="150">
             @endforeach
         @else
-            <p>No portfolio images available.</p>
+            <p>لا توجد صور بورتفوليو متاحة.</p>
         @endif
     </div>
 
     <div>
-        <strong>Designer Code:</strong> {{ $designer->designer_code }}
+        <strong>رمز المصمم:</strong> {{ $designer->designer_code }}
+    </div>
+
     </div>
 
 @endsection

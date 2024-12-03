@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;  // استدعاء Log
 use App\Notifications\CustomerRequestRedesign;
 use App\Models\User;
 use App\Models\SubRegion;
+use App\Notifications\CustomerChangedDesigner;
 
 
 class OrderController extends Controller
@@ -208,16 +209,29 @@ class OrderController extends Controller
                 $notification->delete();
             }
 
-            // إرسال إشعار جديد فقط للمصممين الجدد باستثناء المصمم السابق
-            if ($designer->id != $order->approved_designer_id) {
-                $designer->notify(new OrderCreated($order, $designer)); // إشعار المصممين الجدد
-            }
+
         }
+
+
+            $areaManagers = User::where('role', 'Area manager')
+                ->where('region_id', $order->region_id)
+                ->get();
+
+            $salesManagers = User::where('role', 'Sales manager')
+                ->get();
+            foreach ($areaManagers as $areaManager) {
+                $areaManager->notify(new CustomerChangedDesigner($order, $areaManager));
+            }
+
+            // إرسال إشعار إلى جميع مديري المبيعات
+            foreach ($salesManagers as $salesManager) {
+                $salesManager->notify(new CustomerChangedDesigner($order, $salesManager));
+            }
 
         // تحديث حالة الطلب
         $order->order_status = 'pending'; // تغيير حالة الطلب إلى معلق
         $order->approved_designer_id = null; // تعيين المصمم الحالي إلى null
-        $order->processing_stage = 'stage_one'; // تعيين المرحلة إلى المرحلة الأولى
+        $order->processing_stage = 'change_designer'; // تعيين المرحلة إلى المرحلة الأولى
         $order->save();
 
         // تحديث حالة مسودة الطلب

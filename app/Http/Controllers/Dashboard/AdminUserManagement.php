@@ -35,9 +35,20 @@ class AdminUserManagement extends Controller
     {
         // Check if the logged-in user is an Area Manager
         if (auth()->user()->role === 'Area manager') {
-            // Retrieve only users who are not Sales Managers, Admins, or other Area Managers
-            $users = User::whereNotIn('role', ['Sales manager', 'admin', 'Area manager'])->get();
+            // جلب المنطقة للمستخدم الحالي
+            $userRegionId = auth()->user()->region_id;
+
+            // جلب المستخدمين والمصممين الذين ينتمون إلى نفس المنطقة، مع الأخذ في الاعتبار وجود منطقة أو عدمها
+            $users = User::whereIn('role', ['user', 'designer'])  // تحديد الأدوار المطلوبة
+            ->where(function($query) use ($userRegionId) {
+                // إذا كان للمستخدم منطقة محددة
+                $query->where('region_id', $userRegionId)
+                    // أو إذا كانت المنطقة null، يمكن إضافة شرط لجلبهم
+                    ->orWhereNull('region_id');
+            })
+                ->get();
         }
+
         elseif (auth()->user()->role === 'Sales manager')
         {
             $users = User::whereNotIn('role', ['admin', ])->get();

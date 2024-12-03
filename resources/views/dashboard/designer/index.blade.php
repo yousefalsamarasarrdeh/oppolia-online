@@ -1,6 +1,6 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'Designer Management')
+@section('title', 'إدارة المصممين')
 
 @section('css')
     <!-- هنا يمكنك تضمين أنماط CSS الخاصة بـ DataTables إذا كان لديك -->
@@ -20,41 +20,39 @@
         </div>
     @endif
 
-    <table class="table datatable">
+    <table class="table datatable" dir="rtl">
         <thead>
         <tr>
-
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Role</th>
-            <th>Experience</th>
-            <th>Description</th>
-            <th>Description arabic</th>
-            <th>Action</th>
+            <th>الاسم</th>
+            <th>البريد الإلكتروني</th>
+            <th>الهاتف</th>
+            <th>الدور</th>
+            <th>الخبرة</th>
+            <th>الوصف</th>
+            <th>الوصف بالعربية</th>
+            <th>الإجراء</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($user as $designer)
             <tr>
-
                 <td>{{ $designer->name }}</td>
                 <td>{{ $designer->email }}</td>
-                <td>{{ $designer->phone ?? 'N/A' }}</td>
+                <td>{{ $designer->phone ?? 'غير متوفر' }}</td>
                 <td>{{ $designer->role }}</td>
-                <td>{{ optional($designer->designer)->experience_years }} years</td> <!-- استخدام optional لتجنب أخطاء إذا كان $designer->designer null -->
-                <td>{{ optional($designer->designer)->description ?? 'No description available' }}</td>
-                <td>{{ optional($designer->designer)->description_ar ?? 'No description available' }}</td>
+                <td>{{ optional($designer->designer)->experience_years }} سنوات</td> <!-- استخدام optional لتجنب أخطاء إذا كان $designer->designer null -->
+                <td>{{ optional($designer->designer)->description ?? 'لا يوجد وصف متاح' }}</td>
+                <td>{{ optional($designer->designer)->description_ar ?? 'لا يوجد وصف متاح' }}</td>
                 <td>
                     <!-- زر التعديل -->
-                    <a href="{{ route('designer.showEditForm', $designer->id) }}" class="btn btn-primary">Edit</a>
-                    <a href="{{ route('designer.show', $designer->id) }}" class="btn btn-primary">show</a>
+                    <a href="{{ route('designer.showEditForm', $designer->id) }}" class="btn btn-primary">تعديل</a>
+                    <a href="{{ route('designer.show', $designer->id) }}" class="btn btn-primary">عرض</a>
                     <!-- زر الحذف -->
-             <!--       <form action="{{ route('admin.designers.destroy', $designer->id) }}" method="POST" style="display:inline;">
+                <!--       <form action="{{ route('admin.designers.destroy', $designer->id) }}" method="POST" style="display:inline;">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من أنك تريد حذف هذا المستخدم؟')">حذف</button>
-                  -->
+                @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من أنك تريد حذف هذا المستخدم؟')">حذف</button>
+-->
                     </form>
                 </td>
             </tr>

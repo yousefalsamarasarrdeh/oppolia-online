@@ -38,13 +38,23 @@
         </div>
 
         <div class="form-group">
+            @php
+                $userRegionId = auth()->user()->region_id; // جلب المنطقة للمستخدم الحالي
+            @endphp
             <label for="role">Role:</label>
             <select name="role" id="role" class="form-control" onchange="toggleDesignerFields()">
-                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
-                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                <option value="designer" {{ $user->role == 'designer' ? 'selected' : '' }}>Designer</option>
-                <option value="Sales manager" {{ $user->role == 'Sales manager' ? 'selected' : '' }}>Sales Manager</option>
-                <option value="Area manager" {{ $user->role == 'Area manager' ? 'selected' : '' }}>Area Manager</option>
+            @if($userRegionId)
+                <!-- إذا كان المستخدم داخل منطقة، عرض فقط "مصمم" و "مستخدم" -->
+                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                    <option value="designer" {{ $user->role == 'designer' ? 'selected' : '' }}>Designer</option>
+            @else
+                <!-- إذا لم يكن هناك منطقة، عرض جميع الأدوار -->
+                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="designer" {{ $user->role == 'designer' ? 'selected' : '' }}>Designer</option>
+                    <option value="Sales manager" {{ $user->role == 'Sales manager' ? 'selected' : '' }}>Sales Manager</option>
+                    <option value="Area manager" {{ $user->role == 'Area manager' ? 'selected' : '' }}>Area Manager</option>
+                @endif
             </select>
         </div>
 

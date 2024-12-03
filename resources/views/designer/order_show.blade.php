@@ -121,6 +121,56 @@
             @endif
         </div>
     </div>
+
+
+    <div class="order-drafts">
+
+        @if ($order->orderDraft->count() > 0)
+            <h2>مسودات الطلب</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>السعر</th>
+                    <th>الصور</th>
+                    <th>PDF</th>
+                    <th>الحالة</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($order->orderDraft as $draft)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $draft->price }}SAR</td>
+                        <td>
+                            @if (!empty($draft->images))
+                                <ul>
+                                    @foreach (json_decode($draft->images, true) as $image)
+                                        <li>
+                                            <img src="{{ asset('storage/' . $image) }}" alt="صورة" style="max-width: 100px;">
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p>لا توجد صور.</p>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($draft->pdf)
+                                <a href="{{ asset('storage/' . $draft->pdf) }}" target="_blank">عرض PDF</a>
+                            @else
+                                <p>لا يوجد ملف PDF.</p>
+                            @endif
+                        </td>
+                        <td>{{ $draft->state }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @else
+
+        @endif
+    </div>
 @endsection
 @section('script')
 
