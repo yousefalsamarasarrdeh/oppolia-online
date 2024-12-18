@@ -32,7 +32,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+       // $categories = Category::all();
+        $categories=Category::whereNotNull('parent_id')->get();
         return view('dashboard.product.create',compact('categories'));
     }
 
@@ -97,7 +98,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::with('descriptions')->findOrFail($id);
-        $categories = Category::all();
+      //  $categories = Category::all();
+        $categories=Category::whereNotNull('parent_id')->get();
 
         return view('dashboard.product.edit', compact('product', 'categories'));
     }

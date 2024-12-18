@@ -1,9 +1,10 @@
 @extends('layouts.dashboard.mainlayout')
 
-@section('title', 'Edit Category')
+@section('title', 'تعديل الفئة')
 
 @section('content')
-    <h1>Edit Category</h1>
+   <div dir="rtl">
+    <h1>تعديل الفئة</h1>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -17,36 +18,37 @@
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="title">Title (English)</label>
+            <label for="title">العنوان (بالإنجليزية)</label>
             <input type="text" class="form-control" id="title" name="title" required value="{{ old('title', $category->title) }}">
         </div>
         <div class="form-group">
-            <label for="title_ar">Title (Arabic)</label>
+            <label for="title_ar">العنوان (بالعربية)</label>
             <input type="text" class="form-control" id="title_ar" name="title_ar" required value="{{ old('title_ar', $category->title_ar) }}">
         </div>
         <div class="form-group">
-            <label for="image">Image</label>
+            <label for="image">الصورة</label>
             <input type="file" class="form-control" id="image" name="image">
             @if($category->image)
-                <img src="{{ asset('storage/'.$category->image) }}" alt="Current Category Image" width="100px" height="100px">
+                <img src="{{ asset('storage/'.$category->image) }}" alt="الصورة الحالية للفئة" width="100px" height="100px">
             @endif
         </div>
         <div class="form-group">
-            <label for="status">Status</label>
+            <label for="status">الحالة</label>
             <select class="form-control" id="status" name="status">
-                <option value="active" @if($category->status == 'active') selected @endif>Active</option>
-                <option value="inactive" @if($category->status == 'inactive') selected @endif>Inactive</option>
+                <option value="active" @if($category->status == 'active') selected @endif>نشط</option>
+                <option value="inactive" @if($category->status == 'inactive') selected @endif>غير نشط</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="parent_id">Parent Category (Optional)</label>
+            <label for="parent_id">الفئة الأساسية (اختياري)</label>
             <select class="form-control" id="parent_id" name="parent_id">
-                <option value="">None</option>
+                <option value="">لا يوجد</option>
                 @foreach ($categories as $cat)
                     <option value="{{ $cat->id }}" {{ $category->parent_id == $cat->id ? 'selected' : '' }}>{{ $cat->title }}</option>
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary mt-3">تحديث</button>
     </form>
+   </div>
 @endsection

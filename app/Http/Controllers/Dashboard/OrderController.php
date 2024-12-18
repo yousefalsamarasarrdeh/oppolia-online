@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Designer;
 use App\Models\Region;
 use App\Notifications\DesignerAssigned;
+use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
 {
@@ -69,7 +70,7 @@ class OrderController extends Controller
     }
 
 
-    public function show(Order $order, $notificationId)
+    public function show(Order $order, $notificationId = null)
     {
         // جلب المستخدم الحالي
         $user = auth()->user();
@@ -124,5 +125,52 @@ class OrderController extends Controller
         return redirect()->route('admin.orders.index', $order->id)
             ->with('success', 'تم تغيير المصمم بنجاح!');
     }
+
+
+    public function getOrders(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Order::with(['user', 'region', 'subRegion', 'designer'])
+                ->select('orders.*');
+
+            return DataTables::of($data)
+                ->addIndexColumn() // إضافة عمود الترقيم
+                ->addColumn('user_name', function ($row) {
+                    return $row->user ? $row->user->name : 'N/A'; // جلب اسم المستخدم
+                })
+                ->addColumn('region_name', function ($row) {
+                    return $row->region ? $row->region->name_ar : 'N/A'; // اسم المنطقة
+                })
+                ->addColumn('sub_region_name', function ($row) {
+                    return $row->subRegion ? $row->subRegion->name_ar : 'N/A'; // اسم المنطقة الفرعية
+                })
+                ->addColumn('designer_name', function ($row) {
+                    // الوصول إلى اسم المستخدم الخاص بالمصمم
+                    return $row->designer && $row->designer->user
+                        ? $row->designer->user->name
+                        : 'N/A';
+                })
+                ->addColumn('order_status_label', function ($row) {
+                    $statusLabels = [
+                        'pending' => 'قيد الانتظار',
+                        'accepted' => 'مقبول',
+                        'rejected' => 'مرفوض',
+                        'closed' => 'مغلق',
+                    ];
+                    return $statusLabels[$row->order_status] ?? 'غير معروف';
+                })
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('admin.order.show', $row->id);
+
+                    return "
+                    <a href='$editUrl' class='btn btn-sm btn-primary'>عرض</a>
+
+                ";
+                })
+                ->rawColumns(['action']) // تفعيل HTML في عمود "خيارات"
+                ->make(true);
+        }
+    }
+
 
 }

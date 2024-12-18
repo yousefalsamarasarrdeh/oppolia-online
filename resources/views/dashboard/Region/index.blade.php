@@ -3,11 +3,13 @@
 @section('title', 'Region Management')
 
 @section('css')
+
     <!-- هنا يمكنك تضمين أنماط CSS الخاصة بـ DataTables إذا كان لديك -->
-    <link href="{{ asset('path/to/datatables.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('content')
+    <div class="container" dir="rtl">
     <ul>
         @foreach ($regions as $region)
             <li>
@@ -20,4 +22,5 @@
             </li>
         @endforeach
     </ul>
+    </div>
 @endsection

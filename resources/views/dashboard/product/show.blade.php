@@ -2,16 +2,16 @@
 
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'product Management')
+@section('title', 'إدارة المنتج')
 
 @section('css')
     <!-- تضمين CSS الخاص بـ DataTables -->
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container" dir="rtl">
         <h1>{{ $product->name }} ({{ $product->name_ar }})</h1>
-        <p><strong>Category:</strong> {{ $product->category->title }}</p>
+        <p><strong>الفئة:</strong> {{ $product->category->title }}</p>
         <p><strong>SKU:</strong> {{ $product->sku }}</p>
 
         @if($product->image)
@@ -20,19 +20,19 @@
             </div>
         @endif
 
-        <h2>Descriptions:</h2>
+        <h2>الأوصاف:</h2>
         @if($product->descriptions->count())
             <div>
                 @foreach($product->descriptions as $description)
                     <div style="margin-bottom: 20px;">
-                        <p><strong>Description:</strong> {{ $description->description }}</p>
-                        <p><strong>Description (Arabic):</strong> {{ $description->description_ar }}</p>
+                        <p><strong>الوصف:</strong> {{ $description->description }}</p>
+                        <p><strong>الوصف (بالعربية):</strong> {{ $description->description_ar }}</p>
 
                         @if($description->images)
                             <div>
-                                <p><strong>Images:</strong></p>
+                                <p><strong>الصور:</strong></p>
                                 @foreach(json_decode($description->images) as $image)
-                                    <img src="{{ asset('storage/' . $image) }}" alt="Description Image" style="max-width: 150px; margin-right: 10px;">
+                                    <img src="{{ asset('storage/' . $image) }}" alt="صورة الوصف" style="max-width: 150px; margin-right: 10px;">
                                 @endforeach
                             </div>
                         @endif
@@ -40,8 +40,7 @@
                 @endforeach
             </div>
         @else
-            <p>No descriptions available for this product.</p>
+            <p>لا توجد أوصاف لهذا المنتج.</p>
         @endif
     </div>
 @endsection
-

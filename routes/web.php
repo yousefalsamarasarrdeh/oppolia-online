@@ -57,6 +57,7 @@ Route::prefix('dashboard')->middleware(['adminOrsales_manager'])->group(function
 Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->group(function () {
 
 
+    Route::get('/orders/data', [DashboardOrderController::class, 'getOrders'])->name('orders.data');
 
     Route::get('orders', [DashboardOrderController::class, 'index'])->name('admin.orders.index');
     Route::get('orders/filter', [DashboardOrderController::class, 'filter'])->name('admin.orders.filter');
@@ -81,7 +82,7 @@ Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->gr
 
 
 
-    Route::get('/admin/orders/{order}/{notificationId}', [\App\Http\Controllers\Dashboard\OrderController::class, 'show'])->name('admin.order.show');
+    Route::get('/admin/orders/{order}/{notificationId?}', [\App\Http\Controllers\Dashboard\OrderController::class, 'show'])->name('admin.order.show');
     Route::get('/admin/notifications', [\App\Http\Controllers\Dashboard\NotificationController::class, 'index'])->name('admin.notifications.index');
     Route::delete('/notifications/{id}', [\App\Http\Controllers\Dashboard\NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::post('/notifications/delete-all-read', [\App\Http\Controllers\Dashboard\NotificationController::class, 'deleteAllReadNotifications'])->name('notifications.deleteAllRead');

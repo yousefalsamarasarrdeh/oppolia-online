@@ -1,6 +1,6 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'Product Management')
+@section('title', 'إدارة المنتجات')
 
 @section('css')
     <!-- هنا يمكنك تضمين أنماط CSS الخاصة بـ DataTables إذا كان لديك -->
@@ -8,18 +8,18 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <h1>products</h1>
-        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Add New Product</a>
+    <div class="container" dir="rtl">
+        <h1>المنتجات</h1>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">إضافة منتج جديد</a>
         <table class="table table-bordered datatable">
             <thead>
             <tr>
                 <th>#</th>
-                <th>product name</th>
-                <th>product name in arabic</th>
+                <th>اسم المنتج</th>
+                <th>اسم المنتج بالعربية</th>
                 <th>SKU</th>
-                <th>category</th>
-                <th>action</th>
+                <th>الفئة</th>
+                <th>الإجراءات</th>
             </tr>
             </thead>
             <tbody>
@@ -29,14 +29,14 @@
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->name_ar }}</td>
                     <td>{{ $product->sku }}</td>
-                    <td>{{ $product->category->title ?? 'N/A' }}</td>
+                    <td>{{ $product->category->title ?? 'غير متوفر' }}</td>
                     <td>
-                        <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-info">show</a>
-                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-success">edit</a>
+                        <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-info">عرض</a>
+                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-success">تعديل</a>
                         <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">delete</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد؟')">حذف</button>
                         </form>
                     </td>
                 </tr>

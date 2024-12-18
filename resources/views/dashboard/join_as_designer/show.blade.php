@@ -1,32 +1,31 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'View Designer Request')
+@section('title', 'عرض طلب المصمم')
 
 @section('content')
-    <div class="container mt-5">
-        <h1>View Designer Request</h1>
+    <div class="container mt-5" dir="rtl">
+        <h1>عرض طلب المصمم</h1>
 
         <div class="card">
             <div class="card-header">
-                Designer Request #{{ $designerRequest->id }}
+                طلب المصمم رقم #{{ $designerRequest->id }}
             </div>
             <div class="card-body">
-                <p><strong>Name:</strong> {{ $designerRequest->name }}</p>
-                <p><strong>Email:</strong> {{ $designerRequest->email_address }}</p>
-                <p><strong>Phone:</strong> {{ $designerRequest->phone_number }}</p>
-                <p><strong>City:</strong> {{ $designerRequest->subRegion->name_en}}</p>
+                <p><strong>الاسم:</strong> {{ $designerRequest->name }}</p>
+                <p><strong>البريد الإلكتروني:</strong> {{ $designerRequest->email_address }}</p>
+                <p><strong>رقم الهاتف:</strong> {{ $designerRequest->phone_number }}</p>
+                <p><strong>المدينة:</strong> {{ $designerRequest->subRegion->name_en }}</p>
 
-                <p><strong>Gender:</strong> {{ $designerRequest->gender }}</p>
-                <p><strong>Marital Status:</strong> {{ $designerRequest->marital_status }}</p>
+                <p><strong>الجنس:</strong> {{ $designerRequest->gender }}</p>
+                <p><strong>الحالة الاجتماعية:</strong> {{ $designerRequest->marital_status }}</p>
 
-                <p><strong>Years of Experience:</strong> {{ $designerRequest->years_of_experience }}</p>
-
+                <p><strong>سنوات الخبرة:</strong> {{ $designerRequest->years_of_experience }}</p>
 
                 <!-- زر تنزيل الـ CV -->
-                <p><strong>Download CV:</strong></p>
-                <a href="{{ asset('storage/' . $designerRequest->cv_pdf_path) }}" class="btn btn-success" download>Download CV (PDF)</a>
+                <p><strong>تنزيل السيرة الذاتية:</strong></p>
+                <a href="{{ asset('storage/' . $designerRequest->cv_pdf_path) }}" class="btn btn-success" download>تنزيل السيرة الذاتية (PDF)</a>
 
-                <a href="{{ route('admin.joinasdesigner.index') }}" class="btn btn-primary mt-3">Back to Requests</a>
+                <a href="{{ route('admin.joinasdesigner.index') }}" class="btn btn-primary mt-3">الرجوع إلى الطلبات</a>
             </div>
         </div>
     </div>
