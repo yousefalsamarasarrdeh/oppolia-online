@@ -130,8 +130,15 @@ class OrderController extends Controller
     public function getOrders(Request $request)
     {
         if ($request->ajax()) {
+            // جلب الطلبات مع العلاقات
             $data = Order::with(['user', 'region', 'subRegion', 'designer'])
                 ->select('orders.*');
+
+            // إذا كان المستخدم مدير منطقة، يتم تصفية الطلبات بناءً على منطقته
+            if (auth()->user()->role === 'Area manager') {
+                $regionId = auth()->user()->region_id;
+                $data = $data->where('region_id', $regionId);
+            }
 
             return DataTables::of($data)
                 ->addIndexColumn() // إضافة عمود الترقيم
@@ -163,14 +170,14 @@ class OrderController extends Controller
                     $editUrl = route('admin.order.show', $row->id);
 
                     return "
-                    <a href='$editUrl' class='btn btn-sm btn-primary'>عرض</a>
-
+                <a href='$editUrl' class='btn btn-sm btn-primary'>عرض</a>
                 ";
                 })
                 ->rawColumns(['action']) // تفعيل HTML في عمود "خيارات"
                 ->make(true);
         }
     }
+
 
 
 }

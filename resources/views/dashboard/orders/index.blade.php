@@ -11,6 +11,15 @@
             white-space: nowrap; /* منع التفاف النصوص داخل الجدول */
         }
 
+        .table-container th {
+            padding: 20px; /* زيادة المسافات داخل الترويسات */
+            text-align: center; /* توسيط النصوص */
+            font-size: 16px; /* جعل النصوص أكبر */
+            background-color: #f1f1f1; /* لون خلفية واضح للترويسات */
+            color: #333; /* لون النص */
+            border: 1px solid #ddd; /* تحديد حدود واضحة */
+        }
+
         #ordersTable {
             border-collapse: collapse; /* إزالة المسافات بين حدود الجدول */
             width: 100%;

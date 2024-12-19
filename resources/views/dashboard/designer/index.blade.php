@@ -28,8 +28,7 @@
             <th>الهاتف</th>
             <th>الدور</th>
             <th>الخبرة</th>
-            <th>الوصف</th>
-            <th>الوصف بالعربية</th>
+            <th>المنطقة</th>
             <th>الإجراء</th>
         </tr>
         </thead>
@@ -41,8 +40,7 @@
                 <td>{{ $designer->phone ?? 'غير متوفر' }}</td>
                 <td>{{ $designer->role }}</td>
                 <td>{{ optional($designer->designer)->experience_years }} سنوات</td> <!-- استخدام optional لتجنب أخطاء إذا كان $designer->designer null -->
-                <td>{{ optional($designer->designer)->description ?? 'لا يوجد وصف متاح' }}</td>
-                <td>{{ optional($designer->designer)->description_ar ?? 'لا يوجد وصف متاح' }}</td>
+                <td>{{$designer->region->name_ar}}</td>
                 <td>
                     <!-- زر التعديل -->
                     <a href="{{ route('designer.showEditForm', $designer->id) }}" class="btn btn-primary">تعديل</a>

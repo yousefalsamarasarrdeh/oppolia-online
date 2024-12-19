@@ -64,7 +64,12 @@
 
                 <div class="col-6">
                     <label for="kitchen_shape">شكل المطبخ:</label>
-                    <input class="form-control" type="text" name="kitchen_shape" id="kitchen_shape" value="{{ old('kitchen_shape') }}">
+                    <select class="form-control" name="kitchen_shape" id="kitchen_shape">
+                        <option value="مطبخ له شكل حرف L" {{ old('kitchen_shape') == 'مطبخ له شكل حرف L' ? 'selected' : '' }}>مطبخ له شكل حرف L</option>
+                        <option value="مطبخ له شكل حرف U" {{ old('kitchen_shape') == 'مطبخ له شكل حرف U' ? 'selected' : '' }}>مطبخ له شكل حرف U</option>
+                        <option value="مستقيم" {{ old('kitchen_shape') == 'مستقيم' ? 'selected' : '' }}>مستقيم</option>
+                        <option value="متوازي" {{ old('kitchen_shape') == 'متوازي' ? 'selected' : '' }}>متوازي</option>
+                    </select>
                     @error('kitchen_shape')
                     <p style="color: red;">{{ $message }}</p>
                     @enderror
@@ -99,12 +104,16 @@
             <br>
 
             <label for="kitchen_style">ستايل المطبخ:</label>
-            <input class="form-control" type="text" name="kitchen_style" id="kitchen_style" value="{{ old('kitchen_style') }}">
+            <select class="form-control" name="kitchen_style" id="kitchen_style">
+                <option value="حديث" {{ old('kitchen_style') == 'حديث' ? 'selected' : '' }}>حديث</option>
+                <option value="كلاسيكي" {{ old('kitchen_style') == 'كلاسيكي' ? 'selected' : '' }}>كلاسيكي</option>
+            </select>
             @error('kitchen_style')
             <p style="color: red;">{{ $message }}</p>
             @enderror
 
             <br>
+
 
             <label for="meeting_time">وقت اللقاء:</label>
             <input class="form-control" type="datetime-local" name="meeting_time" id="meeting_time" value="{{ old('meeting_time') }}">

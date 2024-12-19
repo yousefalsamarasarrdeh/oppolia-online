@@ -22,6 +22,10 @@
         <strong>اسم المستخدم:</strong> {{ $designer->user->name }}
     </div>
 
+        <div>
+            <strong>المنطقة:</strong> {{ $designer->user->region->name_ar }}
+        </div>
+
     <div>
         <strong>صورة الملف الشخصي:</strong>
         @if ($designer->profile_image)
