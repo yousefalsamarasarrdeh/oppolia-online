@@ -35,6 +35,7 @@
             <p><strong>شكل المطبخ:</strong> {{ $order->kitchen_shape }}</p>
             <p><strong>التكلفة المتوقعة:</strong> ${{ $order->expected_cost }}</p>
             <p><strong>حالة الطلب:</strong> {{ $order->order_status }}</p>
+            <p><strong>منطقة الطلب :</strong> {{ $order->region->name_ar}}</p>
         </div>
 
         <div class="user-info">
@@ -42,6 +43,7 @@
             <p><strong>الاسم:</strong> {{ $order->user->name }}</p>
             <p><strong>البريد الإلكتروني:</strong> {{ $order->user->email }}</p>
             <p><strong>رقم الهاتف:</strong> {{ $order->user->phone }}</p> <!-- تأكد من وجود حقل 'phone' في جدول المستخدم -->
+
         </div>
 
         <!-- عرض الخريطة -->

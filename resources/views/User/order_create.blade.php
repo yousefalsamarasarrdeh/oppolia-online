@@ -64,7 +64,7 @@
 
                 <div class="col-6">
                     <label for="kitchen_shape">شكل المطبخ:</label>
-                    <select class="form-control" name="kitchen_shape" id="kitchen_shape">
+                    <select class="form-select" name="kitchen_shape" id="kitchen_shape">
                         <option value="مطبخ له شكل حرف L" {{ old('kitchen_shape') == 'مطبخ له شكل حرف L' ? 'selected' : '' }}>مطبخ له شكل حرف L</option>
                         <option value="مطبخ له شكل حرف U" {{ old('kitchen_shape') == 'مطبخ له شكل حرف U' ? 'selected' : '' }}>مطبخ له شكل حرف U</option>
                         <option value="مستقيم" {{ old('kitchen_shape') == 'مستقيم' ? 'selected' : '' }}>مستقيم</option>
@@ -77,7 +77,7 @@
             </div>
 
             <label for="kitchen_type">نوع المطبخ:</label>
-            <select class="form-control" name="kitchen_type" id="kitchen_type">
+            <select class="form-select" name="kitchen_type" id="kitchen_type">
                 <option value="قديم" {{ old('kitchen_type') == 'قديم' ? 'selected' : '' }}>قديم</option>
                 <option value="جديد" {{ old('kitchen_type') == 'جديد' ? 'selected' : '' }}>جديد</option>
             </select>
@@ -104,7 +104,7 @@
             <br>
 
             <label for="kitchen_style">ستايل المطبخ:</label>
-            <select class="form-control" name="kitchen_style" id="kitchen_style">
+            <select class="form-select" name="kitchen_style" id="kitchen_style">
                 <option value="حديث" {{ old('kitchen_style') == 'حديث' ? 'selected' : '' }}>حديث</option>
                 <option value="كلاسيكي" {{ old('kitchen_style') == 'كلاسيكي' ? 'selected' : '' }}>كلاسيكي</option>
             </select>
