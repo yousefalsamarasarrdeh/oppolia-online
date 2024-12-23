@@ -6,24 +6,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
-    <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png" />
+    <link rel="icon" href="{{asset('Frontend/assets/images/favicon-32x32.png')}}" type="image/png" />
     <!--plugins-->
-    <link href="assets/plugins/OwlCarousel/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="{{asset('Frontend/assets/plugins/OwlCarousel/css/owl.carousel.min.css')}}" rel="stylesheet" />
 
-    <link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+    <link href="{{asset('Frontend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
     <!-- loader-->
-    <link href="assets/css/pace.min.css" rel="stylesheet" />
-    <script src="assets/js/pace.min.js"></script>
+    <link href="{{asset('Frontend/assets/css/pace.min.css')}}" rel="stylesheet" />
+    <script src="{{asset('Frontend/assets/js/pace.min.js')}}"></script>
     <!-- Bootstrap CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{asset('Frontend/assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="{{asset('Frontend/assets/css/app.css')}}" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
-    <link href="assets/css/icons.css" rel="stylesheet">
-    <title>@yield('title')</title>>
+    <link href="{{asset('Frontend/assets/css/icons.css')}}" rel="stylesheet">
+    <title>@yield('title')</title>
+
+
+    @yield('css')
 </head>
 
 <body>
+
 <!--wrapper-->
 <div class="wrapper">
     <!--start top header wrapper-->
@@ -45,6 +49,35 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="javascript:;">Help & FAQs</a>
                         </li>
+
+                        @if (Route::has('login'))
+                            <nav class="-mx-3 flex flex-1 justify-end">
+                                @auth
+                                    <a
+                                        href="{{ url('/dashboard') }}"
+                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                    >
+                                        Dashboard
+                                    </a>
+                                @else
+                                    <a
+                                        href="{{ route('login') }}"
+                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                    >
+                                        Log in
+                                    </a>
+
+                                    @if (Route::has('register'))
+                                        <a
+                                            href="{{ route('register') }}"
+                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        >
+                                            Register
+                                        </a>
+                                    @endif
+                                @endauth
+                            </nav>
+                        @endif
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">USD</a>
@@ -458,7 +491,7 @@
                             </div>
                         </div>
                         <a href="javascript:;">
-                            <img src="assets/images/banners/01.png" class="img-fluid" alt="...">
+                            <img src="{{asset('Frontend/assets/images/banners/01.png')}}" class="img-fluid" alt="...">
                         </a>
                     </div>
                 </div>
@@ -2327,17 +2360,17 @@
     <!--End Back To Top Button-->
 </div>
 <!--end wrapper-->
-
+@yield('content')
 <!-- Bootstrap JS -->
-<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="{{asset('Frontend/assets/vendor/apexcharts/apexcharts.min.js')}}assets/js/bootstrap.bundle.min.js"></script>
 <!--plugins-->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/plugins/OwlCarousel/js/owl.carousel.min.js"></script>
-<script src="assets/plugins/OwlCarousel/js/owl.carousel2.thumbs.min.js"></script>
-<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+<script src="{{asset('Frontend/assets/js/jquery.min.js')}}"></script>
+<script src="{{asset('Frontend/assets/plugins/OwlCarousel/js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('Frontend/assets/plugins/OwlCarousel/js/owl.carousel2.thumbs.min.js')}}"></script>
+<script src="{{asset('Frontend/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 <!--app JS-->
-<script src="assets/js/app.js"></script>
-<script src="assets/js/index.js"></script>
+<script src="{{asset('Frontend/assets/js/app.js')}}"></script>
+<script src="{{asset('Frontend/assets/js/index.js')}}"></script>
 </body>
 
 </html>

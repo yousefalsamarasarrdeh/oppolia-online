@@ -153,7 +153,7 @@
     <label for="search_map">ابحث عن موقع:</label>
     <input id="search_map" type="text" placeholder="ابحث هنا..." class="form-control">
     <!-- Google Maps JavaScript -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB26-DMf-q42W0p3QnByFi50YLB0urKDPQ&libraries=geometry,places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGE&libraries=geometry,places&callback=initMap" async defer></script>
 
     <script>
         var map, marker, geocoder, autocomplete;
