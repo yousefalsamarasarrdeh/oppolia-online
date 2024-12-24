@@ -10,7 +10,7 @@
         }
         .table th, .table td {
             padding: 10px;
-            text-align: left;
+            text-align: center;
         }
         .btn-view-order, .btn-processing {
             background-color: #007bff;

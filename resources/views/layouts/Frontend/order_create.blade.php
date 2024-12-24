@@ -137,15 +137,12 @@
             <br>
 
             <!-- Geocode address field -->
-       <label hidden for="geocode_string" >العنوان الجغرافي:</label>
-            <input type="hidden" name="geocode_string" id="geocode_string" class="form-control" value="{{ old('geocode_string') }}" readonly>
+            <label for="geocode_string">العنوان الجغرافي:</label>
+            <input type="text" name="geocode_string" id="geocode_string" class="form-control" value="{{ old('geocode_string') }}" readonly>
             @error('geocode_string')
             <p style="color: red;">{{ $message }}</p>
             @enderror
-          <br>
 
-            <br>
-            <br>
             <br>
 
             <div class="align-items-center" style="text-align: center">
@@ -153,12 +150,10 @@
             </div>
         </div>
     </form>
-    <div class="container" style="margin-top: -110px;">
     <label for="search_map">ابحث عن موقع:</label>
     <input id="search_map" type="text" placeholder="ابحث هنا..." class="form-control">
-    </div>
     <!-- Google Maps JavaScript -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGE&libraries=geometry,places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB26-DMf-q42W0p3QnByFi50YLB0urKDPQ&libraries=geometry,places&callback=initMap" async defer></script>
 
     <script>
         var map, marker, geocoder, autocomplete;

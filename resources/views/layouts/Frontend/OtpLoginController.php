@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
 
 class OtpLoginController extends Controller
 {
@@ -36,33 +35,17 @@ class OtpLoginController extends Controller
             ]);
         }
 
-        // إنشاء رمز OTP وإرساله إلى الجوال
+        // إنشاء رمز OTP وإرساله إلى الجوال (افترض أن لديك خدمة لإرسال الرسائل)
         $otp = rand(100000, 999999);
         $user->otp = $otp;
         $user->otp_expires_at = now()->addMinutes(15); // صلاحية الرمز لمدة 15 دقيقة
         $user->save();
 
-        // إعداد رسالة الـ OTP
-        $message = "Your OTP code is: $otp";
-
-        // إرسال طلب الـ SMS عبر API
-        $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
-            'api_key' => env('SMS_API_KEY'),
-            'username' => env('SMS_USERNAME'),
-            'message' => $message,
-            'sender' => env('SMS_SENDER'),
-            'numbers' => $request->phone
-        ]);
-
-        if ($response->failed()) {
-            // إذا فشل الإرسال، قم بمعالجة الخطأ
-            return redirect()->back()->withErrors(['error' => 'Failed to send OTP. Please try again.']);
-        }
+        // هنا يمكنك إضافة كود لإرسال الـ OTP إلى رقم الجوال
 
         // إعادة توجيه المستخدم إلى صفحة إدخال الـ OTP
         return redirect()->route('otp.verify')->with('phone', $user->phone);
     }
-
 
     // عرض واجهة إدخال OTP
     public function showOtpForm()

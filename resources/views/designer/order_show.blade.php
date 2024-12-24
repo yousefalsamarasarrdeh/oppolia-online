@@ -80,6 +80,7 @@
         @endif
 
         <div class="designer-info">
+          @if($order->approved_designer_id == $designer->id)
             @if ($order->designerMeeting)
                 <h2>تفاصيل زيارة المصمم</h2>
                 <p><strong>اسم المصمم:</strong> {{ $order->designerMeeting->order->designer->user->name }}</p>
@@ -172,11 +173,13 @@
         @else
 
         @endif
+
+       @endif
     </div>
 @endsection
 @section('script')
 
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGEphp&callback=initMap" async defer></script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGE&callback=initMap" async defer></script>
 
                     <script>
                         function initMap() {

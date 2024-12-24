@@ -17,10 +17,9 @@ class JoinAsDesignerController extends Controller
             // Retrieve only orders within the Area Manager's region
             $designerRequests = JoinAsADesigner::with([])
                 ->where('region_id', $regionId)
-                ->orderBy('created_at', 'desc') // ترتيب الطلبات من الأحدث إلى الأقدم
                 ->get();
         }else {
-            $designerRequests = JoinAsADesigner::orderBy('created_at', 'desc')->get(); }
+        $designerRequests = JoinAsADesigner::all(); }
         $notifications= auth()->user()->unreadNotifications;
         // عرض الطلبات في الصفحة
         return view('dashboard.join_as_designer.index', compact('designerRequests','notifications'));

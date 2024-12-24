@@ -89,21 +89,14 @@
             <table id="ordersTable" class="display nowrap" style="width:100%">
                 <thead>
                 <tr>
-
-                    <th>id</th>
+                    <th>#</th>
                     <th>اسم المستخدم</th>
                     <th>اسم المنطقة</th>
                     <th>اسم المنطقة الفرعية</th>
-                    <th>مساحة المطبخ</th>
+                
                     <th>شكل المطبخ</th>
                     <th>نوع المطبخ</th>
-                    <!--   <th>الكلفة المتوقعة</th> -->
-                   <!--  <th>المدة الزمنية</th> -->
-                    <th>ستايل المطبخ</th>
-                    <!--    <th>وقت اللقاء</th>  -->
-                     <!--   <th>خطوة الطول</th>
-                        <th>خطوة العرض</th> -->
-                    <th>العنوان</th>
+                   
                     <th>اسم المصمم</th>
                     <th>الحالة</th>
                     <th>خيارات</th>
@@ -128,21 +121,20 @@
                 serverSide: true,
                 ajax: "{{ route('orders.data') }}",
                 columns: [
-                  //  { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'id', name: 'id' },
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'user_name', name: 'user_name' },
                     { data: 'region_name', name: 'region_name' },
                     { data: 'sub_region_name', name: 'sub_region_name' },
-                    { data: 'kitchen_area', name: 'kitchen_area' },
+                  //  { data: 'kitchen_area', name: 'kitchen_area' },
                     { data: 'kitchen_shape', name: 'kitchen_shape' },
                     { data: 'kitchen_type', name: 'kitchen_type' },
-                  //  { data: 'expected_cost', name: 'expected_cost' },
-                  //  { data: 'time_range', name: 'time_range' },
-                    { data: 'kitchen_style', name: 'kitchen_style' },
+                 //   { data: 'expected_cost', name: 'expected_cost' },
+                 //   { data: 'time_range', name: 'time_range' },
+                 //   { data: 'kitchen_style', name: 'kitchen_style' },
                  //   { data: 'meeting_time', name: 'meeting_time' },
-                  //  { data: 'length_step', name: 'length_step' },
+                 //   { data: 'length_step', name: 'length_step' },
                   //  { data: 'width_step', name: 'width_step' },
-                    { data: 'geocode_string', name: 'geocode_string' },
+                  //  { data: 'geocode_string', name: 'geocode_string' },
                     { data: 'designer_name', name: 'designer_name' },
                     { data: 'order_status_label', name: 'order_status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }

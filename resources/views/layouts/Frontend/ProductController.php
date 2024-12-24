@@ -12,12 +12,13 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // Fetch all products from the database, ordered by newest first
-        $products = Product::orderBy('created_at', 'desc')->get();
+        // Fetch all products from the database
+        $products = Product::all();
 
         // Pass the products to the view
         return view('dashboard.product.index', compact('products'));
     }
+
 
 
     public function show(Product $product)

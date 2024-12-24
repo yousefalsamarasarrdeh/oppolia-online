@@ -9,10 +9,12 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        // Fetch all categories, ordered by newest first
+        $categories = Category::orderBy('created_at', 'desc')->get();
+
+        // Pass the categories to the view
         return view('dashboard.category.index', compact('categories'));
     }
-
     public function create()
     {
         // جلب جميع الفئات التي يمكن أن تكون فئات أساسية

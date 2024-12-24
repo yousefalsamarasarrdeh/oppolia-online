@@ -40,21 +40,23 @@ class AdminUserManagement extends Controller
 
             // جلب المستخدمين والمصممين الذين ينتمون إلى نفس المنطقة، مع الأخذ في الاعتبار وجود منطقة أو عدمها
             $users = User::whereIn('role', ['user', 'designer'])  // تحديد الأدوار المطلوبة
-            ->where(function ($query) use ($userRegionId) {
+            ->where(function($query) use ($userRegionId) {
                 // إذا كان للمستخدم منطقة محددة
                 $query->where('region_id', $userRegionId)
                     // أو إذا كانت المنطقة null، يمكن إضافة شرط لجلبهم
                     ->orWhereNull('region_id');
             })
-                ->orderBy('created_at', 'desc') // ترتيب حسب الأحدث
                 ->get();
-        } elseif (auth()->user()->role === 'Sales manager') {
-            $users = User::whereNotIn('role', ['admin'])
-                ->orderBy('created_at', 'desc') // ترتيب حسب الأحدث
-                ->get();
-        } else {
+        }
+
+        elseif (auth()->user()->role === 'Sales manager')
+        {
+            $users = User::whereNotIn('role', ['admin', ])->get();
+        }
+
+        else {
             // If the logged-in user is not an Area Manager, retrieve all users
-            $users = User::orderBy('created_at', 'desc')->get(); // ترتيب حسب الأحدث
+            $users = User::all();
         }
 
         // Retrieve unread notifications for the authenticated user

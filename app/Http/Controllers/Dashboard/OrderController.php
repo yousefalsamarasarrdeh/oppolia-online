@@ -132,7 +132,8 @@ class OrderController extends Controller
         if ($request->ajax()) {
             // جلب الطلبات مع العلاقات
             $data = Order::with(['user', 'region', 'subRegion', 'designer'])
-                ->select('orders.*');
+                ->select('orders.*')
+            ->orderBy('created_at', 'desc');
 
             // إذا كان المستخدم مدير منطقة، يتم تصفية الطلبات بناءً على منطقته
             if (auth()->user()->role === 'Area manager') {
