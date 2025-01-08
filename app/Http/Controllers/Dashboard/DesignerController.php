@@ -51,7 +51,7 @@ class DesignerController extends Controller
             $designer = $user->designer;
 
             if (!$designer) {
-                return redirect()->back()->with('error', 'Designer not found for this user.');
+                return redirect()->back()->with('error', 'لم يتم العثور على المصمم لهذا المستخدم.');
             }
 
             // التحقق من صحة البيانات
@@ -100,7 +100,7 @@ class DesignerController extends Controller
             ]);
 
             // إعادة توجيه المستخدم بعد النجاح
-            return redirect()->route('designer.showEditForm', $user->id)->with('success', 'Designer details updated successfully.');
+            return redirect()->route('designer.showEditForm', $user->id)->with('success', 'تم تحديث تفاصيل المصمم بنجاح.');
         } catch (\Exception $e) {
             // في حال حدوث خطأ، يتم التقاطه هنا وإرجاع رسالة خطأ للمستخدم
             return redirect()->back()->with('error', 'An error occurred while updating the designer details: ' . $e->getMessage());

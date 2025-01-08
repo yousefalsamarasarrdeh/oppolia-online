@@ -24,7 +24,7 @@ class OrderDraftController extends Controller
 
             // التحقق مما إذا كان المصمم هو الذي وافق على الطلب
             if ($order->approved_designer_id != $designer->id) {
-                return redirect()->route('designer.approved.orders')->with('error', 'You do not have permission to create an order draft for this order.');
+                return redirect()->route('designer.approved.orders')->with('error', 'ليس لديك الإذن بإنشاء مسودة أمر لهذا الطلب.');
             }
 
             // التحقق من المدخلات
@@ -82,13 +82,13 @@ class OrderDraftController extends Controller
             Notification::send($order->user, new OrderDraftNotification($order));
             // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')
-                ->with('success', 'Order draft created successfully and order processing stage updated.')
+                ->with('success', 'تم إنشاء مسودة الطلب بنجاح وتم تحديث مرحلة معالجة الطلب.')
                 ->with('notifications', $notifications);
 
         } catch (\Exception $e) {
             // التعامل مع الخطأ
             return redirect()->route('designer.approved.orders')
-                ->with('error', 'An error occurred while creating the order draft: ' . $e->getMessage());
+                ->with('error', 'حدث خطأ أثناء إنشاء مسودة الأمر:' . $e->getMessage());
         }
     }
 
@@ -104,7 +104,7 @@ class OrderDraftController extends Controller
 
             // التحقق مما إذا كان المصمم هو الذي وافق على الطلب
             if ($order->approved_designer_id != $designer->id) {
-                return redirect()->route('designer.approved.orders')->with('error', 'You do not have permission to create an order draft for this order.');
+                return redirect()->route('designer.approved.orders')->with('error', 'ليس لديك الإذن بإنشاء مسودة أمر لهذا الطلب.');
             }
 
             // التحقق من المدخلات
@@ -164,13 +164,13 @@ class OrderDraftController extends Controller
 
             // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')
-                ->with('success', 'Order draft final created successfully and order processing stage updated.')
+                ->with('success', 'تم إنشاء مسودة الطلب النهائية بنجاح وتم تحديث مرحلة معالجة الطلب.')
                 ->with('notifications', $notifications);
 
         } catch (\Exception $e) {
             // التعامل مع الخطأ
             return redirect()->route('designer.approved.orders')
-                ->with('error', 'An error occurred while creating the order draft: ' . $e->getMessage());
+                ->with('error', 'حدث خطأ أثناء إنشاء مسودة الأمر:' . $e->getMessage());
         }
 
     }

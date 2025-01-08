@@ -97,18 +97,18 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">delete all Notification Read</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">حذف جميع الإشعارات المقروءة</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    do you need delete all Notification Read
+                    هل تريد حذف جميع الإشعارات المقروءة؟
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
                     <form action="{{ route('delete.allReadnotification') }}" method="POST">
                         @csrf
                         @method('post')
-                        <button type="submit" class="btn btn-danger">Yes, Delete All</button>
+                        <button type="submit" class="btn btn-danger">نعم، حذف الكل</button>
                     </form>
                 </div>
             </div>

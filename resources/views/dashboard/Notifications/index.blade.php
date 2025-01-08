@@ -33,64 +33,64 @@
     @endif
 
     <div class="mb-4">
-        <h2 class="mb-4">Notifications</h2>
+        <h2 class="mb-4">الإشعارات</h2>
         <div class="row">
-            <div class="col-9">
-        <button id="hideBlueButton" class="btn btn-warning  mb-3">Read</button>
-        <button id="hideGrayButton" class="btn btn-primary mb-3">UnRead</button>
-        <button id="showAllButton" class="btn btn-success mb-3">Show All</button>
+            <div class="col-9 text-end">
+                <button id="hideBlueButton" class="btn btn-warning mb-3">تمت قراءتها</button>
+                <button id="hideGrayButton" class="btn btn-primary mb-3">غير مقروءة</button>
+                <button id="showAllButton" class="btn btn-success mb-3">عرض الكل</button>
             </div>
 
-            <div class="col-3">
+            <div class="col-3 text-start">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                   delete all Notification Read
+                    حذف جميع الإشعارات المقروءة
                 </button>
             </div>
-
         </div>
 
         @if($notifications1->count())
             <ul class="list-group">
                 @foreach ($notifications1 as $notification)
                     <li class="list-group-item d-flex justify-content-between align-items-start
-                    @if(is_null($notification->read_at))
+                @if(is_null($notification->read_at))
                         bg-light-blue
-                    @else
+@else
                         bg-light-gray
-                    @endif">
-                        <div class="ms-2 me-auto">
+@endif">
+                        <div class="me-2 ms-auto text-end">
                             @if(isset($notification->data['order_id']))
                                 <div class="fw-bold">
                                     <a href="{{ route('admin.order.show', ['order' => $notification->data['order_id'], 'notificationId' => $notification->id]) }}">
                                         {{ $notification->data['message'] }}
                                     </a>
                                 </div>
-                                <small>Order ID: {{ $notification->data['order_id'] }}</small>
+                                <small>رقم الطلب: {{ $notification->data['order_id'] }}</small>
                             @elseif(isset($notification->data['join_as_designer_id']))
                                 <div class="fw-bold">
                                     <a href="{{ route('admin.joinasdesigner.showWhitNotficition', ['joinasdesigner' => $notification->data['join_as_designer_id'], 'notificationId' => $notification->id]) }}">
                                         {{ $notification->data['message'] }}
                                     </a>
                                 </div>
-                                <small>Designer ID: {{ $notification->data['join_as_designer_id'] }}</small>
+                                <small>رقم المصمم: {{ $notification->data['join_as_designer_id'] }}</small>
                             @endif
                             <br>
                             <small>{{ $notification->created_at->diffForHumans() }}</small>
                         </div>
                         @if(is_null($notification->read_at))
-                            <span class="badge bg-primary rounded-pill">New</span>
+                            <span class="badge bg-primary rounded-pill">جديد</span>
                         @else
-                            <button class="btn btn-danger btn-sm delete-notification" data-id="{{ $notification->id }}">Delete</button>
+                            <button class="btn btn-danger btn-sm delete-notification" data-id="{{ $notification->id }}">حذف</button>
                         @endif
                     </li>
                 @endforeach
             </ul>
         @else
-            <div class="alert alert-info mt-3">
-                No notifications to show.
+            <div class="alert alert-info mt-3 text-end">
+                لا توجد إشعارات لعرضها.
             </div>
         @endif
     </div>
+
 
 
     <!-- Modal -->
@@ -98,23 +98,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">delete all Notification Read</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="exampleModalLabel">حذف جميع الإشعارات المقروءة</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
                 </div>
                 <div class="modal-body">
-                  do you need delete all Notification Read
+                    هل تريد حذف جميع الإشعارات المقروءة؟
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
                     <form action="{{ route('notifications.deleteAllRead') }}" method="POST">
                         @csrf
                         @method('post')
-                        <button type="submit" class="btn btn-danger">Yes, Delete All</button>
+                        <button type="submit" class="btn btn-danger">نعم، حذف الكل</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
 
 

@@ -200,7 +200,7 @@
 
   </aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+  <main id="main" class="main" dir="rtl">
 
 
 

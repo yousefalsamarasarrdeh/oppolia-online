@@ -33,8 +33,26 @@
             <p><strong>رقم الطلب:</strong> {{ $order->id }}</p>
             <p><strong>مساحة المطبخ:</strong> {{ $order->kitchen_area }} متر مربع</p>
             <p><strong>شكل المطبخ:</strong> {{ $order->kitchen_shape }}</p>
-            <p><strong>التكلفة المتوقعة:</strong> ${{ $order->expected_cost }}</p>
-            <p><strong>حالة الطلب:</strong> {{ $order->order_status }}</p>
+            <p><strong>التكلفة المتوقعة:</strong> {{ $order->expected_cost }} SAR</p>
+            <p><strong>حالة الطلب:</strong>
+                @switch($order->order_status)
+                    @case('accepted')
+                    مقبول
+                    @break
+                    @case('rejected')
+                    مرفوض
+                    @break
+                    @case('closed')
+                    مغلق
+                    @break
+                    @case('pending')
+                    قيد الانتظار
+                    @break
+                    @default
+                    غير معروف
+                @endswitch
+            </p>
+
             <p><strong>منطقة الطلب :</strong> {{ $order->region->name_ar}}</p>
         </div>
 
@@ -165,7 +183,34 @@
                                 <p>لا يوجد ملف PDF.</p>
                             @endif
                         </td>
-                        <td>{{ $draft->state }}</td>
+
+                        <td>
+                            @switch($draft->state)
+                                @case('draft')
+                                مسودة
+                                @break
+                                @case('finalized')
+                                نهائي
+                                @break
+                                @case('approved')
+                                معتمد
+                                @break
+                                @case('rejected')
+                                مرفوض
+                                @break
+                                @case('designer_changed')
+                                تعديل المصمم
+                                @break
+                                @case('redesign')
+                                إعادة تصميم
+                                @break
+                                @case('modified')
+                                معدل
+                                @break
+                                @default
+                                غير معروف
+                            @endswitch
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -179,7 +224,7 @@
 @endsection
 @section('script')
 
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGE&callback=initMap" async defer></script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
 
                     <script>
                         function initMap() {

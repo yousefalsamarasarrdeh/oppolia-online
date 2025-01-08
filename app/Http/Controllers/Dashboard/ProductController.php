@@ -88,7 +88,7 @@ class ProductController extends Controller
                 ]);
             }
 
-            return redirect()->route('admin.products.create')->with('success', 'Product and descriptions added successfully!');
+            return redirect()->route('admin.products.create')->with('success', 'تمت إضافة المنتج والأوصاف بنجاح');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Failed to create product: ' . $e->getMessage()])->withInput();
         }
@@ -179,7 +179,7 @@ class ProductController extends Controller
                 }
             }
 
-            return redirect()->route('admin.products.edit', $product->id)->with('success', 'Product and descriptions updated successfully!');
+            return redirect()->route('admin.products.edit', $product->id)->with('success', 'تم تحديث المنتج والأوصاف بنجاح');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Failed to update product: ' . $e->getMessage()])->withInput();
         }
@@ -211,7 +211,7 @@ class ProductController extends Controller
             // حذف المنتج بعد حذف جميع الأوصاف المرتبطة
             $product->delete();
 
-            return redirect()->route('admin.products.index')->with('success', 'Product and related descriptions deleted successfully!');
+            return redirect()->route('admin.products.index')->with('success', 'تم حذف المنتج والأوصاف ذات الصلة بنجاح');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Failed to delete product: ' . $e->getMessage()]);
         }

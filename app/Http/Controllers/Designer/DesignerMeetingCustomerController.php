@@ -28,7 +28,7 @@ class DesignerMeetingCustomerController extends Controller
 
             // التحقق مما إذا كان المصمم هو الذي وافق على الطلب
             if ($order->approved_designer_id != $designer->id) {
-                return redirect()->route('designer.approved.orders')->with('error', 'You do not have permission to create a meeting for this order.');
+                return redirect()->route('designer.approved.orders')->with('error', 'ليس لديك الإذن بإنشاء اجتماع لهذا الطلب.');
             }
 
             // التحقق من المدخلات
@@ -67,7 +67,7 @@ class DesignerMeetingCustomerController extends Controller
         } catch (\Exception $e) {
             // التعامل مع الخطأ
             return redirect()->route('designer.approved.orders')
-                ->with('error', 'An error occurred while creating the meeting: ' . $e->getMessage());
+                ->with('error', 'حدث خطأ أثناء إنشاء الاجتماع: ' . $e->getMessage());
         }
     }
 

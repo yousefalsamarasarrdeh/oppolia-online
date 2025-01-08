@@ -40,7 +40,7 @@ class CategoryController extends Controller
             }
 
             Category::create($validated);
-            return redirect()->route('admin.categories.index')->with('success', 'Category created successfully!');
+            return redirect()->route('admin.categories.index')->with('success', 'تم إنشاء الفئة بنجاح');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Failed to create category: ' . $e->getMessage()])->withInput();
         }
@@ -83,7 +83,7 @@ class CategoryController extends Controller
             $category->update($validated);
 
             // إعادة توجيه إلى صفحة الفهرسة مع رسالة نجاح
-            return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully!');
+            return redirect()->route('admin.categories.index')->with('success', 'تم تحديث الفئة بنجاح');
         } catch (\Exception $e) {
             // العودة إلى الصفحة مع رسالة خطأ إذا حدث استثناء
             return back()->withErrors(['error' => 'Failed to update category: ' . $e->getMessage()])->withInput();
@@ -105,7 +105,7 @@ class CategoryController extends Controller
             // حذف الفئة الأساسية
             $category->delete();
 
-            return redirect()->route('admin.categories.index')->with('success', 'Category and its subcategories deleted successfully!');
+            return redirect()->route('admin.categories.index')->with('success', 'تم حذف الفئة وفئاتها الفرعية بنجاح');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Failed to delete category: ' . $e->getMessage()])->withInput();
         }

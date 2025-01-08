@@ -160,7 +160,7 @@ class AdminUserManagement extends Controller
             }
 
             // إعادة توجيه المستخدم بعد النجاح
-            return redirect()->route('admin.users.index.main')->with('success', ' updated successfully.');
+            return redirect()->route('admin.users.index.main')->with('success', 'تم التعديل بنجاح');
         } catch (\Exception $e) {
             // في حال حدوث خطأ، سيتم التقاطه هنا
             return redirect()->back()->with('error', 'An error occurred while updating the user and designer: ' . $e->getMessage());

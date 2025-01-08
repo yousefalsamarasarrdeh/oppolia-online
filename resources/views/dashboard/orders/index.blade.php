@@ -151,7 +151,23 @@
                 scrollX: true, // تمكين التمرير الأفقي
 
                 buttons: [
-                //    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy',
+                    {
+                        extend: 'csvHtml5',
+                        text: 'تصدير إلى CSV',
+                        charset: 'utf-8',
+                        bom: true, // إضافة BOM لجعل Excel يتعرف على الترميز
+                        title: 'جدول الطلبات',
+                        className: 'btn btn-primary'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: 'تصدير إلى Excel',
+                        title: 'جدول الطلبات',
+                        className: 'btn btn-primary'
+                    },
+                    'pdf',
+                    'print'
                 ],
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/ar.json"

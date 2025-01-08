@@ -125,10 +125,10 @@ class HomeController extends Controller
                 'order_status' => 'rejected'
             ]);
 
-            return redirect()->back()->with('success', 'Order rejected successfully.');
+            return redirect()->back()->with('success', 'تم رفض الطلب بنجاح.');
         }
 
-        return redirect()->back()->with('error', 'You are not authorized to reject this order.');
+        return redirect()->back()->with('error', 'لا يحق لك رفض هذا الطلب.');
     }
 
     public function approvedOrders()
@@ -139,7 +139,7 @@ class HomeController extends Controller
         // تحقق مما إذا كان المصمم موجودًا
         if (!$designer) {
             // إذا لم يكن المصمم موجودًا، قم بإعادة توجيه المستخدم أو عرض رسالة
-            return redirect()->route('designer.notification')->withErrors('You are not authorized to access this page.');
+            return redirect()->route('designer.notification')->withErrors('غير مصرح لك بالدخول إلى هذه الصفحة.');
         }
 
         // استرجاع الطلبات التي وافق عليها المصمم الحالي
@@ -175,7 +175,7 @@ class HomeController extends Controller
             ]);
         } else {
             // إذا لم يكن المصمم هو الموافق، اعرض رسالة خطأ أو وجهه إلى صفحة "لا تملك الصلاحية"
-            return redirect()->route('designer.approved.orders')->with('error', 'You do not have permission to view this order.');
+            return redirect()->route('designer.approved.orders')->with('error', 'ليس لديك الإذن لعرض هذا الطلب.');
         }
     }
 
@@ -197,7 +197,7 @@ class HomeController extends Controller
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.order_draft', compact('order', 'notifications'));
             } elseif ($order->processing_stage == 'stage_five') {
-                return redirect()->route('designer.approved.orders')->with('error', 'The final design cannot be submitted unless the user approves the design.');
+                return redirect()->route('designer.approved.orders')->with('error', 'لا يمكن تقديم التصميم النهائي إلا بعد موافقة المستخدم على التصميم.');
             } elseif ($order->processing_stage == 'stage_six') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 $approvedDrafts = $order->orderDraft()->where('state', 'approved')->get();
@@ -207,7 +207,7 @@ class HomeController extends Controller
 
 
         } else {
-            return redirect()->route('designer.approved.orders')->with('error', 'You do not have permission to process this order.');
+            return redirect()->route('designer.approved.orders')->with('error', ' ');
         }
     }
 

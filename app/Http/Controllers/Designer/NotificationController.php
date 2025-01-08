@@ -14,11 +14,11 @@ class NotificationController extends Controller
             $notification=  $notification->Designer;
             $notification =$notification->notifications()->find($id);
             if (!$notification) {
-                return response()->json(['message' => 'Notification not found'], 404);
+                return response()->json(['message' => 'لم يتم العثور على الإخطار'], 404);
             }
 
             $notification->delete();
-            return response()->json(['message' => 'Notification deleted successfully'], 200);
+            return response()->json(['message' => 'تم حذف الإشعار بنجاح'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }

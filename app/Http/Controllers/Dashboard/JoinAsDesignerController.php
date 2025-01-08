@@ -91,7 +91,7 @@ class JoinAsDesignerController extends Controller
         $designer->delete();
 
         // إعادة التوجيه مع رسالة نجاح
-        return redirect()->back()->with('success', 'Record has been deleted successfully.');
+        return redirect()->back()->with('success', 'تم حذف السجل بنجاح.');
 
     }
 }

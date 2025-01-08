@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('order_drafts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id'); // مرتبط بالطلب
-            $table->decimal('price', 15, 3); // السعر
+            $table->decimal('price', 15, 2 ); // السعر
             $table->json('images')->nullable(); // JSON for multiple images
 
             $table->string('pdf')->nullable(); // Path to PDF file

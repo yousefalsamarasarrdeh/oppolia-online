@@ -60,7 +60,7 @@
       @include('dashboard.includes.area_manager_sidebar')
   @endif
 
-  <main id="main" class="main">
+  <main id="main" class="main" dir="rtl">
 
 
 

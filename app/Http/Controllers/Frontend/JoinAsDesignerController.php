@@ -89,7 +89,7 @@ class JoinAsDesignerController extends Controller
 
 
         // إعادة التوجيه مع رسالة نجاح
-        return redirect()->back()->with('success', 'Your information has been submitted successfully.');
+        return redirect()->back()->with('success', 'لقد تم إرسال المعلومات الخاصة بك بنجاح.');
     }
 
 

@@ -17,7 +17,7 @@
                         {{ __('You are logged in!') }}
 
                     <!-- تحقق من دور المستخدم واضف الزر المناسب -->
-                        @if (Auth::user()->role == 'admin' or Auth::user()->role == 'Sales manager' or Auth::user()->role == 'Area manager' )
+                        @if (Auth::user()->role == 'admin')
                             <a href="{{ route('admin.designers.index') }}" class="btn btn-primary mt-3">
                                 {{ __('Go to Admin Dashboard') }}
                             </a>
