@@ -61,7 +61,9 @@
                             @if(isset($notification->data['order_id']))
                                 <div class="fw-bold">
                                     <a href="{{ route('admin.order.show', ['order' => $notification->data['order_id'], 'notificationId' => $notification->id]) }}">
-                                        {{ $notification->data['message'] }}
+                                        {{ isset($notification->data['meeting_time'])
+                                            ? Str::of($notification->data['message'])->replace($notification->data['meeting_time'], explode('T', $notification->data['meeting_time'])[0])
+                                            : $notification->data['message'] }}
                                     </a>
                                 </div>
                                 <small>رقم الطلب: {{ $notification->data['order_id'] }}</small>

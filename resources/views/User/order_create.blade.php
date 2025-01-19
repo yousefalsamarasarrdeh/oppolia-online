@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.Frontend.mainlayoutfrontend')
 @section('content')
 
     <!-- عرض رسالة النجاح -->
@@ -158,7 +158,7 @@
     <input id="search_map" type="text" placeholder="ابحث هنا..." class="form-control">
     </div>
     <!-- Google Maps JavaScript -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=&libraries=geometry,places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGE&libraries=geometry,places&callback=initMap" async defer></script>
 
     <script>
         var map, marker, geocoder, autocomplete;

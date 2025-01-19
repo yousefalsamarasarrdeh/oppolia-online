@@ -55,12 +55,10 @@ class OtpLoginController extends Controller
         ]);
 
         if ($response->failed()) {
-            // إذا فشل الإرسال، قم بمعالجة الخطأ
-            return redirect()->back()->withErrors(['error' => 'Failed to send OTP. Please try again.']);
+            return response()->json(['success' => false, 'message' => 'Failed to send OTP.'], 500);
         }
 
-        // إعادة توجيه المستخدم إلى صفحة إدخال الـ OTP
-        return redirect()->route('otp.verify')->with('phone', $user->phone);
+        return response()->json(['success' => true, 'message' => 'OTP sent successfully.']);
     }
 
 

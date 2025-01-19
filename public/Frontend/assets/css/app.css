@@ -39,8 +39,8 @@ body {
 	color: #757575;
 	font-size: 14px;
 	letter-spacing: .5px;
-	font-weight: 500;
-	font-family: 'Albert Sans', sans-serif;
+ /*	font-weight: 500; */
+	font-family:"Ubuntu Sans", system-ui ;
 	background-color: #fff;
 }
 
@@ -2022,5 +2022,122 @@ body.bg-theme15 {
 	.slider-content {
 		left: 30%
 	  }
+}
+.myfont_1 {
+
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 21.6px;
+    text-align: left;
+    color: black;
+}
+.myfont_2  {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21.6px;
+    text-align: left;
+    color: black;
+}
+.myfont_3{
+
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 21.6px;
+    text-align: left;
+    color:white;
+
+
+}
+.myfont_4{
+
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 50px;
+    color:black;
+}
+.myfont_5{
+
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 35px;
+    text-align: right;
+    color:#444444;
+}
+
+.myfont_6{
+
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 35px;
+    text-align: right;
+}
+
+.myborder_radiu_5{
+
+    border-radius: 5px 5px 5px 5px;
+}
+
+.padding-10{
+    padding: 10px;
+}
+.my_nav_backgrond1 {
+    background: var(--Primary-Color, #509F96);
+    padding:10px;
+
+}
+
+.modal-header {
+    border-bottom: 0px;
+}
+.modal-footer {
+
+     border-top: 0px ;
+
+}
+.mytext_center{
+    text-align: center;
+}
+.myfill_width {
+    width: -webkit-fill-available;
+
+}
+.mycolor_btn{
+   background-color:#0A4740;
+   color:#F3F3F3;
+
+}
+
+/*flag */
+
+ .input-container {
+     position: relative;
+     width: 100%;
+
+ }
+
+.input-container img {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* المسافة من جهة اليمين */
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 40px 10px 10px; /* مساحة لإظهار العلم */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    direction: ltr; /* لجعل النص يبدأ من اليسار */
+}
+.bg-footer{
+    background: var(--White, #F3F3F3);
+
+}
+.bg-under-footer{
+    background:  #509F96;
+    color:white;
 }
 

@@ -1231,3 +1231,30 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+
+
+
+
+
+.dropdown-menu.notifications {
+    max-height: 300px; /* أو أي ارتفاع يناسبك */
+    overflow-y: auto;
+}
+.dropdown-menu.notifications {
+    scrollbar-width: thin; /* لتقليل عرض شريط التمرير */
+    scrollbar-color: #007bff #f1f1f1; /* تغيير ألوان شريط التمرير */
+}
+
+.dropdown-menu.notifications::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu.notifications::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+}
+
+.dropdown-menu.notifications::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}

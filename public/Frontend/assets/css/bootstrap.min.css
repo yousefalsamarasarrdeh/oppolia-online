@@ -7254,7 +7254,7 @@ textarea.form-control-lg {
 }
 .bg-warning {
 	--bs-bg-opacity: 1;
-	background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity))!important
+	background-color: #f3f3f3!important
 }
 .bg-danger {
 	--bs-bg-opacity: 1;

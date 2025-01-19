@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.Frontend.mainlayoutfrontend')
 @section('content')
 
     <!-- عرض رسالة النجاح -->

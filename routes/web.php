@@ -14,9 +14,11 @@ use App\Http\Controllers\Users\OrderController;
 use App\Http\Controllers\Designer\OrderDraftController;
 use App\Http\Controllers\Dashboard\RegionController;
 use App\Http\Controllers\Auth\OtpLoginController;
-Route::get('/', function () {
-    return view('welcome');
-});
+
+use App\Http\Controllers\Frontend\HomeController;
+
+
+
 Route::middleware(['admin'])->group(function () {
 
 
@@ -93,7 +95,7 @@ Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->gr
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth' ,'set-locale'])->group(function () {
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.myOrders');
@@ -158,9 +160,10 @@ Route::get('set/lang/{lang}',function ($lang){
 Route::middleware(['set-locale'])->group(function () {
 
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+
+    Route::get('/', [HomeController::class, 'index'])->name('welcome');
+    Route::get('/about', [HomeController::class, 'about'])->name('home.about');
+    Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 
 });
 Route::middleware('guest')->group(function () {

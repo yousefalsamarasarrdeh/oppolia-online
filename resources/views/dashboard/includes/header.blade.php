@@ -1,29 +1,6 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <style>
-        .dropdown-menu.notifications {
-            max-height: 300px; /* أو أي ارتفاع يناسبك */
-            overflow-y: auto;
-        }
-        .dropdown-menu.notifications {
-            scrollbar-width: thin; /* لتقليل عرض شريط التمرير */
-            scrollbar-color: #007bff #f1f1f1; /* تغيير ألوان شريط التمرير */
-        }
 
-        .dropdown-menu.notifications::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .dropdown-menu.notifications::-webkit-scrollbar-thumb {
-            background: #007bff;
-            border-radius: 10px;
-        }
-
-        .dropdown-menu.notifications::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-    </style>
     <div class="d-flex align-items-center justify-content-between">
         <a href="mainlayout.blade.php" class="logo d-flex align-items-center">
             <img src="{{url('Dashboard/assets/img/Oppolia-logo-website.png')}}" alt="">
