@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Designer;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\FinalDraftWithFirstPayment;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDraft;
@@ -93,24 +92,27 @@ class OrderDraftController extends Controller
         }
     }
 
-    public function store_finalized(Request $request, $orderId)
-    {
-        try {
+    public function store_finalized(Request $request, $orderId){
 
+        try {
+            // جلب الطلب باستخدام $orderId
             $order = Order::findOrFail($orderId);
+
+            // جلب المصمم الحالي
             $designer = auth()->user()->designer;
             $notifications = $designer->unreadNotifications;
 
+            // التحقق مما إذا كان المصمم هو الذي وافق على الطلب
             if ($order->approved_designer_id != $designer->id) {
-                return redirect()->route('designer.approved.orders')->with('error', 'ليس لديك الإذن بإنشاء مسودة أمر لهذا الطلب.');
+                return redirect()->route('designer.approved.orders')->with('error', 'ليس لديك الإذن بإنشاء مسودة أمر لهذا الطلب');
             }
 
+            // التحقق من المدخلات
             $validated = $request->validate([
                 'price' => 'required|numeric',
-                'price_after_discount' => 'required|numeric',
-                'installment_amount' => 'required|numeric',
-                'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
-                'pdf' => 'required|mimes:pdf|max:10240',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // التحقق من الصور
+
+                'pdf' => 'required|mimes:pdf|max:10240', // التحقق من PDF
                 'state' => 'required|in:draft,finalized,approved,rejected',
             ]);
 
@@ -118,79 +120,60 @@ class OrderDraftController extends Controller
             $imagesPaths = [];
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = $image->store('order_draft_images', 'public');
+                    $path = $image->store('order_draft_images', 'public'); // تخزين الصورة في مجلد order_draft_images
                     $imagesPaths[] = $path;
                 }
             }
 
+            // رفع صور القياسات وتخزين المسارات
+
+
             // رفع PDF وتخزين المسار
             $pdfPath = null;
             if ($request->hasFile('pdf')) {
-                $pdfPath = $request->file('pdf')->store('order_draft_pdfs', 'public');
-            }
-
-            // حساب النسبة المئوية للخصم
-            $price = $validated['price'];
-            $priceAfterDiscount = $validated['price_after_discount'];
-            if ($price > 0) {
-                $discountPercentage = (($price - $priceAfterDiscount) / $price) * 100;
-            } else {
-                $discountPercentage = 0;
+                $pdfPath = $request->file('pdf')->store('order_draft_pdfs', 'public'); // تخزين الـ PDF في مجلد order_draft_pdfs
             }
 
             // إنشاء OrderDraft جديد
-            $orderDraft = \App\Models\OrderDraft::create([
+            \App\Models\OrderDraft::create([
                 'order_id' => $order->id,
                 'price' => $validated['price'],
-                'images' => json_encode($imagesPaths),
-                'pdf' => $pdfPath,
+                'images' => json_encode($imagesPaths), // تخزين المسارات كـ JSON
+
+                'pdf' => $pdfPath, // تخزين مسار PDF
                 'state' => $validated['state'],
             ]);
 
-            // إنشاء سجل في جدول Sales
-            $sale = \App\Models\Sale::create([
-                'order_id' => $order->id,
-                'total_cost' => $price,
-                'price_after_discount' => $priceAfterDiscount,
-                'discount_percentage' => $discountPercentage,
-            ]);
-
-            // إنشاء سجل في جدول Installments
-            $installmentAmount = $validated['installment_amount'];
-            $percentage = ($priceAfterDiscount > 0) ? ($installmentAmount / $priceAfterDiscount) * 100 : 0;
-
-            \App\Models\Installment::create([
-                'sale_id' => $sale->id,
-                'installment_amount' => $installmentAmount,
-                'percentage' => $percentage,
-                'installment_number'=>1,
-            ]);
-
+            // تحديث مرحلة المعالجة إلى المرحلة المطلوبة
             $order->update([
-                'processing_stage' => 'stage_seven',
+                'processing_stage' => 'stage_seven', // يمكنك تغيير المرحلة كما هو مطلوب
             ]);
-            Notification::send($order->user, new FinalDraftWithFirstPayment($order));
 
-            $message = "أرسل أحد المصممين تصميمًا نهائيا لطلبك. يرجى الدخول إلى موقعنا لمشاهدة التصميم";
+            $message = "أرسل أحد المصممين تصميمًا نهائيا لطلبك. يرجى  الدخول إلى موقعنا لمشاهدة التصميم";
 
-            Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+            // إرسال الـ SMS باستخدام رقم هاتف المستخدم المرتبط بالطلب
+            $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
                 'message' => $message,
                 'sender' => env('SMS_SENDER'),
-                'numbers' => $order->user->phone,
+                'numbers' => $order->user->phone // الوصول إلى رقم هاتف المستخدم
             ]);
 
+
+
+            // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')
                 ->with('success', 'تم إنشاء مسودة الطلب النهائية بنجاح وتم تحديث مرحلة معالجة الطلب.')
                 ->with('notifications', $notifications);
 
         } catch (\Exception $e) {
+            // التعامل مع الخطأ
             return redirect()->route('designer.approved.orders')
                 ->with('error', 'حدث خطأ أثناء إنشاء مسودة الأمر: ' . $e->getMessage());
         }
-    }
 
+    }
 
 
 }

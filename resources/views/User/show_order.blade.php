@@ -26,7 +26,7 @@
         </div>
     @endif
 
-    <div class="container">
+    <div class="container" dir="rtl">
         <h1>تفاصيل الطلب</h1>
         <table class="table">
             <tr>
@@ -70,8 +70,8 @@
                     <th>ملفات الصور</th>
                     <th>ملف PDF</th>
                     @if ($order->processing_stage != 'stage_six')
-                    <th>إجراءات</th>
-                        @endif
+                        <th>إجراءات</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -97,12 +97,10 @@
                             @endif
                         </td>
                         <td>
-
-                            <!-- أزرار التحكم -->
                             @if($draft->state === 'finalized')
                                 <form action="#" method="POST" style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn btn-primary">شراء</button>
+
                                 </form>
                             @else
                                 @if ($order->processing_stage != 'stage_six')
@@ -128,5 +126,120 @@
         @else
             <p>لا توجد مسودات مرتبطة بهذا الطلب.</p>
         @endif
+
+    <!-- تفاصيل المبيعات -->
+        <h2>تفاصيل المبيعات</h2>
+        @if ($order->sale)
+            <table class="table">
+                <tr>
+
+                </tr>
+                <tr>
+                    <th>التكلفة الإجمالية:</th>
+                    <td>{{ $order->sale->total_cost }} ريال</td>
+                </tr>
+                <tr>
+                    <th>السعر بعد الخصم:</th>
+                    <td>{{ $order->sale->price_after_discount }} ريال</td>
+                </tr>
+                <tr>
+                    <th>نسبة الخصم:</th>
+                    <td>{{ $order->sale->discount_percentage }}%</td>
+                </tr>
+                <tr>
+                    <th>المبلغ المدفوع:</th>
+                    <td>{{ $order->sale->amount_paid }} ريال</td>
+                </tr>
+                <tr>
+                    <th>الحالة:</th>
+                    <td>{{ $order->sale->status }}</td>
+                </tr>
+            </table>
+
+            <!-- تفاصيل الأقساط -->
+            <h3>تفاصيل الدفعات</h3>
+            @if ($order->sale->installments->isNotEmpty())
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>المبلغ</th>
+                        <th>النسبة</th>
+                        <th>تاريخ الاستحقاق</th>
+                        <th>الحالة</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($order->sale->installments as $installment)
+                        <tr>
+
+                            <td>{{ $installment->installment_amount }} ريال</td>
+                            <td>{{ $installment->percentage }}%</td>
+                            <td>{{ $installment->due_date }}</td>
+                            <td>{{ $installment->status }}</td>
+
+                            @if ($installment->status === 'pending')
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#purchaseModal"
+                                        data-installment-id="{{ $installment->id }}"
+                                        data-installment-amount="{{ $installment->installment_amount }}"
+                                        data-installment-due-date="{{ $installment->due_date }}">
+                                        شراء
+                                    </button>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @else
+
+            @endif
+        @else
+            <p>لا توجد مبيعات مرتبطة بهذا الطلب.</p>
+        @endif
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true" dir="rtl">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="purchaseModalLabel">شروط وأحكام الشراء</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <p>لإتمام عملية الشراء، يجب قراءة الشروط والأحكام والموافقة عليها.</p>
+                    <p>
+
+                    </p>
+                    <a href="" target="_blank">عرض الشروط والأحكام</a>
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" id="agreeCheckbox">
+                        <label class="form-check-label" for="agreeCheckbox">
+                            أوافق على الشروط والأحكام
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <form action="" method="POST" id="purchaseForm">
+                        @csrf
+                        <button type="submit" class="btn btn-primary" id="confirmButton" disabled>تأكيد الشراء</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
