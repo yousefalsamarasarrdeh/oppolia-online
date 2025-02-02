@@ -140,7 +140,7 @@
     });
 </script>
 
-
+@yield('script')
 
  </body>
 

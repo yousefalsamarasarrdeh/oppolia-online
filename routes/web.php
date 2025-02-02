@@ -14,6 +14,8 @@ use App\Http\Controllers\Users\OrderController;
 use App\Http\Controllers\Designer\OrderDraftController;
 use App\Http\Controllers\Dashboard\RegionController;
 use App\Http\Controllers\Auth\OtpLoginController;
+use App\Http\Controllers\Users\InstallmentController;
+use App\Http\Controllers\Designer\SalesController;
 
 use App\Http\Controllers\Frontend\HomeController;
 
@@ -110,6 +112,8 @@ Route::middleware(['auth' ,'set-locale'])->group(function () {
 
 
     Route::get('user/notifications', [\App\Http\Controllers\Users\NotificationController::class, 'index'])->name('user.notifications.index');
+
+    Route::post('/installment/update-status', [InstallmentController::class, 'updateStatus'])->name('installment.updateStatus');
 });
 
 
@@ -143,6 +147,13 @@ Route::middleware(['designer'])->group(function () {
     Route::post('/designer/orders/{orderId}/order_draft_finalized', [OrderDraftController::class, 'store_finalized'])->name('designer.order_draft_finalized.store');
     Route::delete('/notifications/{id}', [\App\Http\Controllers\Designer\NotificationController::class, 'destroy'])->name('delete.notification');
     Route::post('/notifications/delete-all-read', [\App\Http\Controllers\Designer\NotificationController::class, 'deleteAllReadNotifications'])->name('delete.allReadnotification');
+    Route::post('/designer/sales/{sale}/installments', [SalesController::class, 'storeInstallment'])
+        ->name('sales.installments.store');
+
+    Route::post('/designer/sales/{sale}/installments/third', [SalesController::class, 'storeThirdInstallment'])
+        ->name('sales.installments.storeThird');
+    Route::get('/designer/sales/{sale}/complete', [SalesController::class, 'completeOrder'])
+        ->name('sales.completeOrder');
 
 
 });

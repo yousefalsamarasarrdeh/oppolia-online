@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Designer;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Notifications\FinalDraftWithFirstPayment;
+use App\Notifications\OrderAcceptedByDesignerNotification;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDraft;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\OrderDraftNotification;
+use App\Models\Installment;
+use App\Notifications\PaymentDetailsSentNotificationToAdmin;
 
 class OrderDraftController extends Controller
 {
@@ -152,6 +156,7 @@ class OrderDraftController extends Controller
                 'order_id' => $order->id,
                 'total_cost' => $price,
                 'price_after_discount' => $priceAfterDiscount,
+                'installments_count'=>1,
                 'discount_percentage' => $discountPercentage,
             ]);
 
@@ -159,7 +164,7 @@ class OrderDraftController extends Controller
             $installmentAmount = $validated['installment_amount'];
             $percentage = ($priceAfterDiscount > 0) ? ($installmentAmount / $priceAfterDiscount) * 100 : 0;
 
-            \App\Models\Installment::create([
+            $installment = Installment::create([
                 'sale_id' => $sale->id,
                 'installment_amount' => $installmentAmount,
                 'percentage' => $percentage,
@@ -169,6 +174,28 @@ class OrderDraftController extends Controller
             $order->update([
                 'processing_stage' => 'stage_seven',
             ]);
+
+            $designer = auth()->user()->designer;
+            $reginid = auth()->user()->region_id;
+
+
+            $regionManager = User::where('role', 'Area manager')
+                ->where('region_id', $reginid) // مدير المنطقة حسب منطقة المصمم
+                ->first();
+
+
+            if ($regionManager) {
+
+                $regionManager->notify(new PaymentDetailsSentNotificationToAdmin($order, $designer, $installment));
+            }
+            $salesManager = User::where('role', 'Sales manager')->first(); // الحصول على مدير المبيعات
+
+            if ($salesManager) {
+
+                $salesManager->notify(new PaymentDetailsSentNotificationToAdmin($order, $designer, $installment));
+            }
+
+
             Notification::send($order->user, new FinalDraftWithFirstPayment($order));
 
             $message = "أرسل أحد المصممين تصميمًا نهائيا لطلبك. يرجى الدخول إلى موقعنا لمشاهدة التصميم";

@@ -144,7 +144,7 @@ class HomeController extends Controller
 
         // استرجاع الطلبات التي وافق عليها المصمم الحالي
         $approvedOrders = Order::where('approved_designer_id', $designer->id)
-            ->where('order_status', 'accepted')
+        //    ->where('order_status', 'accepted')
             ->orderBy('created_at', 'desc') // ترتيب من الأحدث إلى الأقدم
             ->get();
         // استرجاع الإشعارات غير المقروءة
@@ -202,7 +202,25 @@ class HomeController extends Controller
                 // توجيه إلى واجهة ملء بيانات order draft
                 $approvedDrafts = $order->orderDraft()->where('state', 'approved')->get();
                 return view('designer.order_draft_finalized', compact('order', 'notifications','approvedDrafts'));
+            }  elseif ($order->processing_stage == 'stage_seven') {
+            return redirect()->route('designer.approved.orders')->with('error', 'لم يحصل الزبون بعد على تفاصيل الشراء');
+            }   elseif ($order->processing_stage == 'stage_eight') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.Second_payment', compact('order', 'notifications'));
+            }    elseif ($order->processing_stage == 'stage_nine') {
+            return redirect()->route('designer.approved.orders')->with('error', ' لم يحصل بعد الزبون على تفاصيل الشراء للدفعة الثانية');
+        }   elseif ($order->processing_stage == 'stage_ten') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.third_payment', compact('order', 'notifications'));
+            } elseif ($order->processing_stage == 'stage_eleven') {
+                return redirect()->route('designer.approved.orders')->with('error', ' لم يحصل بعد الزبون على تفاصيل الشراء للدفعة الثالثة');
             }
+            elseif ($order->processing_stage == 'stage_twelve') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.complete', compact('order', 'notifications'));
+            }
+
+
 
 
 

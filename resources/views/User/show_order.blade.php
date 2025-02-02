@@ -183,14 +183,25 @@
                                         type="button"
                                         class="btn btn-primary"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#purchaseModal"
+                                        data-bs-target="#termsModal"
                                         data-installment-id="{{ $installment->id }}"
                                         data-installment-amount="{{ $installment->installment_amount }}"
                                         data-installment-due-date="{{ $installment->due_date }}">
                                         شراء
                                     </button>
                                 </td>
+                            @elseif ($installment->status === 'awaiting_customer_payment')
+                                <td>
+                                    <div class="bank-details">
+                                        <p><strong>اسم البنك:</strong> مصرف الراجحي</p>
+                                        <p><strong>رقم الحساب:</strong> 123456789012345</p>
+                                        <p><strong>رقم الآيبان:</strong> SA1234567890123456789012</p>
+                                        <p><strong>العنوان:</strong> الرياض، المملكة العربية السعودية</p>
+
+                                    </div>
+                                </td>
                             @endif
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -212,18 +223,15 @@
 
 
 
-    <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true" dir="rtl">
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true" dir="rtl">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="purchaseModalLabel">شروط وأحكام الشراء</h5>
+                    <h5 class="modal-title" id="termsModalLabel">شروط وأحكام الشراء</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
                 </div>
                 <div class="modal-body">
                     <p>لإتمام عملية الشراء، يجب قراءة الشروط والأحكام والموافقة عليها.</p>
-                    <p>
-
-                    </p>
                     <a href="" target="_blank">عرض الشروط والأحكام</a>
                     <div class="form-check mt-3">
                         <input class="form-check-input" type="checkbox" id="agreeCheckbox">
@@ -234,12 +242,141 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <form action="" method="POST" id="purchaseForm">
-                        @csrf
-                        <button type="submit" class="btn btn-primary" id="confirmButton" disabled>تأكيد الشراء</button>
-                    </form>
+                    <button type="button" class="btn btn-primary" id="confirmTermsButton" disabled>تأكيد الشراء</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true" dir="rtl">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">تفاصيل الدفع</h5>
+                    <button type="button" class="btn-close close-payment-modal" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <p>الرجاء استخدام التفاصيل التالية لإتمام عملية الدفع:</p>
+                    <ul>
+                        <li><strong>اسم البنك:</strong> مصرف الراجحي</li>
+                        <li><strong>رقم الحساب:</strong> 123456789012345</li>
+                        <li><strong>رقم الآيبان:</strong> SA1234567890123456789012</li>
+                        <li><strong>العنوان:</strong> الرياض، المملكة العربية السعودية</li>
+                    </ul>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-payment-modal" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@endsection
+
+@section('script')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var termsModal = document.getElementById('termsModal');
+            var paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+
+            // تفعيل زر تأكيد الشراء بعد الموافقة على الشروط
+            document.getElementById("agreeCheckbox").addEventListener("change", function() {
+                document.getElementById("confirmTermsButton").disabled = !this.checked;
+            });
+
+            // عند الضغط على "تأكيد الشراء"، يتم إغلاق المودال الأول وفتح مودال الدفع
+            document.getElementById("confirmTermsButton").addEventListener("click", function() {
+                var modalInstance = bootstrap.Modal.getInstance(termsModal);
+                modalInstance.hide();
+                setTimeout(function() {
+                    paymentModal.show();
+                }, 500); // تأخير بسيط لضمان الإغلاق قبل الفتح
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var termsModal = new bootstrap.Modal(document.getElementById('termsModal'));
+            var paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+
+            // تفعيل زر "تأكيد الشراء" فقط بعد تحديد الموافقة على الشروط
+            document.getElementById("agreeCheckbox").addEventListener("change", function() {
+                document.getElementById("confirmTermsButton").disabled = !this.checked;
+            });
+
+            // عند الضغط على "تأكيد الشراء"، يتم إرسال طلب AJAX لتحديث حالة القسط
+            document.getElementById("confirmTermsButton").addEventListener("click", function(event) {
+                event.preventDefault(); // منع إعادة تحميل الصفحة
+
+                var installmentButton = document.querySelector("button[data-bs-target='#termsModal']");
+                var installmentId = installmentButton.getAttribute("data-installment-id");
+
+                // إرسال طلب AJAX إلى الخادم لتحديث حالة القسط
+                fetch("{{ route('installment.updateStatus') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}" // حماية CSRF
+                    },
+                    body: JSON.stringify({
+                        installment_id: installmentId
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log("تم تحديث حالة القسط بنجاح");
+
+                            // إغلاق المودال الأول قبل فتح المودال الثاني
+                            termsModal.hide();
+                            setTimeout(function() {
+                                paymentModal.show();
+                            }, 500); // تأخير بسيط لضمان الإغلاق قبل الفتح
+
+                        } else {
+                            console.error("خطأ في تحديث القسط:", data.error);
+                        }
+                    })
+                    .catch(error => console.error("حدث خطأ أثناء تحديث القسط:", error));
+            });
+
+            // التأكد من إغلاق المودال الثاني عند الضغط على زر الإغلاق بدون إعادة تحميل الصفحة
+            document.querySelector("#paymentModal .btn-secondary").addEventListener("click", function(event) {
+                event.preventDefault(); // منع إعادة تحميل الصفحة
+                paymentModal.hide();
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var paymentModalElement = document.getElementById('paymentModal');
+            var paymentModal = new bootstrap.Modal(paymentModalElement);
+
+            // تأكد من إغلاق المودال بدون تعليق عند الضغط على زر الإغلاق
+            document.querySelectorAll(".close-payment-modal").forEach(button => {
+                button.addEventListener("click", function(event) {
+                    event.preventDefault(); // منع إعادة تحميل الصفحة بشكل غير مقصود
+                    paymentModal.hide();
+                });
+            });
+
+            // عند إغلاق المودال الثاني، يتم إعادة تحميل الصفحة تلقائيًا
+            paymentModalElement.addEventListener("hidden.bs.modal", function() {
+                console.log("المودال مغلق! سيتم إعادة تحميل الصفحة...");
+                location.reload(); // إعادة تحميل الصفحة
+            });
+        });
+    </script>
+
+
+
+
+
 @endsection

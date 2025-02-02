@@ -154,6 +154,9 @@ class OrderController extends Controller
         }
 
         $notifications= auth()->user()->unreadNotifications;
+        if ($order->user_id !== auth()->id()) {
+            return redirect('/')->with('error', 'You are not authorized to view this order.');
+        }
 
 
 
@@ -177,6 +180,9 @@ class OrderController extends Controller
 
     public function changeDesigner(Request $request, Order $order)
     {
+        if ($order->user_id !== auth()->id()) {
+            return redirect('/')->with('error', 'You are not authorized to view this order.');
+        }
         // جلب جميع المصممين في نفس المنطقة
         $designers = Designer::join('users', 'designers.user_id', '=', 'users.id')
             ->where('users.region_id', $order->region_id)
@@ -246,9 +252,15 @@ class OrderController extends Controller
 
     public function redesignDraft(Request $request, $orderId, $draftId)
     {
+
         try {
             // جلب الطلب بناءً على الـ ID
             $order = Order::findOrFail($orderId);
+            if ($order->user_id !== auth()->id()) {
+                return redirect('/')->with('error', 'You are not authorized to view this order.');
+            }
+
+
 
             // جلب المسودة المرتبطة بالطلب والتي سيتم إعادة تصميمها
             $draft = $order->orderDraft()->where('id', $draftId)->firstOrFail();
@@ -283,6 +295,12 @@ class OrderController extends Controller
         try {
             // جلب الطلب بناءً على الـ ID
             $order = Order::findOrFail($orderId);
+
+            if ($order->user_id !== auth()->id()) {
+                return redirect('/')->with('error', 'You are not authorized to view this order.');
+            }
+
+
 
             // جلب المسودة بناءً على الـ draftId
             $draft = $order->orderDraft()->where('id', $draftId)->firstOrFail();

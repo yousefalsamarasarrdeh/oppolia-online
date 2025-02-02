@@ -69,4 +69,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderDraft::class);
     }
+
+    public function sale()
+    {
+        return $this->hasOne(Sale::class);
+    }
 }
