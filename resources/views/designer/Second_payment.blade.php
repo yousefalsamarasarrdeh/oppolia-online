@@ -26,7 +26,7 @@
                     <p><strong>إجمالي التكلفة </strong> {{ number_format($sale->total_cost, 2) }}</p>
                     <p><strong>إجمالي التكلفة بعد الخصم:</strong> {{ number_format($sale->price_after_discount, 2) }}</p>
 
-                    <p><strong>المبلغ المدفوع بالأقساط السابقة:</strong> {{ number_format($totalPaidInstallments, 2) }}</p>
+                    <p><strong>المبلغ المدفوع بالدفعات السابقة:</strong> {{ number_format($totalPaidInstallments, 2) }}</p>
                 @else
                     <p>لم يتم تسجيل عملية بيع لهذا الطلب بعد.</p>
                 @endif
@@ -35,7 +35,7 @@
 
         @if($installments->isNotEmpty())
             <div class="mt-4">
-                <h4>الأقساط</h4>
+                <h4>الدفعات</h4>
                 <table class="table table-bordered">
                     <thead>
                     <tr>
@@ -64,7 +64,7 @@
         @endif
 
         <div class="mt-4">
-            <h4>إضافة قسط جديد</h4>
+            <h4>إضافة دفعة جديد</h4>
             <form action="{{ route('sales.installments.store', $sale->id) }}" method="POST">
                 @csrf
                 <input type="hidden" name="sale_id" value="{{ $sale->id }}">

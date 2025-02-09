@@ -50,6 +50,13 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{route('dashboard.sales.index')}}">
+                <i class="bi bi-card-list"></i>
+                <span>المبيعات </span>
+            </a>
+        </li>
+
 
 
     </ul>

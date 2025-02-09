@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\RegionController;
 use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Users\InstallmentController;
 use App\Http\Controllers\Designer\SalesController;
+use App\Http\Controllers\Dashboard\SaleController;
 
 use App\Http\Controllers\Frontend\HomeController;
 
@@ -90,6 +91,12 @@ Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->gr
     Route::get('/admin/notifications', [\App\Http\Controllers\Dashboard\NotificationController::class, 'index'])->name('admin.notifications.index');
     Route::delete('/notifications/{id}', [\App\Http\Controllers\Dashboard\NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::post('/notifications/delete-all-read', [\App\Http\Controllers\Dashboard\NotificationController::class, 'deleteAllReadNotifications'])->name('notifications.deleteAllRead');
+
+
+    Route::get('/sales', [SaleController::class, 'index'])->name('dashboard.sales.index');
+    Route::get('/sales/{sale}/edit', [SaleController::class, 'edit'])->name('dashboard.sales.edit');
+    Route::post('/sales/{sale}/update', [SaleController::class, 'update'])->name('sales.update');
+
 
 
 

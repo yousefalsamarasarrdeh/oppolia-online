@@ -27,7 +27,7 @@
 
         @if($installments->isNotEmpty())
             <div class="mt-4">
-                <h4>الأقساط السابقة</h4>
+                <h4>الدفعات  السابقة</h4>
                 <table class="table table-bordered">
                     <thead>
                     <tr>

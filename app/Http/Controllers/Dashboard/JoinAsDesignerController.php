@@ -31,6 +31,11 @@ class JoinAsDesignerController extends Controller
         // جلب طلب الانضمام بناءً على ID
         $designerRequest = JoinAsADesigner::findOrFail($id);
 
+        $user = auth()->user();
+        if ($user->role === 'Area manager' && $user->region_id !== $designerRequest->region_id) {
+            abort(403, 'غير مسموح لك بالوصول إلى هذا ');
+        }
+
         // التحقق من حالة الطلب إذا كانت unread وتحديثها إلى read
         if ($designerRequest->status === 'unread') {
             $designerRequest->status = 'read';
