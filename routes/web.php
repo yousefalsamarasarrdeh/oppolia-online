@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Users\InstallmentController;
 use App\Http\Controllers\Designer\SalesController;
 use App\Http\Controllers\Dashboard\SaleController;
+use App\Http\Controllers\Users\DesignerRatingController;
 
 use App\Http\Controllers\Frontend\HomeController;
 
@@ -121,6 +122,10 @@ Route::middleware(['auth' ,'set-locale'])->group(function () {
     Route::get('user/notifications', [\App\Http\Controllers\Users\NotificationController::class, 'index'])->name('user.notifications.index');
 
     Route::post('/installment/update-status', [InstallmentController::class, 'updateStatus'])->name('installment.updateStatus');
+
+    Route::post('/rate-designer', [DesignerRatingController::class, 'store'])
+        ->name('rate.designer');
+    Route::put('/rate-designer/{id}', [DesignerRatingController::class, 'update'])->name('update.designer.rating');
 });
 
 

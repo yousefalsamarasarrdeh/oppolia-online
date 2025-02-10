@@ -11,6 +11,7 @@ class DesignerRating extends Model
     protected $fillable = [
         'designer_id',
         'user_id',
+        'order_id',
         'rating',
         'review',
     ];
@@ -23,5 +24,9 @@ class DesignerRating extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

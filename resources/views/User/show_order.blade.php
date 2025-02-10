@@ -127,6 +127,87 @@
             <p>لا توجد مسودات مرتبطة بهذا الطلب.</p>
         @endif
 
+
+        @if ($orderDraft->isNotEmpty())
+            <h2>تقييم المصمم</h2>
+
+            @php
+                // التحقق مما إذا كان المستخدم قد قيّم المصمم سابقًا
+                $existingRating = \App\Models\DesignerRating::where('user_id', auth()->id())
+                    ->where('designer_id', $order->approved_designer_id)
+                    ->where('order_id', $order->id)
+                    ->first();
+            @endphp
+
+            @if ($existingRating)
+            <!-- عرض التقييم السابق -->
+                <p><strong>تقييمك:</strong> {{ $existingRating->rating }} ⭐</p>
+                <p><strong>تعليقك:</strong> {{ $existingRating->review }}</p>
+
+                <!-- زر تعديل التقييم -->
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRatingModal">
+                    تعديل التقييم
+                </button>
+
+                <!-- مودال تعديل التقييم -->
+                <div class="modal fade" id="editRatingModal" tabindex="-1" aria-labelledby="editRatingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editRatingModalLabel">تعديل التقييم</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('update.designer.rating', $existingRating->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <label for="rating">التقييم (من 1 إلى 5):</label>
+                                    <select name="rating" id="rating" required>
+                                        <option value="1" {{ $existingRating->rating == 1 ? 'selected' : '' }}>⭐</option>
+                                        <option value="2" {{ $existingRating->rating == 2 ? 'selected' : '' }}>⭐⭐</option>
+                                        <option value="3" {{ $existingRating->rating == 3 ? 'selected' : '' }}>⭐⭐⭐</option>
+                                        <option value="4" {{ $existingRating->rating == 4 ? 'selected' : '' }}>⭐⭐⭐⭐</option>
+                                        <option value="5" {{ $existingRating->rating == 5 ? 'selected' : '' }}>⭐⭐⭐⭐⭐</option>
+                                    </select>
+
+                                    <label for="review">التعليق:</label>
+                                    <textarea name="review" id="review" required>{{ $existingRating->review }}</textarea>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                                        <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+            <!-- إذا لم يُقيّم المصمم، عرض نموذج التقييم -->
+                <form action="{{ route('rate.designer') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="designer_id" value="{{ $order->approved_designer_id }}">
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+
+                    <label for="rating">التقييم (من 1 إلى 5):</label>
+                    <select name="rating" id="rating" required>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+
+                    <label for="review">التعليق:</label>
+                    <textarea name="review" id="review" required></textarea>
+
+                    <button type="submit" class="btn btn-primary">إرسال التقييم</button>
+                </form>
+            @endif
+        @endif
+
+
     <!-- تفاصيل المبيعات -->
         <h2>تفاصيل المبيعات</h2>
         @if ($order->sale)
@@ -212,6 +293,9 @@
         @else
             <p>لا توجد مبيعات مرتبطة بهذا الطلب.</p>
         @endif
+
+
+
     </div>
 
 

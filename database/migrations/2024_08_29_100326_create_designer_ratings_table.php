@@ -15,6 +15,7 @@ class CreateDesignerRatingsTable extends Migration
             $table->id();
             $table->foreignId('designer_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->integer('rating')->unsigned()->default(1); // التقييم من 1 إلى 5
             $table->text('review')->nullable();
             $table->timestamps();
