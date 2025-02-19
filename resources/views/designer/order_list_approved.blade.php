@@ -82,12 +82,14 @@
                                             <!-- زر عرض الطلب -->
                                             <a href="{{ route('designer.order.show_without_notification', ['order' => $order->id]) }}" class="btn-view-order">عرض الطلب</a>
                                             <!-- زر المعالجة -->
-
-                                            @if($order->processing_stage == 'stage_thirteen')
+                                            @if($order->processing_stage == 'stage_eighteen')
                                                 <span class="text-danger">هذا الطلب منهي</span>
                                             @else
                                                 <a href="{{ route('designer.order.processing', ['order' => $order->id]) }}" class="btn-processing">معالجة</a>
                                             @endif
+
+
+
 
                                         </td>
                                     </tr>

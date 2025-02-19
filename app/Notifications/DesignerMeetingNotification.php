@@ -14,6 +14,7 @@ class DesignerMeetingNotification extends Notification
     public $order;
     public $designer;
     public $meetingTime;
+    public $message; // إضافة متغير لتخزين الرسالة
 
     /**
      * Create a new notification instance.
@@ -21,12 +22,16 @@ class DesignerMeetingNotification extends Notification
      * @param $order
      * @param $designer
      * @param $meetingTime
+     * @param string|null $message (اختياري)
      */
-    public function __construct($order, $designer, $meetingTime)
+    public function __construct($order, $designer, $meetingTime, $message = null)
     {
         $this->order = $order;
         $this->designer = $designer;
         $this->meetingTime = $meetingTime;
+
+        // تحديد الرسالة الافتراضية إذا لم يتم تمرير رسالة مخصصة
+        $this->message = $message ?? "المصمم {$this->designer->user->name} قام بزيارة العميل للطلب رقم {$this->order->id} بتاريخ {$this->meetingTime}.";
     }
 
     /**
@@ -52,7 +57,7 @@ class DesignerMeetingNotification extends Notification
             'order_id' => $this->order->id,
             'designer_name' => $this->designer->user->name,
             'meeting_time' => $this->meetingTime,
-            'message' => "المصمم {$this->designer->user->name} قام بزيارة العميل للطلب رقم {$this->order->id} بتاريخ {$this->meetingTime}.",
+            'message' => $this->message, // استخدام الرسالة المخصصة أو الافتراضية
         ];
     }
 }

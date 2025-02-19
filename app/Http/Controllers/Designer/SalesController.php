@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Designer;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Notifications\OrderCompletedNotification;
+use App\Notifications\PaymentCompletedNotification;
 use App\Notifications\PaymentDetailsSentNotificationToAdmin;
 use App\Notifications\SecondPaymentToCustomer;
 use App\Notifications\ThirdPaymentToCustomer;
@@ -248,7 +248,7 @@ class SalesController extends Controller
 
         $order->update([
             'processing_stage' => 'stage_thirteen',
-            'order_status'=>'closed'
+           // 'order_status'=>'closed'
         ]);
 
         $reginid = auth()->user()->region_id;
@@ -261,17 +261,18 @@ class SalesController extends Controller
 
         if ($regionManager) {
 
-            $regionManager->notify(new OrderCompletedNotification($order));
+            $regionManager->notify(new PaymentCompletedNotification($order));
         }
         $salesManager = User::where('role', 'Sales manager')->first(); // الحصول على مدير المبيعات
 
         if ($salesManager) {
 
-            $salesManager->notify(new OrderCompletedNotification($order));
+            $salesManager->notify(new PaymentCompletedNotification($order));
         }
 
+
         return redirect()->route('designer.approved.orders')
-            ->with('success', 'تمت انهاء الطلب .')
+            ->with('success', 'تمت انهاء الدفع .')
             ->with('notifications', $notifications);
 
     }

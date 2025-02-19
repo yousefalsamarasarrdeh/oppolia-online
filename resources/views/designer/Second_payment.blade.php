@@ -84,7 +84,7 @@
                     <input type="date" name="due_date" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">إضافة القسط</button>
+                <button type="submit" class="btn btn-primary">إضافة دفعة </button>
             </form>
         </div>
     </div>

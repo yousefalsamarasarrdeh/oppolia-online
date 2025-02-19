@@ -56,10 +56,10 @@
         @endif
 
         <div class="mt-4">
-            <h4>إنهاء الطلب وتحديث الحالة</h4>
+            <h4>إنهاء الدفعات وتحديث الحالة</h4>
 
             <a href="{{ route('sales.completeOrder', $sale->id) }}" class="btn btn-success">
-                <i class="fas fa-check"></i> اكتمال العملية وإنهاء الطلب
+                <i class="fas fa-check"></i> اكتمال العملية
             </a>
         </div>
     </div>

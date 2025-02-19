@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Designer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,27 @@ class DesignerMeetingCustomerController extends Controller
             if ($regionManager) {
 
                 $regionManager->notify(new DesignerMeetingNotification($order, $designer, $validated['meeting_time']));
+            }
+
+            $formattedMeetingDate = explode('T', $validated['meeting_time'])[0];
+
+            // **إرسال إشعار إلى العميل (صاحب الطلب)**
+            $customer = $order->user; // جلب العميل الذي أنشأ الطلب
+            if ($customer) {
+                $message = "المصمم {$designer->user->name} سيزورك للطلب رقم {$order->id} بتاريخ {$formattedMeetingDate}.";
+                $customer->notify(new DesignerMeetingNotification($order, $designer, $formattedMeetingDate, $message));
+
+
+                $smsMessage = "تم تحديد موعد زيارة المصمم لطلبك رقم {$order->id} في {$validated['meeting_time']}. شكرًا لاستخدامك خدماتنا!";
+
+
+                Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+                    'api_key'   => env('SMS_API_KEY'),
+                    'username'  => env('SMS_USERNAME'),
+                    'message'   => $smsMessage,
+                    'sender'    => env('SMS_SENDER'),
+                    'numbers'   => $customer->phone,
+                ]);
             }
 
 

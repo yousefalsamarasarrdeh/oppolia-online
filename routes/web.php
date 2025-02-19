@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Users\InstallmentController;
 use App\Http\Controllers\Designer\SalesController;
 use App\Http\Controllers\Dashboard\SaleController;
+use App\Http\Controllers\Designer\ManufactureAndInstallationController;
 use App\Http\Controllers\Users\DesignerRatingController;
 
 use App\Http\Controllers\Frontend\HomeController;
@@ -166,6 +167,20 @@ Route::middleware(['designer'])->group(function () {
         ->name('sales.installments.storeThird');
     Route::get('/designer/sales/{sale}/complete', [SalesController::class, 'completeOrder'])
         ->name('sales.completeOrder');
+
+
+    Route::post('/designer/manufacture/start/{order}', [ManufactureAndInstallationController::class, 'startManufacture'])
+        ->name('manufacture.start');
+    Route::post('/designer/manufacture/finish/{order}', [ManufactureAndInstallationController::class, 'finishManufacture'])
+        ->name('manufacture.finish');
+    Route::post('/designer/manufacture/arrived/{order}', [ManufactureAndInstallationController::class, 'confirmArrival'])
+        ->name('manufacture.arrived');
+    Route::post('/designer/installation/start/{order}', [ManufactureAndInstallationController::class, 'startInstallation'])
+        ->name('installation.start');
+    Route::post('/designer/installation/complete/{order}', [ManufactureAndInstallationController::class, 'completeInstallation'])
+        ->name('installation.complete');
+
+
 
 
 });

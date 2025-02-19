@@ -217,7 +217,29 @@ class HomeController extends Controller
             }
             elseif ($order->processing_stage == 'stage_twelve') {
                 // توجيه إلى واجهة ملء بيانات order draft
-                return view('designer.complete', compact('order', 'notifications'));
+                return view('designer.complete_payment', compact('order', 'notifications'));
+            }
+            elseif ($order->processing_stage == 'stage_thirteen') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.manufacturing_began', compact('order', 'notifications'));
+            }
+            elseif ($order->processing_stage == 'stage_fourteen') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.manufacturing_ending', compact('order', 'notifications'));
+            }
+
+            elseif ($order->processing_stage == 'stage_fifteen') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.order_arrived', compact('order', 'notifications'));
+            }
+            elseif ($order->processing_stage == 'stage_sixteen') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.installation_start', compact('order', 'notifications'));
+            }
+
+            elseif ($order->processing_stage == 'stage_seventeen') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.installation_end_and_complete', compact('order', 'notifications'));
             }
 
 
