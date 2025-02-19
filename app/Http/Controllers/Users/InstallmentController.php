@@ -29,16 +29,16 @@ class InstallmentController extends Controller
 
 
 
-        if ($order->processing_stage === 'stage_seven') {
-            $order->processing_stage = 'stage_eight';
+        if ($order->processing_stage === 'تم إرسال التصميم النهائي مع العقد وتفاصيل الدفعة الأولى') {
+            $order->processing_stage = 'تم الاطلاع على تفاصيل الدفعة الأولى من قبل الزبون';
             $order->save();
         }
-        if ($order->processing_stage === 'stage_nine') {
-            $order->processing_stage = 'stage_ten';
+        if ($order->processing_stage === 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية') {
+            $order->processing_stage = 'تم الاطلاع على تفاصيل الدفعة الثانية من قبل الزبون';
             $order->save();
         }
-        if ($order->processing_stage === 'stage_eleven') {
-            $order->processing_stage = 'stage_twelve';
+        if ($order->processing_stage === 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة') {
+            $order->processing_stage = 'تم الاطلاع على تفاصيل الدفعة الثالثة من قبل الزبون';
             $order->save();
         }
 

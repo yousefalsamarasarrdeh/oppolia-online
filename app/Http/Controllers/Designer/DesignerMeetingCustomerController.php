@@ -45,9 +45,9 @@ class DesignerMeetingCustomerController extends Controller
                 'meeting_time' => $validated['meeting_time'],
             ]);
 
-            // تحديث مرحلة المعالجة إلى "stage_three"
+            // تحديث مرحلة المعالجة إلى "تم تحديد موعد زيارة"
             $order->update([
-                'processing_stage' => 'stage_three',
+                'processing_stage' => 'تم تحديد موعد زيارة',
             ]);
             $regionManager = User::where('role', 'Area manager')
                 ->where('region_id', $regionId) // مدير المنطقة حسب منطقة المصمم

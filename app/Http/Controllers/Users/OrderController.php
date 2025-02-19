@@ -20,7 +20,7 @@ class OrderController extends Controller
 {
     public function create()
     {  $notifications= auth()->user()->unreadNotifications;
-        return view('user.order_create', compact( 'notifications'));
+        return view('User.order_create', compact( 'notifications'));
     }
 
     // حفظ الطلب المقدم
@@ -80,7 +80,7 @@ class OrderController extends Controller
                 'geocode_string' => $request->geocode_string, // إضافة geocode_string هنا
              //   'geocode_string' => '111',
                 'order_status' => 'pending', // حالة الطلب الافتراضية
-                'processing_stage' => 'stage_one',  // مرحلة الطلب الافتراضية
+                'processing_stage' => 'تم إرسال الطلب',  // مرحلة الطلب الافتراضية
             ]);
 
             // جلب المدراء والمصممين بناءً على الـ Region
@@ -275,7 +275,7 @@ class OrderController extends Controller
 
             // تحديث مرحلة المعالجة في الطلب إلى "state_four"
             $order->update([
-                'processing_stage' => 'stage_four',
+                'processing_stage' => 'تم إرسال أسئلة الاستبيان',
             ]);
 
             // إرسال إشعار للمصمم الذي صمم هذه المسودة
@@ -313,9 +313,9 @@ class OrderController extends Controller
                 'state' => 'approved',
             ]);
 
-            // تحديث مرحلة المعالجة في الطلب إلى "stage_six"
+            // تحديث مرحلة المعالجة في الطلب إلى "تم الموافقة على التصميم الأولي"
             $order->update([
-                'processing_stage' => 'stage_six',
+                'processing_stage' => 'تم الموافقة على التصميم الأولي',
             ]);
 
             // إرسال إشعار للمصمم بأن العميل وافق على التصميم

@@ -29,26 +29,26 @@ return new class extends Migration
             $table->string('designer_code')->nullable(); // كود المصمم (nullable)
             $table->enum('order_status', ['accepted', 'rejected', 'closed', 'pending'])->default('pending'); // حالة الطلب
             $table->enum('processing_stage', [
-                'stage_one',
-                'stage_two',
-                'stage_three',
-                'stage_four',
-                'stage_five',
-                'stage_six',
-                'stage_seven',
-                'stage_eight',
-                'stage_nine',
-                'stage_ten',
-                'stage_eleven',
-                'stage_twelve',
-                'stage_thirteen',
-                'stage_fourteen',
-                'stage_fifteen',
-                'stage_sixteen',
-                'stage_seventeen',
-                'stage_eighteen',
+                'تم إرسال الطلب',
+                'تم الموافقة على الطلب',
+                'تم تحديد موعد زيارة',
+                'تم إرسال أسئلة الاستبيان',
+                'تم إرسال التصميم الأولي',
+                'تم الموافقة على التصميم الأولي',
+                'تم إرسال التصميم النهائي مع العقد وتفاصيل الدفعة الأولى',
+                'تم الاطلاع على تفاصيل الدفعة الأولى من قبل الزبون',
+                'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية',
+                'تم الاطلاع على تفاصيل الدفعة الثانية من قبل الزبون',
+                'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة',
+                'تم الاطلاع على تفاصيل الدفعة الثالثة من قبل الزبون',
+                'تم تسديد الدفعة الثالثة',
+                'تم بدء التصنيع',
+                'تم إنهاء التصنيع',
+                'تم توصيل الطلب إلى المملكة العربية السعودية',
+                'تم بدء التركيب',
+                'اكتمل الطلب',
                 'change_designer'
-            ])->default('stage_one');
+            ])->default('تم إرسال الطلب');
             $table->unsignedBigInteger('approved_designer_id')->nullable(); // المصمم الموافق
 
             $table->timestamps();

@@ -71,7 +71,7 @@ class OrderDraftController extends Controller
 
             // تحديث مرحلة المعالجة إلى المرحلة المطلوبة
             $order->update([
-                'processing_stage' => 'stage_five', // يمكنك تغيير المرحلة كما هو مطلوب
+                'processing_stage' => 'تم إرسال التصميم الأولي', // يمكنك تغيير المرحلة كما هو مطلوب
             ]);
 
             $message = "أرسل أحد المصممين تصميمًا خاصًا لطلبك. يرجى  الدخول إلى موقعنا لمشاهدة التصميم";
@@ -172,7 +172,7 @@ class OrderDraftController extends Controller
             ]);
 
             $order->update([
-                'processing_stage' => 'stage_seven',
+                'processing_stage' => 'تم إرسال التصميم النهائي مع العقد وتفاصيل الدفعة الأولى',
             ]);
 
             $designer = auth()->user()->designer;

@@ -78,7 +78,7 @@ class SalesController extends Controller
                 'status'=>'first_payment_done', ]);
 
         $order->update([
-            'processing_stage' => 'stage_nine',
+            'processing_stage' => 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية',
         ]);
 
 
@@ -173,7 +173,7 @@ class SalesController extends Controller
         ]);
 
         // تحديث مرحلة الطلب
-        $order->update(['processing_stage' => 'stage_eleven']);
+        $order->update(['processing_stage' => 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة']);
 
         $SecondInstallment = $sale->installments()->where('installment_number', 2)->first();
 
@@ -247,7 +247,7 @@ class SalesController extends Controller
         }
 
         $order->update([
-            'processing_stage' => 'stage_thirteen',
+            'processing_stage' => 'تم تسديد الدفعة الثالثة',
            // 'order_status'=>'closed'
         ]);
 

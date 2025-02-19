@@ -106,6 +106,7 @@
                     <th>العنوان</th>
                     <th>اسم المصمم</th>
                     <th>الحالة</th>
+                    <th>مرحلة علاج الطلب</th>
                     <th>خيارات</th>
                 </tr>
                 </thead>
@@ -145,6 +146,7 @@
                     { data: 'geocode_string', name: 'geocode_string' },
                     { data: 'designer_name', name: 'designer_name' },
                     { data: 'order_status_label', name: 'order_status' },
+                    { data: 'processing_stage', name: 'processing_stage' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ],
                 dom: 'Bfrtip',

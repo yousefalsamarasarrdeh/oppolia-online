@@ -65,7 +65,7 @@ class HomeController extends Controller
             // تحديث الطلب بالمعلومات الجديدة
             $order->update([
                 'approved_designer_id' => $designer->id, // تعيين معرف المصمم الحالي
-                'processing_stage' => 'stage_two', // تعيين المرحلة التالية
+                'processing_stage' => 'تم الموافقة على الطلب', // تعيين المرحلة التالية
                 'order_status' => 'accepted' // تعيين حالة الطلب
             ]);
 
@@ -188,56 +188,56 @@ class HomeController extends Controller
         // التحقق مما إذا كان المصمم هو الذي وافق على الطلب
         if ($order->approved_designer_id == $designer->id) {
             // التحقق من stage الطلب
-            if ($order->processing_stage == 'stage_two') {
+            if ($order->processing_stage == 'تم الموافقة على الطلب') {
                 return view('designer.create_meeting', compact('order', 'notifications'));
-            } elseif ($order->processing_stage == 'stage_three') {
+            } elseif ($order->processing_stage == 'تم تحديد موعد زيارة') {
 
                 return view('designer.survey_question', compact('order', 'notifications'));
-            } elseif ($order->processing_stage == 'stage_four') {
+            } elseif ($order->processing_stage == 'تم إرسال أسئلة الاستبيان') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.order_draft', compact('order', 'notifications'));
-            } elseif ($order->processing_stage == 'stage_five') {
+            } elseif ($order->processing_stage == 'تم إرسال التصميم الأولي') {
                 return redirect()->route('designer.approved.orders')->with('error', 'لا يمكن تقديم التصميم النهائي إلا بعد موافقة المستخدم على التصميم.');
-            } elseif ($order->processing_stage == 'stage_six') {
+            } elseif ($order->processing_stage == 'تم الموافقة على التصميم الأولي') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 $approvedDrafts = $order->orderDraft()->where('state', 'approved')->get();
                 return view('designer.order_draft_finalized', compact('order', 'notifications','approvedDrafts'));
-            }  elseif ($order->processing_stage == 'stage_seven') {
+            }  elseif ($order->processing_stage == 'تم إرسال التصميم النهائي مع العقد وتفاصيل الدفعة الأولى') {
             return redirect()->route('designer.approved.orders')->with('error', 'لم يحصل الزبون بعد على تفاصيل الشراء');
-            }   elseif ($order->processing_stage == 'stage_eight') {
+            }   elseif ($order->processing_stage == 'تم الاطلاع على تفاصيل الدفعة الأولى من قبل الزبون') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.Second_payment', compact('order', 'notifications'));
-            }    elseif ($order->processing_stage == 'stage_nine') {
+            }    elseif ($order->processing_stage == 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية') {
             return redirect()->route('designer.approved.orders')->with('error', ' لم يحصل بعد الزبون على تفاصيل الشراء للدفعة الثانية');
-        }   elseif ($order->processing_stage == 'stage_ten') {
+        }   elseif ($order->processing_stage == 'تم الاطلاع على تفاصيل الدفعة الثانية من قبل الزبون') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.third_payment', compact('order', 'notifications'));
-            } elseif ($order->processing_stage == 'stage_eleven') {
+            } elseif ($order->processing_stage == 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة') {
                 return redirect()->route('designer.approved.orders')->with('error', ' لم يحصل بعد الزبون على تفاصيل الشراء للدفعة الثالثة');
             }
-            elseif ($order->processing_stage == 'stage_twelve') {
+            elseif ($order->processing_stage == 'تم الاطلاع على تفاصيل الدفعة الثالثة من قبل الزبون') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.complete_payment', compact('order', 'notifications'));
             }
-            elseif ($order->processing_stage == 'stage_thirteen') {
+            elseif ($order->processing_stage == 'تم تسديد الدفعة الثالثة') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.manufacturing_began', compact('order', 'notifications'));
             }
-            elseif ($order->processing_stage == 'stage_fourteen') {
+            elseif ($order->processing_stage == 'تم بدء التصنيع') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.manufacturing_ending', compact('order', 'notifications'));
             }
 
-            elseif ($order->processing_stage == 'stage_fifteen') {
+            elseif ($order->processing_stage == 'تم إنهاء التصنيع') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.order_arrived', compact('order', 'notifications'));
             }
-            elseif ($order->processing_stage == 'stage_sixteen') {
+            elseif ($order->processing_stage == 'تم توصيل الطلب إلى المملكة العربية السعودية') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.installation_start', compact('order', 'notifications'));
             }
 
-            elseif ($order->processing_stage == 'stage_seventeen') {
+            elseif ($order->processing_stage == 'تم بدء التركيب') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.installation_end_and_complete', compact('order', 'notifications'));
             }

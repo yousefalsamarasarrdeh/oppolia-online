@@ -48,18 +48,12 @@
                     <tr>
                         <td>{{ $order->id }}</td>
                         <td>
-                            @if ($order->processing_stage == 'stage_one')
-                                في الانتظار
-                            @elseif($order->processing_stage == 'stage_two')
-                                قام أحد المصممين بالموافقة على طلبك بانتظار تحديد موعد
-                            @elseif($order->processing_stage == 'stage_three' || $order->processing_stage == 'stage_four')
-                                بانتظار التصميم الأولي
-                            @elseif($order->processing_stage == 'stage_five')
-                                شاهد التصميم الاولي
-                            @elseif($order->processing_stage == 'stage_six')
-                                سوف يرسل لك المصمم التصمييم النهائي
-                            @elseif($order->processing_stage == 'stage_seven')
-                                شاهد التصميم النهائي
+                            @if ($order->processing_stage == 'تم إرسال الطلب')
+                                تم إرسال الطلب
+                            @elseif($order->processing_stage == 'تم الموافقة على الطلب')
+                                تم الموافقة على الطلب
+
+
                             @else
 
                                 {{ $order->processing_stage }}

@@ -69,7 +69,7 @@
                     <th>الحالة</th>
                     <th>ملفات الصور</th>
                     <th>ملف PDF</th>
-                    @if ($order->processing_stage != 'تم الموافقة على التصميم الأولي')
+                    @if ($order->processing_stage != 'stage_six')
                         <th>إجراءات</th>
                     @endif
                 </tr>
@@ -83,7 +83,7 @@
                         <td>
                             @if($draft->images)
                                 @foreach(json_decode($draft->images) as $image)
-                                    <img src="{{ asset('storage/' . $image) }}" alt="Draft Image" style="width: 100px;">
+                                    <img src="{{ asset('storage/app/public/' . $image) }}" alt="Draft Image" style="width: 100px;">
                                 @endforeach
                             @else
                                 لا توجد صور
@@ -91,7 +91,7 @@
                         </td>
                         <td>
                             @if($draft->pdf)
-                                <a href="{{ asset('storage/' . $draft->pdf) }}" target="_blank">عرض PDF</a>
+                                <a href="{{ asset('storage/app/public/' . $draft->pdf) }}" target="_blank">عرض PDF</a>
                             @else
                                 لا يوجد ملف PDF
                             @endif
@@ -103,7 +103,7 @@
 
                                 </form>
                             @else
-                                @if ($order->processing_stage != 'تم الموافقة على التصميم الأولي')
+                                @if ($order->processing_stage != 'stage_six')
                                     <form action="{{ route('order.acceptDraft', ['order' => $order->id, 'draft' => $draft->id]) }}" method="POST" style="display:inline;">
                                         @csrf
                                         <button type="submit" class="btn btn-success">قبول التصميم</button>

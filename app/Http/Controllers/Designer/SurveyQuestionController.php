@@ -75,7 +75,7 @@ class SurveyQuestionController extends Controller
 
             // تحديث مرحلة المعالجة إلى "stage_four" أو المرحلة المطلوبة
             $order->update([
-                'processing_stage' => 'stage_four',
+                'processing_stage' => 'تم إرسال أسئلة الاستبيان',
             ]);
 
             // إعادة التوجيه مع رسالة نجاح والإشعارات

@@ -32,7 +32,7 @@ class ManufactureAndInstallationController extends Controller
 
             // تحديث حالة الطلب
             $order->update([
-                'processing_stage' => 'stage_fourteen',
+                'processing_stage' => 'تم بدء التصنيع',
             ]);
 
             // إرسال رسالة SMS
@@ -81,7 +81,7 @@ class ManufactureAndInstallationController extends Controller
 
             // تحديث حالة الطلب
             $order->update([
-                'processing_stage' => 'stage_fifteen',
+                'processing_stage' => 'تم إنهاء التصنيع',
             ]);
 
             // إرسال رسالة SMS
@@ -130,7 +130,7 @@ class ManufactureAndInstallationController extends Controller
 
             // تحديث حالة الطلب
             $order->update([
-                'processing_stage' => 'stage_sixteen',
+                'processing_stage' => 'تم توصيل الطلب إلى المملكة العربية السعودية',
             ]);
 
             // إرسال رسالة SMS
@@ -180,7 +180,7 @@ class ManufactureAndInstallationController extends Controller
 
             // تحديث حالة الطلب
             $order->update([
-                'processing_stage' => 'stage_seventeen',
+                'processing_stage' => 'تم بدء التركيب',
             ]);
 
             // إرسال رسالة SMS
@@ -230,7 +230,7 @@ class ManufactureAndInstallationController extends Controller
 
             // تحديث حالة الطلب
             $order->update([
-                'processing_stage' => 'stage_eighteen',
+                'processing_stage' => 'اكتمل الطلب',
                 'order_status'=>'closed'
             ]);
 
