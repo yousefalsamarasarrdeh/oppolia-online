@@ -41,7 +41,9 @@
 <div class="wrapper">
     <!--start top header wrapper-->
     @include('frontend.includes.header')
+    <div  lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
     @yield('content')
+    </div>
     @include('frontend.includes.footer')
 
 
