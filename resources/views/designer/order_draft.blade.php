@@ -3,6 +3,19 @@
 @section('title', 'استبيان الطلب')
 
 @section('content')
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger">
+            <strong>خطأ:</strong> {{ session('error') }}
+        </div>
+
+    @endif
+
     <div class="container" dir="rtl">
         <h2>إنشاء مسودة الطلب</h2>
         <form action="{{ route('designer.order_draft.store', $order->id) }}" method="POST" enctype="multipart/form-data">

@@ -92,8 +92,7 @@ class OrderDraftController extends Controller
 
         } catch (\Exception $e) {
             // التعامل مع الخطأ
-            return redirect()->route('designer.approved.orders')
-                ->with('error', 'حدث خطأ أثناء إنشاء مسودة الأمر:' . $e->getMessage());
+            return back()->withInput()->with('error', 'حدث خطاء  ' . $e->getMessage());
         }
     }
 
@@ -116,6 +115,9 @@ class OrderDraftController extends Controller
                 'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
                 'pdf' => 'required|mimes:pdf|max:10240',
                 'state' => 'required|in:draft,finalized,approved,rejected',
+                'due_date' => 'required|date',
+
+
             ]);
 
             // رفع الصور وتخزين المسارات
@@ -169,6 +171,7 @@ class OrderDraftController extends Controller
                 'installment_amount' => $installmentAmount,
                 'percentage' => $percentage,
                 'installment_number'=>1,
+                'due_date' => $validated['due_date'],
             ]);
 
             $order->update([
@@ -213,8 +216,7 @@ class OrderDraftController extends Controller
                 ->with('notifications', $notifications);
 
         } catch (\Exception $e) {
-            return redirect()->route('designer.approved.orders')
-                ->with('error', 'حدث خطأ أثناء إنشاء مسودة الأمر: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'حدث خطاء  ' . $e->getMessage());
         }
     }
 

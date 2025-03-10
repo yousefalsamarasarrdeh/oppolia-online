@@ -1,0 +1,1062 @@
+
+.text-with-underline {
+	display: inline;
+	/* Ensures the underline matches the text width */
+	font-size: 24px;
+	font-weight: bold;
+	border-bottom: 4px solid rgba(10, 71, 64, 1);
+	/* Underline */
+	padding-bottom: 15px;
+	/* Adds spacing between text and underline */
+	text-align: center;
+}
+
+/* Play Button Overlay */
+.play-button-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: rgba(0, 0, 0, 0.6);
+	/* Semi-transparent black background */
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	z-index: 9999;
+
+}
+
+.play-button-overlay:hover {
+	background: rgba(0, 0, 0, 0.8);
+	/* Slightly darker on hover */
+}
+
+/* Play Icon */
+.play-icon {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 15px 0 15px 30px;
+	border-color: transparent transparent transparent white;
+	/* White play icon */
+	display: inline-block;
+}
+
+/* General Styling */
+/* General Styling */
+
+
+/*!* Adjusted Image Sizes (Smaller Width) *!*/
+/*.image-large {*/
+/*    width: 100%; !* Reduced width to fit numbers on the right *!*/
+/*    height: 341.25px;*/
+/*    object-fit: cover;*/
+/*   */
+/*}*/
+
+/*.image-small {*/
+/*    width: 100%; !* Reduced width to fit numbers on the right *!*/
+/*    height: 189.58px;*/
+/*    object-fit: cover;*/
+/*   */
+/*}*/
+
+/* Section Title */
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--Primary-Color, rgba(10, 71, 64, 1)) !important;
+}
+
+/* Text Number */
+.text-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--Primary-Color, rgba(10, 71, 64, 1));
+    margin-left: 5px;
+}
+
+/* Text Title */
+.text-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--Primary-Color, rgba(10, 71, 64, 1));
+}
+
+/* Text Content */
+.text-content {
+    font-size: 18px;
+    color: var(--Dark-Green, rgba(36, 77, 77, 1));
+    max-width: 100%;
+    line-height: 20px;
+
+}
+
+/* Ensure correct spacing */
+.text-item {
+    margin-bottom: 30px;
+}
+
+/* Fix text alignment */
+.text-end {
+    text-align: right;
+}
+
+/* Reduced column widths */
+.col-md-4 {
+    max-width: 33%;
+}
+
+/* Responsive Fixes */
+@media (max-width: 1024px) {
+    .col-md-4 {
+        max-width: 50%;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .text-title {
+        font-size: 18px;
+    }
+
+    .text-content {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .row {
+        align-items: center;
+    }
+
+    .col-md-4 {
+        max-width: 100%;
+    }
+
+    .image-large,
+    .image-small {
+        width: 100%;
+        max-height: none;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .text-title {
+        font-size: 16px;
+    }
+
+    .text-content {
+        font-size: 14px;
+        max-width: 100%;
+    }
+}
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: right;
+    width: 90%;
+    max-width: 500px;
+}
+
+/* Main Text */
+.banner-text {
+    font-size: 40px;
+    color: white;
+    direction: rtl;
+    overflow: hidden;
+}
+
+/* Highlighted Part */
+.highlight-text {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 75px;
+    color: rgba(10, 71, 64, 1);
+}
+
+/* Button Custom Styling */
+.btn-custom {
+    background: var(--Dark-Green, rgba(10, 71, 64, 1));
+    align-self: flex-end;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+    .banner-text {
+        font-size: 24px;
+        line-height: 1.5;
+    }
+
+    .highlight-text {
+        font-size: 20px;
+        line-height: 1.3;
+    }
+
+    .text-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .btn-custom {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
+/* ✅ Ensuring the carousel fits properly */
+.carousel {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ✅ Customizing navigation bar */
+.carousel-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Adjust height of the bar */
+    background: rgba(167, 204, 199, 1); /* Solid color bar */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto; /* Ensure they are visible */
+    height: auto;
+    background: none;
+    border: none;
+}
+
+
+/* ✅ Proper indicators */
+/* .carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+	z-index: 10;
+} */
+
+/* ✅ Fixing display issue */
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+
+
+/* ✅ Text styling */
+.text-section {
+	direction: rtl;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 35px;
+    text-align: right;
+    color: #333;
+}
+
+/* Designer Card Styling */
+.designer-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+	transition: filter 0.3s ease;
+
+}
+
+
+
+.designer-card .owl-item:not(.center) .designer-card {
+    filter: blur(5px); /* Adjust the blur intensity as needed */
+    opacity: 0.5; /* Optional: Reduce opacity for a faded effect */
+}
+
+.owl-item.center .designer-card {
+    filter: blur(0);
+    opacity: 1;
+}
+
+.designers-text{
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 50px;
+	text-align: center;
+	color: rgba(0, 0, 0, 1);
+
+}
+
+.be-a-designer{
+	display: inline;
+	color:  rgba(10, 71, 64, 1);
+
+	/* Ensures the underline matches the text width */
+	font-size: 15px;
+	font-weight: bold;
+	border-bottom: 2px solid rgba(10, 71, 64, 1);
+	/* Underline */
+	padding-bottom: 1px;
+	/* Adds spacing between text and underline */
+	text-align: center;
+}
+
+
+/* Profile Image Styling */
+.designer-card img {
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Active Card (Middle One) */
+.active-card {
+    transform: scale(1.2); /* Slightly bigger */
+    filter: none; /* No blur */
+    opacity: 1; /* Fully visible */
+}
+
+/* Side Cards (Blur Effect) */
+.blur-card {
+    filter: blur(4px);
+    opacity: 0.5;
+    transform: scale(0.8); /* Slightly smaller */
+}
+
+.nav-btn {
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(10, 71, 64, 1); /* Set the button color */
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+}
+
+/* Left & Right Button Positions */
+.left-btn {
+    left: -50px;
+}
+
+.right-btn {
+    right: -50px;
+
+
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    /* .d-flex {
+        flex-direction: column;
+    } */
+
+    .blur-card {
+        filter: blur(0px);
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .active-card {
+        transform: scale(1);
+    }
+}
+
+
+.rating {
+    font-size: 18px;
+    color: gold;
+}
+
+.about-section {
+    width: 100%;
+    height: auto;
+    position: relative; /* Needed for absolute positioning of text */
+}
+
+.about-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover; /* Keeps aspect ratio while covering full area */
+}
+
+.about-text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+}
+
+.about-text {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 75px;
+    color: white;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+
+
+
+/* Responsive Section Title */
+.about-title {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 75px;
+	color: rgba(10, 71, 64, 1);
+
+}
+
+/* Responsive Subtitle */
+.about-subtitle {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 36px;
+}
+
+/* Responsive Paragraph Text */
+.about-para {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 40px;
+}
+
+
+/* Sticky Sidebar */
+.sticky-sidebar {
+    position: sticky;
+    top: 90px; /* Ensure it's below the header */
+    height: fit-content;
+    background: rgba(160, 184, 186, 1); /* Sidebar background color */
+    padding: 20px;
+	overflow: hidden;
+    text-align: right; /* Align text to the right */
+    border-radius: 10px; /* Add rounded corners */
+}
+
+
+/* Sidebar Navigation */
+.sticky-sidebar .nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.sticky-sidebar .nav-link {
+    display: block;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: transparent;
+    transition: 0.3s ease;
+    text-align: right;
+}
+
+/* Active Link */
+.sticky-sidebar .nav-link.active {
+    background: rgba(80, 159, 150, 1);
+    color: white;
+    font-weight: bold;
+}
+
+/* Hover Effect */
+.sticky-sidebar .nav-link:hover {
+	background: rgba(227, 230, 235, 1);
+}
+
+/* Fix Sidebar for Smaller Screens */
+@media (max-width: 768px) {
+    .sticky-sidebar {
+        position: relative;
+        height: auto;
+        padding: 10px;
+        background: rgba(160, 184, 186, 0.8); /* Lighter for mobile */
+    }
+}
+
+
+.section-header {
+    background: rgba(178, 204, 199, 0.5); /* Light green transparent background */
+    padding: 15px;
+    border-radius: 10px; /* Adds rounded corners */
+	position: relative;
+	height: auto;
+	z-index: 1;
+}
+
+.steps-section {
+	background-color:  rgba(80, 159, 150, 1);
+	width: 100%;
+	padding: 35px;
+	align-content: space-between;
+}
+
+.step-section .row {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.steps-icons {
+	width: 40px;
+	height: 40px;
+}
+
+.text-white-underline {
+	width: 240px;
+	height: 2px;
+	background-color: white;
+	margin: 8px auto;
+}
+
+@media (max-width: 768px) {
+    .steps-section .row {
+        justify-content: center;
+    }
+
+    /* Ensures 2x2x2 grid layout for mobile */
+    .col-6 {
+        width: 50%; /* 2 items per row */
+    }
+}
+/* General Styles */
+.section-about-title {
+
+	direction: rtl;
+	padding: 15px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #024731; /* Dark green shade */
+
+}
+
+.section-description {
+	direction: rtl;
+    font-size: 17.6px;
+    color: #555;
+    max-width: 100%;
+    margin: 0 auto 20px;
+}
+.section-image {
+    position: relative;
+    width: 100%; /* Adjust width to fit proportionally */
+    z-index: 2; /* Ensures it stays above the background */
+	top: -25px;
+
+}
+
+.section-image img {
+    width: 100%; /* Keeps it responsive */
+    border-radius: 10px; /* Matches the design */
+
+}
+
+/* Feature Box Styling */
+.feature-box {
+    padding: 15px;
+	direction: rtl;
+}
+
+.feature-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #024731;
+}
+
+.feature-title {
+    font-size:17px;
+    font-weight: bold;
+	color: rgba(36, 77, 77, 1);
+	direction: rtl;
+
+}
+
+.feature-description {
+    font-size: 14px;
+    color: #555;
+	direction: rtl;
+}
+
+.vision-title {
+	font-weight: 600;
+	font-size: 35px;
+	line-height: 75px;
+	text-align: right;
+	color: rgba(243, 243, 243, 1);
+}
+
+.vision-description{
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 30px;
+	text-align: right;
+	color: rgba(243, 243, 243, 1);
+}
+
+
+.vision-image {
+    height: 100%; /* Forces full height */
+    width: 100%; /* Ensures it fills the column */
+    min-height: 300px; /* Ensures it does not shrink too much */
+    object-fit: cover; /* Prevents distortion and fills space */
+}
+
+
+/* Section Background */
+.production-lines {
+    background: rgba(28, 28, 28, 0.8); /* Dark background */
+    color: white;
+    padding: 40px;
+
+}
+
+.production-li
+{
+	font-size: 16px;
+
+}
+
+/* Text Styling */
+.section-title {
+    font-size: 32px;
+    font-weight: bold;
+    color:  rgba(10, 71, 64, 1);
+	/* Dark green heading */
+}
+
+.sub-title {
+    font-size: 24px;
+    font-weight: bold;
+	color: rgba(243, 243, 243, 1);
+
+}
+
+/* Production Capacity Box */
+.production-capacity {
+    background: white;
+	padding: 35px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+	color: rgba(10, 71, 64, 1);
+}
+
+.section-description-production {
+	color: rgba(243, 243, 243, 1);
+}
+
+.production-subtitle {
+	font-weight: 500;
+	font-size: 30px;
+	color: rgba(10, 71, 64, 1);
+
+}
+
+
+
+
+/* Timeline Container */
+.timeline-slider {
+    width: 100%;
+    overflow: hidden; /* Ensure it stays within bounds */
+    padding-bottom: 50px;
+}
+
+.timeline-title {
+	color: rgba(10, 71, 64, 1);
+	font-size: 20px;
+	font-weight: 600;
+
+}
+
+.timeline-text {
+
+	color: rgba(28, 28, 28, 1);
+	font-size: 16px;
+
+}
+.swiper-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    white-space: nowrap; /* Prevent vertical stacking */
+}
+
+.swiper-slide {
+    flex: 0 0 auto;
+    width: 300px; /* Adjust width as needed */
+    text-align: center;
+    border-radius: 15px;
+    background: rgba(80, 159, 150, 0.47);
+    padding: 20px;
+    min-height: 180px;
+    margin-right: 20px;
+}
+
+.event-date {
+    background: rgba(80, 159, 150, 1) !important;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: bold;
+	font-size: 16px;
+}
+
+
+
+  .team-subtitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(10, 71, 64, 1);
+    margin-top: 20px;
+}
+
+/* Personal Consultation Styling */
+.personal-consultation {
+    font-size: 20px;
+    font-weight: 600; /* Fixed incorrect font-weight */
+    color: rgba(28, 28, 28, 1);
+}
+
+.section-header-team {
+    background: rgba(178, 204, 199, 0.5); /* Light green transparent background */
+    padding: 20px;
+	position: relative;
+	height: auto;
+	z-index: 1;
+}
+
+.box-container {
+    background-color: white; /* Background color of the box */
+	box-shadow: 0px 15.14px 15.14px 0px rgba(211, 218, 235, 0.7);
+    padding: 20px;
+    border-radius: 8px; /* Adjust for rounded corners if needed */
+	position: relative;
+	top: -30px;
+	z-index: 2;
+
+}
+
+.achievement-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.green-border {
+	border-right: 15px solid #187c6c;
+}
+
+.market-value-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    border-top: 15px solid #187c6c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+	direction: rtl;
+}
+
+.market-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(36, 77, 77, 1);
+
+}
+
+.count {
+    font-size: 25px;
+    font-weight: bold;
+    color: #0d3b39;
+    margin: 10px 0;
+}
+
+.supplier-card {
+    background-color: #1a1a1a; /* Dark Theme */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+
+.supplier-logo {
+    max-width: 80px; /* Adjust based on logo size */
+    height: auto;
+    margin-bottom: 10px;
+
+}
+
+.logo-name {
+	font-size: 60px;
+	font-weight: 700;
+	color: white;
+}
+
+
+.card-about {
+	font-size: 18.59px;
+	color : rgba(36, 77, 77, 1);
+}
+
+.card-icon {
+    max-width: 60px; /* Ensures icons are uniform */
+}
+
+
+.contact-titles{
+    color: rgba(0, 0, 0, 1);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 50px;
+    letter-spacing: 0%;
+    text-align: right;
+}
+
+.contact-p {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 50px;
+    letter-spacing: 0;
+    text-align: right;
+    color: rgba(243, 243, 243, 1);
+
+}
+.form-control {
+    border: none; /* Removes the border */
+    border-bottom: 1px solid #ccc; /* Adds a bottom border */
+    background-color: #f9f9f9; /* Adds a light background color */
+    box-shadow: none;
+    outline: none;
+}
+
+.submit-btn {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 28px;
+    letter-spacing: 0;
+    text-align: center;
+    background: var(--Dark-Green, rgba(10, 71, 64, 1));
+    color: white;
+
+}
+
+
+  @media (min-width: 1140px) {
+	.horizontal-timeline .items .items-list {
+	  display: inline-block;
+	  width: 24%;
+	  padding-top: 45px;
+	}
+
+	.horizontal-timeline .items .items-list .event-date {
+	  top: -40px;
+	}
+	.about-text {
+        font-size: 40px;
+    }
+  }
+
+
+
+
+
+
+
+/* Responsive Font Sizes */
+@media (min-width: 1500px) {
+   .production-li{
+	 font-size: 18px;
+	 line-height: 50px;
+   }
+}
+
+@media (max-width: 100) {
+
+    .about-image {
+        height: 400px;
+    }
+	.about-title {
+        font-size: 28px;
+        line-height: 60px;
+    }
+    .about-subtitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    .about-text {
+        font-size: 18px;
+        line-height: 40px;
+    }
+	.sticky-sidebar {
+        position: -webkit-sticky;
+		position: sticky;
+        height: auto;
+        overflow: visible;
+    }
+
+	.production-li{
+		font-size: 14px;
+		line-height: 25px;
+
+	  }
+}
+
+@media (max-width: 992px) {
+
+	.production-li
+	{
+		font-size: 12px;
+		line-height: 20px;
+
+
+	}
+    .section-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .section-image {
+        position: relative; /* Moves image inside the normal flow */
+        width: 100%;
+        max-width: 100%;
+        margin: 20px auto; /* Centers image */
+    }
+
+    .feature-box {
+        text-align: center;
+    }
+
+    .feature-number,
+    .feature-title {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+
+	.container-fluid, .row {
+        /* padding-left: 10px !important;
+        padding-right: 10px !important; */
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+	.steps-section .col-md-2,
+    .steps-section .col-sm-4,
+    .steps-section .col-6 {
+        width: 50% !important; /* Forces a 2-column layout */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+	.section-header {
+		width: 100% !important;
+		margin: 0;
+	}
+	.section-image {
+        position: relative; /* Make it flow naturally */
+        width: 100%; /* Make it responsive */
+        max-width: none; /* Allow full width on mobile */
+        display: block; /* Ensure proper display */
+		top: 0px;
+		left: 0px;
+		margin: 0px !important;
+		padding: 0px !important;
+    }
+
+
+    .about-image {
+        height: 350px;
+    }
+	.about-title {
+        font-size: 24px;
+        line-height: 50px;
+    }
+    .about-subtitle {
+        font-size: 22px;
+        line-height: 30px;
+    }
+    .about-text {
+        font-size: 16px;
+        line-height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-text {
+        font-size: 24px;
+    }
+}
+
+
+
+/* Modal CSS */
+
+#portfolioContainerWrapper {
+    width: 100%; /* Ensure it takes full modal width */
+    max-width: 600px; /* Adjust this based on your needs */
+    margin: 0 auto; /* Center it */
+}
+
+#portfolioContainer {
+    width: 100%;
+}
+
+@media (max-width: 992px) {
+
+
+	#portfolioContainerWrapper {
+		width: 100%; /* Ensure it takes full modal width */
+		max-width: 300px; /* Adjust this based on your needs */
+		margin: 0 auto; /* Center it */
+	}
+
+	#portfolioContainer {
+		width: 100%;
+	}
+}

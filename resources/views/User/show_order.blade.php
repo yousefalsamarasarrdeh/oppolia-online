@@ -278,6 +278,7 @@
                                         <p><strong>رقم الحساب:</strong> 123456789012345</p>
                                         <p><strong>رقم الآيبان:</strong> SA1234567890123456789012</p>
                                         <p><strong>العنوان:</strong> الرياض، المملكة العربية السعودية</p>
+                                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#uploadPaymentReceiptModal-{{ $installment->id }}">رفع إشعار الدفع</button>
 
                                     </div>
                                 </td>
@@ -357,6 +358,37 @@
             </div>
         </div>
     </div>
+
+    @if($order->sale && $order->sale->installments)
+     @foreach ($order->sale->installments as $installment)
+        <!-- Modal for Upload Payment Receipt -->
+        <div class="modal fade" id="uploadPaymentReceiptModal-{{ $installment->id }}" tabindex="-1" aria-labelledby="uploadPaymentReceiptModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadPaymentReceiptModalLabel">رفع إشعار الدفع للدفعة رقم {{ $installment->id }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('installments.uploadReceipt', $installment->id) }}" method="POST" enctype="multipart/form-data">
+
+                        @csrf
+                            <div class="mb-3">
+                                <label for="payment_receipt" class="form-label">اختر ملف الإشعار:</label>
+                                <input type="file" class="form-control" id="payment_receipt" name="payment_receipt" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                                <button type="submit" class="btn btn-primary">رفع الإشعار</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+     @endforeach
+    @endif
+
 
 
 @endsection

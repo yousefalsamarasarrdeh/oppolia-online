@@ -85,8 +85,8 @@ class SurveyQuestionController extends Controller
 
         } catch (\Exception $e) {
             // التعامل مع الخطأ
-            return redirect()->route('designer.approved.orders')
-                ->with('error', 'An error occurred while submitting the survey: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'حدث خطاء ' . $e->getMessage());
+
         }
     }
 

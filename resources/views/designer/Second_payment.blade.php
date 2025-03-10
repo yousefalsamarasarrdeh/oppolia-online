@@ -7,13 +7,13 @@
         $sale = $order->sale;
         $installments = $sale ? $sale->installments : collect();
 
-        // حساب 50% من التكلفة بعد الخصم
+        // Calculate 50% of the discounted cost
         $halfPrice = $sale ? ($sale->price_after_discount * 0.50) : 0;
 
-        // حساب مجموع الأقساط السابقة
+        // Calculate the total amount paid in previous installments
         $totalPaidInstallments = $installments->sum('installment_amount');
 
-        // حساب المبلغ الجديد المطلوب ليصل إلى 50% من السعر بعد الخصم
+        // Calculate the new required amount to reach 50% of the discounted price
         $remainingAmount = $halfPrice - $totalPaidInstallments;
     @endphp
     <div class="container">
@@ -23,9 +23,8 @@
             <div class="card-body">
                 <h4>تفاصيل المبيعات</h4>
                 @if($sale)
-                    <p><strong>إجمالي التكلفة </strong> {{ number_format($sale->total_cost, 2) }}</p>
+                    <p><strong>إجمالي التكلفة:</strong> {{ number_format($sale->total_cost, 2) }}</p>
                     <p><strong>إجمالي التكلفة بعد الخصم:</strong> {{ number_format($sale->price_after_discount, 2) }}</p>
-
                     <p><strong>المبلغ المدفوع بالدفعات السابقة:</strong> {{ number_format($totalPaidInstallments, 2) }}</p>
                 @else
                     <p>لم يتم تسجيل عملية بيع لهذا الطلب بعد.</p>
@@ -63,29 +62,108 @@
             <p>لا توجد أقساط مسجلة حتى الآن.</p>
         @endif
 
-        <div class="mt-4">
-            <h4>إضافة دفعة جديد</h4>
-            <form action="{{ route('sales.installments.store', $sale->id) }}" method="POST">
-                @csrf
-                <input type="hidden" name="sale_id" value="{{ $sale->id }}">
 
-                <div class="mb-3">
-                    <label for="installment_amount" class="form-label">المبلغ (يتم حسابه تلقائيًا)</label>
-                    <input type="number" id="installment_amount" name="installment_amount" class="form-control" value="{{ $remainingAmount }}" readonly>
+        @if($installments->isNotEmpty() && $installments->first()->status == 'receipt_uploaded')
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4>مراجعة دفعة الأولى</h4>
+                    <p>تم تحميل إيصال الدفع. انظر الإيصال أدناه:</p>
+                    <!-- Display the payment receipt if available -->
+
+                        <img src="{{ asset('storage/' . $installments->first()->payment_receipt) }}" alt="Payment Receipt" style="max-width: 100%;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                                رفض
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptModal">
+                                قبول
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        @endif
 
-                <div class="mb-3">
-                    <label for="percentage" class="form-label">النسبة (يتم حسابها تلقائيًا)</label>
-                    <input type="number" id="percentage" name="percentage" class="form-control" readonly>
+    @if($installments->first()->status == 'paid')
+
+            <div class="mt-4">
+                <h4>إضافة دفعة جديدة</h4>
+                <form action="{{ route('sales.installments.store', $sale->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="sale_id" value="{{ $sale->id }}">
+
+                    <div class="mb-3">
+                        <label for="installment_amount" class="form-label">المبلغ (يتم حسابه تلقائيًا)</label>
+                        <input type="number" id="installment_amount" name="installment_amount" class="form-control" value="{{ $remainingAmount }}" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="percentage" class="form-label">النسبة (يتم حسابها تلقائيًا)</label>
+                        <input type="number" id="percentage" name="percentage" class="form-control" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="due_date" class="form-label">تاريخ الاستحقاق</label>
+                        <input type="date" name="due_date" class="form-control" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">إضافة دفعة</button>
+                </form>
+            </div>
+        @endif
+    </div>
+
+
+    <!-- Reject Modal -->
+    <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectModalLabel">تأكيد الرفض</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <div class="mb-3">
-                    <label for="due_date" class="form-label">تاريخ الاستحقاق</label>
-                    <input type="date" name="due_date" class="form-control" required>
+                <div class="modal-body">
+                    هل أنت متأكد أنك تريد رفض هذه الدفعة؟
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <form action="{{ route('installments.update.status', [$installments->first()->id, 'awaiting_customer_payment']) }}" method="POST" style="display: inline-block;">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="awaiting_customer_payment">
+                        <button type="submit" class="btn btn-warning">تأكيد الرفض</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <button type="submit" class="btn btn-primary">إضافة دفعة </button>
-            </form>
+    <!-- Accept Modal -->
+    <div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="acceptModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="acceptModalLabel">تأكيد القبول</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    هل أنت متأكد أنك تريد قبول هذه الدفعة؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <form action="{{ route('installments.update.status', [$installments->first()->id, 'paid']) }}" method="POST" style="display: inline-block;">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="paid">
+                        <button type="submit" class="btn btn-success">تأكيد القبول</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 

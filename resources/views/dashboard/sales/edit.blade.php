@@ -93,16 +93,19 @@
                                 <td>
                                     <input type="date" class="form-control"
                                            name="installments[{{ $installment->id }}][due_date]"
-                                           value="{{ $installment->due_date ? $installment->due_date->format('Y-m-d') : '' }}"
+                                           value="{{ $installment->due_date ? $installment->due_date: '' }}"
                                         {{ ($disableEdit || $installment->status == 'paid') ? 'readonly' : '' }}>
                                 </td>
                                 <td>
                                     <select class="form-select" name="installments[{{ $installment->id }}][status]"
                                         {{ ($disableEdit || $installment->status == 'paid') ? 'disabled' : '' }}>
-                                        <option value="pending" {{ $installment->status == 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
+                                        <option value="pending" {{ $installment->status == 'pending' ? 'selected' : '' }}>تم أنشاء الدفعة</option>
                                         <option value="paid" {{ $installment->status == 'paid' ? 'selected' : '' }}>مدفوع</option>
                                         <option value="overdue" {{ $installment->status == 'overdue' ? 'selected' : '' }}>متأخر</option>
+
+
                                         <option value="awaiting_customer_payment" {{ $installment->status == 'awaiting_customer_payment' ? 'selected' : '' }}>بانتظار الدفع</option>
+                                        <option value="overdue" {{ $installment->status == 'receipt_uploaded' ? 'selected' : '' }}>رفع العميل اشعار الدفع</option>
                                     </select>
                                     @if($installment->status == 'paid')
                                         <input type="hidden" name="installments[{{ $installment->id }}][status]" value="paid">

@@ -3,6 +3,19 @@
 @section('title', 'استبيان الطلب')
 
 @section('content')
+
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger">
+            <strong>خطأ:</strong> {{ session('error') }}
+        </div>
+
+    @endif
     <div class="pagetitle" dir="rtl">
         <h1>استبيان الطلب رقم #{{ $order->id }}</h1>
     </div>

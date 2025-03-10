@@ -27,12 +27,13 @@
     @endif
 
     <div class="container">
-        <h1>طلباتي</h1>
+        <div class="card m-5 p-4">
+        <h1 class="my-orders-title-border-b">طلباتي</h1>
 
         @if($orders->isEmpty())
             <p>لا توجد طلبات حتى الآن.</p>
-        @else
-            <table class="table table-striped">
+        @else <div class="mt-5">
+            <table class="table table-striped custom-rounded ">
                 <thead>
                 <tr>
                     <th>رقم الطلب</th>
@@ -71,6 +72,8 @@
                 @endforeach
                 </tbody>
             </table>
+            </div> 
         @endif
+        </div>
     </div>
 @endsection

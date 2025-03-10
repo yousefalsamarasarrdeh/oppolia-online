@@ -1,6 +1,18 @@
 @extends('layouts.designer.mainlayout')
 @section('title', 'المسودات المعتمدة للطلب')
 @section('content')
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger">
+            <strong>خطأ:</strong> {{ session('error') }}
+        </div>
+
+    @endif
     <div class="container" dir="rtl">
         <h2>المسودات المعتمدة للطلب #{{ $order->id }}</h2>
         @if($approvedDrafts->isEmpty())
@@ -88,6 +100,13 @@
                     </div>
                 </div>
 
+                <div class="col-lg-6 col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="due_date">تاريخ الاستحقاق</label>
+                        <input type="date" name="due_date" id="due_date" class="form-control" required>
+                    </div>
+                </div>
+
                 <!-- الحالة -->
                 <div class="col-lg-6 col-md-6 mb-3">
                     <div class="form-group">
@@ -97,6 +116,9 @@
                         </select>
                     </div>
                 </div>
+
+
+
             </div>
 
             <!-- زر الإرسال -->

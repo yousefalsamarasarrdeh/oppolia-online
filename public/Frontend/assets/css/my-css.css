@@ -1,0 +1,44 @@
+.my-orders-title-border-b{
+
+    padding-bottom: 10px;
+    border-bottom: solid 1px #cfcfcf;
+}
+.custom-rounded {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #dee2e6;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.custom-rounded th,
+.custom-rounded td {
+    border-bottom: 1px solid #cfcfcf;
+    border-right: 1px solid #cfcfcf;
+}
+
+.custom-rounded thead th {
+    border-bottom: none;
+    background-color: #e7e7e7;
+    color: #676767;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.custom-rounded td {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.custom-rounded th:last-child,
+.custom-rounded td:last-child {
+    border-right: none;
+}
+
+.custom-rounded tr:last-child td {
+    border-bottom: none;
+}

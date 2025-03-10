@@ -123,6 +123,7 @@ Route::middleware(['auth' ,'set-locale'])->group(function () {
     Route::get('user/notifications', [\App\Http\Controllers\Users\NotificationController::class, 'index'])->name('user.notifications.index');
 
     Route::post('/installment/update-status', [InstallmentController::class, 'updateStatus'])->name('installment.updateStatus');
+    Route::post('/installment/update-receipt-and-status/{id}', [InstallmentController::class, 'uploadReceipt'])->name('installments.uploadReceipt');
 
     Route::post('/rate-designer', [DesignerRatingController::class, 'store'])
         ->name('rate.designer');
@@ -167,6 +168,8 @@ Route::middleware(['designer'])->group(function () {
         ->name('sales.installments.storeThird');
     Route::get('/designer/sales/{sale}/complete', [SalesController::class, 'completeOrder'])
         ->name('sales.completeOrder');
+
+    Route::patch('/designer/installment/update-status/{installment}', [SalesController::class, 'updateInstallmentStatus'])->name('installments.update.status');
 
 
     Route::post('/designer/manufacture/start/{order}', [ManufactureAndInstallationController::class, 'startManufacture'])

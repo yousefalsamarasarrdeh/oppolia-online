@@ -18,7 +18,8 @@ return new class extends Migration
             $table->unsignedInteger('installment_number'); // رقم القسط
             $table->decimal('percentage', 5, 2); // النسبة المئوية
             $table->date('due_date')->nullable(); // تاريخ الاستحقاق
-            $table->enum('status', ['pending', 'paid', 'overdue', 'awaiting_customer_payment']); // حالة القسط
+            $table->enum('status', ['pending', 'paid', 'overdue', 'awaiting_customer_payment','receipt_uploaded']); // حالة القسط
+            $table->string('payment_receipt')->nullable();
             $table->timestamps();
 
             // Foreign key constraints
