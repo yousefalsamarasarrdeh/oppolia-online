@@ -42,8 +42,8 @@
                             @lang('home.Home')
                         </a>
                         <a href="{{ route('home.about') }}" class="myfont_1  border-3 mx-2">@lang('home.About')</a>
-                        <a href="shop.html" class="myfont_1  border-3 mx-2">@lang('home.Product')</a>
-                        <a href="services.html" class="myfont_1  border-3 mx-2">@lang('home.Designers')</a>
+                        <a href="{{route('home.products') }}" class="myfont_1  border-3 mx-2">@lang('home.Product')</a>
+                        <a href="{{route('home.designers') }}" class="myfont_1  border-3 mx-2">@lang('home.Designers')</a>
                         <a href="{{ route('home.contact') }}" class="myfont_1  border-3 mx-2">@lang('home.Contact')</a>
 
                     </div>

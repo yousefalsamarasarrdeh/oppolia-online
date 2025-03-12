@@ -96,11 +96,11 @@ class InstallmentController extends Controller
                 $order->processing_stage = 'تم إرسال إيصال الدفعة الأولى من قبل الزبون';
                 $order->save();
             }
-            if ($order->processing_stage === 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية') {
+            if ($order->processing_stage === 'تم إرسال تفاصيل الدفعة الثانية') {
                 $order->processing_stage = 'تم إرسال إيصال الدفعة الثانية من قبل الزبون';
                 $order->save();
             }
-            if ($order->processing_stage === 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة') {
+            if ($order->processing_stage === 'تم إرسال تفاصيل الدفعة الثالثة') {
                 $order->processing_stage = 'تم إرسال إيصال الدفعة الثالثة من قبل الزبون';
                 $order->save();
             }

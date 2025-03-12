@@ -34,7 +34,7 @@ class JoinAsDesignerController extends Controller
             'major_in_education' => 'required|string|max:255',
             'years_of_experience' => 'required|integer|min:0',
             'experience_in_sales' => 'required|boolean',
-            'current_occupation' => 'required|boolean',
+            'current_occupation' => 'required',
             'willing_to_work_as_freelancer' => 'required|boolean',
             'own_car' => 'required|boolean',
             'experience_in_kitchen_furniture_business' => 'required|boolean',

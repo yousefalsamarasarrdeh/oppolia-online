@@ -205,6 +205,9 @@ Route::middleware(['set-locale'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('welcome');
     Route::get('/about', [HomeController::class, 'about'])->name('home.about');
     Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
+    Route::get('/products', [HomeController::class, 'product'])->name('home.products');
+    Route::get('/product/{id}', [HomeController::class , 'ProductID'])->name('product.show');
+    Route::get('/designers', [HomeController::class, 'show_designers'])->name('home.designers');
 
 });
 Route::middleware('guest')->group(function () {

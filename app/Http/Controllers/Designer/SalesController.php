@@ -53,10 +53,7 @@ class SalesController extends Controller
 
         $firstInstallment = $sale->installments()->where('installment_number', 1)->first();
 
-        if ($firstInstallment) {
-            // تحديث حالة القسط الأول إلى "paid"
-            $firstInstallment->update(['status' => 'paid']);
-        }
+
 
         // إنشاء القسط الجديد
         $installment = new Installment([
@@ -73,13 +70,12 @@ class SalesController extends Controller
         // إذا كان هذا هو القسط الأول فقط، قم بتحديث بيانات المبيعات
 
         $sale->update([
-                'amount_paid' => $firstInstallment->installment_amount,
-                'paid_percentage' => $firstInstallment->percentage,
+
                 'installments_count'=>2,
-                'status'=>'first_payment_done', ]);
+              ]);
 
         $order->update([
-            'processing_stage' => 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية',
+            'processing_stage' => 'تم إرسال تفاصيل الدفعة الثانية',
         ]);
 
 
@@ -177,14 +173,13 @@ class SalesController extends Controller
 
         // تحديث بيانات المبيعات بعد الدفعة الثالثة
         $sale->update([
-            'amount_paid' => $totalFirstAndSecondPayments,
-            'paid_percentage' => ($totalFirstAndSecondPayments/ $sale->price_after_discount) * 100,
+
             'installments_count' => 3,
-            'status' => 'second_payment_done',
+
         ]);
 
         // تحديث مرحلة الطلب
-        $order->update(['processing_stage' => 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة']);
+        $order->update(['processing_stage' => 'تم إرسال تفاصيل الدفعة الثالثة']);
 
         $SecondInstallment = $sale->installments()->where('installment_number', 2)->first();
 
@@ -233,58 +228,7 @@ class SalesController extends Controller
 
     public function completeOrder (Request $request, Sale $sale) {
 
-        $order = $sale->order;
-        $designer = auth()->user()->designer;
-        $notifications = $designer->unreadNotifications;
-        if ($order->approved_designer_id !== $designer->id) {
-            return redirect()->back()->with('error', 'ليس لديك الصلاحية لإضافة الدفعة الثالثة لهذا الطلب.');
-        }
-        $totalPayments = $sale->installments()
-            ->whereIn('installment_number', [1, 2,3])
-            ->sum('installment_amount');
 
-        $sale->update([
-            'amount_paid' => $totalPayments,
-            'paid_percentage' => ($totalPayments/ $sale->price_after_discount) * 100,
-
-            'status' => 'completed',
-        ]);
-
-        $thirdInstallment = $sale->installments()->where('installment_number', 3)->first();
-
-        if ($thirdInstallment) {
-            // تحديث حالة القسط الأول إلى "paid"
-            $thirdInstallment->update(['status' => 'paid']);
-        }
-
-        $order->update([
-            'processing_stage' => 'تم تسديد الدفعة الثالثة',
-           // 'order_status'=>'closed'
-        ]);
-
-        $reginid = auth()->user()->region_id;
-
-
-        $regionManager = User::where('role', 'Area manager')
-            ->where('region_id', $reginid) // مدير المنطقة حسب منطقة المصمم
-            ->first();
-
-
-        if ($regionManager) {
-
-            $regionManager->notify(new PaymentCompletedNotification($order));
-        }
-        $salesManager = User::where('role', 'Sales manager')->first(); // الحصول على مدير المبيعات
-
-        if ($salesManager) {
-
-            $salesManager->notify(new PaymentCompletedNotification($order));
-        }
-
-
-        return redirect()->route('designer.approved.orders')
-            ->with('success', 'تمت انهاء الدفع .')
-            ->with('notifications', $notifications);
 
     }
 
@@ -293,6 +237,7 @@ class SalesController extends Controller
         $designer = auth()->user()->designer;
         $order = $installment->sale->order;
         $notifications = $designer->unreadNotifications;
+        $sale=  $installment->sale;
 
         // التحقق من أن المصمم هو المعتمد لهذا الطلب
         if ($order->approved_designer_id !== $designer->id) {
@@ -309,9 +254,9 @@ class SalesController extends Controller
             if ($order->processing_stage == 'تم إرسال إيصال الدفعة الأولى من قبل الزبون') {
                 $order->update(['processing_stage' => 'تم إرسال التصميم النهائي مع العقد وتفاصيل الدفعة الأولى']);
             } elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الثانية من قبل الزبون') {
-                $order->update(['processing_stage' => 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية']);
+                $order->update(['processing_stage' => 'تم إرسال تفاصيل الدفعة الثانية']);
             } elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الثالثة من قبل الزبون') {
-                $order->update(['processing_stage' => 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة']);
+                $order->update(['processing_stage' => 'تم إرسال تفاصيل الدفعة الثالثة']);
             }
 
             // إرسال إشعار إلى المستخدم
@@ -330,6 +275,90 @@ class SalesController extends Controller
                 ->with('notifications', $notifications);
         } elseif ($validatedData['status'] == 'paid') {
             $installment->update(['status' => 'paid']);
+
+            if ($order->processing_stage == 'تم إرسال إيصال الدفعة الأولى من قبل الزبون') {
+                $firstInstallment = $sale->installments()->where('installment_number', 1)->first();
+                $percentage = ($firstInstallment->installment_amount / $sale->price_after_discount) * 100;
+                $sale->update([
+                    'amount_paid' => $firstInstallment->installment_amount,
+                    'paid_percentage' => $percentage,
+
+                    'status'=>'first_payment_done', ]);
+                $order->update(['processing_stage' => 'تم تسديد الدفعة الأولى']);
+
+            } elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الثانية من قبل الزبون') {
+
+                // حساب مجموع الدفعتين الأولى والثانية
+                $totalFirstAndSecondPayments = $sale->installments()
+                    ->whereIn('installment_number', [1, 2])
+                    ->sum('installment_amount');
+
+                $sale->update([
+                    'amount_paid' => $totalFirstAndSecondPayments,
+                    'paid_percentage' => ($totalFirstAndSecondPayments/ $sale->price_after_discount) * 100,
+
+                    'status' => 'second_payment_done',
+                ]);
+                $order->update(['processing_stage' => 'تم استلام الدفعة الثانية']);
+
+
+
+            } elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الثالثة من قبل الزبون') {
+
+                $order = $sale->order;
+                $designer = auth()->user()->designer;
+                $notifications = $designer->unreadNotifications;
+
+                $totalPayments = $sale->installments()
+                    ->whereIn('installment_number', [1, 2,3])
+                    ->sum('installment_amount');
+
+                $sale->update([
+                    'amount_paid' => $totalPayments,
+                    'paid_percentage' => ($totalPayments/ $sale->price_after_discount) * 100,
+
+                    'status' => 'completed',
+                ]);
+
+                $thirdInstallment = $sale->installments()->where('installment_number', 3)->first();
+
+                if ($thirdInstallment) {
+                    // تحديث حالة القسط الأول إلى "paid"
+                    $thirdInstallment->update(['status' => 'paid']);
+                }
+
+                $order->update([
+                    'processing_stage' => 'تم تسديد الدفعة الثالثة',
+                    // 'order_status'=>'closed'
+                ]);
+
+                $reginid = auth()->user()->region_id;
+
+
+                $regionManager = User::where('role', 'Area manager')
+                    ->where('region_id', $reginid) // مدير المنطقة حسب منطقة المصمم
+                    ->first();
+
+
+                if ($regionManager) {
+
+                    $regionManager->notify(new PaymentCompletedNotification($order));
+                }
+                $salesManager = User::where('role', 'Sales manager')->first(); // الحصول على مدير المبيعات
+
+                if ($salesManager) {
+
+                    $salesManager->notify(new PaymentCompletedNotification($order));
+                }
+
+
+                return redirect()->route('designer.approved.orders')
+                    ->with('success', 'تمت انهاء الدفع .')
+                    ->with('notifications', $notifications);
+
+
+
+            }
         }
 
         return redirect()->route('designer.approved.orders')

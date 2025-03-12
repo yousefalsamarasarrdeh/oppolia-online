@@ -207,22 +207,25 @@ class HomeController extends Controller
             }   elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الأولى من قبل الزبون') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.Second_payment', compact('order', 'notifications'));
-            }    elseif ($order->processing_stage == 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية') {
+            }
+            elseif ($order->processing_stage == 'تم تسديد الدفعة الأولى') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.Second_payment', compact('order', 'notifications'));
+            }
+            elseif ($order->processing_stage == 'تم إرسال تفاصيل الدفعة الثانية') {
             return redirect()->route('designer.approved.orders')->with('error', ' لم يرسل الزبون بعد وصل الشراء للدفعة الثانية');
         }   elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الثانية من قبل الزبون') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.third_payment', compact('order', 'notifications'));
-            } elseif ($order->processing_stage == 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة') {
-                return redirect()->route('designer.approved.orders')->with('error', ' لم يرسل الزبون بعد وصل الشراء للدفعة الثالثة');
-            }
-            elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الثالثة من قبل الزبون') {
-                // توجيه إلى واجهة ملء بيانات order draft
-                return view('designer.complete_payment', compact('order', 'notifications'));
-            }
-            elseif ($order->processing_stage == 'تم تسديد الدفعة الثالثة') {
-                // توجيه إلى واجهة ملء بيانات order draft
+            } elseif ($order->processing_stage == 'تم استلام الدفعة الثانية') {
+
+
+
+
                 return view('designer.manufacturing_began', compact('order', 'notifications'));
+               // return redirect()->route('designer.approved.orders')->with('error', ' لم يرسل الزبون بعد وصل الشراء للدفعة الثالثة');
             }
+
             elseif ($order->processing_stage == 'تم بدء التصنيع') {
                 // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.manufacturing_ending', compact('order', 'notifications'));
@@ -234,8 +237,25 @@ class HomeController extends Controller
             }
             elseif ($order->processing_stage == 'تم توصيل الطلب إلى المملكة العربية السعودية') {
                 // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.third_payment', compact('order', 'notifications'));
+
+            }
+            elseif ($order->processing_stage == 'تم إرسال تفاصيل الدفعة الثالثة') {
+
+                return redirect()->route('designer.approved.orders')->with('error', ' لم يرسل الزبون بعد وصل الشراء للدفعة الثالثة');
+            }
+
+
+
+            elseif ($order->processing_stage == 'تم إرسال إيصال الدفعة الثالثة من قبل الزبون') {
+                // توجيه إلى واجهة ملء بيانات order draft
+                return view('designer.complete_payment', compact('order', 'notifications'));
+            }
+            elseif ($order->processing_stage == 'تم تسديد الدفعة الثالثة') {
+                // توجيه إلى واجهة ملء بيانات order draft
                 return view('designer.installation_start', compact('order', 'notifications'));
             }
+
 
             elseif ($order->processing_stage == 'تم بدء التركيب') {
                 // توجيه إلى واجهة ملء بيانات order draft

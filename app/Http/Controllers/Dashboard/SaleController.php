@@ -80,7 +80,7 @@ class SaleController extends Controller
                 'installments.*.installment_amount' => 'required|numeric',
                 'installments.*.percentage' => 'required|numeric',
                 'installments.*.due_date' => 'nullable|date',
-                'installments.*.status' => 'required|string|in:pending,paid,overdue,awaiting_customer_payment',
+                'installments.*.status' => 'required|string|in:pending,paid,overdue,awaiting_customer_payment,receipt_uploaded',
             ]);
 
             // تحديث بيانات المبيع

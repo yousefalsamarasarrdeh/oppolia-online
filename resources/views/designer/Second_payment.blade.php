@@ -25,7 +25,10 @@
                 @if($sale)
                     <p><strong>إجمالي التكلفة:</strong> {{ number_format($sale->total_cost, 2) }}</p>
                     <p><strong>إجمالي التكلفة بعد الخصم:</strong> {{ number_format($sale->price_after_discount, 2) }}</p>
+                    @if($installments->first()->status == 'paid')
                     <p><strong>المبلغ المدفوع بالدفعات السابقة:</strong> {{ number_format($totalPaidInstallments, 2) }}</p>
+                        @endif
+
                 @else
                     <p>لم يتم تسجيل عملية بيع لهذا الطلب بعد.</p>
                 @endif
