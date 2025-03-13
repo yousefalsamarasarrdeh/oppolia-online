@@ -1,6 +1,6 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
 @section('content')
-
+<P>sss<p>
 <div class="container-fluid about-section position-relative">
     <!-- Banner Image (Full Width) -->
     <div class="row">
