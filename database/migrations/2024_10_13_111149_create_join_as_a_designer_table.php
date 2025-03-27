@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('major_in_education');
             $table->integer('years_of_experience');
             $table->boolean('experience_in_sales');
-            $table->boolean('current_occupation');
+            $table->text('current_occupation');
             $table->boolean('willing_to_work_as_freelancer');
             $table->boolean('own_car');
             $table->boolean('experience_in_kitchen_furniture_business');

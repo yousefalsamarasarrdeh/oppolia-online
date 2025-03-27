@@ -14,6 +14,8 @@ use App\Notifications\CustomerRequestRedesign;
 use App\Models\User;
 use App\Models\SubRegion;
 use App\Notifications\CustomerChangedDesigner;
+use Illuminate\Support\Facades\DB;
+
 
 
 class OrderController extends Controller
@@ -175,7 +177,23 @@ class OrderController extends Controller
             $orderDraft = collect([$orderDraft]);
         }
 
-        return view('User.show_order', compact('order', 'orderDraft','notifications'));
+        $enumValues = DB::select("
+        SELECT COLUMN_TYPE
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+        AND TABLE_NAME = 'orders'
+        AND COLUMN_NAME = 'processing_stage'
+    ")[0]->COLUMN_TYPE;
+
+        // استخراج القيم من النتيجة
+        preg_match('/enum\((.*)\)$/', $enumValues, $matches);
+        $allstages = str_getcsv($matches[1], ',', "'");
+        $all_stages = array_filter($allstages, function($stage) {
+            return $stage !== 'change_designer';
+        });
+
+
+        return view('User.show_order', compact('order', 'orderDraft','notifications','all_stages'));
     }
 
     public function changeDesigner(Request $request, Order $order)

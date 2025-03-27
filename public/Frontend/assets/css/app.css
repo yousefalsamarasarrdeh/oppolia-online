@@ -36,7 +36,7 @@ File: style.css
 /* General */
 
 body {
-	color: #757575;
+   /*	color: #757575; */
 	font-size: 14px;
 	letter-spacing: .5px;
  /*	font-weight: 500; */
@@ -1569,8 +1569,8 @@ ul.categories-list li {
 }
 .alert-count {
 	position: absolute;
-	top: 10px;
-	left: 26px;
+	top: 2px;
+	left: 17px;
 	width: 20px;
 	height: 20px;
 	display: flex;
@@ -1580,7 +1580,7 @@ ul.categories-list li {
 	font-size: 13px;
 	font-weight: 400;
 	color: #ffffff;
-	background: #282424;
+	background: #509F96;
 }
 .dropdown-large {
 	position: relative
@@ -2143,3 +2143,25 @@ body.bg-theme15 {
 .Dark_Green{
     color:#0A4740;
 }
+.button_Dark_Green {
+    color: white;
+    background-color: #0A4740;
+    border-radius: 4px;
+}
+.black-color{
+    color:black;
+}
+.Primary_Green_color {
+    color:#509F96
+}
+.button_Green {
+
+    color: #0A4740;
+    background-color: #C9E5E2;
+    border-radius: 4px;
+}
+.Primary_Green_background {
+    background-color: #509F96
+
+}
+

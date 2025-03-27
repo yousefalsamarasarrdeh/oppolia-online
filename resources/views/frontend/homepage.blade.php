@@ -18,7 +18,13 @@
                     أفكارك لبيت مثالي تنفيذها صار أسهل مع
                     <span class="highlight-text">اوبوليا اون لاين!</span>
                 </p>
-                <button class="btn btn-success btn-custom"> !اطلب مطبخك</button>
+                @auth
+                    <a href="{{ route('orders.create') }}" class="btn button_Dark_Green">!اطلب مطبخك</a>
+                @endauth
+
+                @guest
+                    <button class="btn button_Dark_Green" data-bs-toggle="modal" data-bs-target="#phoneModal">!اطلب مطبخك</button>
+                @endguest
             </div>
         </div>
     </div>
@@ -51,7 +57,7 @@
                 </div>
             </div>
 
-           
+
         </div>
     </div>
 </div>
@@ -126,7 +132,7 @@
 <section class="container mt-5 p-5">
     <div class="row">
         <!-- Desktop Layout (Two Columns) -->
-      
+
 
         <!-- Text Content -->
         <div class="col-md-6 text-end" dir="rtl">
@@ -327,7 +333,7 @@
                 <h5 class="mt-3 fw-bold" style="color: rgba(36, 77, 77, 1) !important;">مطابخ على شكل حرف U</h5>
             </div>
 
-            
+
         </div>
     </div>
 </section>
@@ -338,7 +344,7 @@
 <section class="container p-5">
     <div class="row align-items-center justify-content-center">
         <!-- Image Slider -->
-        
+
         <!-- ✅ Text Section -->
         <div class="col-md-5 text-end">
             <h3 class="fw-bold text-success">الجودة الألمانية</h3>
@@ -354,7 +360,7 @@
 
         <div class="col-md-6 position-relative">
             <div id="germanQualitySlider" class="carousel slide" data-bs-ride="carousel">
-                
+
                 <!-- ✅ Indicators (Positioned Correctly) -->
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#germanQualitySlider" data-bs-slide-to="0" class="active"></button>
@@ -416,8 +422,8 @@
     <div class="new-arrivals owl-carousel owl-rtl d-flex justify-content-center owl-theme designers-carousel position-relative align-content-center mt-5" dir="ltr">
         @foreach($designer as $designer)
         <div class="item">
-            <div class="designer-card p-4 text-center" 
-                 data-bs-toggle="modal" 
+            <div class="designer-card p-4 text-center"
+                 data-bs-toggle="modal"
                  data-bs-target="#designerModal"
                  data-name="{{ $designer->user->name }}"
                  data-image="{{ asset($designer->profile_image ? 'storage/' . $designer->profile_image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
@@ -448,7 +454,7 @@
                 <p id="designerBio" class="mt-2"></p>
 
                 <!-- Portfolio Images -->
-                 
+
                 <!-- Portfolio Images Carousel -->
                 <div id="portfolioContainerWrapper">
                     <div id="portfolioContainer" class="owl-carousel owl-theme p-3" style="text-align: -webkit-center" dir="ltr"></div>
@@ -478,7 +484,7 @@
 
 
 <!-- JavaScript to Update Portfolio Modal Image -->
-    
+
     <script>
    document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".designer-card").forEach(card => {
@@ -502,7 +508,7 @@
 
             // Handle portfolio images dynamically
             let portfolioContainer = $("#portfolioContainer");
-            
+
             // **Destroy Owl Carousel if already initialized**
             if (portfolioContainer.hasClass("owl-loaded")) {
                 portfolioContainer.trigger("destroy.owl.carousel").removeClass("owl-loaded");
@@ -557,14 +563,14 @@ function showPortfolioImage(imageSrc) {
 </script>
 
 
-    
+
 
     <div class="text-center mt-4">
         <a href="{{route('home.designers') }}" class="btn btn-success">مشاهدة الكل</a>
     </div>
 </section>
 
-  
+
 
 
 <!--    -->
@@ -575,5 +581,5 @@ function showPortfolioImage(imageSrc) {
 
 
 @php
-                    $portfolioImages = json_decode($designer->portfolio_images, true); 
+                    $portfolioImages = json_decode($designer->portfolio_images, true);
 @endphp

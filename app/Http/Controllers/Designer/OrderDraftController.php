@@ -77,6 +77,7 @@ class OrderDraftController extends Controller
             $message = "أرسل أحد المصممين تصميمًا خاصًا لطلبك. يرجى  الدخول إلى موقعنا لمشاهدة التصميم";
 
             // إرسال الـ SMS باستخدام رقم هاتف المستخدم المرتبط بالطلب
+            /*
             $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -84,6 +85,7 @@ class OrderDraftController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone // الوصول إلى رقم هاتف المستخدم
             ]);
+            */
             Notification::send($order->user, new OrderDraftNotification($order));
             // إعادة التوجيه مع رسالة نجاح والإشعارات
             return redirect()->route('designer.approved.orders')
@@ -202,7 +204,7 @@ class OrderDraftController extends Controller
             Notification::send($order->user, new FinalDraftWithFirstPayment($order));
 
             $message = "أرسل أحد المصممين تصميمًا نهائيا لطلبك. يرجى الدخول إلى موقعنا لمشاهدة التصميم";
-
+        /*
             Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -210,6 +212,7 @@ class OrderDraftController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone,
             ]);
+        */
 
             return redirect()->route('designer.approved.orders')
                 ->with('success', 'تم إنشاء مسودة الطلب النهائية بنجاح وتم تحديث مرحلة معالجة الطلب.')

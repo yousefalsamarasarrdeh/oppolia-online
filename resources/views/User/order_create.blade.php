@@ -1,4 +1,5 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
+@section('title', 'انشاء طلب')
 @section('css')
     <style>
         label {
@@ -385,7 +386,7 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <a type="button" onclick="nextPrev(-1)" class="Dark_Green"> ➡ السابق</a>
-                                <button type="submit" class="btn btn-success">تقديم الطلب</button>
+                                <button type="submit" class="btn button_Dark_Green">تقديم الطلب</button>
                             </div>
                         </div>
 

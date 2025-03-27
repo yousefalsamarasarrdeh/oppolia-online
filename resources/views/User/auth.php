@@ -13,20 +13,8 @@ return [
     |
     */
 
-    'Home' => 'Home',
-    'About' => 'About',
-    'Designers' => 'Designers',
-    'Product'=>'Product',
-    'Contact'=>'Contact',
-    'Login'=>'Login',
-    'Join Us'=>'Join Us',
-    'Register Now'=>'Register Now',
-    'Send'=>'Send',
-    'Mobile number verification'=>'Mobile Number verification',
-    'Join as designer'=>'Join AS Designer',
-    'My Orders'=>'My Orders',
-    'dashboard'=>'Dashboard',
-
-
+    'failed' => 'سسسس',
+    'password' => 'The provided password is incorrect.',
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

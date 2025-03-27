@@ -42,3 +42,65 @@
 .custom-rounded tr:last-child td {
     border-bottom: none;
 }
+
+
+a:hover {
+    color: #509F96;
+}
+.my-accordion-title-border-b{
+    padding-bottom: 0px;
+    border-bottom: solid 1px #cfcfcf;
+}
+
+.modal-header .btn-close {
+    padding: calc(var(--bs-modal-header-padding-y)* .5) calc(var(--bs-modal-header-padding-x)* .5);
+    margin: 0px;
+}
+.header-logo{
+    width: 218.634px;
+    height: 60.126px;
+}
+.link-offset-4-hover:hover {
+    color: #0A4740 !important;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+.dropdown-menu {
+    left: -175px !important;
+}
+.header-content .top-cart-icons .dropdown-large .dropdown-menu::after {
+
+    background: rgb(248 249 250) !important;
+
+}
+
+
+
+.mydropdown .dropdown-toggle::after {
+    display: none !important;
+}
+.mydropdown .dropdown-menu {
+    left: -63px !important;
+}
+
+
+@media (max-width: 767.98px) {
+    .header-logo{
+        width: 105.12px;
+        height: 26.094px;
+    }
+    .dropdown-menu {
+        width: 100% !important;
+        left: -25px !important;
+        right: 0 !important;
+    }
+
+}
+
+
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .dropdown-menu {
+        left: 0 !important;
+    }
+}

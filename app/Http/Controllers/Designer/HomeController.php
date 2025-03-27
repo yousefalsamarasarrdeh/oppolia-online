@@ -73,13 +73,14 @@ class HomeController extends Controller
             $smsMessage = "لقد وافق أحد المصممين على طلبك رقم {$order->id}.";
 
             // إرسال الـ SMS
-            Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+         /*   Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
                 'message' => $smsMessage,
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone // رقم المستخدم
             ]);
+         */
 
             // إرسال الإشعار للمستخدم
             $userNotificationMessage = "تمت الموافقة على طلبك رقم {$order->id} من قبل المصمم {$designer->user->name}.";

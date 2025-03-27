@@ -71,13 +71,14 @@ class DesignerMeetingCustomerController extends Controller
                 $smsMessage = "تم تحديد موعد زيارة المصمم لطلبك رقم {$order->id} في {$validated['meeting_time']}. شكرًا لاستخدامك خدماتنا!";
 
 
-                Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+              /*  Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                     'api_key'   => env('SMS_API_KEY'),
                     'username'  => env('SMS_USERNAME'),
                     'message'   => $smsMessage,
                     'sender'    => env('SMS_SENDER'),
                     'numbers'   => $customer->phone,
                 ]);
+              */
             }
 
 

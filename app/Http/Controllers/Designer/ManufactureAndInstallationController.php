@@ -37,6 +37,7 @@ class ManufactureAndInstallationController extends Controller
 
             // إرسال رسالة SMS
             $message = "تم البدء بعملية التصنيع";
+            /*
             Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -44,6 +45,7 @@ class ManufactureAndInstallationController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone,
             ]);
+            */
 
             // إرسال إشعار للمستخدم
             $customMessage = "تم بدء التصنيع  لطلبك رقم " . $order->id . ". يمكنك متابعة التفاصيل من حسابك.";
@@ -86,6 +88,7 @@ class ManufactureAndInstallationController extends Controller
 
             // إرسال رسالة SMS
             $message = "تم أنهاء عملية التصنيع";
+            /*
             Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -93,6 +96,7 @@ class ManufactureAndInstallationController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone,
             ]);
+            */
 
             // إرسال إشعار للمستخدم
             $customMessage = "تم انهاء تصنيع المطبخ  لطلبك رقم " . $order->id . ". يمكنك متابعة التفاصيل من حسابك.";
@@ -135,6 +139,7 @@ class ManufactureAndInstallationController extends Controller
 
             // إرسال رسالة SMS
             $message = "لقد وصل الطلب الي المملكة العربية السعودية";
+            /*
             Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -142,6 +147,7 @@ class ManufactureAndInstallationController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone,
             ]);
+            */
 
             // إرسال إشعار للمستخدم
             $customMessage = "لقد وصل طلبك الي المملكة العربية السعودية رقم" . $order->id . ". يمكنك متابعة التفاصيل من حسابك.";
@@ -185,6 +191,7 @@ class ManufactureAndInstallationController extends Controller
 
             // إرسال رسالة SMS
             $message = "تم البدء بعملية التركيب";
+            /*
             Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -192,6 +199,7 @@ class ManufactureAndInstallationController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone,
             ]);
+            */
 
             // إرسال إشعار للمستخدم
             $customMessage = "تم بدء التركيب لطلبك رقم " . $order->id . ". يمكنك متابعة التفاصيل من حسابك.";
@@ -236,6 +244,7 @@ class ManufactureAndInstallationController extends Controller
 
             // إرسال رسالة SMS
             $message = "تم التركيب شكرا لك";
+            /*
             Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -243,6 +252,7 @@ class ManufactureAndInstallationController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone,
             ]);
+            */
 
 
             $reginid = auth()->user()->region_id;

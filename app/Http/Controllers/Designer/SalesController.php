@@ -81,6 +81,8 @@ class SalesController extends Controller
 
         $message = "تم ارسال تفاصيل الدفعة الثانية ";
 
+        /*
+
         Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
             'api_key' => env('SMS_API_KEY'),
             'username' => env('SMS_USERNAME'),
@@ -88,6 +90,7 @@ class SalesController extends Controller
             'sender' => env('SMS_SENDER'),
             'numbers' => $order->user->phone,
         ]);
+        */
 
         Notification::send($order->user, new SecondPaymentToCustomer($order));
 
@@ -212,6 +215,7 @@ class SalesController extends Controller
 
 
         // إرسال رسالة نصية للمستخدم
+        /*
         Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
             'api_key' => env('SMS_API_KEY'),
             'username' => env('SMS_USERNAME'),
@@ -219,6 +223,7 @@ class SalesController extends Controller
             'sender' => env('SMS_SENDER'),
             'numbers' => $order->user->phone,
         ]);
+        */
 
         return redirect()->route('designer.approved.orders')
             ->with('success', 'تمت إضافة الدفعة الثالثة بنجاح وتحديث مرحلة الطلب.')
@@ -263,6 +268,7 @@ class SalesController extends Controller
             $order->user->notify(new ReuploadPaymentReceipt($installment,$order));
 
             // إرسال رسالة نصية
+            /*
             Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
                 'api_key' => env('SMS_API_KEY'),
                 'username' => env('SMS_USERNAME'),
@@ -270,6 +276,7 @@ class SalesController extends Controller
                 'sender' => env('SMS_SENDER'),
                 'numbers' => $order->user->phone,
             ]);
+            */
             return redirect()->route('designer.approved.orders')
                 ->with('success', 'تمت ارسال أعادة رفع أشعار الدفع .')
                 ->with('notifications', $notifications);

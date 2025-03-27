@@ -128,6 +128,10 @@ Route::middleware(['auth' ,'set-locale'])->group(function () {
     Route::post('/rate-designer', [DesignerRatingController::class, 'store'])
         ->name('rate.designer');
     Route::put('/rate-designer/{id}', [DesignerRatingController::class, 'update'])->name('update.designer.rating');
+
+
+    Route::get('/profile/edit', [App\Http\Controllers\Users\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [App\Http\Controllers\Users\ProfileController::class, 'update'])->name('profile.update');
 });
 
 
@@ -208,6 +212,7 @@ Route::middleware(['set-locale'])->group(function () {
     Route::get('/products', [HomeController::class, 'product'])->name('home.products');
     Route::get('/product/{id}', [HomeController::class , 'ProductID'])->name('product.show');
     Route::get('/designers', [HomeController::class, 'show_designers'])->name('home.designers');
+    Route::get('/joinasdesigner', [JoinAsDesignerController::class, 'create'])->name('joinasdesigner.create');
 
 });
 Route::middleware('guest')->group(function () {
@@ -228,7 +233,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/joinasdesigner', [JoinAsDesignerController::class, 'create'])->name('joinasdesigner.create');
+
 Route::post('/joinasdesigner', [JoinAsDesignerController::class, 'store'])->name('joinasdesigner.store');
 //Auth::routes();
 

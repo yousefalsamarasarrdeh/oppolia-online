@@ -1,7 +1,7 @@
 <div class="header-wrapper  sticky-top navbar-inverse">
 
     <div class="header-content bg-warning">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row align-items-center ">
                 <div class="col-auto">
                     <div class="d-flex align-items-center gap-3">
@@ -15,12 +15,34 @@
                             @else
                                 <a href="{{ url('set/lang/ar') }}" class="border-3 mx-2 myfont_2">AR</a>
                             @endif
-                            <a href="register.html" class="border-3 mx-2 myfont_3">@lang('home.Join Us')</a>
+
                             <?php if(auth()->check()): ?>
+
                         <!-- إذا كان المستخدم مسجل دخول -->
-                            <a href="account-dashboard.html" class="nav-link">
-                                <img src="{{asset('Frontend/assets/images/icons/person.png')}}" alt="User Icon" class="img-fluid" >
-                            </a>
+                                <a href="{{route('orders.myOrders')}}" class="border-3 mx-2 myfont_3 link-offset-4-hover">@lang('home.My Orders')</a>
+                                <div class="dropdown mydropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="{{asset('Frontend/assets/images/icons/person.png')}}" alt="User Icon" class="img-fluid" >
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
+                                            <i class="bx bx-edit me-2"></i>
+                                            تعديل الملف الشخصي
+                                        </a>
+
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item d-flex align-items-center">
+                                                    <i class="bx bx-log-out me-2"></i>
+                                                    تسجيل الخروج
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             <?php else: ?>
                         <!-- إذا لم يكن المستخدم مسجل دخول -->
                             <a href="#" class="border-3 mx-2 myfont_3" data-bs-toggle="modal" data-bs-target="#phoneModal">
@@ -32,6 +54,100 @@
                         </div>
                     </div>
                 </div>
+                @if(auth()->check() && auth()->user()->role === 'user')
+
+                <div class="col-auto ">
+                    <div class="top-cart-icons">
+                        <nav class="navbar navbar-expand">
+                            <ul class="navbar-nav">
+
+                                {{-- Notifications Dropdown --}}
+                                @if(isset($notifications) && $notifications->isNotEmpty())
+                                    <li class="nav-item dropdown dropdown-large">
+
+                                        {{-- Notification Bell Icon --}}
+                                        <a href="#" class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                                           data-bs-toggle="dropdown"
+                                           aria-expanded="false"
+                                           role="button">
+                        <span class="alert-count  rounded-pill">
+                            {{ $notifications->count() }}
+                        </span>
+                                            <i class="bx bx-bell fs-5">
+                                                <span class="visually-hidden">Notifications</span>
+                                            </i>
+                                        </a>
+
+                                        {{-- Dropdown Menu --}}
+                                        <div class="dropdown-menu dropdown-menu-end shadow-lg border-0"
+                                             style="min-width: 320px; max-height: 400px; overflow-y: auto;">
+
+                                            {{-- Dropdown Header --}}
+                                            <div class="dropdown-header bg-light py-3">
+                                                <div class="d-flex align-items-center">
+                                                    <h6 class="mb-0 fw-semibold">
+
+                                                    </h6>
+
+                                                </div>
+                                            </div>
+
+                                            {{-- Notifications List --}}
+                                            <div class="list-group list-group-flush">
+                                                @foreach ($notifications as $notification)
+                                                    <a href="{{ route('user.order.show', [
+                                'order' => $notification->data['order_id'],
+                                'notificationId' => $notification->id
+                            ])}}"
+                               class="list-group-item list-group-item-action py-3
+                                      border-bottom {{ $notification->unread() ? 'bg-light' : '' }}">
+                                                        <div class="d-flex align-items-start">
+
+                                                            {{-- Notification Icon --}}
+                                                            <div class="flex-shrink-0 me-3">
+                                                                <i class="bx bx-info-circle text-warning fs-4"></i>
+                                                            </div>
+
+                                                            {{-- Notification Content --}}
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="mb-1 fw-semibold text-dark">
+                                                                    {{ $notification->data['message'] }}
+                                                                </h6>
+                                                                <p class="mb-0 small text-muted">
+                                                                    Order #{{ $notification->data['order_id'] }}
+                                                                </p>
+                                                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <span class="badge bg-light text-dark small">
+                                                {{ $notification->created_at->diffForHumans() }}
+                                            </span>
+                                                                    @if($notification->unread())
+                                                                        <span class="badge Primary_Green_background small">
+                                                New
+                                            </span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                @endforeach
+                                            </div>
+
+                                            {{-- Dropdown Footer --}}
+                                            <div class="dropdown-footer bg-light py-3 text-center">
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                @endif
+
+
+
 
 
 
@@ -41,23 +157,43 @@
                            class="myfont_1 border-3 mx-2 {{ Route::currentRouteName() == 'welcome' ? 'myfont_2' : '' }}">
                             @lang('home.Home')
                         </a>
-                        <a href="{{ route('home.about') }}" class="myfont_1  border-3 mx-2">@lang('home.About')</a>
-                        <a href="{{route('home.products') }}" class="myfont_1  border-3 mx-2">@lang('home.Product')</a>
-                        <a href="{{route('home.designers') }}" class="myfont_1  border-3 mx-2">@lang('home.Designers')</a>
-                        <a href="{{ route('home.contact') }}" class="myfont_1  border-3 mx-2">@lang('home.Contact')</a>
+                        <a href="{{ route('home.about') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.about' ? 'myfont_2' : '' }}">@lang('home.About')</a>
+                        <a href="{{route('home.products') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.products' ? 'myfont_2' : '' }}">@lang('home.Product')</a>
+                        <a href="{{route('home.designers') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.designers' ? 'myfont_2' : '' }}">@lang('home.Designers')</a>
+                        <a href="{{ route('home.contact') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.contact' ? 'myfont_2' : '' }}">@lang('home.Contact')</a>
+                        <a href="{{ route('joinasdesigner.create') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'joinasdesigner.create' ? 'myfont_2' : '' }}">@lang('home.Join as designer')</a>
+                        @php
+                            $allowedRoles = ['admin', 'Area manager', 'Sales manager'];
+                        @endphp
+
+                        @if(auth()->check() && in_array(auth()->user()->role, $allowedRoles))
+                            <a href="{{ route('admin.orders.index') }}"
+                               class="myfont_1 border-3 mx-2 {{ Route::currentRouteName() == 'joinasdesigner.create' ? 'myfont_2' : '' }}">
+                                @lang('home.dashboard')
+                            </a>
+                        @endif
+
+                        @if(auth()->check() && auth()->user()->role === 'designer')
+                            <a href="{{ route('designer.notification') }}"
+                               class="myfont_1 border-3 mx-2 {{ Route::currentRouteName() == 'designer.dashboard' ? 'myfont_2' : '' }}">
+                                @lang('home.dashboard')
+                            </a>
+                        @endif
+
+
 
                     </div>
                 </div>
 
                 <div class="col-auto ms-auto">
                     <div class="top-cart-icons">
-                        <nav class="navbar navbar-expand">
-                            <ul class="navbar-nav padding-10">
-                                <img src="{{asset('Frontend/assets/images/icons/AR Logo.png')}}">
 
 
-                            </ul>
-                        </nav>
+                                <img class="header-logo" src="{{asset('Frontend/assets/images/icons/OPPOLIA ONLINE LOGO.png')}}">
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -75,151 +211,32 @@
                 <div class="offcanvas-body primary-menu">
                     <ul class="navbar-nav justify-content-start flex-grow-1 gap-1">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
+                            <a class="nav-link" href="{{ route('welcome') }}">   @lang('home.Home') </a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="tv-shows.html"
-                               data-bs-toggle="dropdown">
-                                Categories
+                        <li class="nav-item ">
+                            <a class="nav-link " href="{{ route('home.about') }}">
+                                @lang('home.About')
                             </a>
-                            <div class="dropdown-menu dropdown-large-menu">
-                                <div class="row">
-                                    <div class="col-12 col-xl-4">
-                                        <h6 class="large-menu-title">Fashion</h6>
-                                        <ul class="list-unstyled">
-                                            <li><a href="javascript:;">Casual T-Shirts</a>
-                                            </li>
-                                            <li><a href="javascript:;">Formal Shirts</a>
-                                            </li>
-                                            <li><a href="javascript:;">Jackets</a>
-                                            </li>
-                                            <li><a href="javascript:;">Jeans</a>
-                                            </li>
-                                            <li><a href="javascript:;">Dresses</a>
-                                            </li>
-                                            <li><a href="javascript:;">Sneakers</a>
-                                            </li>
-                                            <li><a href="javascript:;">Belts</a>
-                                            </li>
-                                            <li><a href="javascript:;">Sports Shoes</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- end col-3 -->
-                                    <div class="col-12 col-xl-4">
-                                        <h6 class="large-menu-title">Electronics</h6>
-                                        <ul class="list-unstyled">
-                                            <li><a href="javascript:;">Mobiles</a>
-                                            </li>
-                                            <li><a href="javascript:;">Laptops</a>
-                                            </li>
-                                            <li><a href="javascript:;">Macbook</a>
-                                            </li>
-                                            <li><a href="javascript:;">Televisions</a>
-                                            </li>
-                                            <li><a href="javascript:;">Lighting</a>
-                                            </li>
-                                            <li><a href="javascript:;">Smart Watch</a>
-                                            </li>
-                                            <li><a href="javascript:;">Galaxy Phones</a>
-                                            </li>
-                                            <li><a href="javascript:;">PC Monitors</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- end col-3 -->
-                                    <div class="col-12 col-xl-4 d-none d-xl-block">
-                                        <div class="pramotion-banner1">
-                                            <img src="assets/images/gallery/menu-img.jpg" class="img-fluid" alt="" />
-                                        </div>
-                                    </div>
-                                    <!-- end col-3 -->
-                                </div>
-                                <!-- end row -->
-                            </div>
+
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
-                                Shop <i class='bx bx-chevron-down ms-1'></i>
+                        <li class="nav-item ">
+                            <a class="nav-link " href="{{route('home.products') }}" >
+                                @lang('home.Product')
                             </a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item dropdown"><a class="dropdown-item dropdown-toggle dropdown-toggle-nocaret" href="#">Shop Layouts <i class='bx bx-chevron-right float-end'></i></a>
-                                    <ul class="submenu dropdown-menu">
-                                        <li><a class="dropdown-item" href="shop-grid-left-sidebar.html">Shop Grid - Left Sidebar</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="shop-grid-right-sidebar.html">Shop Grid - Right Sidebar</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="shop-list-left-sidebar.html">Shop List - Left Sidebar</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="shop-list-right-sidebar.html">Shop List - Right Sidebar</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="shop-grid-filter-on-top.html">Shop Grid - Top Filter</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="shop-list-filter-on-top.html">Shop List - Top Filter</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="dropdown-item" href="product-details.html">Product Details</a>
-                                </li>
-                                <li><a class="dropdown-item" href="shop-cart.html">Shop Cart</a>
-                                </li>
-                                <li><a class="dropdown-item" href="shop-categories.html">Shop Categories</a>
-                                </li>
-                                <li><a class="dropdown-item" href="checkout-details.html">Billing Details</a>
-                                </li>
-                                <li><a class="dropdown-item" href="checkout-shipping.html">Checkout Shipping</a>
-                                </li>
-                                <li><a class="dropdown-item" href="checkout-payment.html">Payment Method</a>
-                                </li>
-                                <li><a class="dropdown-item" href="checkout-review.html">Order Review</a>
-                                </li>
-                                <li><a class="dropdown-item" href="checkout-complete.html">Checkout Complete</a>
-                                </li>
-                                <li><a class="dropdown-item" href="order-tracking.html">Order Tracking</a>
-                                </li>
-                                <li><a class="dropdown-item" href="product-comparison.html">Product Comparison</a>
-                                </li>
-                            </ul>
+
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="about-us.html">About</a>
+                            <a class="nav-link" href="{{route('home.designers') }}">@lang('home.Designers')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact-us.html">Contact</a>
+                            <a class="nav-link" href="{{ route('home.contact') }}">@lang('home.Contact')</a>
                         </li>
-                        <li class="nav-item"> <a class="nav-link" href="shop-categories.html">Our Store</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('joinasdesigner.create') }}">@lang('home.Join as designer')</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
-                                Account
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="account-dashboard.html">Dashboard</a>
-                                </li>
-                                <li><a class="dropdown-item" href="account-downloads.html">Downloads</a>
-                                </li>
-                                <li><a class="dropdown-item" href="account-orders.html">My Orders</a>
-                                </li>
-                                <li><a class="dropdown-item" href="account-user-details.html">User Details</a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="authentication-login.html">Login</a></li>
-                                <li><a class="dropdown-item" href="authentication-register.html">Register</a></li>
-                                <li><a class="dropdown-item" href="authentication-reset-password.html">Password</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
-                                Blog
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="blog-post.html">Blog Post</a></li>
-                                <li><a class="dropdown-item" href="blog-read.html">Blog Read</a></li>
-                            </ul>
-                        </li>
+
+
                     </ul>
                 </div>
             </div>
