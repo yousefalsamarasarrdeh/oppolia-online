@@ -35,6 +35,15 @@
 </head>
 
  <body>
+ <div class="sticky-order-btn">
+     @auth
+         <a href="{{ route('orders.create') }}" class="btn button_Dark_Green">!اطلب مطبخك</a>
+     @endauth
+
+     @guest
+         <button class="btn button_Dark_Green" data-bs-toggle="modal" data-bs-target="#phoneModal">!اطلب مطبخك</button>
+     @endguest
+ </div>
 
 <!--wrapper-->
 <!-- مودال إدخال رقم الجوال -->

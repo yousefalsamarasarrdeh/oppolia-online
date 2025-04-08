@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\DesignerController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Dashboard\ContactUsController;
 use App\Http\Controllers\Frontend\JoinAsDesignerController;
 use App\Http\Controllers\Dashboard\JoinAsDesignerController as DashboardJoinAsDesignerController;
 use App\Http\Controllers\Dashboard\OrderController as DashboardOrderController;
@@ -98,6 +99,12 @@ Route::prefix('dashboard')->middleware('adminOrsales_managerOrarea_manager')->gr
     Route::get('/sales', [SaleController::class, 'index'])->name('dashboard.sales.index');
     Route::get('/sales/{sale}/edit', [SaleController::class, 'edit'])->name('dashboard.sales.edit');
     Route::post('/sales/{sale}/update', [SaleController::class, 'update'])->name('sales.update');
+
+
+
+    Route::get('/contact-us', [ContactUsController::class, 'index'])->name('dashboard.contact_us.index');
+    Route::get('/contact-us/{id}', [ContactUsController::class, 'show'])->name('dashboard.contact_us.show');
+    Route::delete('/contact-us/{id}', [ContactUsController::class, 'destroy'])->name('dashboard.contact_us.delete');
 
 
 
@@ -213,6 +220,9 @@ Route::middleware(['set-locale'])->group(function () {
     Route::get('/product/{id}', [HomeController::class , 'ProductID'])->name('product.show');
     Route::get('/designers', [HomeController::class, 'show_designers'])->name('home.designers');
     Route::get('/joinasdesigner', [JoinAsDesignerController::class, 'create'])->name('joinasdesigner.create');
+    Route::get('/privacypolicy', [HomeController::class, 'privacypolicy'])->name('privacypolicy');
+    Route::post('/contact', [HomeController::class, 'storeContact'])->name('home.contact.store');
+
 
 });
 Route::middleware('guest')->group(function () {

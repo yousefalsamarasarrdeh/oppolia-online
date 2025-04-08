@@ -1,12 +1,9 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
-
+@section('title') انضم كمصمم @endsection
 @section('content')
 
     <style>
-        body {
-            background-color: #f7f9fa;
-            color: #0A4740;
-        }
+
 
         .designer-form-wrapper {
             background-color: #ffffff;
@@ -77,7 +74,7 @@
             </div>
         @endif
 
-        <div class="designer-form-wrapper">
+        <div class="designer-form-wrapper mb-4 ">
             <form action="{{ route('joinasdesigner.store') }}" method="POST" enctype="multipart/form-data" class="needs-validation">
                 @csrf
 

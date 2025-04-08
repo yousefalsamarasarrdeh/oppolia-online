@@ -1,4 +1,5 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
+@section('title')عن اوبوليا @endsection
 @section('content')
 
 <div class="container-fluid about-section position-relative">
@@ -73,14 +74,14 @@
         <!-- Main Content Column -->
         <div class="col-lg-9">
             <!-- About Section -->
-            <div id="AboutOppolia" class="col-lg-12 col-md-12 mb-3 mb-lg-5 m-4 px-5" dir="rtl">
+            <div id="AboutOppolia" class="col-lg-12 col-md-12 mb-3 mb-lg-5  " dir="rtl">
                 <h2 class="about-title">عن أوبوليا أون لاين</h2>
                 <h3 class="about-subtitle">عالم من الأناقة والتميز.</h3>
                 <p class="about-para">
                     نفتخر في اوبوليا بتقديم أفضل وأرقى منتجات أثاث المنزل المخصصة في السوق. لدينا أكثر من 30 عاماً من الخبرة في تلبية احتياجات عملائنا وجعل منازلهم أكثر جمالاً. نؤمن بأن المنزل هو مكان الراحة والتعبير عن الذات. لذلك، نسعى دائماً لتحويل أفكار وأحلام عملائنا إلى واقع. نسعى لتقديم تجربة تسوق فريدة تنعكس فيها الأناقة والرفاهية في كل تفصيل.
                 </p>
                 <p class="about-para">
-                    تقدم اوبوليا مجموعة متنوعة من منتجات أثاث المنزل المخصصة. سواء كنت بحاجة إلى تصميم مطبخ عصري أو غرفة نوم هادئة أو منطقة معيشة مريحة فإننا نقدم خيارات متعددة من التصاميم والألوان لتلبية احتياجاتك وتفضيلاتك. نحن نضمن أعلى معايير الجودة في كل منتج نقدمه. نستخدم أفضل المواد والتقنيات لضمان تحقيق أعلى مستوى من الراحة والمتانة. لهذا السبب، نقدم ضمانًا يمتد لمدة 15 عاماًَ على منتجاتنا.                    
+                    تقدم اوبوليا مجموعة متنوعة من منتجات أثاث المنزل المخصصة. سواء كنت بحاجة إلى تصميم مطبخ عصري أو غرفة نوم هادئة أو منطقة معيشة مريحة فإننا نقدم خيارات متعددة من التصاميم والألوان لتلبية احتياجاتك وتفضيلاتك. نحن نضمن أعلى معايير الجودة في كل منتج نقدمه. نستخدم أفضل المواد والتقنيات لضمان تحقيق أعلى مستوى من الراحة والمتانة. لهذا السبب، نقدم ضمانًا يمتد لمدة 15 عاماًَ على منتجاتنا.
                 </p>
                 <p class="about-para">
                     تأتي قوة اوبوليا في قدرتنا على تخصيص منتجاتنا لتلبية احتياجاتك الخاصة. سواء كنت تبحث عن تصميم فريد يعبر عن شخصيتك أو تحتاج إلى حلاً عملياً لاستغلال المساحة بذكاء، نحن هنا لنجعل ذلك حقيقة.
@@ -92,8 +93,8 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 section-header">
                     <h2 class="section-about-title">علامتنا التجارية</h2>
                     <p class="section-description">
-                        تحتل مجموعتنا رأس قائمة العلامات التجارية المرموقة في هذا المجال، 
-                        ونؤكد على التزامنا بتلبية مجموعة واسعة من الأذواق والأداء، 
+                        تحتل مجموعتنا رأس قائمة العلامات التجارية المرموقة في هذا المجال،
+                        ونؤكد على التزامنا بتلبية مجموعة واسعة من الأذواق والأداء،
                         الذي يضمن أن يكون كل منزل معبراً عن شخصية وأداء كل شخص.
                     </p>
                 </div>
@@ -145,7 +146,7 @@
                                 </p>
                             </div>
                             <div class="col-lg-6 align-items-stretch p-0">
-                                <img src="{{ asset('Frontend/assets/images/gallery/vision.jpg') }}" alt="Modern Kitchen" 
+                                <img src="{{ asset('Frontend/assets/images/gallery/vision.jpg') }}" alt="Modern Kitchen"
                                     class="img-fluid vision-image">
                             </div>
                         </div>
@@ -188,7 +189,7 @@
                     <div class="col-lg-6 col-md-12 p-0">
                         <img src="{{ asset('Frontend/assets/images/gallery/production.jpg') }}" alt="Production Line" class="img-fluid w-100">
                     </div>
-                 
+
                 </div>
             </div>
 
@@ -286,25 +287,25 @@
                     <h2 class="section-title">فريقنا</h2>
                     <p class="section-description" >
                         فريقنا من المصممين والحرفيين ومدراء المشاريع ذوي المهارات العالية هو العمود الفقري لشركة اوبوليا.
-                        مع سنوات من الخبرة والشغف المشترك بالتميز، يعمل فريقنا بشكل تعاوني لضمان أن كل مشروع يفي 
+                        مع سنوات من الخبرة والشغف المشترك بالتميز، يعمل فريقنا بشكل تعاوني لضمان أن كل مشروع يفي
                         بأعلى معايير الجودة والحرفية. نحن نفخر باهتمامنا بالتفاصيل والتزامنا بتحقيق نتائج استثنائية.
                     </p>
-                    <p class="team-subtitle">كيف يستطيع فريقنا مساعدتك؟ 
+                    <p class="team-subtitle">كيف يستطيع فريقنا مساعدتك؟
                         <span class="personal-consultation">الاستشارة الشخصية</span>
                     </p>
                     <p class="section-description">
-                        يجتمع مستشارو التصميم مع العملاء لفهم احتياجاتهم ورؤيتهم. 
+                        يجتمع مستشارو التصميم مع العملاء لفهم احتياجاتهم ورؤيتهم.
                         يقدمون المشورة المهنية ويكتشفون خيارات التصميم.
                     </p>
                 </div>
-               
+
 
             <!-- Features Grid -->
             <div class="row justify-content-center col-lg-12 col-md-12 box-container mb-3 mb-lg-5">
             <div class="col-lg-4 col-md-12 text-center p-4">
                   <h5 class="feature-title">حلول التصميم المخصصة</h5>
                   <p class="feature-description">
-                     يخصص أوبوليا لتقديم تصميمات مخصصة من المنتجات المختلفة، بالإضافة إلى 
+                     يخصص أوبوليا لتقديم تصميمات مخصصة من المنتجات المختلفة، بالإضافة إلى
                      الألوان والتشطيبات المتنوعة، مما يمنحك تحكمًا كاملاً في التفاصيل.
                   </p>
                </div>
@@ -312,7 +313,7 @@
                <div class="col-lg-4 col-md-12 text-center p-3">
                   <h5 class="feature-title">اختيار المواد</h5>
                   <p class="feature-description">
-                     نساعدك خلال عملية اختيار مواد عالية الجودة والتشطيبات المختلفة، 
+                     نساعدك خلال عملية اختيار مواد عالية الجودة والتشطيبات المختلفة،
                      لضمان أن كل قطعة تعكس الأناقة والمتانة.
                   </p>
                </div>
@@ -320,7 +321,7 @@
                <div class="col-lg-4 col-md-12 text-center p-3">
                   <h5 class="feature-title">التصورات ثلاثية الأبعاد</h5>
                   <p class="feature-description">
-                     نقدم لك عروض تصاميم ثلاثية الأبعاد وجولات افتراضية لمساعدتك 
+                     نقدم لك عروض تصاميم ثلاثية الأبعاد وجولات افتراضية لمساعدتك
                      على تصور المشروع بشكل أفضل قبل بدء التنفيذ.
                   </p>
                </div>
@@ -328,7 +329,7 @@
                <div class="col-lg-4 col-md-12 text-center p-3">
                   <h5 class="feature-title">إدارة المشاريع</h5>
                   <p class="feature-description">
-                     نحرص على إدارة مشاريعك مع تقديم خدمات الدعم المستمر، 
+                     نحرص على إدارة مشاريعك مع تقديم خدمات الدعم المستمر،
                      للحفاظ على الأعمال وضمان القيام بها على أكمل وجه.
                   </p>
                </div>
@@ -336,7 +337,7 @@
                <div class="col-lg-4 col-md-12 text-center p-3">
                   <h5 class="feature-title">الحرفية الجيدة</h5>
                   <p class="feature-description">
-                     يستخدم الحرفيون المهرة تقنيات الإنتاج المتقدمة 
+                     يستخدم الحرفيون المهرة تقنيات الإنتاج المتقدمة
                      والمواد المتينة لإنشاء منتجات عالية الجودة.
                   </p>
                </div>
@@ -344,7 +345,7 @@
                <div class="col-lg-4 col-md-12 text-center p-3">
                   <h5 class="feature-title">التركيب والمتابعة الدائمة</h5>
                   <p class="feature-description">
-                     يوفر فريق التركيب لدينا جميع جوانب المشروع، بما يشمل 
+                     يوفر فريق التركيب لدينا جميع جوانب المشروع، بما يشمل
                      التركيبات الأخيرة والدعم لضمان جودة المنتجات.
                   </p>
                </div>
@@ -352,7 +353,7 @@
             </div>
 
             <!-- Achievements Section -->
-         
+
 
     <div id="achievements" class="row g-4 m-4 mb-3 mb-lg-5" dir="rtl">
     <h2 class="section-title p-3 m-0">إنجازاتنا</h2>
@@ -566,7 +567,7 @@
                             <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
                             </button>
                             <!-- Indicators -->
-                            
+
                             <!-- Next Button -->
                             <button class="carousel-control-next" type="button" data-bs-target="#germanQualitySlider" data-bs-slide="next" >
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>

@@ -3,7 +3,7 @@
     <div class="header-content bg-warning">
         <div class="container-fluid">
             <div class="row align-items-center ">
-                <div class="col-auto">
+                <div class="col-auto ">
                     <div class="d-flex align-items-center gap-3">
                         <div class="mobile-toggle-menu d-inline d-xl-none" data-bs-toggle="offcanvas"
                              data-bs-target="#offcanvasNavbar">
@@ -54,7 +54,28 @@
                         </div>
                     </div>
                 </div>
-                @if(auth()->check() && auth()->user()->role === 'user')
+                @if(!auth()->check())
+                <div class="col-auto">
+                    <div class="top-cart-icons">
+                        <nav class="navbar navbar-expand">
+                            <ul class="navbar-nav">
+
+
+                                    {{-- عنصر يظهر فقط على الموبايل --}}
+                                    <li class="nav-item d-lg-none">
+                                        <a href="#" class="header-font-login"  data-bs-toggle="modal" data-bs-target="#phoneModal">
+                                            @lang('home.Login')
+                                        </a>
+                                    </li>
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                @endif
+
+            @if(auth()->check() && auth()->user()->role === 'user')
 
                 <div class="col-auto ">
                     <div class="top-cart-icons">
@@ -149,33 +170,31 @@
 
 
 
-
-
                 <div class="col-12 col-xl order-4 order-xl-0">
                     <div class="d-none d-lg-flex justify-content-center pb-3 pb-xl-0"  style="direction: {{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
                         <a href="{{ route('welcome') }}"
-                           class="myfont_1 border-3 mx-2 {{ Route::currentRouteName() == 'welcome' ? 'myfont_2' : '' }}">
+                           class="myfont_1 border-3 mx-2 hover-underline {{ Route::currentRouteName() == 'welcome' ? 'myfont_2' : '' }}">
                             @lang('home.Home')
                         </a>
-                        <a href="{{ route('home.about') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.about' ? 'myfont_2' : '' }}">@lang('home.About')</a>
-                        <a href="{{route('home.products') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.products' ? 'myfont_2' : '' }}">@lang('home.Product')</a>
-                        <a href="{{route('home.designers') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.designers' ? 'myfont_2' : '' }}">@lang('home.Designers')</a>
-                        <a href="{{ route('home.contact') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'home.contact' ? 'myfont_2' : '' }}">@lang('home.Contact')</a>
-                        <a href="{{ route('joinasdesigner.create') }}" class="myfont_1  border-3 mx-2 {{ Route::currentRouteName() == 'joinasdesigner.create' ? 'myfont_2' : '' }}">@lang('home.Join as designer')</a>
+                        <a href="{{ route('home.about') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.about' ? 'myfont_2' : '' }}">@lang('home.About')</a>
+                        <a href="{{route('home.products') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.products' ? 'myfont_2' : '' }}">@lang('home.Product')</a>
+                        <a href="{{route('home.designers') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.designers' ? 'myfont_2' : '' }}">@lang('home.Designers')</a>
+                        <a href="{{ route('home.contact') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.contact' ? 'myfont_2' : '' }}">@lang('home.Contact')</a>
+                        <a href="{{ route('joinasdesigner.create') }}" class="myfont_1 hover-underline  border-3 mx-2 {{ Route::currentRouteName() == 'joinasdesigner.create' ? 'myfont_2' : '' }}">@lang('home.Join as designer')</a>
                         @php
                             $allowedRoles = ['admin', 'Area manager', 'Sales manager'];
                         @endphp
 
                         @if(auth()->check() && in_array(auth()->user()->role, $allowedRoles))
                             <a href="{{ route('admin.orders.index') }}"
-                               class="myfont_1 border-3 mx-2 {{ Route::currentRouteName() == 'joinasdesigner.create' ? 'myfont_2' : '' }}">
+                               class="myfont_1 border-3 mx-2 hover-underline {{ Route::currentRouteName() == 'joinasdesigner.create' ? 'myfont_2' : '' }}">
                                 @lang('home.dashboard')
                             </a>
                         @endif
 
                         @if(auth()->check() && auth()->user()->role === 'designer')
                             <a href="{{ route('designer.notification') }}"
-                               class="myfont_1 border-3 mx-2 {{ Route::currentRouteName() == 'designer.dashboard' ? 'myfont_2' : '' }}">
+                               class="myfont_1 border-3 mx-2 hover-underline {{ Route::currentRouteName() == 'designer.dashboard' ? 'myfont_2' : '' }}">
                                 @lang('home.dashboard')
                             </a>
                         @endif
@@ -200,7 +219,7 @@
             <!--end row-->
         </div>
     </div>
-    <div class="primary-menu d-sm-none">
+    <div class="primary-menu d-lg-none">
         <nav class="navbar navbar-expand-xl w-100 navbar-dark container mb-0 p-0">
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
                 <div class="offcanvas-header">
@@ -210,31 +229,60 @@
                 </div>
                 <div class="offcanvas-body primary-menu">
                     <ul class="navbar-nav justify-content-start flex-grow-1 gap-1">
+                        @if(auth()->check())
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('welcome') }}">   @lang('home.Home') </a>
+                            <a href="{{ route('orders.myOrders') }}" class="nav-link mydesplayright">
+                                @lang('home.My Orders')
+                            </a>
+                        </li>
+                        @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link mydesplayright"  href="{{ route('welcome') }}">   @lang('home.Home') </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="{{ route('home.about') }}">
+                            <a class="nav-link mydesplayright" href="{{ route('home.about') }}">
                                 @lang('home.About')
                             </a>
 
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="{{route('home.products') }}" >
+                            <a class="nav-link mydesplayright" href="{{route('home.products') }}" >
                                 @lang('home.Product')
                             </a>
 
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('home.designers') }}">@lang('home.Designers')</a>
+                            <a class="nav-link mydesplayright" href="{{route('home.designers') }}">@lang('home.Designers')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home.contact') }}">@lang('home.Contact')</a>
+                            <a class="nav-link mydesplayright" href="{{ route('home.contact') }}">@lang('home.Contact')</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('joinasdesigner.create') }}">@lang('home.Join as designer')</a>
+                            <a class="nav-link mydesplayright" href="{{ route('joinasdesigner.create') }}">@lang('home.Join as designer')</a>
                         </li>
+
+
+                            @if(auth()->check())
+                                <li class="nav-item">
+                                    <a class="nav-link mydesplayright d-flex align-items-center justify-content-between border-top border-bottom py-4" href="{{ route('profile.edit') }}">
+                                        تعديل الملف الشخصي
+                                        <img src="{{ asset('Frontend/assets/images/icons/person1.png') }}" alt="person" width="20" height="20">
+                                    </a>
+                                </li>
+
+                                <li class="nav-item" style="display: inline-table;     direction: rtl;">
+                                    <form method="POST" action="{{ route('logout') }}" >
+                                        @csrf
+                                        <button type="submit" class="nav-link btn m-2 " >
+                                            <i class="bx bx-log-out me-2 py-5"></i>
+                                            تسجيل الخروج
+
+                                        </button>
+                                    </form>
+                                </li>
+                            @endif
 
 
                     </ul>

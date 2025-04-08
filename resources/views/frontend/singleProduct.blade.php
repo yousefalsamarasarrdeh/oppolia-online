@@ -1,5 +1,5 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
-
+@section('title') المنتجات @endsection
 @section('content')
 
 <div class="container p-5">
@@ -20,8 +20,8 @@
     <!-- Product Image Section -->
     <div class="row">
         <div class="col-md-12 text-center">
-            <img src="{{ asset($product->image ? 'storage/' . $product->image : 'storage/profile_images/ProfilePlaceholder.jpg') }}" 
-                 class="img-fluid rounded-4 w-100 mb-4" 
+            <img src="{{ asset($product->image ? 'storage/' . $product->image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
+                 class="img-fluid rounded-4 w-100 mb-4"
                  alt="Product Image">
         </div>
     </div>

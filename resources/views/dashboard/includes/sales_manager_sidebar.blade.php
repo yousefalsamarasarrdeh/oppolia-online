@@ -57,6 +57,12 @@
                 <span>المبيعات </span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{route('dashboard.contact_us.index')}}">
+                <i class="bi bi-card-list"></i>
+                <span>تواصل معنا</span>
+            </a>
+        </li>
 
     </ul>
 

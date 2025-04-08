@@ -82,37 +82,12 @@ a:hover {
 .mydropdown .dropdown-menu {
     left: -63px !important;
 }
-.mydesplayright{
-    text-align: right;
-    display: block !important;
-}
-
-.header-font-login{
-    color:  #1C1C1C;
-    font-size: 12px;
-}
-
-.sticky-order-btn {
-    position: fixed;
-    bottom: 20px; /* أو top: 0; لو بدك يكون بالأعلى */
-    right: 20px;
-    z-index: 9999;
-
-
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.sticky-order-btn .btn {
-    font-size: 16px;
-}
-
 
 
 @media (max-width: 767.98px) {
     .header-logo{
-        width: 165.303px;
-        height: 46.034px;
+        width: 105.12px;
+        height: 26.094px;
     }
     .dropdown-menu {
         width: 100% !important;

@@ -1,5 +1,5 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
-
+@section('title')مصممي اوبوليا @endsection
 @section('content')
 
 <div class="container p-4" >
@@ -7,8 +7,8 @@
 
 @foreach($designer as $designer)
 <div class="col">
-            <div class="designer-card p-4" 
-                 data-bs-toggle="modal" 
+            <div class="designer-card p-4"
+                 data-bs-toggle="modal"
                  data-bs-target="#designerModal"
                  data-name="{{ $designer->user->name }}"
                  data-image="{{ asset($designer->profile_image ? 'storage/' . $designer->profile_image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
@@ -40,7 +40,7 @@
                 <p id="designerBio" class="mt-2"></p>
 
                 <!-- Portfolio Images -->
-                 
+
                 <!-- Portfolio Images Carousel -->
                 <div id="portfolioContainerWrapper">
                     <div id="portfolioContainer" class="owl-carousel owl-theme p-3" style="text-align: -webkit-center"></div>
@@ -92,7 +92,7 @@
 
             // Handle portfolio images dynamically
             let portfolioContainer = $("#portfolioContainer");
-            
+
             // **Destroy Owl Carousel if already initialized**
             if (portfolioContainer.hasClass("owl-loaded")) {
                 portfolioContainer.trigger("destroy.owl.carousel").removeClass("owl-loaded");

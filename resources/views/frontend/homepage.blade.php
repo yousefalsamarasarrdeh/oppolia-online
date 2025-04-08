@@ -1,5 +1,5 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
-
+@section('title') الصفحة الرئيسية@endsection
 @section('content')
 <section class="banner" dir="ltr">
     <div class="row g-0">
@@ -18,13 +18,7 @@
                     أفكارك لبيت مثالي تنفيذها صار أسهل مع
                     <span class="highlight-text">اوبوليا اون لاين!</span>
                 </p>
-                @auth
-                    <a href="{{ route('orders.create') }}" class="btn button_Dark_Green">!اطلب مطبخك</a>
-                @endauth
-
-                @guest
-                    <button class="btn button_Dark_Green" data-bs-toggle="modal" data-bs-target="#phoneModal">!اطلب مطبخك</button>
-                @endguest
+              
             </div>
         </div>
     </div>

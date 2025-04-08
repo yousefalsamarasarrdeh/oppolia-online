@@ -89,12 +89,18 @@ class OtpLoginController extends Controller
             Auth::login($user);
 
             // تحقق من دور المستخدم وقم بإعادة التوجيه بناءً على ذلك
-            if ($user->role == 'user') {
-                // إذا كان المستخدم "user"، قم بإعادة توجيهه إلى صفحة إنشاء الطلبات
-                return redirect()->route('orders.create');
-            } else {
-                // إذا كان دوره مختلفًا، قم بإعادة توجيهه إلى الصفحة الرئيسية
-                return redirect()->route('home');
+            switch ($user->role) {
+                case 'user':
+                    return redirect()->route('orders.create');
+                case 'admin':
+                case 'Sales manager':
+                case 'Area manager':
+                    return redirect()->route('admin.designers.index');
+                case 'designer':
+                    return redirect()->route('designer.notification');
+                default:
+                    // في حال دور غير معروف، توجهه لمكان مناسب أو صفحة خطأ مثلاً
+                    return redirect()->route('dashboard'); // عدّلها حسب الحاجة
             }
         } else {
             // OTP غير صحيح
