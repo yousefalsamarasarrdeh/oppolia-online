@@ -2,126 +2,180 @@
 
 @section('title', 'تعديل المنتج')
 
+@section('css')
+    <!-- تضمين CSS الخاص بـ DataTables -->
+@endsection
+
+<style>
+    .back-button {
+        color:black;
+        text-decoration: underline;
+    }
+
+    .back-button:hover {
+        color: rgba(80, 159, 150, 1);
+        text-decoration: underline;
+    }
+
+    .description-button {
+        background: rgba(232, 232, 232, 1) !important;
+        font-weight: normal;
+    }
+
+    .description-button:hover {
+        font-weight: 600;
+        transition: font-weight 0.3s ease;
+    }
+
+    .remove-description-btn {
+        background: #dc3545 !important;
+        color: white !important;
+        margin-top: 10px;
+    }
+</style>
+
 @section('content')
-   <div class="container" dir="rtl">
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            @foreach($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
+    <div class="container mt-4" dir="rtl">
+
+        <div class="container mt-4" dir="rtl">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="fw-bold">تعديل المنتج</h2>
+
+                <a href="{{ route('admin.products.index') }}" class="back-button">الرجوع إلى المنتجات</a>
+            </div>
         </div>
-    @endif
-
-    <!-- عرض رسالة النجاح إذا وجدت -->
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-
-    <!-- Input for Category -->
-        <div  class="col-md-9">
-            <label for="category_id">الفئة :</label>
-            <select name="category_id" id="category_id" required  class="form-control">
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
-                        {{ $category->title }}
-                    </option>
+        @if($errors->any())
+            <div class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                    <p>{{ $error }}</p>
                 @endforeach
-            </select>
-        </div>
+            </div>
+        @endif
 
-        <!-- Input for Product Name -->
-        <div class="col-md-9">
-            <label for="name" >اسم المنتج :</label>
-            <input class="form-control" type="text" name="name" id="name" value="{{ $product->name }}" required>
-        </div>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        <!-- Input for Product Name in Arabic -->
-        <div class="col-md-9">
-            <label for="name_ar">اسم المنتج بالعربي :</label>
-            <input class="form-control" type="text" name="name_ar" id="name_ar" value="{{ $product->name_ar }}" required>
-        </div>
+        <div class="card p-4 shadow-sm">
+            <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-        <!-- Input for SKU -->
-        <div class="col-md-9">
-            <label for="sku">SKU:</label>
-            <input class="form-control" type="text" name="sku" id="sku" value="{{ $product->sku }}" required>
-        </div>
-
-        <!-- Input for Product Image -->
-        <div class="col-md-9">
-            <label for="image">صورة المنتج :</label>
-            <input class="form-control"  type="file" name="image" id="image">
-            @if($product->image)
-                <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" width="100">
-            @endif
-        </div>
-
-        <!-- Descriptions Section -->
-        <div id="descriptions-wrapper">
-            @foreach($product->descriptions as $index => $description)
-                <div class="description-item col-md-9" >
-                    <input class="form-control" type="hidden" name="descriptions[{{ $index }}][id]" value="{{ $description->id }}">
-
-                    <!-- الوصف -->
-                    <label for="description">الوصف  :</label>
-                    <textarea  class="form-control" name="descriptions[{{ $index }}][description]" required>{{ $description->description }}</textarea>
-                       </br>
-                    <!-- الوصف بالعربية -->
-                    <label for="description_ar">الوصف بالعربي:</label>
-                    <textarea class="form-control" name="descriptions[{{ $index }}][description_ar]" required>{{ $description->description_ar }}</textarea>
-                     </br>
-                    <!-- صور الوصف القديمة -->
-                    <label for="description_images">صور الوصف :</label>
-                    @if($description->images)
-                        @foreach(json_decode($description->images) as $image)
-                            <img src="{{ asset('storage/' . $image) }}" alt="Description Image" width="100">
-                    @endforeach
-                @endif
-
-                <!-- رفع صور جديدة -->
-                    <label for="description_images">صور الوصف (يمكن رفع اكثر من صورة)</label>
-                    <input type="file" name="descriptions[{{ $index }}][images][]" multiple>
-
-                    <!-- زر حذف الوصف -->
-                    <button type="button" class="remove-description-btn btn btn-danger">حذف الوصف </button>
+            <!-- اختيار الفئة -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="category_id" class="form-label"><strong>اختر الفئة المناسبة</strong></label>
+                        <select name="category_id" id="category_id" class="form-control" required>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
+                                    {{ $category->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            @endforeach
+
+                <div class="g-3 row">
+                    <div class="col-md-6">
+                        <input type="text" name="name_ar" id="name_ar" class="form-control" value="{{ $product->name_ar }}" placeholder="أدخل اسم المنتج بالعربية" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="name" id="name" class="form-control" value="{{ $product->name }}" placeholder="أدخل اسم المنتج بالإنكليزية" required>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <input type="text" name="sku" id="sku" class="form-control" value="{{ $product->sku }}" placeholder="أدخل رمز المنتج (SKU)" required>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label for="image" class="form-label">رفع صورة المنتج</label>
+                        <input type="file" name="image" id="image" class="form-control">
+                        @if($product->image)
+                            <div class="mt-2">
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" width="100" class="img-thumbnail">
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="fw-bold">الوصف</h5>
+                    <div id="descriptions-wrapper">
+                        @foreach($product->descriptions as $index => $description)
+                            <div class="description-item mb-4">
+                                <input type="hidden" name="descriptions[{{ $index }}][id]" value="{{ $description->id }}">
+
+                                <div class="g-3 row">
+                                    <div class="col-md-6">
+                                        <textarea name="descriptions[{{ $index }}][description]" class="form-control" placeholder="الوصف بالإنكليزية" required>{{ $description->description }}</textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <textarea name="descriptions[{{ $index }}][description_ar]" class="form-control" placeholder="الوصف بالعربية" required>{{ $description->description_ar }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="form-label">الصور الحالية:</label>
+                                        @if($description->images)
+                                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                                @foreach(json_decode($description->images) as $image)
+                                                    <img src="{{ asset('storage/' . $image) }}" alt="Description Image" width="80" class="img-thumbnail">
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                        <label for="description_images" class="form-label">رفع صور جديدة</label>
+                                        <input type="file" name="descriptions[{{ $index }}][images][]" class="form-control" multiple>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn remove-description-btn mt-2">حذف هذا الوصف</button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <button type="button" id="add-description-btn" class="btn description-button mt-3">+ أضف الأوصاف الأخرى للمنتج</button>
+                </div>
+
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn w-100 button_Green">تحديث المنتج</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
+@endsection
 
-        <!-- زر إضافة وصف آخر -->
-        <button type="button" id="add-description-btn" class="btn btn-secondary">
-            ضيف وصف اخر </button>
-
-        <!-- زر التحديث -->
-        <button type="submit" class="btn btn-primary"> تعديل المنتج</button>
-    </form>
-   </div>
-
+@section('script')
     <script>
         let descriptionCount = {{ $product->descriptions->count() }};
 
-        // إضافة وصف جديد
         document.getElementById('add-description-btn').addEventListener('click', function() {
             const wrapper = document.getElementById('descriptions-wrapper');
             const newDescription = `
-                <div class="description-item col-md-9">
-                    <label for="description">الوصف :</label>
-                    <textarea class="form-control" name="descriptions[${descriptionCount}][description]" required></textarea>
-                         </br>
-                    <label for="description_ar">الوصف بالعربي:</label>
-                    <textarea class="form-control" name="descriptions[${descriptionCount}][description_ar]" required></textarea>
-                       </br>
-                    <label for="description_images">صور الوصف (يمكن رفع اكثر من صورة)</label>
-                    <input class="form-control" type="file" name="descriptions[${descriptionCount}][images][]" multiple>
-
-                    <button type="button" class="remove-description-btn btn btn-danger">حذف الوصف </button>
+                <div class="description-item mb-4">
+                    <div class="g-3 row">
+                        <div class="col-md-6">
+                            <textarea name="descriptions[${descriptionCount}][description]" class="form-control" required placeholder="الوصف بالإنكليزية"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <textarea name="descriptions[${descriptionCount}][description_ar]" class="form-control" required placeholder="الوصف بالعربية"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="description_images" class="form-label">رفع صورة</label>
+                            <input type="file" name="descriptions[${descriptionCount}][images][]" class="form-control" multiple>
+                        </div>
+                    </div>
+                    <button type="button" class="btn remove-description-btn mt-2">حذف هذا الوصف</button>
                 </div>
             `;
             wrapper.insertAdjacentHTML('beforeend', newDescription);

@@ -13,8 +13,62 @@
         .accordion-button::after {
             margin-left: 0;          /* إزالة الهامش الأيسر */
             margin-right: auto;      /* دفع السهم إلى اليمين */
-            transform: rotate(180deg); /* تدوير السهم 180 درجة إذا كان اتجاهه معكوسًا */
+            content: url('/Dashboard/assets/images/Add.svg');
+            background-image: none !important; /* Remove Bootstrap arrow */
         }
+        .accordion-item {
+            margin-bottom: 10px;
+        }
+        .accordion-button {
+            background-color: rgba(0, 0, 0, 0.13);
+            color: rgba(28, 28, 28, 1);
+        }
+        .accordion-button:not(.collapsed) {
+            background-color:  #f8f9fa;
+            color: black;
+        }
+        .accordion-button[aria-expanded="true"]::after {
+            content: url('/Dashboard/assets/images/Minus.svg'); /* - icon */
+        }
+        .accordion-body {
+            background-color: #f8f9fa;
+        }
+        .order-info, .user-info, .designer-info, .survey-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .order-info p, .user-info p, .designer-info p, .survey-questions p {
+            flex: 1 1 30%;
+            padding: 10px;
+            border-radius: 21.33px;
+            background: var(--Primary-Color, #509F96);
+            justify-items: center;
+            color: white;
+        }
+        .order-info p strong, .user-info p strong, .designer-info p strong, .survey-questions p strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .badge.bg-purple {
+            background-color: #6f42c1 !important;
+            color: white !important;
+        }
+
+        .img-thumbnail {
+            transition: transform 0.2s;
+        }
+
+        .img-thumbnail:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(80, 159, 150, 0.1);
+        }
+
+
     </style>
 @endsection
 
@@ -66,7 +120,7 @@
                         تفاصيل الطلب
                     </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#orderAccordion">
+                <div id="collapseOne" class="collapse accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#orderAccordion">
                     <div class="accordion-body">
                         <div class="order-info">
                             <p><strong>رقم الطلب:</strong> {{ $order->id }}</p>
@@ -100,11 +154,11 @@
             <!-- تفاصيل العميل -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <button class="collapsed accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                         تفاصيل العميل
                     </button>
                 </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#orderAccordion">
+                <div id="collapseTwo" class="collapse accordion-collapse" aria-labelledby="headingTwo" data-bs-parent="#orderAccordion">
                     <div class="accordion-body">
                         <div class="user-info">
                             <p><strong>الاسم:</strong> {{ $order->user->name }}</p>
@@ -118,11 +172,11 @@
             <!-- تفاصيل زيارة المصمم -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <button class="collapsed accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                         تفاصيل زيارة المصمم
                     </button>
                 </h2>
-                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#orderAccordion">
+                <div id="collapseThree" class="collapse accordion-collapse" aria-labelledby="headingThree" data-bs-parent="#orderAccordion">
                     <div class="accordion-body">
                         <div class="designer-info">
                             @isset($order->approved_designer_id)
@@ -142,11 +196,11 @@
             <!-- أسئلة الاستبيان -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <button class="collapsed accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                         أسئلة الاستبيان
                     </button>
                 </h2>
-                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#orderAccordion">
+                <div id="collapseFour" class="collapse accordion-collapse" aria-labelledby="headingFour" data-bs-parent="#orderAccordion">
                     <div class="accordion-body">
                         <div class="survey-questions">
                             @if ($order->surveyQuestion)
@@ -166,7 +220,6 @@
                                 <p><strong>احتمالية إغلاق الصفقة:</strong> {{ $order->surveyQuestion->deal_closing_likelihood }}</p>
 
                                 @if(!empty($order->surveyQuestion->measurements_images))
-                                    <p><strong>صور القياسات:</strong></p>
                                     <ul>
                                         @foreach (json_decode($order->surveyQuestion->measurements_images, true) as $imagePath)
                                             <li>
@@ -186,79 +239,87 @@
             <!-- مسودات الطلب -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFive">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    <button class="collapsed accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                         مسودات الطلب
                     </button>
                 </h2>
-                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#orderAccordion">
+                <div id="collapseFive" class="collapse accordion-collapse" aria-labelledby="headingFive" data-bs-parent="#orderAccordion">
                     <div class="accordion-body">
                         @if ($order->orderDraft->count() > 0)
-                            <table class="table table-bordered">
-                                <thead>
+                            <div style="overflow-x: auto; width: 100%;">
+                            <table class="table table-bordered table-hover"  style="min-width: 800px;">
+                                <thead class="thead-light">
                                 <tr>
-                                    <th>#</th>
-                                    <th>السعر</th>
-                                    <th>الصور</th>
-                                    <th>PDF</th>
-                                    <th>الحالة</th>
+                                    <th width="5%">#</th>
+                                    <th width="15%">السعر</th>
+                                    <th width="30%">الصور</th>
+                                    <th width="20%">PDF</th>
+                                    <th width="15%">الحالة</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($order->orderDraft as $draft)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $draft->price }}SAR</td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">{{ number_format($draft->price, 2) }} ر.س</td>
                                         <td>
                                             @if (!empty($draft->images))
-                                                <ul>
+                                                <div class="d-flex flex-wrap gap-2">
                                                     @foreach (json_decode($draft->images, true) as $image)
-                                                        <li>
-                                                            <img src="{{ asset('storage/' . $image) }}" alt="صورة" style="max-width: 100px;">
-                                                        </li>
+                                                        <a href="{{ asset('storage/' . $image) }}" target="_blank">
+                                                            <img src="{{ asset('storage/' . $image) }}"
+                                                                 alt="صورة المسودة"
+                                                                 class="img-thumbnail"
+                                                                 style="width: 80px; height: 80px; object-fit: cover;">
+                                                        </a>
                                                     @endforeach
-                                                </ul>
+                                                </div>
                                             @else
-                                                <p>لا توجد صور.</p>
+                                                <span class="text-muted">لا توجد صور</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @if ($draft->pdf)
-                                                <a href="{{ asset('storage/' . $draft->pdf) }}" target="_blank">عرض PDF</a>
+                                                <a href="{{ asset('storage/' . $draft->pdf) }}"
+                                                   target="_blank"
+                                                   class="btn button_Green ">
+                                                    <i class="fas fa-file-pdf"></i> عرض PDF
+                                                </a>
                                             @else
-                                                <p>لا يوجد ملف PDF.</p>
+                                                <span class="text-muted">لا يوجد ملف</span>
                                             @endif
                                         </td>
-                                        <td>
-                                            @switch($draft->state)
-                                                @case('draft')
-                                                مسودة
-                                                @break
-                                                @case('finalized')
-                                                نهائي
-                                                @break
-                                                @case('approved')
-                                                معتمد
-                                                @break
-                                                @case('rejected')
-                                                مرفوض
-                                                @break
-                                                @case('designer_changed')
-                                                تعديل المصمم
-                                                @break
-                                                @case('redesign')
-                                                إعادة تصميم
-                                                @break
-                                                @case('modified')
-                                                معدل
-                                                @break
-                                                @default
-                                                غير معروف
-                                            @endswitch
+                                        <td class="text-center">
+                                            @php
+                                                $stateClasses = [
+                                                    'draft' => 'badge bg-secondary',
+                                                    'finalized' => 'badge bg-success',
+                                                    'approved' => 'badge bg-primary',
+                                                    'rejected' => 'badge bg-danger',
+                                                    'designer_changed' => 'badge bg-warning text-dark',
+                                                    'redesign' => 'badge bg-info',
+                                                    'modified' => 'badge bg-purple'
+                                                ];
+                                            @endphp
+
+                                            <span class="{{ $stateClasses[$draft->state] ?? 'badge bg-light text-dark' }}">
+                        @switch($draft->state)
+                                                    @case('draft') مسودة @break
+                                                    @case('finalized') نهائي @break
+                                                    @case('approved') معتمد @break
+                                                    @case('rejected') مرفوض @break
+                                                    @case('designer_changed') تعديل المصمم @break
+                                                    @case('redesign') إعادة تصميم @break
+                                                    @case('modified') معدل @break
+                                                    @default غير معروف
+                                                @endswitch
+                    </span>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+                            </div>
                         @else
                             <p>لا توجد مسودات لهذا الطلب.</p>
                         @endif

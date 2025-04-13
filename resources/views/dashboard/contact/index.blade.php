@@ -15,8 +15,9 @@
 @section('content')
     <div class="container mt-5" dir="rtl">
         <h1>رسائل اتصل بنا</h1>
+        <div style="overflow-x: auto; width: 100%;">
 
-        <table class="datatable">
+        <table class="table datatable">
             <thead>
             <tr>
                 <th>رقم التعريف</th>
@@ -38,17 +39,28 @@
                     <td>{{ $contact->subRegion->name_ar ?? '-' }}</td>
                     <td>{{ Str::limit($contact->message, 40) }}</td>
                     <td>
-                        <a href="{{ route('dashboard.contact_us.show', $contact->id) }}" class="btn btn-primary">عرض</a>
+                        <a href="{{ route('dashboard.contact_us.show', $contact->id) }}" >
+                            <button type="submit" class="border-0 bg-transparent text-danger">
+                                <img src="{{ asset('Dashboard/assets/images/view.png') }}">
+                            </button>
+                        </a>
+
+
 
                         <form action="{{ route('dashboard.contact_us.delete', $contact->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">حذف</button>
+                            <button type="submit" class="btn btn-danger bg-transparent border-0">
+                                <img src="{{ asset('Dashboard/assets/images/delete.png') }}">
+                            </button>
                         </form>
                     </td>
+
+
                 </tr>
             @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 @endsection

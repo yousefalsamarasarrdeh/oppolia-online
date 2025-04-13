@@ -170,9 +170,13 @@ class OrderController extends Controller
                 ->addColumn('action', function ($row) {
                     $editUrl = route('admin.order.show', $row->id);
 
-                    return "
-                <a href='$editUrl' class='btn btn-sm btn-primary'>عرض</a>
-                ";
+                    return '
+                    <a href="' . $editUrl . '" class="btn btn-sm">
+                        <button type="submit" class="btn btn-info bg-transparent border-0">
+                            <img src="' . asset('Dashboard/assets/images/view.png') . '" alt="View">
+                        </button>
+                    </a>
+                ';
                 })
                 ->rawColumns(['action']) // تفعيل HTML في عمود "خيارات"
                 ->make(true);

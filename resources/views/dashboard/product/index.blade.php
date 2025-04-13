@@ -10,8 +10,9 @@
 @section('content')
     <div class="container" dir="rtl">
         <h1>المنتجات</h1>
-        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">إضافة منتج جديد</a>
-        <table class="table table-bordered datatable">
+        <a href="{{ route('admin.products.create') }}" class="btn  button_Green" >إضافة منتج جديد</a>
+        <div style="overflow-x: auto; width: 100%;">
+        <table class="table table datatable" style="min-width: 800px;">
             <thead>
             <tr>
                 <th>#</th>
@@ -31,17 +32,32 @@
                     <td>{{ $product->sku }}</td>
                     <td>{{ $product->category->title ?? 'غير متوفر' }}</td>
                     <td>
-                        <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-info">عرض</a>
-                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-success">تعديل</a>
-                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد؟')">حذف</button>
-                        </form>
+                        <div class="d-flex flex-row align-items-center justify-content-center">
+                            <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-info bg-transparent border-0">
+                                <button type="submit" class="btn bg-transparent border-0">
+                                    <img src="{{ asset('Dashboard/assets/images//view.png') }}">
+                                </button>
+
+                            </a>
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-success bg-transparent border-0">
+                                <button type="submit" class="bg-transparent border-0 text-danger">
+                                    <img src="{{ asset('Dashboard/assets/images/edit.png') }}">
+                                </button>
+                            </a>
+                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger bg-transparent border-0" onclick="return confirm('هل أنت متأكد؟')">
+                                    <img src="{{ asset('Dashboard/assets/images/delete.png') }}">
+                                </button>
+
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+    </div>
     </div>
 @endsection

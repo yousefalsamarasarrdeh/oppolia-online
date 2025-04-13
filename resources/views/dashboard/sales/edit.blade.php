@@ -62,8 +62,8 @@
             <!-- بيانات الدفعات -->
             <div class="card mb-4">
                 <div class="card-header bg-secondary text-white">تفاصيل الدفعات</div>
-                <div class="card-body">
-                    <table class="table table-bordered">
+                <div class="card-body" style="overflow-x: auto; width: 100%;">
+                    <table class="table table-bordered" style="min-width: 800px;">
                         <thead>
                         <tr>
                             <th>رقم الدفعة</th>

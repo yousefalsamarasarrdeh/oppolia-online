@@ -17,28 +17,32 @@
     @endif
 
     <h1>تعديل معلومات المستخدم</h1>
+
     <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
     <!-- User Information Fields -->
         <h2>معلومات المستخدم</h2>
-        <div class="form-group">
+        <div class="row">
+        <div class="form-group col-6">
             <label for="name">الاسم :</label>
             <input type="text" name="name" class="form-control" value="{{ $user->name }}">
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-6">
             <label for="email"> البريد إلكتروني :</label>
             <input type="email" name="email" class="form-control" value="{{ $user->email }}">
         </div>
+        </div>
+        <div class="row">
 
-        <div class="form-group">
+        <div class="form-group col-6">
             <label for="phone">الهاتف :</label>
             <input type="text" name="phone" class="form-control" value="{{ $user->phone }}">
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-6">
             @php
                 $userrole = auth()->user()->role; // جلب المنطقة للمستخدم الحالي
             @endphp
@@ -58,8 +62,9 @@
                 @endif
             </select>
         </div>
+        </div>
 
-        <div class="form-group">
+        <div class="form-group col-6">
             <label for="region_id"> اختر المنطقة :</label>
             <select name="region_id" class="form-control">
                 <option value=""></option>
@@ -112,7 +117,7 @@
 
 
         </div>
-        <button type="submit" class="btn btn-primary">تحديث</button>
+        <button type="submit" class="btn button_Green m-2">تحديث</button>
     </form>
     </div>
 @endsection

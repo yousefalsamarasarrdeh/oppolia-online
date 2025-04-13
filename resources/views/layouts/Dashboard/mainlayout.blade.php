@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')</title>>
+    <title>@yield('title')</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -29,6 +29,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{{asset('Dashboard/assets/css/style.css')}}" rel="stylesheet">
+
 
   <!-- =======================================================
   * Template Name: NiceAdmin

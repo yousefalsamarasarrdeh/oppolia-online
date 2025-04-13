@@ -93,8 +93,10 @@
                         <td>{{ $sale->updated_at->format('Y-m-d') }}
 
                         <td>
-                            <a href="{{ route('dashboard.sales.edit', $sale->id) }}" class="btn btn-primary btn-sm">
-                                ✏️ تعديل الأسعار
+                            <a href="{{ route('dashboard.sales.edit', $sale->id) }}" class="btn btn-primary btn-sm border-0 bg-transparent" >
+                                <button type="submit" class="border-0 bg-transparent text-danger">
+                                    <img src="{{ asset('Dashboard/assets/images/edit.png') }}">
+                                </button>
                             </a>
                         </td>
                     </tr>

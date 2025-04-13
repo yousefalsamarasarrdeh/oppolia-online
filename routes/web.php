@@ -232,15 +232,15 @@ Route::middleware('guest')->group(function () {
     Route::post('/verify-otp', [OtpLoginController::class, 'verifyOtp'])->name('otp.verify');
 
     // إضافة مسار تسجيل الدخول يدويًا
-    Route::get('/login', [OtpLoginController::class, 'showPhoneForm'])->name('login');
-    Route::post('/login', [OtpLoginController::class, 'sendOtp'])->name('login');
+  //  Route::get('/login', [OtpLoginController::class, 'showPhoneForm'])->name('login');
+  //  Route::post('/login', [OtpLoginController::class, 'sendOtp'])->name('login');
 });
 
 // مسار تسجيل الخروج
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // مسار الصفحة الرئيسية
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 

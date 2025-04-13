@@ -13,6 +13,9 @@
         .hidden {
             display: none !important;
         }
+        a {
+            color: #509F96;
+        }
     </style>
 
 @endsection
@@ -36,13 +39,13 @@
         <h2 class="mb-4">الإشعارات</h2>
         <div class="row">
             <div class="col-9 text-end">
-                <button id="hideBlueButton" class="btn btn-warning mb-3">تمت قراءتها</button>
-                <button id="hideGrayButton" class="btn btn-primary mb-3">غير مقروءة</button>
-                <button id="showAllButton" class="btn btn-success mb-3">عرض الكل</button>
+                <button id="hideBlueButton" class="btn designer-notifications-read mb-3">تمت قراءتها</button>
+                <button id="hideGrayButton" class="btn designer-notifications-unread mb-3">غير مقروءة</button>
+                <button id="showAllButton" class="btn designer-notifications-all mb-3">عرض الكل</button>
             </div>
 
             <div class="col-3 text-start">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     حذف جميع الإشعارات المقروءة
                 </button>
             </div>
