@@ -40,7 +40,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                    <button type="button" class="btn button_Green " data-bs-toggle="modal" data-bs-target="#confirmationModal">
                         إنهاء التصنيع
                     </button>
                 </form>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="submit" class="btn btn-primary" id="confirmFinishSubmit">إنهاء التصنيع</button>
+                    <button type="submit" class="btn button_Green " id="confirmFinishSubmit">إنهاء التصنيع</button>
                 </div>
             </div>
         </div>

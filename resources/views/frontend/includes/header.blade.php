@@ -45,7 +45,7 @@
 
                             <?php else: ?>
                         <!-- إذا لم يكن المستخدم مسجل دخول -->
-                            <a href="#" class="border-3 mx-2 myfont_3" data-bs-toggle="modal" data-bs-target="#phoneModal">
+                            <a href="#" class="border-3 mx-2 myfont_3 link-offset-4-hover" data-bs-toggle="modal" data-bs-target="#phoneModal">
                                 @lang('home.Login')
                             </a>
                             <?php endif; ?>

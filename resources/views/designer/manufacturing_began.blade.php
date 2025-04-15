@@ -40,7 +40,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                    <button type="button" class="btn button_Green " data-bs-toggle="modal" data-bs-target="#confirmationModal">
                         إرسال
                     </button>
                 </form>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="submit" class="btn btn-success" id="confirmSubmit">إرسال</button>
+                    <button type="submit" class="btn button_Green " id="confirmSubmit">إرسال</button>
                 </div>
             </div>
         </div>

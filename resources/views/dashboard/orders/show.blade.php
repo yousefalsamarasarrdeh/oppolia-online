@@ -326,6 +326,61 @@
                     </div>
                 </div>
             </div>
+
+            @php
+                $installments = $order->sale?->installments ?? collect();
+            @endphp
+
+
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSix">
+                    <button class="collapsed accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        المبيعات
+                    </button>
+                </h2>
+
+                    <div id="collapseSix" class="collapse accordion-collapse" aria-labelledby="headingSix" data-bs-parent="#orderAccordion">
+                        <div class="accordion-body">
+                            @if($installments->isNotEmpty())
+                                <div class="mt-4">
+                                    <h4>الدفعات  السابقة</h4>
+                                    <div style="overflow-x: auto; width: 100%;">
+                                        <table class="table table-bordered" style="min-width: 800px;">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>المبلغ</th>
+                                                <th>النسبة</th>
+                                                <th>تاريخ الاستحقاق</th>
+                                                <th>الحالة</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($installments as $installment)
+                                                <tr>
+                                                    <td>{{ $installment->installment_number }}</td>
+                                                    <td>{{ number_format($installment->installment_amount, 2) }}</td>
+                                                    <td>{{ $installment->percentage }}%</td>
+                                                    <td>{{ $installment->due_date }}</td>
+                                                    <td>{{ $installment->status }}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            @else
+                                <p>لا توجد دفعات  حتى الآن.</p>
+                            @endif
+                        </div>
+                    </div>
+
+            </div>
+
+
+
         </div>
 
         <!-- عرض الخريطة -->

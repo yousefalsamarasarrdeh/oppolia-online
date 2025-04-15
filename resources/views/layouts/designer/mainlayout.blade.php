@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')</title>>
+    <title>@yield('title')</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -47,30 +47,25 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
+
       <ul class="sidebar-nav" id="sidebar-nav">
 
           <li class="nav-item">
-              <a class="nav-link " href="index.html">
-                  <i class="bi bi-grid"></i>
-                  <span>لوحة التحكم</span>
-              </a>
+              <img class="dashboard-icon" src="{{asset ('Dashboard\assets\images\House.png') }}">
+              <span class="dashboard-title">لوحة التحكم</span>
           </li><!-- End Dashboard Nav -->
 
 
 
           <li class="nav-item">
-              <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                  <i class="bi bi-journal-text"></i><span>الطلبات</span><i class="bi bi-chevron-down ms-auto"></i>
+              <a class="nav-link collapsed" href="{{route('designer.approved.orders')}}" >
+                  <img class="dashboard-icon" src="{{asset ('Dashboard\assets\images\Bill.png') }}">
+                  <span class="dashboard-title">الطلبات</span>
               </a>
-              <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                  <li>
-                      <a href="{{route('designer.approved.orders')}}">
-                          <i class="bi bi-circle"></i><span>الطلبات التي قبلتها</span>
-                      </a>
-                  </li>
 
-              </ul>
           </li><!-- End Forms Nav -->
+
+
 
 
       </ul>

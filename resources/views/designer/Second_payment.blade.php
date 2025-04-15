@@ -1,6 +1,6 @@
 @extends('layouts.designer.mainlayout')
 
-@section('title', 'استبيان الطلب')
+@section('title', ' دفعات الطلب')
 
 @section('content')
     @php
@@ -38,7 +38,8 @@
         @if($installments->isNotEmpty())
             <div class="mt-4">
                 <h4>الدفعات</h4>
-                <table class="table table-bordered">
+                <div style="overflow-x: auto; width: 100%;">
+                <table class="table table-bordered" style="min-width: 800px;">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -60,6 +61,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         @else
             <p>لا توجد أقساط مسجلة حتى الآن.</p>
@@ -74,10 +76,10 @@
                     <!-- Display the payment receipt if available -->
 
                         <img src="{{ asset('storage/' . $installments->first()->payment_receipt) }}" alt="Payment Receipt" style="max-width: 100%;">
-                    <div class="row">
+                    <div class="row m-2">
                         <div class="col-md-6">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
                                 رفض
                             </button>
                         </div>
@@ -115,7 +117,7 @@
                         <input type="date" name="due_date" class="form-control" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">إضافة دفعة</button>
+                    <button type="submit" class="btn button_Green">إضافة دفعة</button>
                 </form>
             </div>
         @endif
@@ -139,7 +141,7 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="awaiting_customer_payment">
-                        <button type="submit" class="btn btn-warning">تأكيد الرفض</button>
+                        <button type="submit" class="btn btn-outline-danger">تأكيد الرفض</button>
                     </form>
                 </div>
             </div>

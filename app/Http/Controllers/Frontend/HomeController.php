@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // استدعاء Auth
 use Illuminate\Support\Facades\Log;  // استدعاء Log
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\ContactUs;
 use function Livewire\Features\SupportFormObjects\all;
 
@@ -120,6 +121,28 @@ class HomeController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'تم إرسال رسالتك بنجاح، شكرًا لتواصلك معنا!');
+    }
+
+
+    public function Category()
+    {  $notifications = null;
+
+        $categories = Category::all();
+
+
+        if (auth()->check()) {
+            $notifications = auth()->user()->unreadNotifications;
+        }
+        return view('frontend.categories', compact( 'notifications','categories'));
+    }
+
+    public function filterByCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        $products = Product::where('category_id', $id)->get();
+        $categories = Category::all();
+
+        return view('frontend.products', compact('products', 'categories', 'category'));
     }
 
 

@@ -62,7 +62,7 @@ class CategoryController extends Controller
         // التحقق من البيانات الواردة باستخدام قواعد التحقق
         $validated = $request->validate([
             'title' => 'required|max:255|regex:/^[A-Za-z0-9\s\-_,\.;:()]+$/',
-            'title_ar' => 'required|max:255|regex:/^[\p{Arabic}0-9\s\-_,\.;:()]+$/u',
+            'title_ar' => 'required|max:255',
             'image' => 'nullable|image',
             'status' => 'required|in:active,inactive',
             'parent_id' => 'nullable|exists:categories,id'

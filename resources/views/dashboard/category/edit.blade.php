@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.mainlayout')
+@extends('layouts.Dashboard.mainlayout')
 
 @section('title', 'تعديل الفئة')
 

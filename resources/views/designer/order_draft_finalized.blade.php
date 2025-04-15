@@ -18,6 +18,7 @@
         @if($approvedDrafts->isEmpty())
             <p>لا توجد مسودات معتمدة لهذا الطلب.</p>
         @else
+            <div style="overflow-x: auto; width: 100%;">
             <table class="table">
                 <thead>
                 <tr>
@@ -35,11 +36,18 @@
                                 <img src="{{ asset('storage/'.$image) }}" alt="صورة" style="width: 100px;">
                             @endforeach
                         </td>
-                        <td><a href="{{ asset('storage/'.$draft->pdf) }}" target="_blank">تحميل PDF</a></td>
+                        <td>
+                            <a href="{{ asset('storage/' . $draft->pdf) }}"
+                               target="_blank"
+                               class="btn button_Green ">
+                                <i class="fas fa-file-pdf"></i> عرض PDF
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            </div>
         @endif
     </div>
     <div class="container" dir="rtl">
@@ -124,7 +132,7 @@
             <!-- زر الإرسال -->
             <div class="row">
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary">إرسال</button>
+                    <button type="submit" class="btn button_Green">إرسال</button>
                 </div>
             </div>
         </form>

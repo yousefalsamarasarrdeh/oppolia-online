@@ -1,6 +1,6 @@
 @extends('layouts.designer.mainlayout')
 
-@section('title', 'Product Management')
+@section('title', 'صفحة الاشغارات')
 
 @section('css')
     <!-- هنا يمكنك تضمين أنماط CSS الخاصة بـ DataTables إذا كان لديك -->
@@ -39,12 +39,12 @@
         <h2 class="mb-4">الاشعارات</h2>
         <div class="row">
             <div class="col-9">
-                <button id="hideBlueButton" class="btn btn-warning  mb-3">مقروء</button>
-                <button id="hideGrayButton" class="btn btn-primary mb-3">غير مقروء</button>
-                <button id="showAllButton" class="btn btn-success mb-3">عرض الكل</button>
+                <button id="hideBlueButton" class="btn designer-notifications-read  mb-3">مقروء</button>
+                <button id="hideGrayButton" class="btn designer-notifications-unread  mb-3">غير مقروء</button>
+                <button id="showAllButton" class="btn designer-notifications-all mb-3">عرض الكل</button>
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     حذف كل الإشعارات المقروءة
                 </button>
             </div>

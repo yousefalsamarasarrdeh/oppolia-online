@@ -18,7 +18,7 @@
 
     <div class="container mt-5">
         <div class="card">
-            <div class="card-header bg-success text-white">
+            <div class="card-header bg-primary text-white">
                 <h4>إنهاء التركيب وإتمام الطلب</h4>
             </div>
             <div class="card-body">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                    <button type="button" class="btn button_Green" data-bs-toggle="modal" data-bs-target="#confirmationModal">
                         تأكيد إنهاء التركيب
                     </button>
                 </form>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="submit" class="btn btn-success" id="confirmCompletionSubmit">تأكيد إنهاء التركيب</button>
+                    <button type="submit" class="btn button_Green" id="confirmCompletionSubmit">تأكيد إنهاء التركيب</button>
                 </div>
             </div>
         </div>

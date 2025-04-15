@@ -8,6 +8,9 @@
         {
             background-color: white;
         }
+        a{
+            color: #0a4740;
+        }
     </style>
 
     <div class="container-fluid about-section p-0 position-relative">
@@ -43,7 +46,7 @@
         </div>
 
         <!-- Contact Form Section -->
-        <div class="container p-5">
+        <div class="container p-2">
             @if (session('success'))
                 <div style="color: green;" dir="rtl">
                     {{ session('success') }}
@@ -107,6 +110,18 @@
                     <button type="submit" class="px-5 py-2 btn button_Dark_Green">إرسال</button>
                 </div>
             </form>
+        </div>
+
+
+        <!-- Contact Details Section -->
+        <!-- Contact Details Section - Inline -->
+        <div class="container p-5 text-end" dir="rtl">
+            <h5 class="fw-bold mb-3">معلومات التواصل المباشر:</h5>
+            <div class="d-flex flex-wrap gap-4 justify-content-end align-items-center">
+                <p class="mb-0"><strong>الإيميل:</strong> <a href="mailto:info@oppoliaksa.com">info@oppoliaksa.com</a></p>
+                <p class="mb-0"><strong>واتساب:</strong> <a href="https://wa.me/966564444343" target="_blank">+966564444343</a></p>
+                <p class="mb-0"><strong>الهاتف:</strong> <a href="tel:+966564444343">+966564444343</a></p>
+            </div>
         </div>
 
 

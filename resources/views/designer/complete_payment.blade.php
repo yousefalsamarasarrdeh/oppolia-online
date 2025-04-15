@@ -29,7 +29,8 @@
         @if($installments->isNotEmpty())
             <div class="mt-4">
                 <h4>الدفعات  السابقة</h4>
-                <table class="table table-bordered">
+                <div style="overflow-x: auto; width: 100%;">
+                <table class="table table-bordered" style="min-width: 800px;">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -51,6 +52,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
         @else
             <p>لا توجد أقساط مسجلة حتى الآن.</p>
@@ -68,16 +70,16 @@
                     @if ($installmentThree && $installmentThree->payment_receipt)
                         <img src="{{ asset('storage/' . $installmentThree->payment_receipt) }}" alt="Payment Receipt" style="max-width: 100%;">
                     @endif
-                    <div class="row">
+                    <div class="row m-2">
                         <div class="col-md-6">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                            <button type="button" class="btn  btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
                                 رفض
                             </button>
                         </div>
                         <div class="col-md-6">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptModal">
+                            <button type="button" class="btn button_Green " data-bs-toggle="modal" data-bs-target="#acceptModal">
                                 قبول
                             </button>
                         </div>
@@ -115,7 +117,7 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="awaiting_customer_payment">
-                        <button type="submit" class="btn btn-warning">تأكيد الرفض</button>
+                        <button type="submit" class="btn  btn-outline-danger">تأكيد الرفض</button>
                     </form>
                 </div>
             </div>
@@ -139,7 +141,7 @@
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="status" value="paid">
-                        <button type="submit" class="btn btn-success">تأكيد القبول</button>
+                        <button type="submit" class="btn button_Green ">تأكيد القبول</button>
                     </form>
                 </div>
             </div>

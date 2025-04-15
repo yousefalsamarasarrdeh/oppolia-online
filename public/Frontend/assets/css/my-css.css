@@ -61,7 +61,7 @@ a:hover {
     height: 60.126px;
 }
 .link-offset-4-hover:hover {
-    color: #0A4740 !important;
+    color: black !important;
     transform: translateY(-2px);
     transition: all 0.3s ease;
 }

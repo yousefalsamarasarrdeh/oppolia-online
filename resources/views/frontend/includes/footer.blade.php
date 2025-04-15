@@ -1,16 +1,16 @@
 
 
 <footer>
-    <section class="py-5 border-top bg-footer" style="direction: {{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+    <section class="py-5 border-top bg-footer" style="direction: {{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);">
         <div class="container">
-            <div class="row ">
+            <div class="row justify-content-between">
                 <div class=" col-md-5 col-sm-12 col-xl-5 col-lg-5">
                     <div class="footer-section1">
                         <img src="{{asset('Frontend/assets/images/icons/AR Logo.png')}}" style="background-color: #509F96 ;">
 
                     </div>
                     <div class="mt-5">
-
+                        <p class="myfont_5">نفتخر في اوبوليا اونلاين بتقديمنا لأفضل وأجود أنواع المطابخ</p>
                     </div>
                     <div class="mt-5">
 
@@ -39,23 +39,28 @@
                         <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('welcome') }}">الصفحة الرئيسية</a></div>
 
                         <div class="mt-3 "> <a class="myfont_5 hover-underline" href="{{route('home.about') }}">عن اوبوليا</a></div>
-                    <!-- <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{route('home.products') }}">المنتجات</a></div> -->
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{route('home.products') }}">المنتجات</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/orders/create">اطلب الان</a></div>
+
 
 
                     </div>
                 </div>
                 <div class=" col-md-2 col-sm-12 col-xl-2 col-lg-2">
                     <div class="footer-section3">
-
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/joinasdesigner">انضم كمصمم</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/privacypolicy">سياسة الخصوصية</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{  route('category.products', 26)}}" style=" white-space: nowrap;">مطابخ نيو كلاسيك</a></div>
+                        <div class="mt-3 "> <a class="myfont_5 hover-underline" href="{{ route('category.products' , 27) }}" style=" white-space: nowrap;">مطابخ حديثة</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('category.products' , 29)}}" style=" white-space: nowrap;">مطابخ على شكل حرف L</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('category.products', 30)}}" style=" white-space: nowrap;">مطابخ على شكل حرف  U</a></div>
                     </div>
                 </div>
                 <div class=" col-md-2 col-sm-12 col-xl-2 col-lg-2">
                     <div class="footer-section3">
-
                         <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{route('home.designers') }}">مصممي اوبوليا</a></div>
                         <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('home.contact') }}">تواصل معنا</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/joinasdesigner">انضم كمصمم</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/privacypolicy">سياسة الخصوصية</a></div>
+
                     </div>
                 </div>
                 <!-- <div class=" col-md-2 col-sm-12 col-xl-2 col-lg-2">

@@ -12,26 +12,18 @@
             padding: 10px;
             text-align: center;
         }
-        .btn-view-order, .btn-processing {
-            background-color: #007bff;
-            color: white;
-            padding: 5px 10px;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .btn-view-order:hover, .btn-processing:hover {
-            background-color: #0056b3;
-        }
+
     </style>
 @endsection
 
 @section('content')
     <div class="pagetitle" dir="rtl" >
-        <h1>الطلبات المعتمدة</h1>
+        <h1 style="color: #0A4740 !important;">الطلبات المعتمدة</h1>
         <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
+            <ol class="breadcrumb justify-content-end" dir="ltr">
                 <li class="breadcrumb-item active">الطلبات المعتمدة</li>
+                <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
+
             </ol>
         </nav>
     </div><!-- نهاية عنوان الصفحة -->
@@ -59,7 +51,8 @@
                         <h5 class="card-title">الطلبات التي قمت بالموافقة عليها</h5>
 
                         @if($approvedOrders->count() > 0)
-                            <table class="table table-striped table table-bordered datatable">
+                            <div style="overflow-x: auto; width: 100%;">
+                            <table class="table table-striped table table-bordered datatable" style="min-width: 800px;">
                                 <thead>
                                 <tr>
                                     <th>رقم الطلب</th>
@@ -75,17 +68,22 @@
                                     <tr>
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->user->name }}</td>
-                                        <td>{{ $order->user->phone }}</td> <!-- تأكد من وجود حقل phone_number في جدول المستخدم -->
+                                        <td dir="ltr">{{ $order->user->phone }}</td> <!-- تأكد من وجود حقل phone_number في جدول المستخدم -->
                                         <td>{{ $order->processing_stage }}</td>
                                         <td>{{ $order->created_at }}</td>
                                         <td>
                                             <!-- زر عرض الطلب -->
-                                            <a href="{{ route('designer.order.show_without_notification', ['order' => $order->id]) }}" class="btn-view-order">عرض الطلب</a>
+                                            <a href="{{ route('designer.order.show_without_notification', ['order' => $order->id]) }}">
+                                                <img src="{{ asset('Dashboard\assets\images\view.png') }}"></a>
                                             <!-- زر المعالجة -->
                                             @if($order->processing_stage == 'اكتمل الطلب')
-                                                <span class="text-danger">هذا الطلب منهي</span>
+                                                <span>
+                                                <img src="{{ asset('Dashboard\assets\images\completedFull.png') }}">
+                                                </span>
                                             @else
-                                                <a href="{{ route('designer.order.processing', ['order' => $order->id]) }}" class="btn-processing">معالجة</a>
+                                                <a href="{{ route('designer.order.processing', ['order' => $order->id]) }}">
+                                                    <img src="{{ asset('Dashboard\assets\images\Union.png') }}"></a>
+                                                </a>
                                             @endif
 
 
@@ -99,6 +97,7 @@
                         @else
                             <p>لا توجد طلبات معتمدة.</p>
                         @endif
+                            </div>
                     </div>
                 </div>
             </div><!-- نهاية قسم الطلبات المعتمدة -->

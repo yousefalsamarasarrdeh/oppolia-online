@@ -64,7 +64,7 @@ h6 {
   font-size: 24px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #012970;
+  color: #1c1c1c;
 }
 
 /*--------------------------------------------------------------
@@ -236,7 +236,7 @@ h6 {
   padding: 20px 0 15px 0;
   font-size: 18px;
   font-weight: 500;
-  color: #012970;
+  color: #1c1c1c;
   font-family: "Poppins", sans-serif;
 }
 
@@ -484,6 +484,7 @@ h6 {
 .header-nav .nav-profile span {
   font-size: 14px;
   font-weight: 600;
+  color:#1c1c1c;
 }
 
 .header-nav .badge-number {
@@ -1295,6 +1296,9 @@ h6 {
     border-color: #509F96!important;
     box-shadow: 0 0 0 .25rem rgb(72 136 100 / 25%) !important;
 }
+.form-select:focus {
+    box-shadow: 0 0 0 .25rem rgb(72 136 100 / 25%) !important;
+}
 
 .header-nav .notifications .notification-item h4 {
 
@@ -1334,9 +1338,13 @@ h6 {
     border-color: darkgray;
 }
 .back-to-top {
-  
+
     background: #509f96;
 
+}
+.form-check-input:checked {
+    background-color: #509f96;
+    border-color: #509f96;
 }
 
 

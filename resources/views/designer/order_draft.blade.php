@@ -44,7 +44,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">إرسال</button>
+            <button type="submit" class="btn button_Green m-2">إرسال</button>
         </form>
     </div>
 @endsection

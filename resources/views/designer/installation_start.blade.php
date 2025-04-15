@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                    <button type="button" class="btn button_Green  text-white" data-bs-toggle="modal" data-bs-target="#confirmationModal">
                         تأكيد بدء التركيب
                     </button>
                 </form>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="submit" class="btn btn-primary text-white" id="confirmInstallationSubmit">تأكيد بدء التركيب</button>
+                    <button type="submit" class="btn button_Green  text-white" id="confirmInstallationSubmit">تأكيد بدء التركيب</button>
                 </div>
             </div>
         </div>
