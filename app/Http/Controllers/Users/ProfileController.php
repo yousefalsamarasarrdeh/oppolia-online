@@ -15,7 +15,7 @@ class ProfileController extends Controller
         $notifications = null;
         $user = Auth::user();
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('User.edit_profile', compact('user','notifications'));
     }
@@ -24,7 +24,7 @@ class ProfileController extends Controller
         $notifications = null;
         $user = Auth::user();
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
 
         $validated = $request->validate([

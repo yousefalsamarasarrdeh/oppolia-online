@@ -122,33 +122,40 @@
 
                                 <!-- الاستخدام و الأجهزة والتفاصيل النصية تبقى full-width -->
                                 <div class="col-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">استخدام المطبخ</label>
-                                        <div class="row">
+                                    <!-- استخدام المطبخ -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold mb-3">استخدام المطبخ</label>
+                                        <div class="row g-3">
                                             @foreach(['الطهي', 'الاستضافة', 'التخزين', 'الترفيه'] as $use)
-                                                <div class="col-md-2">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" id="use_{{ $loop->index }}" name="kitchen_use[]" value="{{ $use }}">
-                                                        <label class="form-check-label" for="use_{{ $loop->index }}">{{ $use }}</label>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="card p-2 border">
+                                                        <div class="form-check d-flex align-items-center gap-2 m-0 p-2">
+                                                            <input type="checkbox" class="form-check-input m-0" id="use_{{ $loop->index }}" name="kitchen_use[]" value="{{ $use }}">
+                                                            <label class="form-check-label fw-medium m-0" for="use_{{ $loop->index }}">{{ $use }}</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label">المستلزمات المطلوبة</label>
-                                        <div class="row">
+                                    <!-- المستلزمات المطلوبة -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold mb-3">المستلزمات المطلوبة</label>
+                                        <div class="row g-3">
                                             @foreach(['ميكروويف', 'غسالة صحون', 'ثلاجة', 'غسالة ملابس', 'محمصة خبز', 'خلاط', 'آخر'] as $item)
-                                                <div class="col-md-2">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" id="appliance_{{ $loop->index }}" name="appliances_needed[]" value="{{ $item }}">
-                                                        <label class="form-check-label" for="appliance_{{ $loop->index }}">{{ $item }}</label>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="card p-2 border">
+                                                        <div class="form-check d-flex align-items-center gap-2 m-0 p-2">
+                                                            <input type="checkbox" class="form-check-input m-0" id="appliance_{{ $loop->index }}" name="appliances_needed[]" value="{{ $item }}">
+                                                            <label class="form-check-label fw-medium m-0" for="appliance_{{ $loop->index }}">{{ $item }}</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
+                                </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">معلومات عامة عن الزبون والموقع</label>
@@ -173,7 +180,7 @@
                             </div>
 
                             <!-- زر الإرسال -->
-                            <div class="text-center mt-4">
+                            <div class="text-center m-2">
                                 <button type="submit" class="btn text-white px-5 py-2 button_Green" >إرسال الاستبيان</button>
                             </div>
                         </form>

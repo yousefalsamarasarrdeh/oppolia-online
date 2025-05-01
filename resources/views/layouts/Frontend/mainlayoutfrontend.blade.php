@@ -17,9 +17,9 @@
     <!-- Bootstrap CSS -->
     <link href="{{asset('Frontend/assets/css/bootstrap.min.css')}}" rel="stylesheet">
    <!-- <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"> -->
-    <link href="{{asset('Frontend/assets/css/app.css')}}" rel="stylesheet">
-    <link href="{{asset('Frontend/assets/css/my-css.css')}}" rel="stylesheet">
-    <link href="{{asset('Frontend/assets/css/kapp.css')}}" rel="stylesheet">
+    <link href="{{ asset('Frontend/assets/css/app.css') }}?v={{ time() }}" rel="stylesheet">
+    <link href="{{ asset('Frontend/assets/css/my-css.css') }}?v={{ time() }}" rel="stylesheet">
+    <link href="{{ asset('Frontend/assets/css/kapp.css') }}?v={{ time() }}" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
     <link href="{{asset('Frontend/assets/css/icons.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">

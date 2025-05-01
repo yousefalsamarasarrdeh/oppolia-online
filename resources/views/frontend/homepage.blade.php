@@ -17,8 +17,7 @@
 
                 <div class="position-absolute text-container text-right">
                     <p class="banner-text">
-                        أفكارك لبيت مثالي تنفيذها صار أسهل مع
-                        <span class="highlight-text">اوبوليا اون لاين!</span>
+                       @lang('homepage.Bring your dream home to life effortlessly with Oppolia Online – ORDER NOW!')
                     </p>
 
                 </div>
@@ -38,19 +37,22 @@
                 <div class="row align-items-center">
                     <!-- Text Overlay Section -->
                     <div class="col-lg-2 col-md-3 d-flex align-items-center justify-content-center">
-                        <h2 class="text-with-underline">عن أوبوليا</h2>
+                        <a href="{{ route('home.about') }}">
+                            <h2 class="text-with-underline">@lang('homepage.About Oppolia')</h2>
+                        </a>
                     </div>
                     <!-- Video Thumbnail Section -->
                     <div class="col-lg-10 col-md-9 p-0 position-relative">
                         <!-- Custom Thumbnail -->
                         <img src="{{ asset('Frontend/assets/images/banners/Vid.png') }}" class="img-fluid w-100"
-                             style="margin-top: 30px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#videoModal"
+                             style="margin-top: 30px; " data-bs-toggle="modal" data-bs-target="#videoModal"
                              alt="Custom Video Thumbnail">
 
-                        <!-- Play Button Overlay -->
+                        <!-- Play Button Overlay
                         <div class="play-button-overlay" data-bs-toggle="modal" data-bs-target="#videoModal">
                             <i class="play-icon"></i>
                         </div>
+                         -->
                     </div>
 
 
@@ -59,6 +61,7 @@
         </div>
 
         <!-- Video Modal -->
+        <!--
         <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -66,7 +69,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- YouTube Embed -->
+
                         <div class="ratio ratio-16x9">
                             <iframe src="https://www.youtube.com/embed/SI1EhswdgR8" title="YouTube video" allowfullscreen
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
@@ -77,13 +80,14 @@
             </div>
         </div>
     </section>
+    -->
 
     <!--Step Section-->
     <section class="steps-section">
         <div class="container  d-flex flex-column justify-content-center">
             <!-- Heading -->
             <div class="text-center mb-4">
-                <h2 class="text-white" style="font-size: 24px; font-weight: bold;">خطوات طلبك من عندنا</h2>
+                <h2 class="text-white" style="font-size: 24px; font-weight: bold;">@lang('homepage.Steps to Order from Us')</h2>
                 <div class="text-white-underline"></div>
             </div>
 
@@ -92,32 +96,32 @@
                 <div class="col-md-2 col-sm-4 col-6 mb-3">
                     <img src="{{ asset('Frontend/assets/images/icons/Calender.png') }}" alt="Calendar Icon"
                          class="steps-icons">
-                    <p class="mt-2">احجز موعدك</p>
+                    <p class="mt-2">@lang('homepage.Book your appointment')</p>
                 </div>
                 <div class="col-md-2 col-sm-4 col-6 mb-3">
                     <img src="{{ asset('Frontend/assets/images/icons/Location.png') }}" alt="Location Icon"
                          class="steps-icons">
-                    <p class="mt-2">تحديد الموقع</p>
+                    <p class="mt-2">@lang('homepage.Choose Your Location')</p>
                 </div>
                 <div class="col-md-2 col-sm-4 col-6 mb-3">
                     <img src="{{ asset('Frontend/assets/images/icons/Ruler.png') }}" alt="Ruler Icon"
                          class="steps-icons">
-                    <p class="mt-2">سجل القياسات والتفاصيل</p>
+                    <p class="mt-2">@lang('homepage.Measurements & Details')</p>
                 </div>
                 <div class="col-md-2 col-sm-4 col-6 mb-3">
                     <img src="{{ asset('Frontend/assets/images/icons/Canvas.png') }}" alt="Canvas Icon"
                          class="steps-icons">
-                    <p class="mt-2">ابدأ من مخطط التصميم</p>
+                    <p class="mt-2">@lang('homepage.Start a Custom Design Plan')</p>
                 </div>
                 <div class="col-md-2 col-sm-4 col-6 mb-3">
                     <img src="{{ asset('Frontend/assets/images/icons/timer.png') }}" alt="Timer Icon"
                          class="steps-icons">
-                    <p class="mt-2">المتابعة معك</p>
+                    <p class="mt-2">@lang('homepage.Follow up')</p>
                 </div>
                 <div class="col-md-2 col-sm-4 col-6 mb-3">
                     <img src="{{ asset('Frontend/assets/images/icons/installation.png') }}" alt="Installation Icon"
                          class="steps-icons">
-                    <p class="mt-2">التوصيل وتركيب المطبخ</p>
+                    <p class="mt-2">@lang('homepage.Delivery & Installation')</p>
                 </div>
             </div>
         </div>
@@ -132,7 +136,7 @@
 
             <!-- Text Content -->
             <div class="col-md-6 text-end" dir="rtl">
-                <h3 class="section-title">ايش رح تستفيد من خدمات اوبوليا اون لاين؟</h3>
+                <h3 class="section-title">ايش رح تستفيد من خدمات اوبوليا اونلاين؟</h3>
                 <div class="row">
                     <div class="col-md-4 text-item">
                         <h5 class="text-title"><span class="text-number">.1</span><br> صورة أنسب لك</h5>
@@ -296,7 +300,7 @@
             <h2 class="fw-bold" style="color: rgba(10, 71, 64, 1) !important;">نضمن توصيل كل شيء بشكل آمن، دون عناء.</h2>
             <p class="mt-3 " style="font-size: 16px;">
                 اذا كنت تبحث عن مطابخ، خزائن، أبواب الداخلية، أو حلول المنزل أخرى.. <br>
-                إحنا هنا لنساعدك في اوبوليا اون لاين، طلباتك أوامر.
+                إحنا هنا لنساعدك في اوبوليا اونلاين، طلباتك أوامر.
             </p>
 
             <!-- Images Grid -->
@@ -415,9 +419,9 @@
 
     <!-- Meet Our Designers Section -->
     <section class="container text-center p-5">
-        <h2 class="fw-bold text-success">مصممو اوبوليا اون لاين!</h2>
+        <h2 class="fw-bold text-success">مصممو اوبوليا اونلاين!</h2>
         <p class="mt-3 designers-text">
-            في اوبوليا اون لاين، لدينا فريق محترف من المصممين المتخصصين الذين يتمتعون بين الإبداع والجدارة.
+            في اوبوليا اونلاين، لدينا فريق محترف من المصممين المتخصصين الذين يتمتعون بين الإبداع والجدارة.
             <br> يعمل مصممونا على فهم احتياجاتك وتوفيرك لبيت مثالي، وتحويل أفكارك إلى واقع.
         </p>
         <a href="/joinasdesigner">

@@ -73,8 +73,63 @@
                         $installmentTwo = $installments->firstWhere('installment_number', 2);
                     @endphp
                     @if ($installmentTwo && $installmentTwo->payment_receipt)
-                        <img src="{{ asset('storage/' . $installmentTwo->payment_receipt) }}" alt="Payment Receipt" style="max-width: 100%;">
+                        @php
+                            $filePath = 'storage/' . $installmentTwo->payment_receipt;
+                            $fullPath = public_path($filePath);
+                            $extension = pathinfo($installmentTwo->payment_receipt, PATHINFO_EXTENSION);
+                            $isImage = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                            $isPDF = strtolower($extension) === 'pdf';
+                        @endphp
+
+                        <div class="document-preview mb-4">
+                        @if($isImage)
+                            <!-- عرض الصورة مع إمكانية التكبير -->
+                                <div class="text-center">
+                                    <img src="{{ asset($filePath) }}"
+                                         alt="إيصال الدفع"
+                                         class="img-fluid border rounded cursor-zoom"
+                                         style="max-width: 100%; max-height: 500px;"
+                                         onclick="window.open(this.src, '_blank')">
+                                    <p class="mt-2 text-muted">انقر على الصورة للتكبير</p>
+                                </div>
+                        @elseif($isPDF)
+                            <!-- عرض PDF مع خيارات متعددة -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="card-title">مستند PDF</h5>
+                                            <a href="{{ asset($filePath) }}"
+                                               download
+                                               class="btn btn-sm btn-primary">
+                                                <i class="fas fa-download"></i> تنزيل
+                                            </a>
+                                        </div>
+                                        <div class="pdf-container border rounded" style="height: 500px;">
+                                            <iframe src="{{ asset($filePath) }}#toolbar=0&view=fitH"
+                                                    width="100%"
+                                                    height="100%"
+                                                    style="border: none;">
+                                                المتصفح الخاص بك لا يدعم معاينة PDF.
+                                            </iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                        @else
+                            <!-- عرض ملفات أخرى غير معروفة -->
+                                <div class="alert alert-info">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span>ملف مرفق ({{ $extension }})</span>
+                                        <a href="{{ asset($filePath) }}"
+                                           download
+                                           class="btn btn-sm btn-success">
+                                            <i class="fas fa-download"></i> تنزيل الملف
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     @endif
+
                     <div class="row m-2">
                         <div class="col-md-6">
                             <!-- Button trigger modal -->

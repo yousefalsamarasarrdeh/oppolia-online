@@ -37,11 +37,20 @@
                     </div>
 
                     <!-- تأكيد انتهاء التركيب -->
-                    <div class="form-group mb-3">
-                        <label>هل تم إنهاء التركيب بنجاح؟</label>
-                        <div class="form-check">
-                            <input type="checkbox" id="installation_completed" name="installation_completed" class="form-check-input" value="yes">
-                            <label class="form-check-label" for="installation_completed">نعم، تم الانتهاء</label>
+                    <div class="col-12">
+                        <!-- هل تم إنهاء التركيب بنجاح؟ -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold mb-3">هل تم إنهاء التركيب بنجاح؟</label>
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="card p-2 border">
+                                        <div class="form-check d-flex align-items-center gap-2 m-0 p-2">
+                                            <input type="checkbox" class="form-check-input m-0" id="installation_completed" name="installation_completed" value="yes">
+                                            <label class="form-check-label fw-medium m-0" for="installation_completed">نعم، تم الانتهاء</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

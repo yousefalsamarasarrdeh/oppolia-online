@@ -129,12 +129,7 @@
         "أربعة أشهر",
         "خمسة أشهر",
         "ستة أشهر",
-        "سبعة أشهر",
-        "ثمانية أشهر",
-        "تسعة أشهر",
-        "عشرة أشهر",
-        "أحد عشر شهر",
-        "السنة"
+
     ];
         // افتراضيًا نختار أول خيار (يمكنك تغييره)
         $defaultTime = old('time_range');
@@ -396,7 +391,6 @@
         </div>
     </div>
 
-    <!-- منطق إظهار/إخفاء الخطوات والتنقل بينها -->
     <script>
         var currentStepIndex = 0;
         var totalSteps = {{ $totalSteps }};
@@ -446,33 +440,76 @@
     <!-- تضمين خرائط جوجل -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGE&libraries=geometry,places&callback=initMap" async defer></script>
     <script>
-        var map, marker, geocoder, autocomplete;
+        let map;
+        let marker;
+        let geocoder;
+        let autocomplete;
+
         function initMap() {
+            // أول شيء نحاول نجيب موقع المستخدم
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        initMapAtLocation(userLocation, 15);
+                        document.getElementById('length_step').value = userLocation.lat;
+                        document.getElementById('width_step').value = userLocation.lng;
+                        geocodeLatLng(userLocation);
+
+                        const regionName = getRegionNameFromLatLng(userLocation, map);
+                        if (regionName) {
+                            document.getElementById('region_name').value = regionName;
+                        }
+
+                        placeMarker(userLocation, map);
+                    },
+                    function () {
+                        console.warn("لم يتم السماح بالحصول على الموقع.");
+                        initMapAtDefaultLocation(); // في حال الرفض
+                    }
+                );
+            } else {
+                alert("المتصفح لا يدعم تحديد الموقع الجغرافي.");
+                initMapAtDefaultLocation();
+            }
+        }
+
+        function initMapAtDefaultLocation() {
+            const defaultLocation = { lat: 24.7136, lng: 46.6753 }; // الرياض
+            initMapAtLocation(defaultLocation, 8);
+        }
+
+        function initMapAtLocation(center, zoomLevel) {
             map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 24.7136, lng: 46.6753 },
-                zoom: 8
+                center: center,
+                zoom: zoomLevel
             });
             geocoder = new google.maps.Geocoder();
 
+            // تحميل الحدود الإدارية للسعودية
             map.data.loadGeoJson('/saudi-arabia-with-regions_1509.geojson', null, function (features) {
                 map.data.addListener('click', function (event) {
-                    var regionName = event.feature.getProperty('name');
-                  //  alert('تم النقر على منطقة: ' + regionName);
+                    const regionName = event.feature.getProperty('name');
                     document.getElementById('region_name').value = regionName;
                     placeMarker(event.latLng, map);
                     geocodeLatLng(event.latLng);
                 });
             });
 
+            // الضغط على الخريطة
             map.addListener('click', function (e) {
                 checkRegionAndPlaceMarker(e.latLng, map);
             });
 
-            var input = document.getElementById('search_map');
+            // البحث عبر العنوان
+            const input = document.getElementById('search_map');
             autocomplete = new google.maps.places.Autocomplete(input);
             autocomplete.bindTo('bounds', map);
             autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
+                const place = autocomplete.getPlace();
                 if (!place.geometry) {
                     alert("لا توجد تفاصيل للعنصر: '" + place.name + "'");
                     return;
@@ -488,11 +525,22 @@
             });
         }
 
+        function getRegionNameFromLatLng(latLng, map) {
+            let regionName = null;
+            map.data.forEach(function (feature) {
+                const geometry = feature.getGeometry();
+                if (google.maps.geometry.poly.containsLocation(latLng, geometry)) {
+                    regionName = feature.getProperty('name');
+                }
+            });
+            return regionName;
+        }
+
         function checkRegionAndPlaceMarker(latLng, map) {
             let isInsideRegion = false;
             let regionName = "";
             map.data.forEach(function (feature) {
-                var geometry = feature.getGeometry();
+                const geometry = feature.getGeometry();
                 if (google.maps.geometry.poly.containsLocation(latLng, geometry)) {
                     isInsideRegion = true;
                     regionName = feature.getProperty('name');
@@ -521,11 +569,10 @@
 
         function placeMarkerAndPanTo(latLng, map, regionName) {
             placeMarker(latLng, map);
-           // alert('النقطة ضمن منطقة: ' + regionName);
         }
 
         function geocodeLatLng(latLng) {
-            geocoder.geocode({ 'location': latLng }, function (results, status) {
+            geocoder.geocode({ location: latLng }, function (results, status) {
                 if (status === 'OK') {
                     if (results[0]) {
                         document.getElementById('geocode_string').value = results[0].formatted_address;
@@ -538,6 +585,7 @@
             });
         }
     </script>
+
 
     <!-- كود تحديث عرض قيمة الشريط لحجم المطبخ -->
     <script>
@@ -628,8 +676,6 @@
             geocodeLatLng(place.geometry.location);
         });
     </script>
-
-
 
 
 

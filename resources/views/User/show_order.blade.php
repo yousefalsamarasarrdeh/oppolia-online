@@ -140,6 +140,21 @@
             color: red !important;
 
         }
+        .more_button{
+            color: var(--Gray-Text-Color, #444);
+
+            font-size: 16px;
+            margin-inline: 15px;
+            font-weight: 400;
+            line-height: normal;
+            text-decoration-line: underline;
+            text-decoration-style: solid;
+            text-decoration-skip-ink: auto;
+            text-decoration-thickness: auto;
+            text-underline-offset: 25%; /* 4px */
+            text-underline-position: from-font;
+
+        }
 
 
         @media (max-width: 767.98px) {
@@ -189,14 +204,16 @@
 
         <div class="row m-4">
             <div class="col-6 col-md-2 fw-bold mt-2 show_order_font1">حالة الطلب </div>
-            <div class="col-6 col-md-2 mt-2 show_order_font1">{{ __('order.order_statuses.' . $order->order_status) }}</div>
+            <div class="col-6 col-md-2 mt-2 show_order_font1 Dark_Green">{{ __('order.order_statuses.' . $order->order_status) }}</div>
 
             <div class="col-6 col-md-2 fw-bold mt-2 show_order_font1">تفاصيل الحالة</div>
-            <div class="col-6 col-md-2 mt-2 show_order_font1">
+            <div class="col-6 col-md-6 mt-2 show_order_font1">
+                <span class="Dark_Green">{{ __('order.processing_stages.' . $order->processing_stage) }} </span>
                 <!-- زر فتح المودال -->
-                <button type="button" class="btn button_Green" data-bs-toggle="modal" data-bs-target="#stageModal">
-                    {{ __('order.processing_stages.' . $order->processing_stage) }}
-                </button>
+                <a  type=button class="Dark_Green" data-bs-toggle="modal" data-bs-target="#stageModal">
+
+                    <span class="more_button">المزيد</span>
+                </a>
             </div>
         </div>
 
@@ -233,7 +250,7 @@
                                 <div class="col-6 col-md-2 mt-2 show_order_font1">{{ $order->time_range }}</div>
 
                                 <div class="col-6 col-md-2 fw-bold mt-2 show_order_font1">حالة الطلب:</div>
-                                <div class="col-6 col-md-2 mt-2 show_order_font1">{{ $order->order_status }}</div>
+                                <div class="col-6 col-md-2 mt-2 show_order_font1">{{ __('order.order_statuses.' . $order->order_status) }}</div>
 
                             </div>
                         </div>

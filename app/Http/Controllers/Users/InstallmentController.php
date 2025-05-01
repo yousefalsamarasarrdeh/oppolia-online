@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Installment;
 use App\Notifications\PaymentReceiptUploaded;
+use App\Notifications\UploadPaymentReceipt;
 
 class InstallmentController extends Controller
 {
@@ -28,23 +29,19 @@ class InstallmentController extends Controller
             return response()->json(['error' => 'غير مصرح لك بتعديل هذا القسط'], 403);
         }
 
+        // إرسال إشعار إلى المستخدم
+        $order->user->notify(new UploadPaymentReceipt($installment,$order));
 
-     /*
-        if ($order->processing_stage === 'تم إرسال التصميم النهائي مع العقد وتفاصيل الدفعة الأولى') {
-            $order->processing_stage = 'تم الاطلاع على تفاصيل الدفعة الأولى من قبل الزبون';
-            $order->save();
-        }
-        if ($order->processing_stage === 'تم تسديد الدفعة الأولى وإرسال تفاصيل الدفعة الثانية') {
-            $order->processing_stage = 'تم الاطلاع على تفاصيل الدفعة الثانية من قبل الزبون';
-            $order->save();
-        }
-        if ($order->processing_stage === 'تم استلام الدفعة الثانية وإرسال تفاصيل الدفعة الثالثة') {
-            $order->processing_stage = 'تم الاطلاع على تفاصيل الدفعة الثالثة من قبل الزبون';
-            $order->save();
-        }
-     */
-
-
+        // إرسال رسالة نصية
+        /*
+        Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+            'api_key' => env('SMS_API_KEY'),
+            'username' => env('SMS_USERNAME'),
+            'message' => "يرجى  إرسال إيصال الدفع للدفعة رقم {$installment->installment_number}.",
+            'sender' => env('SMS_SENDER'),
+            'numbers' => $order->user->phone,
+        ]);
+        */
 
         // تحديث حالة القسط إلى "awaiting_customer_payment"
         $installment->status = 'awaiting_customer_payment';

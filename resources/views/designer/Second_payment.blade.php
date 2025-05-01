@@ -75,7 +75,43 @@
                     <p>تم تحميل إيصال الدفع. انظر الإيصال أدناه:</p>
                     <!-- Display the payment receipt if available -->
 
-                        <img src="{{ asset('storage/' . $installments->first()->payment_receipt) }}" alt="Payment Receipt" style="max-width: 100%;">
+                @if($installments->first()->payment_receipt)
+                    @php
+                        $extension = pathinfo($installments->first()->payment_receipt, PATHINFO_EXTENSION);
+                    @endphp
+
+                    @if(in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+                        <!-- عرض الصورة -->
+                            <div class="mb-4">
+                                <img src="{{ asset('storage/' . $installments->first()->payment_receipt) }}"
+                                     alt="إيصال الدفع"
+                                     class="img-fluid border rounded"
+                                     style="max-width: 100%; max-height: 500px;">
+                            </div>
+                    @elseif(strtolower($extension) === 'pdf')
+                        <!-- عرض PDF باستخدام iframe -->
+                            <div class="mb-4 border rounded" style="height: 500px;">
+                                <iframe src="{{ asset('storage/' . $installments->first()->payment_receipt) }}#toolbar=0"
+                                        width="100%"
+                                        height="100%"
+                                        style="border: none;">
+                                    المتصفح الخاص بك لا يدعم عرض PDF.
+                                    <a href="{{ asset('storage/' . $installments->first()->payment_receipt) }}" download>
+                                        اضغط هنا لتنزيل الملف
+                                    </a>
+                                </iframe>
+                            </div>
+                    @else
+                        <!-- عرض رابط التنزيل للملفات الأخرى -->
+                            <div class="alert alert-info">
+                                <a href="{{ asset('storage/' . $installments->first()->payment_receipt) }}" download class="btn btn-primary">
+                                    <i class="fas fa-download"></i> تنزيل الملف
+                                </a>
+                            </div>
+                        @endif
+                    @else
+                        <div class="alert alert-warning">لا يوجد إيصال مرفق</div>
+                    @endif
                     <div class="row m-2">
                         <div class="col-md-6">
                             <!-- Button trigger modal -->

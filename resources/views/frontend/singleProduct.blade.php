@@ -13,7 +13,9 @@
                     {{ $product->name }}
                 @endif
             </h1>
-            <a href="{{ url()->previous() }}" class="back-arrow">&#8592;</a>
+            <a href="{{ url('/products') }}" class="black-color">
+                <i class="fas  me-2 "></i> رجوع ⬅
+            </a>
         </div>
     </div>
 

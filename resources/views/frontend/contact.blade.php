@@ -16,7 +16,7 @@
     <div class="container-fluid about-section p-0 position-relative">
         <!-- Banner Image (Full Width) -->
         <div class="col-12 p-0">
-            <img src="{{ asset('Frontend/assets/images/banners/Contact-Banner.png') }}" alt="Contact Us Banner" class="img-fluid about-image">
+            <img src="{{ asset('Frontend/assets/images/banners/contact-banner.png') }}" alt="Contact Us Banner" class="img-fluid about-image">
         </div>
 
         <!-- Centered Text Overlay -->

@@ -32,11 +32,20 @@
                     </div>
 
                     <!-- سؤال هل تم بدء التصنيع؟ -->
-                    <div class="form-group mb-3">
-                        <label>هل تم بدء التصنيع؟</label>
-                        <div class="form-check">
-                            <input type="checkbox" id="manufacturing_started" name="manufacturing_started" class="form-check-input" value="yes">
-                            <label class="form-check-label" for="manufacturing_started">نعم، تم</label>
+                    <div class="col-12">
+                        <!-- هل تم بدء التصنيع؟ -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold mb-3">هل تم بدء التصنيع؟</label>
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="card p-2 border">
+                                        <div class="form-check d-flex align-items-center gap-2 m-0 p-2">
+                                            <input type="checkbox" class="form-check-input m-0" id="manufacturing_started" name="manufacturing_started" value="yes">
+                                            <label class="form-check-label fw-medium m-0" for="manufacturing_started">نعم، تم</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

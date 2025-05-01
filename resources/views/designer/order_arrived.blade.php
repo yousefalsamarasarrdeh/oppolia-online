@@ -37,11 +37,20 @@
                     </div>
 
                     <!-- سؤال هل وصل الطلب؟ -->
-                    <div class="form-group mb-3">
-                        <label>هل تم وصول الطلب؟</label>
-                        <div class="form-check">
-                            <input type="checkbox" id="order_arrived" name="order_arrived" class="form-check-input" value="yes">
-                            <label class="form-check-label" for="order_arrived">نعم، تم الوصول</label>
+                    <div class="col-12">
+                        <!-- هل تم وصول الطلب؟ -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold mb-3">هل تم وصول الطلب؟</label>
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="card p-2 border">
+                                        <div class="form-check d-flex align-items-center gap-2 m-0 p-2">
+                                            <input type="checkbox" class="form-check-input m-0" id="order_arrived" name="order_arrived" value="yes">
+                                            <label class="form-check-label fw-medium m-0" for="order_arrived">نعم، تم الوصول</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

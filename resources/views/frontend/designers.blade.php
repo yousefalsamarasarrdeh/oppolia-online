@@ -1,147 +1,194 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
 @section('title')مصممي اوبوليا @endsection
+@section('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+@endsection
 @section('content')
 
-<div class="container p-4" >
-<div class="row row-cols-1 row-cols-md-3 g-4 m-3">
-
-@foreach($designer as $designer)
-<div class="col">
-            <div class="designer-card p-4"
-                 data-bs-toggle="modal"
-                 data-bs-target="#designerModal"
-                 data-name="{{ $designer->user->name }}"
-                 data-image="{{ asset($designer->profile_image ? 'storage/' . $designer->profile_image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
-                 data-bio="{{ $designer->description_ar }}"
-                 data-experience="{{ $designer->experience_years }}"
-                 data-rating="{{ $designer->rating }}"
-                 data-portfolio="{{ $designer->portfolio_images }}">
-                <img src="{{asset($designer->profile_image ? 'storage/' . $designer->profile_image : 'storage/profile_images/ProfilePlaceholder.jpg') }}" class="img-fluid rounded-4" alt="Designer Profile Picture">
-                <div class="designer-info mt-3">
-                    <h5>{{ $designer->user->name }}</h5>
-                </div>
-            </div>
-</div>
-        @endforeach
-    </div>
-</div>
-
-<!-- Designer Info Modal -->
-<div class="modal fade" id="designerModal" tabindex="-1" aria-labelledby="designerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="align-items: center;">
-            <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close" style="padding: 15px;"></button>
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="designerName"></h5>
-            </div>
-            <div class="modal-body text-center">
-                <img id="designerImage" src="" class="img-fluid rounded mb-3" style="max-width: 200px;">
-                <p id="designerBio" class="mt-2"></p>
-
-                <!-- Portfolio Images -->
-
-                <!-- Portfolio Images Carousel -->
-                <div id="portfolioContainerWrapper">
-                    <div id="portfolioContainer" class="owl-carousel owl-theme p-3" style="text-align: -webkit-center"></div>
-                </div>
-
-                <p><strong>الخبرة:</strong> <span id="designerExperience"></span> سنوات</p>
-                <p><strong>التقييم:</strong> ⭐ <span id="designerRating"></span></p>
+    <div class="container-fluid about-section position-relative">
+        <!-- Banner Image (Full Width) -->
+        <div class="row">
+            <div class="col-12 p-0">
+                <img src="{{ asset('Frontend/assets/images/banners/designer.png') }}" alt="About Us Banner" class="img-fluid about-image">
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Portfolio Image Full View Modal -->
-<div class="modal fade" id="portfolioModal" tabindex="-1" aria-labelledby="portfolioModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">عرض الصورة</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="portfolioImage" src="" class="img-fluid rounded">
-            </div>
+        <!-- Centered Text Overlay -->
+        <div class="about-text-overlay">
+            <h1 class="about-text">مصممي أوبوليا</h1>
         </div>
     </div>
-</div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
+        @forelse($designer as $designer)
+            @php
+                $avgRating = $designer->ratings->avg('rating'); // نأخذ المعدل بدقة
+                $ratingCount = $designer->ratings->count();
+            @endphp
+            <div class="col d-flex align-items-stretch">
+                <div class="card p-4 text-center h-100 d-flex flex-column w-100 shadow-sm" data-bs-toggle="modal" data-bs-target="#designerModal{{ $designer->id }}" style="cursor: pointer;">
+                    <img src="{{ asset($designer->profile_image ? 'storage/' . $designer->profile_image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
+                         class="card-img-top img-fluid rounded-4 mb-3"
+                         alt="Designer Image" style="object-fit: cover; height: 277px;">
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title mb-2">
+                            @if(App::getLocale() == 'ar')
+                                {{ $designer->user->name ?? 'مصمم' }}
+                            @else
+                                {{ $designer->user->name ?? 'Designer' }}
+                            @endif
+                        </h5>
+
+                        <!-- عرض التقييم داخل الكارد -->
+                        <div class="mb-2">
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= floor($avgRating))
+                                    <i class="fas fa-star text-warning"></i>
+                                @elseif($i - $avgRating < 1)
+                                    <i class="fas fa-star-half-alt text-warning"></i> <!-- نصف نجمة -->
+                                @else
+                                    <i class="far fa-star text-muted"></i>
+                                @endif
+                            @endfor
+                            <small class="text-muted d-block">
+                                {{ number_format($avgRating, 1) }} من 5 ({{ $ratingCount }} تقييم{{ $ratingCount == 1 ? '' : 'ات' }})
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal لكل مصمم -->
+
+            <div class="modal fade" id="designerModal{{ $designer->id }}" tabindex="-1" aria-labelledby="designerModalLabel{{ $designer->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+
+                    <div class="modal-content rounded-4 p-4">
 
 
-<script>
-   document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".designer-card").forEach(card => {
-        card.addEventListener("click", function () {
-            // Get designer data attributes
-            let name = this.getAttribute("data-name") || "غير معروف";
-            let image = this.getAttribute("data-image") || "/ProfilePlaceholder.jpg";
-            let bio = this.getAttribute("data-bio") || "لا يوجد وصف متاح";
-            let experience = this.getAttribute("data-experience") || "غير معروف";
-            let rating = this.getAttribute("data-rating") || "غير متاح";
-            let portfolioJson = this.getAttribute("data-portfolio");
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
 
-            console.log("Clicked Designer:", { name, image, bio, experience, rating, portfolioJson });
+                        <div class="modal-body d-flex flex-column flex-md-row align-items-center">
 
-            // Update designer modal with data
-            document.getElementById("designerName").innerText = name;
-            document.getElementById("designerImage").src = image;
-            document.getElementById("designerBio").innerText = bio;
-            document.getElementById("designerExperience").innerText = experience;
-            document.getElementById("designerRating").innerText = rating;
 
-            // Handle portfolio images dynamically
-            let portfolioContainer = $("#portfolioContainer");
+                            <!-- صورة المصمم -->
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <img src="{{ asset($designer->profile_image ? 'storage/' . $designer->profile_image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
+                                     class="img-fluid "
+                                     alt="Designer Image" style="width: 150px; height: 150px; object-fit: cover;   border-radius: 10px;">
+                            </div>
 
-            // **Destroy Owl Carousel if already initialized**
-            if (portfolioContainer.hasClass("owl-loaded")) {
-                portfolioContainer.trigger("destroy.owl.carousel").removeClass("owl-loaded");
-            }
+                            <!-- معلومات المصمم -->
+                            <div class="col-md-8 {{ App::getLocale() == 'ar' ? 'text-end' : 'text-start' }}" style="direction: {{ App::getLocale() == 'ar' ? 'rtl' : 'ltr' }}; text-align: {{ App::getLocale() == 'ar' ? 'right' : 'left' }}; ">
+                                <h4>
+                                    @if(App::getLocale() == 'ar')
+                                        {{ $designer->user->name ?? 'مصمم' }}
+                                    @else
+                                        {{ $designer->user->name ?? 'Designer' }}
+                                    @endif
+                                </h4>
+                                <p class="text-muted mb-1">
+                                    @if(App::getLocale() == 'ar')
+                                        الخبرة: {{ $designer->experience_years }} سنوات
+                                    @else
+                                        {{ $designer->experience_years }} years of experience
+                                    @endif
+                                </p>
 
-            portfolioContainer.empty(); // Clear old images
+                                <!-- نجوم التقييم -->
+                                <div class="mb-3">
+                                    @php
+                                        $avgRating = $designer->ratings->avg('rating') ?? 0;
+                                        $ratingCount = $designer->ratings->count() ?? 0;
+                                    @endphp
 
-            if (portfolioJson) {
-                let portfolioImages = [];
-                try {
-                    portfolioImages = JSON.parse(portfolioJson);
-                } catch (error) {
-                    console.error("Error parsing portfolio JSON:", error);
-                    return;
-                }
+                                    @for($i = 1; $i <= 5; $i++)
+                                        @if($i <= floor($avgRating))
+                                            <i class="fas fa-star text-warning"></i>
+                                        @elseif($i - $avgRating < 1)
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        @else
+                                            <i class="far fa-star text-muted"></i>
+                                        @endif
+                                    @endfor
+                                    <small class="text-muted">
+                                        @if(App::getLocale() == 'ar')
+                                            ({{ number_format($avgRating, 1) }} / {{ $ratingCount }} تقييمات)
+                                        @else
+                                            ({{ number_format($avgRating, 1) }} / {{ $ratingCount }} ratings)
+                                        @endif
+                                    </small>
+                                </div>
 
-                // Append new images to the carousel
-                portfolioImages.forEach(imagePath => {
-                    let itemDiv = `<div class="item">
-                        <img src="/storage/${imagePath}" class="img-fluid rounded" style="width: 150px; cursor: pointer;" onclick="showPortfolioImage('/storage/${imagePath}')">
-                    </div>`;
-                    portfolioContainer.append($(itemDiv));
-                });
+                                <!-- الوصف Description -->
+                                <p class="{{ App::getLocale() == 'ar' ? 'text-right' : 'text-left' }}">
+                                    @if(App::getLocale() == 'ar')
+                                        {{ $designer->description_ar ?? 'لا يوجد وصف متوفر' }}
+                                    @else
+                                        {{ $designer->description ?? 'No description available' }}
+                                    @endif
+                                </p>
+                            </div>
 
-                // **Reinitialize Owl Carousel**
-                portfolioContainer.owlCarousel({
-                    loop: false,
-                    margin: 10,
-                    nav: true,
-                    dots: false,
-                    responsive: {
-                        0: { items: 1 },
-                        600: { items: 2 },
-                        1000: { items: 3 }
-                    }
-                });
-            }
+                        </div>
 
-            // Open the designer modal
-            $("#designerModal").modal("show");
-        });
-    });
-});
+                        <!-- سلايدر صور البورتفوليو -->
+                        @if ($designer->portfolio_images)
+                            @php
+                                $portfolioImages = json_decode($designer->portfolio_images);
+                            @endphp
 
-// Function to show the full image in the portfolio modal
-function showPortfolioImage(imageSrc) {
-    $("#portfolioImage").attr("src", imageSrc);
-    $("#portfolioModal").modal("show");
-}
-</script>
+                            @if(count($portfolioImages) > 0)
+                                <div id="portfolioCarousel{{ $designer->id }}" class="carousel slide mt-4" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @foreach($portfolioImages as $key => $image)
+                                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                <img src="{{ asset('storage/' . $image) }}" class="d-block w-100 rounded-4" alt="Portfolio Image" style="height: 300px; object-fit: cover;">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel{{ $designer->id }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel{{ $designer->id }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            @else
+                                <p class="text-center text-muted py-3">
+                                    @if(App::getLocale() == 'ar')
+                                        لا توجد صور بورتفوليو متاحة
+                                    @else
+                                        No portfolio images available
+                                    @endif
+                                </p>
+                            @endif
+                        @else
+                            <p class="text-center text-muted py-3">
+                                @if(App::getLocale() == 'ar')
+                                    لا توجد صور بورتفوليو متاحة
+                                @else
+                                    No portfolio images available
+                                @endif
+                            </p>
+                        @endif
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        @empty
+            <div class="col-12 text-center">
+                <p>لا يوجد مصممين متاحين حالياً.</p>
+            </div>
+        @endforelse
+    </div>
+
 
 @endsection

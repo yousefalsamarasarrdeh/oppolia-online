@@ -73,7 +73,7 @@
                 <div class="col-lg-12 col-md-12 mb-3">
                     <div class="form-group">
                         <label for="discount_percentage">النسبة المئوية للخصم</label>
-                        <input type="text" id="discount_percentage" class="form-control" readonly>
+                        <input type="text" id="discount_percentage" class="form-control" >
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@
                 <div class="col-lg-6 col-md-6 mb-3">
                     <div class="form-group">
                         <label for="percentage">النسبة المئوية للدفعة الاولى</label>
-                        <input type="text" id="percentage" class="form-control" readonly>
+                        <input type="text" id="percentage" class="form-control" >
                     </div>
                 </div>
 
@@ -149,6 +149,10 @@
             const priceAfterDiscountInput = document.getElementById('price_after_discount');
             const discountPercentageInput = document.getElementById('discount_percentage');
 
+            const installmentAmountInput = document.getElementById('installment_amount');
+            const percentageInput = document.getElementById('percentage');
+
+            // حساب نسبة الخصم تلقائياً بناء على السعر والسعر بعد الخصم
             function calculateDiscountPercentage() {
                 const price = parseFloat(priceInput.value) || 0;
                 const priceAfterDiscount = parseFloat(priceAfterDiscountInput.value) || 0;
@@ -161,40 +165,40 @@
                 }
             }
 
-            // إضافة أحداث لتحديث النسبة عند إدخال القيم
-            priceInput.addEventListener('input', calculateDiscountPercentage);
-            priceAfterDiscountInput.addEventListener('input', calculateDiscountPercentage);
-        });
-    </script>
+            // إذا غيّر المستخدم نسبة الخصم يدويًا، نحدث السعر بعد الخصم
+            function updatePriceAfterDiscount() {
+                const price = parseFloat(priceInput.value) || 0;
+                const discountText = discountPercentageInput.value.replace('%', '').trim();
+                const discount = parseFloat(discountText) || 0;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const priceAfterDiscountInput = document.getElementById('price_after_discount');
-            const installmentAmountInput = document.getElementById('installment_amount');
-            const percentageInput = document.getElementById('percentage');
+                if (price > 0 && discount >= 0) {
+                    const discountedPrice = price - (price * discount / 100);
+                    priceAfterDiscountInput.value = discountedPrice.toFixed(2);
+                    calculateInstallment(); // تحديث القسط بناءً على السعر الجديد
+                }
+            }
 
+            // حساب الدفعة الأولى بناءً على السعر بعد الخصم
             function calculateInstallment() {
                 const priceAfterDiscount = parseFloat(priceAfterDiscountInput.value) || 0;
 
                 if (priceAfterDiscount > 0) {
-                    // احتساب مبلغ القسط الافتراضي (30% من السعر بعد الخصم)
                     const defaultInstallment = (priceAfterDiscount * 30) / 100;
-                    installmentAmountInput.value = defaultInstallment.toFixed(2); // تحديث الحقل بالقيمة الافتراضية
-                    calculateInstallmentPercentage(); // تحديث النسبة المئوية
+                    installmentAmountInput.value = defaultInstallment.toFixed(2);
+                    calculateInstallmentPercentage();
                 } else {
-                    installmentAmountInput.value = ''; // إعادة تعيين الحقل إذا لم يتم إدخال السعر
+                    installmentAmountInput.value = '';
                     percentageInput.value = '0 %';
                 }
             }
 
+            // حساب النسبة المئوية للقسط
             function calculateInstallmentPercentage() {
                 const priceAfterDiscount = parseFloat(priceAfterDiscountInput.value) || 0;
                 const installmentAmount = parseFloat(installmentAmountInput.value) || 0;
 
                 if (priceAfterDiscount > 0 && installmentAmount > 0) {
                     const percentage = (installmentAmount / priceAfterDiscount) * 100;
-
-                    // التأكد من أن النسبة لا تتجاوز 50%
                     if (percentage > 50) {
                         alert('مبلغ القسط لا يمكن أن يتجاوز 50% من السعر بعد الخصم.');
                         installmentAmountInput.value = '';
@@ -207,11 +211,35 @@
                 }
             }
 
-            // تحديث مبلغ القسط الافتراضي عند إدخال السعر بعد الخصم
-            priceAfterDiscountInput.addEventListener('input', calculateInstallment);
+            // إذا عدل المستخدم "نسبة القسط"، نحسب مبلغ القسط تلقائياً
+            function updateInstallmentAmount() {
+                const priceAfterDiscount = parseFloat(priceAfterDiscountInput.value) || 0;
+                const percentText = percentageInput.value.replace('%', '').trim();
+                const percent = parseFloat(percentText) || 0;
 
-            // تحديث النسبة المئوية عند تعديل مبلغ القسط يدويًا
+                if (priceAfterDiscount > 0 && percent >= 0) {
+                    const amount = (priceAfterDiscount * percent) / 100;
+                    if (percent > 50) {
+                        alert('النسبة لا يمكن أن تتجاوز 50% من السعر بعد الخصم.');
+                        percentageInput.value = '';
+                        installmentAmountInput.value = '';
+                    } else {
+                        installmentAmountInput.value = amount.toFixed(2);
+                    }
+                }
+            }
+
+            // الأحداث
+            priceInput.addEventListener('input', calculateDiscountPercentage);
+            priceAfterDiscountInput.addEventListener('input', () => {
+                calculateDiscountPercentage();
+                calculateInstallment(); // لما يتغير السعر بعد الخصم، نحدث القسط
+            });
+
+            discountPercentageInput.addEventListener('input', updatePriceAfterDiscount);
+
             installmentAmountInput.addEventListener('input', calculateInstallmentPercentage);
+            percentageInput.addEventListener('input', updateInstallmentAmount);
         });
     </script>
 

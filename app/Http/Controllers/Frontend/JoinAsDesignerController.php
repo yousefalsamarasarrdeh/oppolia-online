@@ -15,7 +15,16 @@ class JoinAsDesignerController extends Controller
     // عرض استمارة الانضمام
     public function create()
     {    $regions = SubRegion::all();
-        return view('frontend.joinasdesigner', compact('regions'));
+
+         $notifications = null;
+
+
+
+
+        if (auth()->check()) {
+            $notifications = auth()->user()->notifications;
+        }
+        return view('frontend.joinasdesigner', compact('regions','notifications'));
     }
 
     // تخزين البيانات في قاعدة البيانات

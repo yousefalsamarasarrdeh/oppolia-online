@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     public function create()
-    {  $notifications= auth()->user()->unreadNotifications;
+    {  $notifications = auth()->user()->notifications;
         return view('User.order_create', compact( 'notifications'));
     }
 
@@ -113,7 +113,7 @@ class OrderController extends Controller
             }
 
             // إعادة التوجيه بعد نجاح الطلب
-            return redirect()->route('orders.create')->with('success', 'تم تقديم طلبك بنجاح وتم إرسال إشعار للمصممين في نفس المنطقة!');
+            return redirect()->route('orders.myOrders')->with('success', 'تم تقديم طلبك بنجاح وتم إرسال إشعار للمصممين في نفس المنطقة!');
 
         } catch (\Exception $e) {
             // التعامل مع الأخطاء
@@ -127,7 +127,7 @@ class OrderController extends Controller
         try {
             // Get the current authenticated user
             $user = Auth::user();
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
 
             // Get all orders for the current user, ordered by newest first
             $orders = Order::where('user_id', $user->id)
@@ -155,7 +155,7 @@ class OrderController extends Controller
             $notification->markAsRead();
         }
 
-        $notifications= auth()->user()->unreadNotifications;
+        $notifications = auth()->user()->notifications;
         if ($order->user_id !== auth()->id()) {
             return redirect('/')->with('error', 'You are not authorized to view this order.');
         }

@@ -22,7 +22,7 @@ class HomeController extends Controller
        $designer=Designer::all();
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('frontend.homepage', compact( 'notifications','designer'));
     }
@@ -30,7 +30,7 @@ class HomeController extends Controller
     {  $notifications = null;
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('frontend.about', compact( 'notifications'));
     }
@@ -39,7 +39,7 @@ class HomeController extends Controller
     {  $notifications = null;
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         $subRegions = SubRegion::all();
         return view('frontend.contact', compact( 'notifications','subRegions'));
@@ -54,7 +54,7 @@ class HomeController extends Controller
 
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('frontend.products', compact( 'notifications','products'));
     }
@@ -67,7 +67,7 @@ class HomeController extends Controller
 
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('frontend.singleProduct', compact( 'notifications','product'));
     }
@@ -79,7 +79,7 @@ class HomeController extends Controller
         $designer=Designer::all();
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('frontend.designers', compact( 'notifications','designer'));
     }
@@ -90,7 +90,7 @@ class HomeController extends Controller
         $designer=Designer::all();
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('frontend.privacypolicy', compact( 'notifications','designer'));
     }
@@ -131,7 +131,7 @@ class HomeController extends Controller
 
 
         if (auth()->check()) {
-            $notifications = auth()->user()->unreadNotifications;
+            $notifications = auth()->user()->notifications;
         }
         return view('frontend.categories', compact( 'notifications','categories'));
     }

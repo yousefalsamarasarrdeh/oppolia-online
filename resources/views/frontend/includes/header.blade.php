@@ -91,9 +91,9 @@
                                            data-bs-toggle="dropdown"
                                            aria-expanded="false"
                                            role="button">
-                        <span class="alert-count  rounded-pill">
-                            {{ $notifications->count() }}
-                        </span>
+                                          <span class="alert-count rounded-pill">
+                                                 {{ auth()->user()->unreadNotifications->count() }}
+                                          </span>
                                             <i class="bx bx-bell fs-5">
                                                 <span class="visually-hidden">Notifications</span>
                                             </i>

@@ -53,8 +53,20 @@
             text-align: center;
         }
     </style>
-    <div class="container mt-5" dir="rtl">
-        <h1 style="justify-self: center; color: #0A4740;">انضم كمصمم</h1>
+    <div class="container-fluid about-section position-relative">
+        <!-- Banner Image (Full Width) -->
+        <div class="row">
+            <div class="col-12 p-0">
+                <img src="{{ asset('Frontend/assets/images/banners/About-Banner.png') }}" alt="About Us Banner" class="img-fluid about-image">
+            </div>
+        </div>
+        <!-- Centered Text Overlay -->
+        <div class="about-text-overlay">
+            <h1 class="about-text">انضم كمصمم</h1>
+        </div>
+    </div>
+    <div class="container p-4" dir="rtl">
+
 
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>

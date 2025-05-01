@@ -67,6 +67,12 @@
         .table-hover tbody tr:hover {
             background-color: rgba(80, 159, 150, 0.1);
         }
+        a {
+            color: #509f96;
+        }
+        a:hover {
+            color: #509f96;
+        }
 
 
     </style>
@@ -95,18 +101,18 @@
 
     <div class="container" dir="rtl">
        <div class="row">
-         <h1 class="col-11"> تفاصيل الطلب</h1>
+         <h1 class="col-lg-10 col-sm-7 col-md-10 col-7"> تفاصيل الطلب</h1>
 
            @if($order->approved_designer_id == $designer->id)
 
 
                @if($order->processing_stage == 'اكتمل الطلب')
-                   <span class="col-1">
+                   <span class="col-lg-2 col-sm-5 col-md-2 col-5">
                                                 <img src="{{ asset('Dashboard\assets\images\completedFull.png') }}">
                                                 </span>
                @else
-                   <a class="col-1" href="{{ route('designer.order.processing', ['order' => $order->id]) }}">
-                       <img src="{{ asset('Dashboard\assets\images\Union.png') }}"></a>
+                   <a class="col-lg-2 col-sm-5 col-md-2 col-5" href="{{ route('designer.order.processing', ['order' => $order->id]) }}">
+                       <img src="{{ asset('Dashboard\assets\images\Union.png') }}"> معالجة</a>
                    </a>
                @endif
 

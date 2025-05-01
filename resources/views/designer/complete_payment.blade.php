@@ -68,8 +68,80 @@
                         $installmentThree = $installments->firstWhere('installment_number', 3);
                     @endphp
                     @if ($installmentThree && $installmentThree->payment_receipt)
-                        <img src="{{ asset('storage/' . $installmentThree->payment_receipt) }}" alt="Payment Receipt" style="max-width: 100%;">
+                        @php
+                            $filePath = 'storage/' . $installmentThree->payment_receipt;
+                            $extension = strtolower(pathinfo($installmentThree->payment_receipt, PATHINFO_EXTENSION));
+                            $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                            $isPDF = $extension === 'pdf';
+                        @endphp
+
+                        <div class="document-preview mb-4">
+                        @if($isImage)
+                            <!-- عرض الصورة مع تفاعلية التكبير -->
+                                <div class="image-preview-container text-center">
+                                    <img src="{{ asset($filePath) }}"
+                                         alt="إيصال الدفع"
+                                         class="preview-image img-thumbnail"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#receiptModal-{{ $installmentThree->id }}">
+                                    <p class="text-muted mt-2">انقر على الصورة للمعاينة الكاملة</p>
+
+                                    <!-- Modal للعرض الكامل -->
+                                    <div class="modal fade" id="receiptModal-{{ $installmentThree->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">إيصال الدفع</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <img src="{{ asset($filePath) }}" class="img-fluid" alt="إيصال الدفع">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="{{ asset($filePath) }}" download class="btn btn-primary">
+                                                        <i class="fas fa-download"></i> تنزيل الصورة
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        @elseif($isPDF)
+                            <!-- عرض PDF مع خيارات متقدمة -->
+                                <div class="pdf-preview-container">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5><i class="fas fa-file-pdf text-danger"></i> مستند PDF</h5>
+
+                                    </div>
+                                    <div class="ratio ratio-16x9">
+                                        <iframe src="{{ asset($filePath) }}#toolbar=0&navpanes=0"
+                                                class="border rounded"
+                                                allowfullscreen>
+                                            المتصفح الخاص بك لا يدعم معاينة PDF.
+                                        </iframe>
+                                    </div>
+                                </div>
+                        @else
+                            <!-- عرض ملفات أخرى -->
+                                <div class="file-download-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="fas fa-file-alt fa-2x text-secondary"></i>
+                                                    <span class="ms-2">ملف مرفق (.{{ $extension }})</span>
+                                                </div>
+                                                <a href="{{ asset($filePath) }}" download class="btn btn-primary">
+                                                    <i class="fas fa-download"></i> تنزيل الملف
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     @endif
+
                     <div class="row m-2">
                         <div class="col-md-6">
                             <!-- Button trigger modal -->

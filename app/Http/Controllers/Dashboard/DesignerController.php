@@ -59,7 +59,7 @@ class DesignerController extends Controller
                 'profile_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
                 'experience_years' => 'required|integer|min:0',
                 'description' => 'nullable|string',
-                'description_ar' => 'nullable|string|regex:/^[\p{Arabic}0-9\s]+$/u', // التحقق من صحة الحقل للتأكد من الأحرف العربية والأرقام فقط
+                'description_ar' => 'nullable|string', // التحقق من صحة الحقل للتأكد من الأحرف العربية والأرقام فقط
                 'portfolio_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // تحقق من صحة كل صورة
             ]);
 
