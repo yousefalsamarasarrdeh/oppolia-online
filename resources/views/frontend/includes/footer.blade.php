@@ -10,7 +10,7 @@
 
                     </div>
                     <div class="mt-5">
-                        <p class="myfont_5">نفتخر في اوبوليا اونلاين بتقديمنا لأفضل وأجود أنواع المطابخ</p>
+                        <p class="myfont_5">@lang('footer.We at Opolia Online take pride in offering the best and highest-quality types of kitchens.')</p>
                     </div>
                     <div class="mt-5">
 
@@ -36,11 +36,15 @@
                 </div>
                 <div class=" col-md-2 col-sm-12 col-xl-2 col-lg-2">
                     <div class="footer-section2">
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('welcome') }}">الصفحة الرئيسية</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('welcome') }}">@lang('footer.Home')</a></div>
 
-                        <div class="mt-3 "> <a class="myfont_5 hover-underline" href="{{route('home.about') }}">عن اوبوليا</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{route('home.products') }}">المنتجات</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/orders/create">اطلب الان</a></div>
+                        <div class="mt-3 "> <a class="myfont_5 hover-underline" href="{{route('home.about') }}">@lang('footer.About')</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{route('home.products') }}">@lang('footer.Product')</a></div>
+                        <div class="mt-3 "> @auth<a class="myfont_5 hover-underline" href="{{ route('orders.create') }}">@lang('footer.Order now.')</a>@endauth
+                            @guest
+                                <a class="myfont_5 hover-underline" href="{{ route('orders.create') }} " data-bs-target="#phoneModal">@lang('footer.Order now.')</a>
+                            @endguest
+                        </div>
 
 
 
@@ -48,18 +52,18 @@
                 </div>
                 <div class=" col-md-2 col-sm-12 col-xl-2 col-lg-2">
                     <div class="footer-section3">
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{  route('category.products', 26)}}" style=" white-space: nowrap;">مطابخ نيو كلاسيك</a></div>
-                        <div class="mt-3 "> <a class="myfont_5 hover-underline" href="{{ route('category.products' , 27) }}" style=" white-space: nowrap;">مطابخ حديثة</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('category.products' , 29)}}" style=" white-space: nowrap;">مطابخ على شكل حرف L</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('category.products', 30)}}" style=" white-space: nowrap;">مطابخ على شكل حرف  U</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{  route('category.products', 26)}}" style=" white-space: nowrap;">@lang('footer.New Classic Kitchens')</a></div>
+                        <div class="mt-3 "> <a class="myfont_5 hover-underline" href="{{ route('category.products' , 27) }}" style=" white-space: nowrap;">@lang('footer.Modern Kitchens')</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('category.products' , 29)}}" style=" white-space: nowrap;">@lang('footer.L-Shaped Kitchens')</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('category.products', 30)}}" style=" white-space: nowrap;">@lang('footer.U-Shaped Kitchens')</a></div>
                     </div>
                 </div>
                 <div class=" col-md-2 col-sm-12 col-xl-2 col-lg-2">
                     <div class="footer-section3">
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{route('home.designers') }}">مصممي اوبوليا</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('home.contact') }}">تواصل معنا</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/joinasdesigner">انضم كمصمم</a></div>
-                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/privacypolicy">سياسة الخصوصية</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{route('home.designers') }}">@lang('footer.Designers')</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="{{ route('home.contact') }}">@lang('footer.Contact')</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/joinasdesigner">@lang('footer.Join as designer')</a></div>
+                        <div class="mt-3 "><a class="myfont_5 hover-underline" href="/privacypolicy">@lang('footer.Privacy Policy')</a></div>
 
                     </div>
                 </div>

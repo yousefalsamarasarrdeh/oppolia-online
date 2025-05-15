@@ -26,9 +26,15 @@ return [
     'Join as designer'=>'انضم كمصمم',
     'My Orders'=>'طلباتي',
     'dashboard'=>'لوحة التحكم',
-    'Edit Profile'=>'تعديل الملف الشخصي',
-    'Logout'=>' تسجيل الخروج',
-    'Order Your Kitchen'=>'!اطلب مطبخك'
+
+    'We at Opolia Online take pride in offering the best and highest-quality types of kitchens.'=>'نفتخر في اوبوليا اونلاين بتقديمنا لأفضل وأجود أنواع المطابخ',
+    'Order now.'=>'اطلب الان',
+    'New Classic Kitchens'=>'مطابخ نيو كلاسيك',
+    'Modern Kitchens'=>'    مطابخ حديثة',
+    'L-Shaped Kitchens'=>'   مطابخ على شكل حرف L',
+    'U-Shaped Kitchens'=>'   مطابخ على شكل حرف U',
+    'Privacy Policy'=>'سياسة الخصوصية',
+
 
 
 ];

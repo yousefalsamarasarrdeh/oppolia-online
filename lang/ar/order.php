@@ -39,6 +39,156 @@ return [
             'تم بدء التركيب' => 'تم بدء التركيب',
             'اكتمل الطلب' => 'اكتمل الطلب',
             'change_designer' => 'تغيير المصمم'
-        ]
+        ],
+    'title' => 'طلباتي',
+    'order_number' => 'رقم الطلب',
+    'order_status' => 'حالة الطلب',
+    'time_range' => 'المدى الزمني',
+    'expected_cost' => 'التكلفة المتوقعة',
+    'date' => 'التاريخ',
+    'view_order' => 'عرض الطلب',
+    'no_orders' => 'لا توجد طلبات حتى الآن.',
+    'details' => 'عرض التفاصيل',
+    'status_sent' => 'تم إرسال الطلب',
+    'status_approved' => 'تم الموافقة على الطلب',
+    'time_ranges' => [
+        'شهر' => 'شهر',
+        'شهرين' => 'شهرين',
+        'ثلاثة أشهر' => 'ثلاثة أشهر',
+        'أربعة أشهر' => 'أربعة أشهر',
+        'خمسة أشهر' => 'خمسة أشهر',
+        'ستة أشهر' => 'ستة أشهر',
+    ],
+    'details_title' => 'تفاصيل الطلب',
+    'back' => 'رجوع ⬅',
+
+    'status_details' => 'تفاصيل الحالة',
+    'more' => 'المزيد',
+    'order_info' => 'معلومات الطلب',
+
+    'kitchen_area' => 'مساحة المطبخ',
+    'square_meter' => 'متر مربع',
+    'kitchen_shape' => 'شكل المطبخ',
+    'kitchen_style' => 'ستايل المطبخ',
+
+    'design' => 'التصميم',
+    'price' => 'السعر',
+    'view_pdf' => 'عرض PDF',
+    'actions' => 'إجراءات',
+    'accept_design' => 'قبول التصميم',
+    'redesign' => 'إعادة التصميم',
+    'change_designer' => 'تغيير المصمم',
+    'accept_design_confirm' => 'هل أنت متأكد أنك تريد قبول التصميم لهذا المسودة؟',
+    'sales_details' => 'تفاصيل المبيعات',
+    'total_cost' => 'التكلفة الإجمالية',
+    'discounted_price' => 'السعر بعد الخصم',
+    'discount' => 'نسبة الخصم',
+    'amount_paid' => 'المبلغ المدفوع',
+    'status' => 'الحالة',
+    'installments_details' => 'تفاصيل الدفعات',
+    'amount' => 'المبلغ',
+    'percentage' => 'النسبة',
+    'due_date' => 'تاريخ الاستحقاق',
+    'actions_column' => 'الإجراءات',
+    'designer_rating' => 'تقييم المصمم',
+    'your_rating' => 'تقييمك:',
+    'your_review' => 'تعليقك:',
+    'edit_rating' => 'تعديل التقييم',
+    'send_rating' => 'إرسال التقييم',
+    'buy' => 'شراء',
+    'upload_receipt' => 'رفع الإشعار',
+    'terms_and_conditions' => 'شروط وأحكام الشراء',
+    'agree_terms' => 'أوافق على الشروط والأحكام',
+    'confirm_purchase' => 'تأكيد الشراء',
+    'payment_details' => 'تفاصيل الدفع',
+    'bank_name' => 'اسم البنك',
+    'account_number' => 'رقم الحساب',
+    'iban' => 'رقم الآيبان',
+    'address' => 'العنوان',
+    'current_status' => 'الحالة الحالية',
+    'saudi_riyals' => 'ريال',
+
+    'kitchen_shapes' => [
+        'مستقيم' => 'مستقيم',
+        'متوازي' => 'متوازي',
+        'مطبخ له شكل حرف L' => 'مطبخ له شكل حرف L',
+        'مطبخ له شكل حرف U' => 'مطبخ له شكل حرف U',
+    ],
+
+
+
+    'kitchen_styles' => [
+        'مريح' => 'مريح',
+        'أنيق' => 'أنيق',
+        'كلاسيكي' => 'كلاسيكي',
+        'عصري' => 'عصري',
+    ],
+    'Cancel'=>'إلغاء',
+
+    'No images'=>'لا توحد صور',
+    'redesign_request_confirmation' => 'هل ترغب في طلب إعادة التصميم لهذه المسودة؟',
+    'change_designer_confirmation' => 'هل أنت متأكد أنك تريد تغيير المصمم ؟',
+    'installment_statuses' => [
+        'pending' => 'قيد الانتظار',
+        'awaiting_customer_payment' => 'بانتظار إشعار العميل',
+        'receipt_uploaded' => 'تم رفع الإشعار',
+        'paid' => 'مدفوع',
+        'overdue' => 'متأخر',
+        'completed' => 'مكتمل',
+    ],
+
+
+    'terms_notice' => 'لإتمام عملية الشراء، يجب قراءة الشروط والأحكام والموافقة عليها.',
+    'view_terms' => 'عرض الشروط والأحكام',
+
+
+    'payment_notice' => 'الرجاء استخدام التفاصيل التالية لإتمام عملية الدفع:',
+    'Al Rajhi Bank'=>'مصرف الراجحي',
+    'Riyadh, Kingdom of Saudi Arabia'=>'الرياض، المملكة العربية السعودية',
+    'upload_receipt_title' => 'رفع إشعار الدفع للدفعة رقم :',
+    'choose_receipt_file' => 'اختر ملف الإشعار:',
+
+
+    'rating' => 'التقييم',
+    'review' => 'التعليق',
+    'close' => 'إغلاق',
+    'save_changes' => 'حفظ التعديلات',
+    'processing_stages_title' => 'مراحل المعالجة للطلب رقم #:id',
+    'current_status_label' => 'الحالة الحالية',
+
+
+    'username' => 'اسم المستخدم',
+    'email' => 'البريد الإلكتروني',
+    'next_button' => 'التالي ⬅',
+    'back_button' => ' ➡ السابق ',
+    'kitchen_area_and_shape' => 'مساحة وشكل المطبخ',
+    'select_expected_cost' => 'اختر التكلفة المتوقعة',
+    'cost_below_20' => 'أقل من 20,000',
+    'cost_20_40' => '20,000 - 40,000',
+    'cost_above_40' => 'أكثر من 40,000',
+    'kitchen_type_and_cost' => 'نوع المطبخ والتكلفة',
+    'select_kitchen_type' => 'اختر نوع المطبخ',
+    'kitchen_type_old' => 'قديم',
+    'kitchen_type_new' => 'جديد',
+    'time_and_style' => 'المدة الزمنية وستايل المطبخ',
+    'select_kitchen_style' => 'اختر ستايل المطبخ',
+    'meeting_and_location' => 'وقت اللقاء والموقع',
+    'meeting_time' => 'وقت اللقاء',
+    'select_kitchen_location' => 'اختر موقع المطبخ على الخريطة',
+    'search_location' => 'ابحث عن موقع:',
+    'search_here_placeholder' => 'ابحث هنا...',
+    'submit_request' => 'تقديم الطلب',
+
+
+
+
+
+
+
+
+
+
+
+
 
 ];

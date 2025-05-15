@@ -137,12 +137,15 @@ class HomeController extends Controller
     }
 
     public function filterByCategory($id)
-    {
+    { $notifications = null;
         $category = Category::findOrFail($id);
         $products = Product::where('category_id', $id)->get();
         $categories = Category::all();
+        if (auth()->check()) {
+            $notifications = auth()->user()->notifications;
+        }
 
-        return view('frontend.products', compact('products', 'categories', 'category'));
+        return view('frontend.products', compact('products', 'categories', 'category','notifications'));
     }
 
 

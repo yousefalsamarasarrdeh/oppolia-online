@@ -122,15 +122,11 @@
         $totalSteps = count($steps);
 
         // إعداد خيارات المدة الزمنية (القيم النصية)
-         $timeOptions = [
-        "شهر",
-        "شهرين",
-        "ثلاثة أشهر",
-        "أربعة أشهر",
-        "خمسة أشهر",
-        "ستة أشهر",
+    $locale = app()->getLocale();
 
-    ];
+    $timeOptions = $locale === 'ar'
+        ? ["شهر", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"]
+        : ["One Month", "Two Months", "Three Months", "Four Months", "Five Months", "Six Months"];
         // افتراضيًا نختار أول خيار (يمكنك تغييره)
         $defaultTime = old('time_range');
         $defaultTimeIndex = 0;
@@ -185,30 +181,33 @@
                         @if(!$hasName)
                             <div class="form-step" id="form-step-0">
                                 <div class="mb-3">
-                                    <label for="name">اسم المستخدم:</label>
+                                    <label for="name">@lang('order.username')</label>
                                     <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}">
                                     @error('name')
                                     <p style="color: red;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email">البريد الإلكتروني:</label>
+                                    <label for="email">@lang('order.email')</label>
                                     <input class="form-control" type="text" name="email" id="email" value="{{ old('email') }}">
                                     @error('email')
                                     <p style="color: red;">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <a type="button" onclick="nextPrev(1)" class="Dark_Green"> التالي ⬅ </a>
+                                    <a type="button" onclick="nextPrev(1)" class="Dark_Green">
+                                        @lang('order.next_button')
+                                    </a>
                                 </div>
                             </div>
                     @endif
 
                     <!-- الخطوة 2: مساحة وشكل المطبخ (مع 4 صور لاختيار شكل المطبخ) -->
                         <div class="form-step" id="form-step-{{ $hasName ? 0 : 1 }}">
-                            <h5 class="text-center mb-3">مساحة وشكل المطبخ</h5>
+                            <h5 class="text-center mb-3">@lang('order.kitchen_area_and_shape')</h5>
+
                             <div class="mb-3">
-                                <label for="kitchen_area">مساحة المطبخ:</label>
+                                <label for="kitchen_area">@lang('order.kitchen_area'):</label>
                                 <input type="range" name="kitchen_area" id="kitchen_area"
                                        value="{{ old('kitchen_area') ?? 6 }}" min="1" max="100" style="accent-color: #0A4740;">
                                 <span id="kitchen_area_value">{{ old('kitchen_area') ?? 6 }}m</span>
@@ -216,31 +215,39 @@
                                 <p style="color: red;">{{ $message }}</p>
                                 @enderror
                             </div>
+
                             <div class="mb-3">
-                                <label>اختر شكل المطبخ:</label>
+                                <label>@lang('order.kitchen_shape'):</label>
                                 <div class="row">
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
                                             <input type="radio" name="kitchen_shape" value="مطبخ له شكل حرف L" {{ old('kitchen_shape')=='مطبخ له شكل حرف L' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/حرف l.png') }}" alt="مطبخ له شكل حرف L">
+                                            @php
+                                                $locale = app()->getLocale();
+                                                $img = $locale === 'ar' ? 'حرف l.png' : 'L-shaped kitchen.png';
+                                                $img2 = $locale === 'ar' ? 'حرف u.png' : 'U-shaped kitchen.png';
+                                                $img3 = $locale === 'ar' ? 'مستقيم.png' : 'Linear kitchen.png';
+                                                $img4 = $locale === 'ar' ? 'متوازي.png' : 'Parallel kitchen.png';
+                                            @endphp
+                                            <img src="{{ asset('Frontend/assets/images/gallery/' . $img) }}" alt="@lang('order.kitchen_shapes.مطبخ له شكل حرف L')">
                                         </label>
                                     </div>
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
                                             <input type="radio" name="kitchen_shape" value="مطبخ له شكل حرف U" {{ old('kitchen_shape')=='مطبخ له شكل حرف U' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/حرف u.png') }}" alt="مطبخ له شكل حرف U">
+                                            <img src="{{ asset('Frontend/assets/images/gallery/'.$img2) }}" alt="@lang('order.kitchen_shapes.مطبخ له شكل حرف U')">
                                         </label>
                                     </div>
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
                                             <input type="radio" name="kitchen_shape" value="مستقيم" {{ old('kitchen_shape')=='مستقيم' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/مستقيم.png') }}" alt="مستقيم">
+                                            <img src="{{ asset('Frontend/assets/images/gallery/'.$img3) }}" alt="@lang('order.kitchen_shapes.مستقيم')">
                                         </label>
                                     </div>
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
                                             <input type="radio" name="kitchen_shape" value="متوازي" {{ old('kitchen_shape')=='متوازي' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/متوازي.png') }}" alt="متوازي">
+                                            <img src="{{ asset('Frontend/assets/images/gallery/'.$img4) }}" alt="@lang('order.kitchen_shapes.متوازي')">
                                         </label>
                                     </div>
                                 </div>
@@ -248,59 +255,61 @@
                                 <p style="color: red;">{{ $message }}</p>
                                 @enderror
                             </div>
+
                             <div class="d-flex justify-content-between">
                                 @if(!$hasName)
-                                    <a type="button" onclick="nextPrev(-1)" class="Dark_Green"> ➡ السابق</a>
+                                    <a type="button" onclick="nextPrev(-1)" class="Dark_Green" style="justify-self: start;">@lang('order.back_button')</a>
                                 @endif
-                                    <a type="button" onclick="nextPrev(1)" class="Dark_Green"> التالي ⬅ </a>
+                                <a type="button" onclick="nextPrev(1)" class="Dark_Green" style="justify-self: end;">@lang('order.next_button')</a>
                             </div>
                         </div>
+
 
                         <!-- الخطوة 3: نوع المطبخ والتكلفة (مع خيارات للكلفة) -->
 
 
                         <div class="form-step" id="form-step-{{ $hasName ? 1 : 2 }}">
-                            <h5 class="text-center mb-3">نوع المطبخ والتكلفة</h5>
+                            <h5 class="text-center mb-3">@lang('order.kitchen_type_and_cost')</h5>
 
-                            <!-- نوع المطبخ -->
+                            <!-- Kitchen Type -->
                             <div class="mb-3">
-                                <label>اختر نوع المطبخ:</label>
+                                <label>@lang('order.select_kitchen_type'):</label>
                                 <div class="radio-options" id="kitchen-type-options">
                                     <label class="radio-container">
                                         <input type="radio" name="kitchen_type" value="قديم" {{ old('kitchen_type') == '1' ? 'checked' : '' }}>
-                                        <span class="radio-label">قديم</span>
+                                        <span class="radio-label">@lang('order.kitchen_type_old')</span>
                                     </label>
                                     <label class="radio-container">
                                         <input type="radio" name="kitchen_type" value="جديد" {{ old('kitchen_type') == '2' ? 'checked' : '' }}>
-                                        <span class="radio-label">جديد</span>
+                                        <span class="radio-label">@lang('order.kitchen_type_new')</span>
                                     </label>
                                 </div>
                             </div>
 
-                            <!-- التكلفة المتوقعة -->
+                            <!-- Expected Cost -->
                             <div class="mb-3">
-                                <label>اختر التكلفة المتوقعة:</label>
+                                <label>@lang('order.select_expected_cost'):</label>
                                 <div class="radio-options" id="cost-options">
                                     <label class="radio-container">
                                         <input type="radio" name="expected_cost" value="20000" {{ old('expected_cost') == '20000' ? 'checked' : '' }}>
-                                        <span class="radio-label">أقل من 20,000</span>
+                                        <span class="radio-label">@lang('order.cost_below_20')</span>
                                     </label>
                                     <label class="radio-container">
                                         <input type="radio" name="expected_cost" value="40000" {{ old('expected_cost') == '40000' ? 'checked' : '' }}>
-                                        <span class="radio-label">20,000 - 40,000</span>
+                                        <span class="radio-label">@lang('order.cost_20_40')</span>
                                     </label>
                                     <label class="radio-container">
                                         <input type="radio" name="expected_cost" value="60000" {{ old('expected_cost') == '60000' ? 'checked' : '' }}>
-                                        <span class="radio-label">أكثر من 40,000</span>
+                                        <span class="radio-label">@lang('order.cost_above_40')</span>
                                     </label>
                                 </div>
                             </div>
+
                             <div class="d-flex justify-content-between">
-                                <a type="button" onclick="nextPrev(-1)" class="Dark_Green"> ➡ السابق</a>
-                                <a type="button" onclick="nextPrev(1)" class="Dark_Green"> التالي ⬅ </a>
+                                <a type="button" onclick="nextPrev(-1)" class="Dark_Green">@lang('order.back_button')</a>
+                                <a type="button" onclick="nextPrev(1)" class="Dark_Green">@lang('order.next_button')</a>
                             </div>
                         </div>
-
 
 
 
@@ -308,42 +317,62 @@
 
                         <!-- الخطوة 4: المدة الزمنية وستايل المطبخ (مع صور لاختيار ستايل المطبخ) -->
                         <div class="form-step" id="form-step-{{ $hasName ? 2 : 3 }}">
-                            <h5 class="text-center mb-3">المدة الزمنية وستايل المطبخ</h5>
-                            <div class="mb-3">
-                                <label for="time_range_slider">المدة الزمنية:</label>
-                                <!-- شريط النطاق لا يُرسل القيمة مباشرة، بل نستخدم حقل مخفي لتخزين القيمة النصية -->
-                                <input type="range" id="time_range_slider" min="0" max="{{ count($timeOptions)-1 }}" step="1" value="{{ $defaultTimeIndex }}" style="accent-color: #0A4740;">
-                                <span id="time_range_value">{{ $timeOptions[$defaultTimeIndex] }}</span>
-                                <input type="hidden" name="time_range" id="time_range_hidden" value="{{ $timeOptions[$defaultTimeIndex] }}">
+                            <h5 class="text-center mb-3">@lang('order.time_and_style')</h5>
+
+                            <!-- Time Range --><div class="mb-3">
+                                <label for="time_range_slider">@lang('order.time_range'):</label>
+                                <input type="range" id="time_range_slider" min="0" max="5" step="1" value="{{ $defaultTimeIndex }}" style="accent-color: #0A4740;">
+
+                                <!-- يعرض حسب اللغة الحالية -->
+                                <span id="time_range_value">
+        @if(app()->getLocale() == 'ar')
+                                        {{ ["شهر", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"][$defaultTimeIndex] }}
+                                    @else
+                                        {{ ["One Month", "Two Months", "Three Months", "Four Months", "Five Months", "Six Months"][$defaultTimeIndex] }}
+                                    @endif
+    </span>
+
+                                <!-- التخزين دائمًا بالعربية -->
+                                <input type="hidden" name="time_range" id="time_range_hidden" value="{{ ["شهر", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"][$defaultTimeIndex] }}">
+
                                 @error('time_range')
                                 <p style="color: red;">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            <!-- Kitchen Style -->
                             <div class="mb-3">
-                                <label>اختر ستايل المطبخ:</label>
+                                <label>@lang('order.select_kitchen_style'):</label>
                                 <div class="row">
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
-                                            <input type="radio" name="kitchen_style" value="عصري" {{ old('kitchen_style')=='عصري' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/عصري.png') }}" alt="حديث">
+                                            <input type="radio" name="kitchen_style" value="عصري" {{ old('kitchen_style') == 'عصري' ? 'checked' : '' }}>
+                                            @php
+
+                                                $img5 = $locale === 'ar' ? 'عصري.png' : 'Modern.png';
+                                                $img6 = $locale === 'ar' ? 'كلاسيكي.png' : 'Classic.png';
+                                                $img7 = $locale === 'ar' ? 'انيق.png' : 'Elegant.png';
+                                                $img8 = $locale === 'ar' ? 'مريح.png' : 'Comfortable.png';
+                                            @endphp
+                                            <img src="{{ asset('Frontend/assets/images/gallery/'.$img5) }}" alt="@lang('order.kitchen_styles.عصري')">
                                         </label>
                                     </div>
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
-                                            <input type="radio" name="kitchen_style" value="كلاسيكي" {{ old('kitchen_style')=='كلاسيكي' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/كلاسيكي.png') }}" alt="كلاسيكي">
+                                            <input type="radio" name="kitchen_style" value="كلاسيكي" {{ old('kitchen_style') == 'كلاسيكي' ? 'checked' : '' }}>
+                                            <img src="{{ asset('Frontend/assets/images/gallery/'.$img6) }}" alt="@lang('order.kitchen_styles.كلاسيكي')">
                                         </label>
                                     </div>
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
-                                            <input type="radio" name="kitchen_style" value="انيق" {{ old('kitchen_style')=='انيق' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/انيق.png') }}" alt="انيق">
+                                            <input type="radio" name="kitchen_style" value="أنيق" {{ old('kitchen_style') == 'أنيق' ? 'checked' : '' }}>
+                                            <img src="{{ asset('Frontend/assets/images/gallery/'.$img7) }}" alt="@lang('order.kitchen_styles.انيق')">
                                         </label>
                                     </div>
                                     <div class="col-6 col-md-3 text-center mb-2">
                                         <label class="radio-image">
-                                            <input type="radio" name="kitchen_style" value="مريح" {{ old('kitchen_style')=='مريح' ? 'checked' : '' }}>
-                                            <img src="{{ asset('Frontend/assets/images/gallery/مريح.png') }}" alt="مريح">
+                                            <input type="radio" name="kitchen_style" value="مريح" {{ old('kitchen_style') == 'مريح' ? 'checked' : '' }}>
+                                            <img src="{{ asset('Frontend/assets/images/gallery/'.$img8) }}" alt="@lang('order.kitchen_styles.مريح')">
                                         </label>
                                     </div>
                                 </div>
@@ -351,39 +380,47 @@
                                 <p style="color: red;">{{ $message }}</p>
                                 @enderror
                             </div>
+
                             <div class="d-flex justify-content-between">
-                                <a type="button" onclick="nextPrev(-1)" class="Dark_Green"> ➡ السابق</a>
-                                <a type="button" onclick="nextPrev(1)" class="Dark_Green"> التالي ⬅ </a>
+                                <a type="button" onclick="nextPrev(-1)" class="Dark_Green">@lang('order.back_button')</a>
+                                <a type="button" onclick="nextPrev(1)" class="Dark_Green">@lang('order.next_button')</a>
                             </div>
                         </div>
 
+
                         <!-- الخطوة 5: وقت اللقاء والموقع -->
                         <div class="form-step" id="form-step-{{ $hasName ? 3 : 4 }}">
-                            <h5 class="text-center mb-3">وقت اللقاء والموقع</h5>
+                            <h5 class="text-center mb-3">@lang('order.meeting_and_location')</h5>
+
                             <div class="mb-3">
-                                <label for="meeting_time">وقت اللقاء:</label>
+                                <label for="meeting_time">@lang('order.meeting_time'):</label>
                                 <input class="form-control" type="datetime-local" name="meeting_time" id="meeting_time" value="{{ old('meeting_time') }}">
                                 @error('meeting_time')
                                 <p style="color: red;">{{ $message }}</p>
                                 @enderror
                             </div>
+
                             <div class="mb-3">
-                                <label>اختر موقع المطبخ على الخريطة:</label>
+                                <label>@lang('order.select_kitchen_location'):</label>
                                 <div id="map" style="width: 100%; height: 300px;"></div>
                             </div>
+
                             <input type="hidden" name="length_step" id="length_step" value="{{ old('length_step') }}">
                             <input type="hidden" name="width_step" id="width_step" value="{{ old('width_step') }}">
                             <input type="hidden" name="region_name" id="region_name" value="{{ old('region_name') }}">
                             <input type="hidden" name="geocode_string" id="geocode_string" value="{{ old('geocode_string') }}">
+
                             <div class="mb-3">
-                                <label for="search_map">ابحث عن موقع:</label>
-                                <input id="search_map" type="text" placeholder="ابحث هنا..." class="form-control">
+                                <label for="search_map">@lang('order.search_location'):</label>
+                                <input id="search_map" type="text" placeholder="@lang('order.search_here_placeholder')" class="form-control">
                             </div>
+
                             <div class="d-flex justify-content-between">
-                                <a type="button" onclick="nextPrev(-1)" class="Dark_Green"> ➡ السابق</a>
-                                <button type="submit" class="btn button_Dark_Green">تقديم الطلب</button>
+                                <a type="button" onclick="nextPrev(-1)" class="Dark_Green">@lang('order.back_button')</a>
+                                <button type="submit" class="btn button_Dark_Green">@lang('order.submit_request')</button>
                             </div>
                         </div>
+
 
                     </form>
                 </div>
@@ -438,7 +475,7 @@
     </script>
 
     <!-- تضمين خرائط جوجل -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXpR8r4gwAG_7XnPYERxSug_XqXxeVnGE&libraries=geometry,places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&libraries=geometry,places&callback=initMap" async defer></script>
     <script>
         let map;
         let marker;
@@ -677,6 +714,30 @@
         });
     </script>
 
+
+    <script>
+        // تعريف القيم بلغتين
+        const timeRanges = {
+            ar: ["شهر", "شهرين", "ثلاثة أشهر", "أربعة أشهر", "خمسة أشهر", "ستة أشهر"],
+            en: ["One Month", "Two Months", "Three Months", "Four Months", "Five Months", "Six Months"]
+        };
+
+        // القيم العربية للتخزين (نفس القيم العربية)
+        const arabicValues = timeRanges.ar;
+
+        const slider = document.getElementById('time_range_slider');
+        const valueDisplay = document.getElementById('time_range_value');
+        const hiddenInput = document.getElementById('time_range_hidden');
+
+        // تحديد لغة الصفحة من Laravel
+        const currentLang = "{{ app()->getLocale() }}"; // 'ar' أو 'en'
+
+        slider.addEventListener('input', function() {
+            const index = parseInt(this.value);
+            valueDisplay.textContent = timeRanges[currentLang][index]; // يعرض حسب اللغة
+            hiddenInput.value = arabicValues[index]; // يخزن بالعربية دائمًا
+        });
+    </script>
 
 
 @endsection

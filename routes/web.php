@@ -223,7 +223,7 @@ Route::middleware(['set-locale'])->group(function () {
     Route::get('/privacypolicy', [HomeController::class, 'privacypolicy'])->name('privacypolicy');
     Route::post('/contact', [HomeController::class, 'storeContact'])->name('home.contact.store');
     Route::get('/categories', [HomeController::class, 'category'])->name('categories');
-    Route::get('/category/{title}', [HomeController::class, 'filterByCategory'])->name('category.products');
+    Route::get('/category/{id}', [HomeController::class, 'filterByCategory'])->name('category.products');
 
 
 });

@@ -13,7 +13,10 @@ return [
     |
     */
 
-    'Bring your dream home to life effortlessly with Oppolia Online – ORDER NOW!' => 'أفكارك لبيت مثالي تنفيذها صار أسهل مع اوبوليا اونلاين!',
+  //  'Bring your dream home to life effortlessly with Oppolia Online – ORDER NOW!' => 'أفكارك لبيت مثالي تنفيذها صار أسهل مع اوبوليا اونلاين!',
+    'Your ideas for a perfect home'=>'أفكارك لبيت مثالي تنفيذها',
+    'Executing them has become easier'=>'   صار أسهل مع ',
+    'With Opolia Online!'=>'اوبوليا اونلاين!',
     'About Oppolia'=>'عن اوبولبا',
     'Steps to Order from Us'=>'خطوات طلبك من عنا',
     'Book your appointment'=>'احجز موعدك',
@@ -30,6 +33,10 @@ return [
     'With You Every Step of the Way'=>'مشاركتك في كل خطوة في رحلة التصميم',
     'From the first idea to final execution, we’re by your side to ensure everything fits your needs.'=>' إحنا معك في كل مرحلة، من الفكرة لحد التركيب، عشان نضمن إن كل شيء يناسب احتياجاتك.',
     'Your Taste in Every Detail'=>'ذوقك يدخل في كل تفصيل',
+    'New Classic Kitchens'=>'مطابخ نيو كلاسيك',
+    'Modern Kitchens'=>'    مطابخ حديثة',
+    'L-Shaped Kitchens'=>'   مطابخ على شكل حرف L',
+    'U-Shaped Kitchens'=>'   مطابخ على شكل حرف L',
     'Choose the materials, colors, and finishes that reflect your style.'=>'كل تفصيل في المطبخ يعكس ذوقك، من الألوان إلى التصميمات.',
     'Delivered to Your Door'=>'يوصلك دون عناء',
     'Your kitchen is delivered to your home effortlessly, with no hassle.'=>' نوصلك المطبخ حد بيتك بكل سهولة، بدون تعب.',
@@ -57,8 +64,11 @@ return [
     'At Oppolia Online, bringing your dream kitchen to life has never been easier. Your request is our mission!'=>'في أوبوليا أون لاين، تصميم مطبخ أحلامك صار أسهل من أي وقت. طلبك... نعتبره مهمة!',
     'German Quality'=>'الجودة الألمانية',
     'At Oppolia, we take pride in offering designs that reflect renowned German quality—precision and durability at its finest. We use high-grade materials and advanced techniques to ensure long-lasting home furniture that blends beauty with functionality. With us, you are choosing the best for your home, where German quality is the foundation of every design.'=>'في اوبوليا، نفخر بتقديم تصاميم تعكس الجودة الألمانية المعروفة بدقتها ومتانتها. نستخدم مواد عالية الجودة وتقنيات متطورة، مما يضمن لك أثاث منزلي يدوم طويلاً ويجمع بين الجمال والوظيفة. معنا، تأكد أنك تختار الأفضل لبيتك، حيث الجودة الألمانية هي أساس كل تصميم.',
+    'With us, make sure you choose the best for your home, where German quality is the foundation of every design.'=>'معنا، تأكد أنك تختار الأفضل لمنزلك، حيث الجودة الألمانية هي أساس كل تصميم. ',
     'Oppolia Online Designers!'=>'مصممو اوبوليا اون لاين!',
-    'At Oppolia Online, we have a distinguished team of professional designers who combine creativity with expertise. Our designers work closely to understand your needs and vision for the perfect home—turning your ideas into reality.'=>'في اوبوليا اون لاين، لدينا فريق مميز من المصممين المحترفين الذين يجمعون بين الإبداع والخبرة. يعمل مصممونا على فهم احتياجاتك ورؤيتك لبيت مثالي، ويحولون أفكارك إلى واقع.',
+   // 'At Oppolia Online, we have a distinguished team of professional designers who combine creativity with expertise. Our designers work closely to understand your needs and vision for the perfect home—turning your ideas into reality.'=>'في اوبوليا اون لاين، لدينا فريق مميز من المصممين المحترفين الذين يجمعون بين الإبداع والخبرة. يعمل مصممونا على فهم احتياجاتك ورؤيتك لبيت مثالي، ويحولون أفكارك إلى واقع.',
+    'At Opolia Online, we have a professional team of specialized designers who combine creativity with competence.'=>'في اوبوليا اون لاين، لدينا فريق محترف من المصممين المتخصصين الذين يتمتعون بين الإبداع والجدارة. ',
+    'Our designers work to understand your needs and provide you with the perfect home, turning your ideas into reality.'=>'يعمل مصممونا على فهم احتياجاتك وتوفيرك لبيت مثالي، وتحويل أفكارك إلى واقع.',
     'Join Now!'=>'انضم الآن الى فريق مصممي اوبوليا اون لاين. ',
     'Show All'=>'مشاهدت الكل',
 

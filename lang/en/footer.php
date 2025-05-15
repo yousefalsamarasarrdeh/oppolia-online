@@ -26,9 +26,16 @@ return [
     'Join as designer'=>'Join AS Designer',
     'My Orders'=>'My Orders',
     'dashboard'=>'Dashboard',
-    'Edit Profile'=>'Edit Profile',
-    'Logout'=>' Logout',
-    'Order Your Kitchen'=>'Order Your Kitchen'
+
+    'We at Opolia Online take pride in offering the best and highest-quality types of kitchens.'=>'We at Opolia Online take pride in designing and delivering the best and highest quality kitchens.',
+    'Order now.'=>'Order now',
+
+    'New Classic Kitchens'=>'New Classic Kitchens',
+    'Modern Kitchens'=>'Modern Kitchens',
+    'L-Shaped Kitchens'=>'L-Shaped Kitchens',
+    'U-Shaped Kitchens'=>'U-Shaped Kitchens',
+    'Privacy Policy'=>'Privacy Policy',
+
 
 
 

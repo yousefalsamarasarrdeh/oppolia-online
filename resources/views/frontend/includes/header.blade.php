@@ -20,7 +20,7 @@
 
                         <!-- إذا كان المستخدم مسجل دخول -->
                                 <a href="{{route('orders.myOrders')}}" class="border-3 mx-2 myfont_3 link-offset-4-hover">@lang('home.My Orders')</a>
-                                <div class="dropdown mydropdown">
+                                <div class="m dropdown mydropdown">
                                     <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="{{asset('Frontend/assets/images/icons/person.png')}}" alt="User Icon" class="img-fluid" >
                                     </a>
@@ -28,7 +28,7 @@
 
                                         <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
                                             <i class="bx bx-edit me-2"></i>
-                                            تعديل الملف الشخصي
+                                           @lang('home.Edit Profile')
                                         </a>
 
                                         <li>
@@ -36,7 +36,7 @@
                                                 @csrf
                                                 <button type="submit" class="dropdown-item d-flex align-items-center">
                                                     <i class="bx bx-log-out me-2"></i>
-                                                    تسجيل الخروج
+                                                    @lang('home.Logout')
                                                 </button>
                                             </form>
                                         </li>
@@ -84,7 +84,7 @@
 
                                 {{-- Notifications Dropdown --}}
                                 @if(isset($notifications) && $notifications->isNotEmpty())
-                                    <li class="nav-item dropdown dropdown-large">
+                                    <li class="m nav-item dropdown dropdown-large">
 
                                         {{-- Notification Bell Icon --}}
                                         <a href="#" class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
@@ -177,7 +177,22 @@
                             @lang('home.Home')
                         </a>
                         <a href="{{ route('home.about') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.about' ? 'myfont_2' : '' }}">@lang('home.About')</a>
-                        <a href="{{route('home.products') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.products' ? 'myfont_2' : '' }}">@lang('home.Product')</a>
+                        <li class="nav-item dropdown position-relative myfont_1  hover-underline border-3 mx-2 " style="display: block">
+                            <a class="nav-link dropdown-toggle myfont_1 {{ Route::currentRouteName() == 'home.products' ? 'myfont_2' : '' }}"
+                               href="{{ route('home.products') }}">
+                                @lang('home.Product')
+                            </a>
+
+                            <ul class="dropdown-menu position-absolute start-0" style="top:100%;">
+                                @foreach($categories as $category)
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('category.products', $category->id) }}">
+                                            {{ app()->getLocale() == 'ar' ? $category->title_ar : $category->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
                         <a href="{{route('home.designers') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.designers' ? 'myfont_2' : '' }}">@lang('home.Designers')</a>
                         <a href="{{ route('home.contact') }}" class="myfont_1  hover-underline border-3 mx-2 {{ Route::currentRouteName() == 'home.contact' ? 'myfont_2' : '' }}">@lang('home.Contact')</a>
                         <a href="{{ route('joinasdesigner.create') }}" class="myfont_1 hover-underline  border-3 mx-2 {{ Route::currentRouteName() == 'joinasdesigner.create' ? 'myfont_2' : '' }}">@lang('home.Join as designer')</a>
@@ -267,7 +282,7 @@
                             @if(auth()->check())
                                 <li class="nav-item">
                                     <a class="nav-link mydesplayright d-flex align-items-center justify-content-between border-top border-bottom py-4" href="{{ route('profile.edit') }}">
-                                        تعديل الملف الشخصي
+                                        @lang('home.Edit Profile')
                                         <img src="{{ asset('Frontend/assets/images/icons/person1.png') }}" alt="person" width="20" height="20">
                                     </a>
                                 </li>
@@ -277,7 +292,7 @@
                                         @csrf
                                         <button type="submit" class="nav-link btn m-2 " >
                                             <i class="bx bx-log-out me-2 py-5"></i>
-                                            تسجيل الخروج
+                                            @lang('home.Logout')
 
                                         </button>
                                     </form>
