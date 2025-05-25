@@ -28,7 +28,8 @@ return [
     'dashboard'=>'لوحة التحكم',
     'Edit Profile'=>'تعديل الملف الشخصي',
     'Logout'=>' تسجيل الخروج',
-    'Order Your Kitchen'=>'!اطلب مطبخك'
+    'Order Your Kitchen'=>'!اطلب مطبخك',
+    'products'=>'المنتجات',
 
 
 ];

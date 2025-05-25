@@ -1,7 +1,34 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
-@section('title')مصممي اوبوليا @endsection
+@section('title')@lang('designers.Oppolia Designers') @endsection
 @section('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+
+    .design-section {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    }
+
+    .design-image {
+        background-image: url('Frontend/assets/images/gallery/deopq.png'); /* استبدل بمسار الصورة */
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    min-height: 300px;
+    }
+
+    .design-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    }
+
+
+    </style>
 @endsection
 @section('content')
 
@@ -14,8 +41,21 @@
         </div>
         <!-- Centered Text Overlay -->
         <div class="about-text-overlay">
-            <h1 class="about-text">مصممي أوبوليا</h1>
+            <h1 class="about-text">@lang('designers.Oppolia Designers')</h1>
         </div>
+    </div>
+
+
+    <div class="container col-12 mb-3 mb-lg-4">
+        <h2 class="about-title text-center mt-3">@lang('designers.The Design Team at Oppolia Online') </h2>
+
+        <p class="about-para text-center">
+            @lang('designers.We take pride in having a distinguished design team that combines experience and creativity.')
+            <br>
+            @lang('designers.They listen to you, understand your needs, and add your personal touch to every detail to deliver the best results.')
+
+        </p>
+
     </div>
 
     <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
@@ -35,7 +75,7 @@
                             @if(App::getLocale() == 'ar')
                                 {{ $designer->user->name ?? 'مصمم' }}
                             @else
-                                {{ $designer->user->name ?? 'Designer' }}
+                                {{ $designer->user->name_en ?? 'Designer' }}
                             @endif
                         </h5>
 
@@ -50,9 +90,15 @@
                                     <i class="far fa-star text-muted"></i>
                                 @endif
                             @endfor
-                            <small class="text-muted d-block">
-                                {{ number_format($avgRating, 1) }} من 5 ({{ $ratingCount }} تقييم{{ $ratingCount == 1 ? '' : 'ات' }})
-                            </small>
+                            @if(App::getLocale() == 'ar')
+                                <small class="text-muted d-block">
+                                    {{ number_format($avgRating, 1) }} من 5 ({{ $ratingCount }} تقييم{{ $ratingCount == 1 ? '' : 'ات' }})
+                                </small>
+                            @else
+                                <small class="text-muted d-block">
+                                    {{ number_format($avgRating, 1) }} out of 5 ({{ $ratingCount }} rating{{ $ratingCount == 1 ? '' : 's' }})
+                                </small>
+                            @endif
                         </div>
 
                     </div>
@@ -67,7 +113,7 @@
                     <div class="modal-content rounded-4 p-4">
 
 
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
 
                         <div class="modal-body d-flex flex-column flex-md-row align-items-center">
 
@@ -85,7 +131,7 @@
                                     @if(App::getLocale() == 'ar')
                                         {{ $designer->user->name ?? 'مصمم' }}
                                     @else
-                                        {{ $designer->user->name ?? 'Designer' }}
+                                        {{ $designer->user->name_en ?? 'Designer' }}
                                     @endif
                                 </h4>
                                 <p class="text-muted mb-1">
@@ -188,6 +234,24 @@
                 <p>لا يوجد مصممين متاحين حالياً.</p>
             </div>
         @endforelse
+    </div>
+    <div class="container my-5">
+        <div class="row design-section">
+            <div class="col-md-6 design-content ">
+                <h5 class="about-title">@lang('designers.The Design Team at Oppolia Online')</h5>
+                <p class="">
+                    @lang('designers.Do you dream of becoming a kitchen interior designer?')<br>
+                    @lang('designers.If you are passionate about the world of design and have the ambition to leave your mark...') <br>
+                    @lang('designers.Why not join the Oppolia Online team?') <br>
+                    @lang('designers.Here, we believe in purpose-driven work and support every ambitious designer who wants to grow and unleash their creativity.')
+                </p>
+                <div class="col-md-4">
+                <a href="{{ route('joinasdesigner.create') }}" class="btn  button_Dark_Green mt-3">@lang('designers.Join as a Designer')</a>
+                </div>
+            </div>
+            <div class="col-md-6 design-image"></div>
+
+        </div>
     </div>
 
 

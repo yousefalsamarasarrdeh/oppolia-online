@@ -86,7 +86,7 @@
     <section class="footer-strip text-center py-3 border-top positon-absolute bottom-0 bg-under-footer">
         <div class="container">
             <div class="d-flex flex-column flex-lg-row align-items-center gap-3 justify-content-center">
-                <p class="mb-0">@ 2024 - Oppolia-Online - Designed & Develop by  Sarrdeh Tech</p>
+                <p class="mb-0">@ 2025 - Oppolia-Online - @lang('footer.designed_by')</p>
                 <!--   <div class="payment-icon">
                        <div class="row row-cols-auto g-2 justify-content-end">
                            <div class="col">

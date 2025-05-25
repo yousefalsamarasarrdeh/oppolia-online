@@ -69,7 +69,8 @@ class HomeController extends Controller
         if (auth()->check()) {
             $notifications = auth()->user()->notifications;
         }
-        return view('frontend.singleProduct', compact( 'notifications','product'));
+        $subRegions = SubRegion::all();
+        return view('frontend.singleProduct', compact( 'notifications','product','subRegions'));
     }
 
     public function show_designers()

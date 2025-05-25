@@ -35,6 +35,7 @@ return [
     'L-Shaped Kitchens'=>'L-Shaped Kitchens',
     'U-Shaped Kitchens'=>'U-Shaped Kitchens',
     'Privacy Policy'=>'Privacy Policy',
+    'designed_by' => 'Designed & Developed by Sarrdeh Tech',
 
 
 

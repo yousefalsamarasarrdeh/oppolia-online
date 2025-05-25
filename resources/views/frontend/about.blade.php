@@ -1,7 +1,10 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
-@section('title')عن اوبوليا @endsection
+@section('title')@lang('about.About Oppolia Online') @endsection
 @section('content')
     <style>
+        .[dir="rtl"] .nav-link i {
+            transform: rotate(180deg);
+        }
         .card-height {
             height: 318px;
             box-shadow: 0px 15.14px 15.14px 0px rgba(211, 218, 235, 0.7) !important;
@@ -233,7 +236,7 @@
             </div>
         </div>
         <div class="about-text-overlay">
-            <h1 class="about-text">عن اوبوليا</h1>
+            <h1 class="about-text">@lang('about.About Oppolia Online')</h1>
         </div>
     </div>
 
@@ -241,54 +244,53 @@
     <section class="container-fluid" style="background-color: rgba(243, 243, 243, 1);">
         <div class="row p-0 p-lg-4">
             <!-- Sidebar Column - Hidden on mobile -->
-            <div class="col-lg-2 order-lg-first d-none d-lg-block" dir="rtl">
+            <div class="col-lg-2 order-lg-first d-none d-lg-block" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                 <aside class="sticky-sidebar">
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link d-flex justify-content-between align-items-center" href="#AboutOppolia">
-                                عن اوبوليا اونلاين <i class="bx bx-chevron-left"></i>
+                                @lang('about.About Oppolia Online')
+                                <i class="bx bx-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex justify-content-between align-items-center" href="#Vision">
-                                رؤيتنا <i class="bx bx-chevron-left"></i>
+                                @lang('about.vision')
+                                <i class="bx bx-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex justify-content-between align-items-center" href="#production">
-                                إنتاجنا <i class="bx bx-chevron-left"></i>
+                                @lang('about.production')
+                                <i class="bx bx-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex justify-content-between align-items-center" href="#history">
-                                تاريخنا <i class="bx bx-chevron-left"></i>
+                                @lang('about.history')
+                                <i class="bx bx-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex justify-content-between align-items-center" href="#team">
-                                فريقنا <i class="bx bx-chevron-left"></i>
+                                @lang('about.team')
+                                <i class="bx bx-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex justify-content-between align-items-center" href="#achievements">
-                                إنجازاتنا <i class="bx bx-chevron-left"></i>
+                                @lang('about.achievements')
+                                <i class="bx bx-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex justify-content-between align-items-center" href="#suppliers">
-                                الموردون <i class="bx bx-chevron-left"></i>
+                                @lang('about.suppliers')
+                                <i class="bx bx-chevron-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="#whyUs">
-                                ليش تختارنا؟ <i class="bx bx-chevron-left"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="#responsibility">
-                                مسؤوليتنا الاجتماعية <i class="bx bx-chevron-left"></i>
-                            </a>
-                        </li>
+
+
                     </ul>
                 </aside>
             </div>
@@ -297,25 +299,22 @@
             <div class="col-lg-9 p-0">
                 <!-- About Section -->
                 <div class="row m-3 m-lg-4">
-                    <div id="AboutOppolia" class="col-12 mb-3 mb-lg-5">
-                        <h2 class="about-title">عن اوبوليا اونلاين</h2>
-                        <h3 class="about-subtitle">عالم من الأناقة والتميز.</h3>
+                    <div id="AboutOppolia" class="col-12 mb-3 mb-lg-4">
+                        <h2 class="about-title">@lang('about.About Oppolia Online')</h2>
+                        <h3 class="about-subtitle">@lang('about.A world of elegance and distinction.')</h3>
                         <p class="about-para">
-                            نفتخر في اوبوليا بتقديم أفضل وأرقى منتجات أثاث المنزل المخصصة في السوق. لدينا أكثر من 30 عاماً
-                            من الخبرة في تلبية احتياجات عملائنا وجعل منازلهم أكثر جمالاً. نؤمن بأن المنزل هو مكان الراحة
-                            والتعبير عن الذات. لذلك، نسعى دائماً لتحويل أفكار وأحلام عملائنا إلى واقع. نسعى لتقديم تجربة
-                            تسوق فريدة تنعكس فيها الأناقة والرفاهية في كل تفصيل.
+                            @lang('about.At Oppolia, we take pride in offering the finest and most elegant custom kitchens on the market. With over 30 years of experience, we’ve been meeting our clients’ needs and making their homes more beautiful and comfortable.
+We believe that a home is not just a place to live, but a space of comfort and a reflection of your personality. That’s why we’re committed to turning your ideas and dreams into a reality right before your eyes.
+We always strive to create a unique shopping experience for you—one where luxury and elegance shine through in every detail.')
                         </p>
+                        <h3 class="about-subtitle">@lang('about.Our products are diverse and cater to all tastes and needs.')</h3>
                         <p class="about-para">
-                            تقدم اوبوليا مجموعة متنوعة من منتجات أثاث المنزل المخصصة. سواء كنت بحاجة إلى تصميم مطبخ عصري أو
-                            غرفة نوم هادئة أو منطقة معيشة مريحة فإننا نقدم خيارات متعددة من التصاميم والألوان لتلبية
-                            احتياجاتك وتفضيلاتك. نحن نضمن أعلى معايير الجودة في كل منتج نقدمه. نستخدم أفضل المواد والتقنيات
-                            لضمان تحقيق أعلى مستوى من الراحة والمتانة. لهذا السبب، نقدم ضمانًا يمتد لمدة 15 عاماًَ على
-                            منتجاتنا.
+                            @lang('about.Whether you are looking for a modern or classic kitchen in various styles, we offer a wide selection of designs and colors to match your taste and lifestyle.
+We guarantee the highest standards of quality in every piece we produce. We use the finest materials and the latest technologies to ensure long-lasting durability for years to come.')
                         </p>
+                        <h3 class="about-subtitle">@lang('about.oppolia ’s strength lies in customization.')</h3>
                         <p class="about-para">
-                            تأتي قوة اوبوليا في قدرتنا على تخصيص منتجاتنا لتلبية احتياجاتك الخاصة. سواء كنت تبحث عن تصميم
-                            فريد يعبر عن شخصيتك أو تحتاج إلى حلاً عملياً لاستغلال المساحة بذكاء، نحن هنا لنجعل ذلك حقيقة.
+                          @lang('about.Looking for a unique design that reflects who you are? Or smart solutions that make the most of every corner of your space? We are here to turn every idea in your mind into a reality, using our hands-on expertise in kitchen design and customization.')
                         </p>
                     </div>
                 </div>
@@ -323,34 +322,30 @@
                 <!-- Our Brand Section -->
                 <div id="Brand" class="row m-3 m-lg-4">
                     <div class="col-12 section-header">
-                        <h2 class="section-about-title">علامتنا التجارية</h2>
+                        <h2 class="section-about-title">@lang('about.Our Brand')</h2>
                         <p class="section-description">
-                            تحتل مجموعتنا رأس قائمة العلامات التجارية المرموقة في هذا المجال،
-                            ونؤكد على التزامنا بتلبية مجموعة واسعة من الأذواق والأداء،
-                            الذي يضمن أن يكون كل منزل معبراً عن شخصية وأداء كل شخص.
+                           @lang('about.Our group leads the list of prestigious brands in the industry. We are committed to catering to a wide range of tastes and preferences—ensuring that every home reflects the unique personality and vision of its owner.')
                         </p>
                     </div>
                     <div class="row p-0">
                         <div class="col-12">
-                            <div class="row justify-content-between p-2 p-lg-4">
-                                <div class="col-md-4 text-right feature-box mb-4">
-                                    <h3 class="feature-title">التميز في النمو والابتكار</h3>
+                            <div class="row justify-content-between ">
+                                <div class="col-md-4  feature-box mb-1">
+                                    <h3 class="feature-title">@lang('about.Excellence in Growth and Innovation')</h3>
                                     <p class="feature-description">
-                                        أوبوليا تقدم أفكاراً جديدة في تصميم أنواع مختلفة من الأثاث، مما يجعل كل منزل
-                                        متميزًا.
+                                       @lang('about.At Oppolia, we constantly strive to innovate and introduce fresh ideas in designing and creating various kitchen models—so your home becomes a true reflection of modern style and contemporary living.')
                                     </p>
                                 </div>
-                                <div class="col-md-4 text-right feature-box mb-4">
-                                    <h3 class="feature-title">وضع المعايير على الساحة العالمية</h3>
+                                <div class="col-md-4  feature-box mb-1">
+                                    <h3 class="feature-title">@lang('about.Setting Global Standards')</h3>
                                     <p class="feature-description">
-                                        أوبوليا تعتمد أحدث التقنيات لصناعة منتجات متينة وعالية الجودة.
+                                      @lang('about.Oppolia relies on the latest technologies and the highest standards to craft strong, durable products—delivering quality that suits your home and lasts for years to come.')
                                     </p>
                                 </div>
-                                <div class="col-md-4 text-right feature-box mb-4">
-                                    <h3 class="feature-title">المشاريع والتعاون العالم</h3>
+                                <div class="col-md-4  feature-box mb-1">
+                                    <h3 class="feature-title">@lang('about.Projects and Global Collaboration')</h3>
                                     <p class="feature-description">
-                                        تعمل دائمًا مع شركات البناء والتطوير، ولديها مشاريع متميزة لأكثر من 5000 منزل حول
-                                        العالم.
+                                        @lang('about.We continuously collaborate with leading construction and development companies, and we’re proud to have completed over 5,000 projects worldwide.')
                                     </p>
                                 </div>
                             </div>
@@ -361,22 +356,17 @@
                 <!-- Vision Section -->
                 <div id="Vision" class="row m-0">
                     <div class="col-12 p-0">
-                        <div class="row m-3 m-lg-4">
+                        <div class="row m-3 me-lg-4">
                             <div class="col-lg-6 p-0">
                                 <img src="{{ asset('Frontend/assets/images/gallery/vision.jpg') }}" alt="Modern Kitchen"
                                      class="img-fluid w-100 vision-image">
                             </div>
                             <div class="col-lg-6 text-right d-flex flex-column justify-content-center p-4"
                                  style="background: #83B0AB">
-                                <h2 class="vision-title">رؤيتنا</h2>
+                                <h2 class="vision-title">@lang('about.Our Vision')</h2>
                                 <p class="vision-description">
-                                    نسعى في أوبوليا لتحقيق رؤيتنا أن نكون الرواد في تقديم حلول المنازل المبتكرة والمتكاملة،
-                                    حيث نجمع بين التصميم الأنيق والجودة الفائقة لتلبية احتياجات عملائنا المتنوعة.
-                                    نؤمن في أوبوليا بأن المنزل هو المكان الأكثر أهمية في حياة الفرد، ونعمل على أن يكون جزءًا
-                                    من رحلة عملائنا في بناء ما يعبر عن هويتهم ويحقق أحلامهم.
-                                    لذلك نحن دائمًا في تحقيق التميز في كل ما نقدمه، ونعمل باستمرار على تطوير منتجاتنا من
-                                    خلال الابتكار المستمر والالتزام بأعلى معايير الجودة
-                                    مما يستحق لمسة من الأناقة والراحة.
+                                    @lang('about. At Oppolia, our vision is to lead in delivering innovative and comprehensive home solutions—blending elegant design with exceptional quality to meet the diverse needs of our clients. We believe the home is the most important place in a person’s life, and we’re proud to be part of our customers journey in building their dream homes.
+We are committed to excellence in everything we do, driven by passion to exceed expectations through continuous innovation and dedication to the highest standards of quality. Every home deserves a touch of elegance and comfort—and we’re here to bring that to life with creativity')
                                 </p>
                             </div>
                         </div>
@@ -387,26 +377,15 @@
                 <div id="production" class="row m-3 m-lg-4">
                     <!-- Production section description -->
                     <div class="col-12 production-lines p-3 p-lg-4">
-                        <h2 class="section-title mb-4">إنتاجنا</h2>
-                        <h3 class="sub-title mb-4">خطوط الإنتاج</h3>
+                        <h2 class="section-title mb-4">@lang('about.Our Production')</h2>
+                        <h3 class="sub-title mb-4">@lang('about.Production Lines')</h3>
                         <p class="production-para">
-                            مع 58 خط إنتاج، لقد صممنا بنية إنتاجية بكفاءة استثنائية تتيح لنا إنشاء آلات بكفاءة
-                            استثنائية. حيث لم نضع مواقع التصنيع الخمسة لدينا بشكل استراتيجي في جميع أنحاء العالم لتوفير
-                            وصول عالمي عالي الجودة والقيمة على طيلة العملية، مما يوسع من الأسواق.
+                            @lang('about.With 58 production lines, our facilities represent a powerhouse of productivity and efficiency, enabling us to manufacture furniture with exceptional precision. Our five strategically located manufacturing sites across the globe provide both regional and international access, allowing us to meet the needs of a wide range of markets.
+More than 20,000 dedicated workers operate at these sites, spending countless hours to meet the ever-growing demand for our products.
+One of the key benefits of smart furniture manufacturing is enhanced quality control. Automated systems can detect defects early in the production process, ensuring that every piece meets strict quality standards before reaching the customer. This not only reduces waste but also boosts customer satisfaction by consistently delivering high-quality products.
+That’s why at Oppolia, we continuously integrate AI technologies into home furniture manufacturing—from beds and wardrobes to kitchen cabinets.')
                         </p>
-                        <p class="production-para">
-                            يتم توزيع أكثر من 200000 منتج عالميًا، مما يضمن ساعات إنتاج وإمدادات ثابتة في ظل تلبية
-                            الطلبات المتزايدة باستمرار.
-                        </p>
-                        <p class="production-para">
-                            تعتمد أحدث المعايير المتقدمة للتصنيع الذكي في كل مرحلة من العملية، مما يتيح التحكم الدقيق في
-                            الإنتاج أثناء تكامل التكنولوجيا الذكية، مما يضمن أن كل منتج يتم تصنيعه بالجودة العالية وفق
-                            أعلى المعايير.
-                        </p>
-                        <p class="production-para">
-                            نحن نلتزم في أوبوليا دائمًا على الاستثمار في أحدث التقنيات الإنتاجية في الأسواق مع التوسع في
-                            طرق التصنيع واستراتيجيات التصدير.
-                        </p>
+
                     </div>
 
                     <!-- Production capacity and image section -->
@@ -414,13 +393,13 @@
                         <div class="row gx-0 align-items-stretch justify-content-center">
                             <!-- Production Capacity -->
                             <div class="col-lg-8 col-md-12 align-content-center justify-content-center production-capacity p-3 p-lg-4">
-                                <h3 class="production-subtitle text-right">الطاقة الإنتاجية</h3>
+                                <h3 class="production-subtitle ">@lang('about.Production Capacity')</h3>
                                 <ul class="production-li">
-                                    <li>ننتج أكثر من 6300 وحدة مطبخ وخزانة ملابس.</li>
-                                    <li>نضمن الاستدامة في الوقت المناسب ورضا العملاء.</li>
-                                    <li>الحفاظ على مستوى الإنتاج الصناعي وفقًا لمعايير التصنيع المتقدمة.</li>
-                                    <li>نضمن أتمتة العمليات لزيادة المرونة التصنيعية.</li>
-                                    <li>تلبي احتياجات العملاء.</li>
+                                    <li>@lang('about.Produces over 6,300 kitchen and wardrobe units.')</li>
+                                    <li>@lang('about.Ensures timely delivery and customer satisfaction.')</li>
+                                    <li>@lang('about.Maintains high production standards using advanced manufacturing technologies.')</li>
+                                    <li>@lang('about.Guarantees products meet strict quality standards.')</li>
+                                    <li>@lang('about.Fulfills customer needs effectively.')</li>
                                 </ul>
                             </div>
 
@@ -436,16 +415,15 @@
                 <!-- History Section -->
                 <div id="history" class="row m-3 m-lg-4">
                     <div class="product-grid col-12 p-0" >
-                        <h2 class="section-title mb-3 mb-lg-5">تاريخنا</h2>
+                        <h2 class="section-title mb-3 mb-lg-5">@lang('about.Our History')</h2>
                         <div class="new-arrivals owl-carousel owl-responsive owl-theme mb-5" dir="ltr">
                             <!-- Slide 1 -->
                             <div class="item">
-                                <div class="card card-height p-3 text-end">
+                                <div class="card card-height p-3 ">
                                     <div class="event-date badge text-center">1994–1997</div>
-                                    <h5 class="card-title mt-3">بدايات اوبوليا</h5>
+                                    <h5 class="card-title mt-3">@lang('about.The Beginnings of Oppolia')</h5>
                                     <p class="card-description">
-                                        تأسست اوبوليا في عام 1994 برؤية لجلب الجمال للتصميم الداخلي وإنتاجه وتركيبه في منازل
-                                        المملكة العربية السعودية.
+                                        @lang('about. Oppolia was founded in 1994 with a vision to bring beauty to interior design through the production and installation of custom furnishings across homes in Saudi Arabia. Starting as a small workshop, our focus was on creating unique and distinctive kitchen designs.')
                                     </p>
                                 </div>
                                 <svg class="slide-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 53 51 150">
@@ -458,9 +436,9 @@
                             <div class="item">
                                 <div class="card card-height p-3 text-end">
                                     <div class="event-date badge">1998–2002</div>
-                                    <h5 class="card-title mt-3">بداية التوسع</h5>
+                                    <h5 class="card-title mt-3">@lang('about.Expanding Horizons Globally')</h5>
                                     <p class="card-description">
-                                        بدأنا بالتوسع إلى أسواق جديدة مع التركيز على تصميم مطابخ مميزة وفريدة.
+                                        @lang('about. By 1998, our reputation for quality and innovation enabled us to expand operations. We launched our first major production facility, significantly increasing our capacity to meet the growing demand for custom kitchen designs.')
                                     </p>
                                 </div>
                                 <svg class="slide-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 53 51 150">
@@ -473,9 +451,9 @@
                             <div class="item">
                                 <div class="card card-height p-3 text-end">
                                     <div class="event-date badge">2003–2009</div>
-                                    <h5 class="card-title mt-3">التطوير والتحديث</h5>
+                                    <h5 class="card-title mt-3">@lang('about.Diversification and Development')</h5>
                                     <p class="card-description" dir="rtl">
-                                        قمنا بدمج أحدث تقنيات التصنيع لتعزيز جودة التصاميم.
+                                        @lang('about. In 2003, we diversified our product range to include custom wardrobes and home furniture. This strategic step allowed us to offer comprehensive interior design solutions, better serving a wider range of customers and strengthening our market position')
                                     </p>
                                 </div>
                                 <svg class="slide-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 53 51 150">
@@ -488,9 +466,9 @@
                             <div class="item">
                                 <div class="card card-height p-3 text-end">
                                     <div class="event-date badge">2010–2014</div>
-                                    <h5 class="card-title mt-3">الذهاب إلى العالمية</h5>
+                                    <h5 class="card-title mt-3">@lang('about.Going Global')</h5>
                                     <p class="card-description" dir="rtl">
-                                        توسعنا دوليًا من خلال افتتاح مواقع إنتاج في مناطق رئيسية.
+                                       @lang('about. The year 2010 marked a milestone as we expanded internationally. We established production sites in key regions across the globe, enabling us to serve international clients and adapt to various market needs. Our global growth was powered by our skilled workforce, which by then had grown into the thousands.')
                                     </p>
                                 </div>
                                 <svg class="slide-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 53 51 150">
@@ -503,9 +481,9 @@
                             <div class="item">
                                 <div class="card card-height p-3 text-end">
                                     <div class="event-date badge">2015–2019</div>
-                                    <h5 class="card-title mt-3">التطورات التكنولوجية</h5>
+                                    <h5 class="card-title mt-3">@lang('about.Embracing Technological Advancements')</h5>
                                     <p class="card-description" dir="rtl">
-                                        اعتماد أحدث تقنيات التصنيع الرقمي لتحقيق إنتاج أسرع وأكثر كفاءة.
+                                       @lang('about. In 2015, we adopted cutting-edge production technologies. These innovations boosted our efficiency and precision, enabling us to produce over 6,300 kitchen and wardrobe units. Our commitment to staying at the forefront of technology has helped us meet the rising expectations of our customers.')
                                     </p>
                                 </div>
                                 <svg class="slide-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 53 51 150">
@@ -518,9 +496,9 @@
                             <div class="item">
                                 <div class="card card-height p-3 text-end">
                                     <div class="event-date badge">2020–2023</div>
-                                    <h5 class="card-title mt-3">الابتكار والتطوير</h5>
+                                    <h5 class="card-title mt-3">@lang('about.Green Sustainability Initiatives')</h5>
                                     <p class="card-description" dir="rtl">
-                                        تقديم حلول ذكية في التصميمات المخصصة والمستدامة.
+                                       @lang('about. In 2020, we launched a series of sustainability initiatives aimed at reducing our environmental impact. We prioritized the use of eco-friendly materials and energy-efficient processes, reinforcing our commitment to responsible manufacturing and a healthier climate.')
                                     </p>
                                 </div>
                                 <svg class="slide-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 53 51 150">
@@ -533,9 +511,9 @@
                             <div class="item">
                                 <div class="card card-height p-3 text-end">
                                     <div class="event-date badge">2024</div>
-                                    <h5 class="card-title mt-3">مبادرات الاستدامة</h5>
+                                    <h5 class="card-title mt-3">@lang('about.Celebrating 30 Years')</h5>
                                     <p class="card-description" dir="rtl">
-                                        إطلاق برامج جديدة للحد من التأثير البيئي وتعزيز الاستدامة.
+                                        @lang('about. As we celebrate our 30th anniversary in 2024, Oppolia stands as a leader in the interior design industry. With five production sites worldwide, a workforce of over 20,000, and strong production capabilities, we continue to deliver exceptional Italian kitchens, wardrobes, and smart home solutions. Our journey from a small workshop to a global force is a testament to our enduring craftsmanship and dedication.')
                                     </p>
                                 </div>
                                 <svg class="slide-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 53 51 150">
@@ -545,15 +523,7 @@
                             </div>
 
                             <!-- Slide 8 (no arrow) -->
-                            <div class="item">
-                                <div class="card card-height p-3 text-end">
-                                    <div class="event-date badge">2025</div>
-                                    <h5 class="card-title mt-3">الاحتفال بمرور 30 عامًا</h5>
-                                    <p class="card-description" dir="rtl">
-                                        مواصلة أوبوليا قيادة مجال التصميم الداخلي.
-                                    </p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -561,79 +531,67 @@
                 <!-- Our Team Section -->
                 <div id="team" class="row m-3 m-lg-4">
                     <div class="col-12 section-header-team">
-                        <h2 class="section-title">فريقنا</h2>
+                        <h2 class="section-title">@lang('about.Our Team')</h2>
                         <p class="section-description">
-                            فريقنا من المصممين والحرفيين ومدراء المشاريع ذوي المهارات العالية هو العمود الفقري لشركة
-                            اوبوليا.
-                            مع سنوات من الخبرة والشغف المشترك بالتميز، يعمل فريقنا بشكل تعاوني لضمان أن كل مشروع يفي
-                            بأعلى معايير الجودة والحرفية. نحن نفخر باهتمامنا بالتفاصيل والتزامنا بتحقيق نتائج استثنائية.
+                            @lang('about. Our team of skilled designers, craftsmen, and project managers is the backbone of Oppolia. With years of experience and a shared passion for excellence, our team works collaboratively to ensure every project meets the highest standards of quality and craftsmanship. We take pride in our attention to detail and our commitment to delivering exceptional results.')
                         </p>
-                        <p class="team-subtitle">كيف يستطيع فريقنا مساعدتك؟
-                            <span class="personal-consultation">الاستشارة الشخصية</span>
-                        </p>
+
                         <p class="section-description">
-                            يجتمع مستشارو التصميم مع العملاء لفهم احتياجاتهم ورؤيتهم.
-                            يقدمون المشورة المهنية ويكتشفون خيارات التصميم.
+                           @lang('about.At Oppolia, our team of designers meets with you to understand your needs and vision, offering professional advice and exploring various design options.')
                         </p>
                     </div>
                     <div class="row m-0 box-container">
                         <!-- Box 1 -->
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="text-end p-3 h-100" style="background: white; border-radius: 8px;">
-                                <h5 class="feature-title">حلول التصميم المخصصة</h5>
+                            <div class=" p-3 h-100" style="background: white; border-radius: 8px;">
+                                <h5 class="feature-title">@lang('about.Custom Design Solutions')</h5>
                                 <p class="feature-description">
-                                    يخصص أوبوليا لتقديم تصميمات مخصصة من المنتجات المختلفة، بالإضافة إلى
-                                    الألوان والتشطيبات المتنوعة، مما يمنحك تحكمًا كاملاً في التفاصيل.
+                                  @lang('about. Our team specializes in creating custom designs for kitchens, wardrobes, interior doors, and home solutions—ensuring every detail fits your taste and space.')
                                 </p>
                             </div>
                         </div>
                         <!-- Box 2 -->
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="text-end p-3 h-100" style="background: white; border-radius: 8px;">
-                                <h5 class="feature-title">اختيار المواد</h5>
+                            <div class=" p-3 h-100" style="background: white; border-radius: 8px;">
+                                <h5 class="feature-title">@lang('about.Material Selection')</h5>
                                 <p class="feature-description">
-                                    نساعدك خلال عملية اختيار مواد عالية الجودة والتشطيبات المختلفة،
-                                    لضمان أن كل قطعة تعكس الأناقة والمتانة.
+                                    @lang('about. We guide you through the process of selecting high-quality materials, finishes, and accessories to ensure each piece reflects elegance and durability.')
                                 </p>
                             </div>
                         </div>
                         <!-- Box 3 -->
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="text-end p-3 h-100" style="background: white; border-radius: 8px;">
-                                <h5 class="feature-title">التصورات ثلاثية الأبعاد</h5>
+                            <div class=" p-3 h-100" style="background: white; border-radius: 8px;">
+                                <h5 class="feature-title">@lang('about.3D Visualizations')</h5>
                                 <p class="feature-description">
-                                    نقدم لك عروض تصاميم ثلاثية الأبعاد وجولات افتراضية لمساعدتك
-                                    على تصور المشروع بشكل أفضل قبل بدء التنفيذ.
+                                   @lang('about. We provide detailed 3D renderings and virtual tours to help you visualize your project before execution begins.')
                                 </p>
                             </div>
                         </div>
                         <!-- Box 4 -->
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="text-end p-3 h-100" style="background: white; border-radius: 8px;">
-                                <h5 class="feature-title">إدارة المشاريع</h5>
+                            <div class=" p-3 h-100" style="background: white; border-radius: 8px;">
+                                <h5 class="feature-title">@lang('about.Project Management')</h5>
                                 <p class="feature-description">
-                                    نحرص على إدارة مشاريعك مع تقديم خدمات الدعم المستمر،
-                                    للحفاظ على الأعمال وضمان القيام بها على أكمل وجه.
+                                    @lang('about. Our project managers oversee all aspects of your project, ensuring it is completed on time and within budget.')
                                 </p>
                             </div>
                         </div>
                         <!-- Box 5 -->
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="text-end p-3 h-100" style="background: white; border-radius: 8px;">
-                                <h5 class="feature-title">الحرفية الجيدة</h5>
+                            <div class=" p-3 h-100" style="background: white; border-radius: 8px;">
+                                <h5 class="feature-title">@lang('about.Expert Craftsmanship')</h5>
                                 <p class="feature-description">
-                                    يستخدم الحرفيون المهرة تقنيات الإنتاج المتقدمة
-                                    والمواد المتينة لإنشاء منتجات عالية الجودة.
+                                   @lang('about.Skilled artisans use advanced production techniques and premium materials to achieve superior quality.')
                                 </p>
                             </div>
                         </div>
                         <!-- Box 6 -->
                         <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="text-end p-3 h-100" style="background: white; border-radius: 8px;">
-                                <h5 class="feature-title">التركيب والمتابعة الدائمة</h5>
+                            <div class=" p-3 h-100" style="background: white; border-radius: 8px;">
+                                <h5 class="feature-title">@lang('about.Installation & Ongoing Support')</h5>
                                 <p class="feature-description">
-                                    يوفر فريق التركيب لدينا جميع جوانب المشروع، بما يشمل
-                                    التركيبات الأخيرة والدعم لضمان جودة المنتجات.
+                                    @lang('about.We ensure smooth, efficient installation and offer continuous support and aftercare to guarantee your complete satisfaction with the final result.')
                                 </p>
                             </div>
                         </div>
@@ -642,17 +600,16 @@
 
                 <!-- Achievements Section -->
                 <div id="achievements" class="m-3 m-lg-4">
-                    <h2 class="section-title p-3 m-0">إنجازاتنا</h2>
+                    <h2 class="section-title p-3 m-0">@lang('about.Our Achievements')</h2>
                     <!-- Row 1: illustration (left) + heading & big card (right) -->
                     <div class="row align-items-center g-4">
                         <!-- Right: big value card -->
                         <div class="col-lg-6">
                             <div class="achievement-card green-border d-flex flex-column h-100 p-4">
-                                <h6 class="market-title">القيمة السوقية</h6>
-                                <h3 class="count">15.3 مليار دولار أمريكي</h3>
+                                <h6 class="market-title">@lang('about.Market value')</h6>
+                                <h3 class="count">@lang('about.$15.3 Billion USD')</h3>
                                 <p>
-                                    في يناير 2021، تجاوزت قيمة مشاريعنا الإجمالية 15.3 مليار دولار أمريكي،
-                                    مما يعكس النمو المستدام لعملائنا.
+                                    @lang('about. In March 2021, our total market value surpassed $15.3 billion USD—reflecting our sustained success and the trust our customers place in our products.')
                                 </p>
                             </div>
                         </div>
@@ -681,16 +638,16 @@
                     <div class="row g-4 mt-4">
                         <div class="col-lg-6">
                             <div class="achievement-card green-border d-flex flex-column w-100 p-4">
-                                <h6 class="market-title">جائزة MUSE Design</h6>
-                                <h3 class="count">+1 MUSE Design Award</h3>
-                                <p>حصلنا على جائزة MUSE لعام 2023 تكريماً لابتكاراتنا.</p>
+                                <h6 class="market-title">@lang('about.MUSE Design Awards')</h6>
+                                <h3 class="count">+1 @lang('about.MUSE Design Awards')</h3>
+                                <p>@lang('about. We received the MUSE Design Awards in 2023, a well-deserved recognition of our design excellence—proving the uniqueness and quality embedded in every product we deliver.')</p>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="achievement-card green-border d-flex flex-column w-100 p-4">
-                                <h6 class="market-title">جائزة Red-dot</h6>
-                                <h3 class="count">+1 Red-dot Award</h3>
-                                <p>تم منحنا جائزة Red-dot لعام 2021.</p>
+                                <h6 class="market-title">@lang('about.Red Dot Award')</h6>
+                                <h3 class="count">+1 @lang('about.Red Dot Award')</h3>
+                                <p>@lang('about. We were honored with the prestigious Red Dot Award in 2021.')</p>
                             </div>
                         </div>
                     </div>
@@ -699,21 +656,19 @@
                     <div class="row g-4 mt-4">
                         <div class="col-lg-6">
                             <div class="achievement-card green-border d-flex flex-column w-100 p-4">
-                                <h6 class="market-title">صالة عرض</h6>
+                                <h6 class="market-title">@lang('about.7,000 Showrooms Worldwide')</h6>
                                 <h3 class="count">+7,000</h3>
                                 <p>
-                                    نغطي أكثر من 7,000 صالة عرض حول العالم، مما يعزز النمو التجاري
-                                    والتواصل الفعال.
+                                    @lang('about. We proudly operate over 7,000 showrooms across the globe, showcasing our strong presence and international impact.')
                                 </p>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="achievement-card green-border d-flex flex-column w-100 p-4">
-                                <h6 class="market-title">منزل مؤثث بشكل كامل</h6>
+                                <h6 class="market-title">@lang('about.Complete Home Furnishing')</h6>
                                 <h3 class="count">+40</h3>
                                 <p>
-                                    نعمل دائمًا على تحسين مساحة مستخدمينا وتعزيز استراتيجيات الأثاث
-                                    المثالية.
+                                    @lang('about. We are continually enhancing our product range and reinforcing our full-home furnishing strategy, focusing on comprehensive solutions tailored to customer needs.')
                                 </p>
                             </div>
                         </div>
@@ -726,7 +681,7 @@
                         <div class="row">
                             <!-- Title aligned to the right -->
                             <div class="col-12 d-flex align-items-center justify-content-start mb-4">
-                                <h2 class="section-title">الموردون</h2>
+                                <h2 class="section-title">@lang('about.Our Suppliers')</h2>
                             </div>
                             <!-- Supplier Cards Grid -->
                             <div class="col-12">
@@ -736,7 +691,7 @@
                                         <div class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                             <img src="{{ asset('Frontend/assets/images/gallery/Blum-Logo-.png') }}"
                                                  alt="Blum Logo" class="supplier-logo">
-                                            <p>اكثر من 20 عاما ونحن نعمل معا</p>
+                                            <p>@lang('about.Over 20 years of successful collaboration.')</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 d-flex">
@@ -744,7 +699,7 @@
                                             class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                             <img src="{{ asset('Frontend/assets/images/gallery/SKAI-Logo-webp.png') }}"
                                                  alt="Skai Logo" class="supplier-logo">
-                                            <p>تمثل هذه العلامة بمنتجاتها المميزة التي تحدد المعايير الصحيحة</p>
+                                            <p>@lang('about. A brand known for its outstanding products that set the right standards.')</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 d-flex">
@@ -752,7 +707,7 @@
                                             class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                             <img src="{{ asset('Frontend/assets/images/icons/suspa.webp') }}"
                                                  alt="Suspa Logo" class="supplier-logo">
-                                            <p>هي شركة تصنيع مبتكرة لأنظمة الغاز</p>
+                                            <p>@lang('about. An innovative manufacturer of gas springs.')</p>
                                         </div>
                                     </div>
                                     <!-- Second Row: 2 Suppliers -->
@@ -761,7 +716,7 @@
                                             class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                             <img src="{{ asset('Frontend/assets/images/icons/eger.webp') }}"
                                                  alt="EEGGER Logo" class="supplier-logo">
-                                            <p>من الألواح الخشبية عالية الجودة إلى المرايا التي تحدد الاتجاه للأثاث</p>
+                                            <p>@lang('about.From high-quality wood flooring to trend-setting materials for furniture design.')</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 d-flex">
@@ -769,7 +724,7 @@
                                             class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                             <img src="{{ asset('Frontend/assets/images/icons/bostik.webp') }}"
                                                  alt="Bostik Logo" class="supplier-logo">
-                                            <p>الابتكار هو هوية بوستيك والتكنولوجيا هي حجر الأساس في نجاحهم</p>
+                                            <p>@lang('about.Innovation is at the heart of Bostik’s identity, with technology as the foundation of their success.')</p>
                                         </div>
                                     </div>
                                 </div>

@@ -42,7 +42,7 @@
      @endauth
 
      @guest
-         <button class="btn button_Dark_Green" data-bs-toggle="modal" data-bs-target="#phoneModal">!اطلب مطبخك</button>
+         <button class="btn button_Dark_Green" data-bs-toggle="modal" data-bs-target="#phoneModal">@lang('home.Order Your Kitchen')</button>
      @endguest
  </div>
 

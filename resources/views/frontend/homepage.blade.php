@@ -291,7 +291,7 @@
             </div>
 
             <div class="col-12 text-center mt-5">
-                <img src="{{ asset('Frontend/assets/images/gallery/Saudi-guy.webp') }}"
+                <img src="{{ asset('Frontend/assets/images/gallery/Saudi-Guy.webp') }}"
                      class="img-fluid h-100 w-100"
                      alt="Customer Happy in Kitchen"
                      >

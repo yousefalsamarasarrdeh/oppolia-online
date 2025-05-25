@@ -1,6 +1,6 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
 
-@section('title') المنتجات @endsection
+@section('title') @lang('home.products') @endsection
 
 @section('content')
     <style>
@@ -18,7 +18,7 @@
         </div>
         <!-- Centered Text Overlay -->
         <div class="about-text-overlay">
-            <h1 class="about-text">المنتجات</h1>
+            <h1 class="about-text">@lang('home.products')</h1>
         </div>
     </div>
 

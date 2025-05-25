@@ -34,6 +34,7 @@ return [
     'L-Shaped Kitchens'=>'   مطابخ على شكل حرف L',
     'U-Shaped Kitchens'=>'   مطابخ على شكل حرف U',
     'Privacy Policy'=>'سياسة الخصوصية',
+    'designed_by' => 'تصميم وتطوير بواسطة Sarrdeh Tech',
 
 
 
