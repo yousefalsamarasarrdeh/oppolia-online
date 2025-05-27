@@ -10,7 +10,7 @@
     <section class="banner-wrapper position-relative">
         <div class="d-block d-md-none position-relative" dir="rtl">
             <img
-                src="{{ asset('Frontend/assets/images/banners/banner-homeMob.webp') }}"
+                src="{{ asset('Frontend/assets/images/banners/Banner-homeMob.webp') }}"
                 alt="Banner"
                 class="banner-image img-fluid w-100">
 

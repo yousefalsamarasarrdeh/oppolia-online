@@ -279,6 +279,15 @@
                         </li>
 
 
+                            <li class="nav-item">
+                                @if(app()->getLocale() == 'ar')
+                                    <a class="nav-link mydesplayright" href="{{ url('set/lang/en') }}"> English</a>
+                                @else
+                                    <a class="nav-link mydesplayright" href="{{ url('set/lang/ar') }}">عربي</a>
+                                @endif
+                            </li>
+
+
                             @if(auth()->check())
                                 <li class="nav-item">
                                     <a class="nav-link mydesplayright d-flex align-items-center justify-content-between border-top border-bottom py-4" href="{{ route('profile.edit') }}">
