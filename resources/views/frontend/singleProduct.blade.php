@@ -1,12 +1,37 @@
 @extends('layouts.Frontend.mainlayoutfrontend')
 @section('title') @lang('home.products') @endsection
 @section('content')
+    <style>
+        .my_img_product {
+            height: 750px;
+        }
+        .my-des-product {
+            color: rgba(10, 71, 64, 1); font-size: 30px; font-weight:500;
+        }
+
+        /* لأجهزة التابلت */
+        @media (max-width: 1024px) {
+            .my_img_product {
+                height: 500px;
+            }
+        }
+
+        /* لأجهزة الموبايل */
+        @media (max-width: 768px) {
+            .my_img_product {
+                height: 300px;
+            }
+            .my-des-product {
+                font-size: 16px;
+            }
+        }
+    </style>
 
 <div class="container p-5">
     <!-- Arrow and Product Name in One Line -->
     <div class="row mb-4">
         <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <h1 class="text-right m-0" style="color: rgba(10, 71, 64, 1); font-size: 30px; font-weight:500;">
+            <h1 class="text-right m-0 my-des-product" >
                 @if(App::getLocale() === 'ar')
                     {{ $product->name_ar ?? $product->name }}
                 @else
@@ -23,7 +48,7 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <img src="{{ asset($product->image ? 'storage/' . $product->image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
-                 class="img-fluid rounded-4 w-100 mb-4"
+                 class="img-fluid rounded-4 w-100 mb-4 my_img_product"
                  alt="Product Image">
         </div>
     </div>
@@ -32,11 +57,11 @@
     @foreach($product->descriptions as $description)
     <div class="row">
         <div class="col-md-12">
-            <p class="p-4 text-justify">
+            <p class="p-2 text-justify">
                 @if(App::getLocale() === 'ar')
-                    {{ $description->description_ar  ?? $description->description }}
+                    {!! $description->description_ar  ?? $description->description !!}
                 @else
-                    {{ $description->description }}
+                    {!! $description->description !!}
                 @endif
             </p>
         </div>

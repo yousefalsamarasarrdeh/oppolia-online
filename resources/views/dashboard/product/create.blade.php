@@ -63,8 +63,7 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <label for="category_id" class="form-label"><strong>اختر الفئة المناسبة</strong></label>
-                        <select name="category_id" id="category_id" class="form-control" required >
-                            <option value="" selected disabled  >اختر الفئة</option>
+                        <select name="category_ids[]" id="category_ids" class="form-control" multiple required>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->title }}</option>
                             @endforeach

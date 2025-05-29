@@ -41,7 +41,9 @@ class ProductController extends Controller
         try {
             // Validate the product fields
             $request->validate([
-                'category_id' => 'required|exists:categories,id',
+                'category_ids' => 'required|array',
+                'category_ids.*' => 'exists:categories,id',
+
       //          'name' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
       //          'name_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
                 'sku' => 'required|string',
@@ -64,12 +66,14 @@ class ProductController extends Controller
 
             // Create the product
             $product = Product::create([
-                'category_id' => $request->category_id,
+
                 'name' => $request->name,
                 'name_ar' => $request->name_ar,
                 'sku' => $request->sku,
                 'image' => $imagePath,
             ]);
+
+            $product->categories()->attach($request->category_ids);
 
             // Store the descriptions
             foreach ($request->descriptions as $index => $descriptionData) {
@@ -106,20 +110,17 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         try {
-            // Validate the product fields
             $request->validate([
-                'category_id' => 'required|exists:categories,id',
-        //        'name' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
-         //       'name_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
+                'category_ids' => 'required|array',
+                'category_ids.*' => 'exists:categories,id',
+                'name' => 'required|string',
+                'name_ar' => 'required|string',
                 'sku' => 'required|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-          //      'descriptions.*.description' => 'required|string|regex:/^[A-Za-z0-9 -]+$/',
-         //       'descriptions.*.description_ar' => 'required|string|regex:/^[\p{Arabic}0-9\s-]+$/u',
                 'descriptions.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
-            // Handle the product image
-            $imagePath = $product->image; // Existing image path
+            $imagePath = $product->image;
             if ($request->hasFile('image')) {
                 if ($imagePath) {
                     Storage::delete('public/' . $imagePath);
@@ -127,41 +128,36 @@ class ProductController extends Controller
                 $imagePath = $request->file('image')->store('product_images', 'public');
             }
 
-            // Update the product data
             $product->update([
-                'category_id' => $request->category_id,
                 'name' => $request->name,
                 'name_ar' => $request->name_ar,
                 'sku' => $request->sku,
                 'image' => $imagePath,
             ]);
 
-            // Handle descriptions (Add, Update, and Delete)
+            // sync الفئات الجديدة
+            $product->categories()->sync($request->category_ids);
+
             $existingDescriptionsIds = $product->descriptions()->pluck('id')->toArray();
             $submittedDescriptionsIds = array_filter(array_column($request->descriptions, 'id'));
 
-            // Delete removed descriptions
             $descriptionsToDelete = array_diff($existingDescriptionsIds, $submittedDescriptionsIds);
             ProductDescription::destroy($descriptionsToDelete);
 
-            // Loop through descriptions to update or create new ones
             foreach ($request->descriptions as $index => $descriptionData) {
                 $descriptionImages = [];
 
-                // Check if new images are uploaded
                 if (isset($descriptionData['images'])) {
                     foreach ($descriptionData['images'] as $image) {
                         $descriptionImages[] = $image->store('product_description_images', 'public');
                     }
                 }
 
-                // If no new images are uploaded, keep the old ones
                 if (!empty($descriptionData['id'])) {
                     $existingDescription = ProductDescription::find($descriptionData['id']);
                     if ($descriptionImages) {
                         $existingDescription->images = json_encode($descriptionImages);
                     } else {
-                        // Keep the old images if no new ones are uploaded
                         $descriptionImages = json_decode($existingDescription->images);
                     }
                     $existingDescription->update([
@@ -170,7 +166,6 @@ class ProductController extends Controller
                         'images' => $descriptionImages ? json_encode($descriptionImages) : null,
                     ]);
                 } else {
-                    // Create a new description if id is not present
                     $product->descriptions()->create([
                         'description' => $descriptionData['description'],
                         'description_ar' => $descriptionData['description_ar'],
