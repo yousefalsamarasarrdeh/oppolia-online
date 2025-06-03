@@ -30,6 +30,7 @@ return [
     'Logout'=>' تسجيل الخروج',
     'Order Your Kitchen'=>'!اطلب مطبخك',
     'products'=>'المنتجات',
+    'All Products'=>'جميع المنتجات',
 
 
 ];

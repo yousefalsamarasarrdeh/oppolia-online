@@ -30,6 +30,7 @@ return [
     'Logout'=>' Logout',
     'Order Your Kitchen'=>'Order Your Kitchen',
     'products'=>'products',
+    'All Products'=>'All Products',
 
 
 

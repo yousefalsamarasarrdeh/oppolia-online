@@ -38,19 +38,20 @@
                     {{ $category->title }}
                 @endif
             @else
-                جميع المنتجات
+                @lang('home.All Products')
             @endif
         </h2>
         <!-- Products Grid -->
         <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
             @forelse($products as $product)
-                <div class="col d-flex align-items-stretch">
+                <div class="col d-flex">
                     <a href="{{ route('product.show', $product->id) }}" class="text-decoration-none text-dark w-100">
-                        <div class="designer-card p-4 text-center h-100 d-flex flex-column">
-                            <img src="{{ asset($product->image ? 'storage/' . $product->image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
-                                 class="img-fluid rounded-4 mb-3"
-                                 alt="Product Image" style="object-fit: cover; height: 277px;">
-
+                        <div class="designer-card text-center d-flex flex-column h-100  border rounded-4 shadow-sm">
+                            <div class="flex-shrink-0">
+                                <img src="{{ asset($product->image ? 'storage/' . $product->image : 'storage/profile_images/ProfilePlaceholder.jpg') }}"
+                                     class="img-fluid rounded-top mb-3"
+                                     alt="Product Image" style="object-fit: cover; height: 277px; width: 100%;">
+                            </div>
                             <div class="designer-info mt-auto">
                                 <h5>
                                     @if(App::getLocale() == 'ar')
@@ -69,5 +70,4 @@
                 </div>
             @endforelse
         </div>
-
 @endsection

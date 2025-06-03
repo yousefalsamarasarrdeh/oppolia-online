@@ -3,6 +3,11 @@
 
 @section('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+    </style>
 @endsection
 @section('content')
 
@@ -83,7 +88,7 @@
                 <!-- Arrow 1→2 -->
                 <div class="col-12 col-md-1 text-center align-content-center mb-2">
                     <!-- horizontal on md+ -->
-                    <svg class="d-none d-lg-inline-block mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-none d-lg-inline-block mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -93,7 +98,7 @@
                               stroke-linejoin="round" />
                     </svg>
                     <!-- vertical on xs/sm -->
-                    <svg class="d-inline-block d-lg-none mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-inline-block d-lg-none mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none" style="transform: rotate(-90deg);">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -121,7 +126,7 @@
                 <!-- Arrow 2→3 -->
                 <div class="col-12 col-md-1 text-center align-content-center mb-2">
                     <!-- horizontal on md+ -->
-                    <svg class="d-none d-lg-inline-block mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-none d-lg-inline-block mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -131,7 +136,7 @@
                               stroke-linejoin="round" />
                     </svg>
                     <!-- vertical on xs/sm -->
-                    <svg class="d-inline-block d-lg-none mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-inline-block d-lg-none mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none" style="transform: rotate(-90deg);">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -155,7 +160,7 @@
                 <!-- Arrow 3→4 -->
                 <div class="col-12 col-md-1 text-center align-content-center mb-2">
                     <!-- horizontal on md+ -->
-                    <svg class="d-none d-lg-inline-block mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-none d-lg-inline-block mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -165,7 +170,7 @@
                               stroke-linejoin="round" />
                     </svg>
                     <!-- vertical on xs/sm -->
-                    <svg class="d-inline-block d-lg-none mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-inline-block d-lg-none mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none" style="transform: rotate(-90deg);">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -188,7 +193,7 @@
 
                 <!-- Arrow 4→5 -->
                 <div class="col-12 col-md-1 text-center align-content-center mb-2">
-                    <svg class="d-none d-lg-inline-block mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-none d-lg-inline-block mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -197,7 +202,7 @@
                         <path d="M6.66663 16L12 10.6667" stroke="#F3F3F3" stroke-width="2" stroke-linecap="round"
                               stroke-linejoin="round" />
                     </svg>
-                    <svg class="d-inline-block d-lg-none mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-inline-block d-lg-none mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none" style="transform: rotate(-90deg);">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -221,7 +226,7 @@
 
                 <!-- Arrow 5→6 -->
                 <div class="col-12 col-md-1 text-center align-content-center mb-2">
-                    <svg class="d-none d-lg-inline-block mx-auto" xmlns="http://www.w3.org/2000/svg" width="32"
+                    <svg class="d-none d-lg-inline-block mx-auto {{ app()->getLocale() === 'en' ? 'rotate-180' : '' }}" xmlns="http://www.w3.org/2000/svg" width="32"
                          height="32" viewBox="0 0 32 32" fill="none">
                         <path d="M6.66663 16H14.6666M18.6666 16H20.6666M24.6666 16H25.3333"
                               stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -249,7 +254,7 @@
                         </mask>
                         <path d="M45.3499 8.00423C45.0658 8.01171 44.7706 8.03039 44.4828 8.06403C43.3354 8.19484 42.1506 8.50878 41.0145 8.93111C38.7421 9.77576 36.6492 11.054 35.3037 12.3994C33.8499 13.8533 33.136 15.6285 33.151 17.4524C33.1622 19.0296 33.7527 20.6217 34.616 22.1466L32.4334 24.3591C32.1493 24.5908 32.0185 24.9608 32.1008 25.3196C32.183 25.6747 32.4633 25.955 32.8183 26.0372C33.1771 26.1194 33.5471 25.9886 33.7789 25.7046L36.4698 23.0137C36.7875 22.6922 36.8361 22.1952 36.5894 21.8177C35.6102 20.304 35.0757 18.8091 35.0645 17.4524C35.0533 16.0957 35.5205 14.8736 36.6492 13.7449C37.6957 12.6984 39.669 11.4838 41.7022 10.7251C42.9804 10.2504 44.1987 10.071 45.32 10.0374L41.7022 13.6253C41.6909 13.644 41.6797 13.6664 41.6723 13.6851C40.6893 14.8063 40.6445 16.5143 41.7022 17.572L46.785 22.6549C46.7962 22.6661 46.8037 22.6736 46.8149 22.6848C47.9362 23.6677 49.6441 23.7126 50.7018 22.6549L54.3196 19.0371C54.2897 20.177 54.1103 21.4066 53.632 22.6848C52.877 24.7067 51.6623 26.6576 50.6121 27.7078C49.4834 28.8365 48.2837 29.2514 46.9345 29.2327C45.5853 29.214 44.0567 28.6833 42.4795 27.7377C42.1021 27.5135 41.6237 27.577 41.3135 27.8872L39.7886 29.4121C39.4074 29.7821 39.4037 30.3913 39.7737 30.7725C40.1437 31.1537 40.7529 31.1575 41.1341 30.7875L42.2104 29.7111C43.7652 30.5445 45.3274 31.1238 46.9046 31.1463C48.7135 31.1724 50.5038 30.5072 51.9576 29.0533C53.2993 27.7116 54.5813 25.6336 55.4259 23.3724C56.2706 21.1113 56.7153 18.6596 56.0239 16.5853C55.9155 16.2714 55.6539 16.0397 55.3325 15.9649C55.0073 15.8939 54.671 15.9911 54.4392 16.2265L49.3564 21.2795C49.0873 21.5486 48.5341 21.586 48.1305 21.2795C48.1118 21.2645 48.0894 21.2645 48.0707 21.2496L43.0476 16.2265C42.7636 15.9425 42.7486 15.3482 43.1074 14.9409L48.1305 9.91778C48.366 9.68606 48.4631 9.3497 48.3921 9.02454C48.3174 8.70313 48.0856 8.44151 47.7717 8.33312C47.0055 8.0715 46.1983 7.97807 45.3499 8.00423ZM11.7132 8.09393C11.5114 8.12383 11.3208 8.21726 11.175 8.36302L8.78309 10.755C8.47288 11.0652 8.40935 11.5436 8.63359 11.921L12.67 18.9175C12.8718 19.2463 13.2456 19.422 13.6268 19.3659L15.7197 19.0371L28.696 32.0133L28.2176 32.4917C27.1599 33.5494 27.1599 35.2611 28.2176 36.3188L28.8754 37.0065C29.6378 37.7689 30.688 37.7652 31.6261 37.455L33.2407 39.0397C33.1323 40.3291 33.5098 41.611 34.4366 42.5379L46.0974 54.2285C48.4594 56.5905 52.2865 56.5905 54.6485 54.2285C54.6485 54.2173 54.6485 54.2098 54.6485 54.1986C56.9171 51.8141 56.947 47.9758 54.6485 45.6773L42.9579 34.0166C41.9937 33.0523 40.7117 32.7533 39.4597 32.8206L37.8751 31.206C38.1853 30.268 38.189 29.2177 37.4266 28.4553L36.7389 27.7975C36.2119 27.2706 35.5205 26.9903 34.8253 26.9903C34.1302 26.9903 33.4388 27.2706 32.9118 27.7975L32.4334 28.2759L19.4571 15.2996L19.786 13.2067C19.8421 12.8255 19.6664 12.4517 19.3375 12.2499L12.3411 8.21353C12.1767 8.12009 11.9898 8.07898 11.8029 8.09393C11.773 8.09393 11.7431 8.09393 11.7132 8.09393ZM12.0421 10.2467L17.8127 13.5655L17.5137 15.5089C17.4726 15.8042 17.5735 16.1032 17.7828 16.3162L31.0879 29.6214L30.0415 30.6679L16.7363 17.3627C16.5233 17.1534 16.2243 17.0525 15.929 17.0936L13.9856 17.3926L10.6667 11.622L12.0421 10.2467ZM34.8253 28.9337C35.0384 28.9337 35.2514 29.001 35.3934 29.143L36.0512 29.8307C36.3651 30.1446 36.3614 30.6118 36.111 30.9071C35.7784 31.292 35.8045 31.8713 36.1708 32.2226L38.3534 34.4053C38.574 34.6258 38.8842 34.7267 39.1906 34.6744C40.0764 34.5286 41.0033 34.7528 41.6125 35.362L53.2732 47.0527C54.798 48.5775 54.813 51.2161 53.2732 52.8531C51.6175 54.5088 49.1284 54.5088 47.4727 52.8531L35.7821 41.1924C35.1468 40.557 34.8963 39.6563 35.0944 38.8603C35.1804 38.5239 35.0757 38.1726 34.8253 37.9334L32.6427 35.7507C32.2914 35.3845 31.7121 35.3583 31.3271 35.6909C31.0319 35.9413 30.5647 35.9451 30.2507 35.6311L29.5631 34.9734C29.279 34.6893 29.279 34.1212 29.5631 33.8372L34.2572 29.143C34.3993 29.001 34.6123 28.9337 34.8253 28.9337ZM25.437 31.804C25.2202 31.8339 25.0184 31.9423 24.8689 32.103L20.3242 36.6477C19.6739 36.5206 19.0348 36.4085 18.3807 36.4085C12.9877 36.4085 8.60369 40.7925 8.60369 46.1856C8.60369 51.5787 12.9877 55.9327 18.3807 55.9327C23.7738 55.9327 28.1279 51.5787 28.1279 46.1856C28.1279 45.4867 27.9709 44.7953 27.799 44.1225L31.0879 40.8336C31.4691 40.4636 31.4729 39.8544 31.1029 39.4732C30.7329 39.092 30.1237 39.0882 29.7425 39.4582L26.1247 43.1059C25.8518 43.3676 25.7584 43.7675 25.8855 44.1225C26.1247 44.7579 26.2143 45.397 26.2143 46.1856C26.2143 50.5509 22.746 54.0192 18.3807 54.0192C14.0155 54.0192 10.5172 50.5509 10.5172 46.1856C10.5172 41.8203 14.0155 38.3221 18.3807 38.3221C19.0647 38.3221 19.7524 38.4192 20.4438 38.5912C20.7689 38.6622 21.1091 38.5613 21.3408 38.3221L26.2143 33.4485C26.4984 33.1757 26.5844 32.7533 26.4311 32.3908C26.2816 32.0283 25.9191 31.7966 25.5267 31.804C25.4968 31.804 25.4669 31.804 25.437 31.804ZM38.8617 37.0663L37.4864 38.4417L48.9677 49.923L50.343 48.5476L38.8617 37.0663ZM19.3973 40.6243C19.345 40.6318 19.2964 40.6393 19.2478 40.6542L14.7629 41.91C14.4453 41.9997 14.1949 42.2501 14.1052 42.5678L12.8494 47.0527C12.7447 47.3928 12.8382 47.759 13.0886 48.0094L16.4373 51.3581C16.6802 51.5973 17.0353 51.6908 17.3642 51.5973L21.9687 50.3416C22.305 50.2556 22.5704 49.9903 22.6563 49.6539L23.7925 45.169C23.8859 44.8401 23.7925 44.4851 23.5533 44.2421L20.2046 40.8934C19.9916 40.6841 19.6926 40.5832 19.3973 40.6243ZM19.2179 42.6575L21.7893 45.2288L20.9222 48.6672L17.424 49.5941L14.8526 47.0228L15.7795 43.5843L19.2179 42.6575Z" stroke="#F3F3F3" stroke-width="14.2222" mask="url(#path-1-inside-1_2404_254)" />
                     </svg>
-                    <p class="mt-2 text-nowrap" style="place-self: center;">@lang('Homepage.Delivery & Installation')</p>
+                    <p class="mt-2 text-nowrap" style="place-self: center;">@lang('homepage.Delivery & Installation')</p>
                 </div>
             </div>
         </div>
