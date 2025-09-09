@@ -1,9 +1,15 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'User and Designer Management')
+@section('title', 'إدارة المستخدمين')
 
 @section('css')
     <!-- تضمين CSS الخاص بـ DataTables -->
+
+    <style>
+        .form-select {
+            background-position: left .75rem center!important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -39,7 +45,7 @@
 
         <div class="form-group col-6">
             <label for="phone">الهاتف :</label>
-            <input type="text" name="phone" class="form-control" value="{{ $user->phone }}">
+            <input type="text" style="direction: ltr;text-align: right;" name="phone" class="form-control" value="{{ $user->phone }}">
         </div>
 
         <div class="form-group col-6">
@@ -47,7 +53,7 @@
                 $userrole = auth()->user()->role; // جلب المنطقة للمستخدم الحالي
             @endphp
             <label for="role"> الدور :</label>
-            <select name="role" id="role" class="form-control" onchange="toggleDesignerFields()">
+            <select name="role" id="role" class="form-select" onchange="toggleDesignerFields()">
             @if( $userrole =='Area manager')
                 <!-- إذا كان المستخدم داخل منطقة، عرض فقط "مصمم" و "مستخدم" -->
                     <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>مستخدم</option>
@@ -66,7 +72,7 @@
 
         <div class="form-group col-6">
             <label for="region_id"> اختر المنطقة :</label>
-            <select name="region_id" class="form-control">
+            <select name="region_id" class="form-select">
                 <option value=""></option>
                 @foreach($regions as $region)
                     <option value="{{ $region->id }}" {{ old('region_id', $user->region_id) == $region->id ? 'selected' : '' }}>

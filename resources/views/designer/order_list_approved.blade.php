@@ -17,16 +17,7 @@
 @endsection
 
 @section('content')
-    <div class="pagetitle" dir="rtl" >
-        <h1 style="color: #0A4740 !important;">الطلبات المعتمدة</h1>
-        <nav>
-            <ol class="breadcrumb justify-content-end" dir="ltr">
-                <li class="breadcrumb-item active">الطلبات المعتمدة</li>
-                <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
-
-            </ol>
-        </nav>
-    </div><!-- نهاية عنوان الصفحة -->
+   
 
     <!-- عرض رسائل النجاح أو الفشل -->
     @if(session('success'))

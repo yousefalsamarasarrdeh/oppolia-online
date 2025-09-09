@@ -14,6 +14,9 @@
         color: rgba(28, 28, 28, 1) !important;
         font-weight: bold;
     }
+    .font-15-px{
+        font-size: 15px!important;
+    }
 </style>
 @section('content')
     <div class="container mt-4" dir="rtl">
@@ -41,19 +44,19 @@
                 <!-- المعلومات الشخصية -->
                 <div class="tab-pane fade show active" id="personal-info" role="tabpanel">
                     <div class="d-flex flex-wrap gap-2 justify-content-center">
-                        <span class="badge  text-dark p-3 background-grey" ><strong>الاسم:</strong> {{ $designerRequest->name }}</span>
-                        <span class="badge  text-dark p-3 background-grey" ><strong>المدينة:</strong> {{ $designerRequest->subRegion->name_ar }}</span>
-                        <span class="badge  text-dark p-3 background-grey" ><strong>الجنس:</strong> {{ $designerRequest->gender }}</span>
-                        <span class="badge  text-dark p-3 background-grey" ><strong>الحالة الاجتماعية:</strong> {{ $designerRequest->marital_status }}</span>
-                        <span class="badge  text-dark p-3 background-grey" ><strong>سنوات الخبرة:</strong> {{ $designerRequest->years_of_experience }}</span>
+                        <span class="badge font-15-px  text-dark p-3 background-grey" ><strong>الاسم:</strong> {{ $designerRequest->name }}</span>
+                        <span class="badge  font-15-px text-dark p-3 background-grey" ><strong>المدينة:</strong> {{ $designerRequest->subRegion->name_ar }}</span>
+                        <span class="badge font-15-px  text-dark p-3 background-grey" ><strong>الجنس:</strong> {{ $designerRequest->gender }}</span>
+                        <span class="badge font-15-px  text-dark p-3 background-grey" ><strong>الحالة الاجتماعية:</strong> {{ $designerRequest->marital_status }}</span>
+                        <span class="badge font-15-px text-dark p-3 background-grey" ><strong>سنوات الخبرة:</strong> {{ $designerRequest->years_of_experience }}</span>
                     </div>
                 </div>
 
                 <!-- معلومات التواصل -->
                 <div class="tab-pane fade" id="contact-info" role="tabpanel">
                     <div class="d-flex flex-wrap gap-2 justify-content-center">
-                        <span class="badge text-dark p-3 background-grey"><strong>البريد الإلكتروني:</strong> {{ $designerRequest->email_address }}</span>
-                        <span class="badge text-dark p-3 background-grey"><strong>رقم الهاتف:</strong> {{ $designerRequest->phone_number }}</span>
+                        <span class="badge font-15-px text-dark p-3 background-grey"><strong>البريد الإلكتروني:</strong> {{ $designerRequest->email_address }}</span>
+                        <span class="badge font-15-px text-dark p-3 background-grey"><strong>رقم الهاتف:</strong> {{ $designerRequest->phone_number }}</span>
                     </div>
                 </div>
             </div>

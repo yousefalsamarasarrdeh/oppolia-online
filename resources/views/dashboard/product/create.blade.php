@@ -39,7 +39,7 @@
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <h2 class="fw-bold">إضافة منتج جديد</h2>
 
-                <a href="{{ route('admin.products.index') }}" class="back-button">الرجوع إلى المنتجات</a>
+             <!--   <a href="{{ route('admin.products.index') }}" class="back-button">الرجوع إلى المنتجات</a> -->
             </div>
         </div>
         @if($errors->any())

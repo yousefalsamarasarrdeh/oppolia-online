@@ -1,6 +1,6 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'Sale Management')
+@section('title', 'إدارة المبيعات')
 @section('css')
 
     <style>
@@ -32,22 +32,23 @@
 
 @section('content')
     <div class="container mt-4">
-        <h2 class="mb-4">📊 قائمة المبيعات</h2>
+        <h2 class="mb-4"> قائمة المبيعات</h2>
 
         <!-- إحصائيات -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">📊 إجمالي المبيعات</h5>
-                <p class="card-text"><strong>{{ $saleCount }}</strong> مبيعات</p>
+        <div class="card col-4  ">
+            <div class="p-2 ">
+                <p class="mb-0 d-inline">إجمالي المبيعات: </p>
+                <p class="mb-0 d-inline"><strong>{{ $saleCount }}</strong></p>
             </div>
         </div>
+
 
         <!-- جدول المبيعات -->
         <div class="table-responsive">
             <table class=" table-bordered table-hover table datatable">
                 <thead >
                 <tr>
-                    <th class="mysize">#</th>
+                    <th class="mysize">ID</th>
                     <th class="mysize">رقم الطلب</th>
                     <th class="mysize">اسم العميل</th>
                     <th class="mysize">المنطقة</th>

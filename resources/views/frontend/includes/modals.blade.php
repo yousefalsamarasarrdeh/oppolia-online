@@ -35,6 +35,11 @@
                 <div class="modal-body mx-4">
                     <div class="mb-3 mytext_center">
                         <label for="otp" class="form-label myfont_4">@lang('home.Mobile number verification')</label>
+                        @if ($errors->has('otp'))
+                            <div class="alert alert-danger text-center my-2">
+                                {{ $errors->first('otp') }}
+                            </div>
+                        @endif
                         <div class="d-flex justify-content-center gap-2">
                             <!-- 6 خانات OTP -->
                             <input type="text" class="form-control otp-input myborder_radiu_5" maxlength="1" required>
@@ -46,7 +51,7 @@
                         </div>
                         <button type="submit" class="btn mycolor_btn myfill_width mt-3 myborder_radiu_5">@lang('home.Send')</button>
                     </div>
-                    <input type="hidden" id="otpPhone" name="phone">
+                    <input type="hidden" id="otpPhone" name="phone" value="{{ old('phone') }}">
                     <input type="hidden" id="otp" name="otp">
                 </div>
                 <div class="modal-footer"></div>
@@ -55,3 +60,11 @@
         </div>
     </div>
 </div>
+@if ($errors->has('otp'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var otpModal = new bootstrap.Modal(document.getElementById('otpModal'));
+            otpModal.show();
+        });
+    </script>
+@endif

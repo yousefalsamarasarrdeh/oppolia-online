@@ -1,6 +1,6 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'Notification Management')
+@section('title', 'صفحة الاشغارات')
 
 @section('css')
     <style>
@@ -17,7 +17,6 @@
             color: #509F96;
         }
     </style>
-
 @endsection
 
 @section('content')
@@ -36,30 +35,27 @@
     @endif
 
     <div class="mb-4">
-        <h2 class="mb-4">الإشعارات</h2>
-        <div class="row">
-            <div class="col-9 text-end">
-                <button id="hideBlueButton" class="btn designer-notifications-read mb-3">تمت قراءتها</button>
-                <button id="hideGrayButton" class="btn designer-notifications-unread mb-3">غير مقروءة</button>
-                <button id="showAllButton" class="btn designer-notifications-all mb-3">عرض الكل</button>
-            </div>
-
-            <div class="col-3 text-start">
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    حذف جميع الإشعارات المقروءة
-                </button>
-            </div>
-        </div>
-
         @if($notifications1->count())
-            <ul class="list-group">
+            <ul class="list-group card-body">
+                <h2 class="mb-4">الإشعارات</h2>
+                <div class="row">
+                    <div class="col-9 text-end">
+                        <button id="hideBlueButton" class="btn designer-notifications-read mb-3">تمت قراءتها</button>
+                        <button id="hideGrayButton" class="btn designer-notifications-unread mb-3">غير مقروءة</button>
+                        <button id="showAllButton" class="btn designer-notifications-all mb-3">عرض الكل</button>
+                    </div>
+
+                    <div class="col-3 "  style="text-align: end;">
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAllReadModal">
+                            حذف كل الإشعارات المقروءة
+                        </button>
+                    </div>
+                </div>
+
                 @foreach ($notifications1 as $notification)
                     <li class="list-group-item d-flex justify-content-between align-items-start
-                @if(is_null($notification->read_at))
-                        bg-light-blue
-@else
-                        bg-light-gray
-@endif">
+                        @if(is_null($notification->read_at)) bg-light-blue @else bg-light-gray @endif">
+
                         <div class="me-2 ms-auto text-end">
                             @if(isset($notification->data['order_id']))
                                 <div class="fw-bold">
@@ -81,10 +77,16 @@
                             <br>
                             <small>{{ $notification->created_at->diffForHumans() }}</small>
                         </div>
+
                         @if(is_null($notification->read_at))
                             <span class="badge bg-primary rounded-pill">جديد</span>
                         @else
-                            <button class="btn btn-danger btn-sm delete-notification" data-id="{{ $notification->id }}">حذف</button>
+                        <!-- زر حذف إشعار واحد (يفتح مودال التأكيد) -->
+                            <button type="button"
+                                    class="btn btn-danger btn-sm delete-notification"
+                                    data-id="{{ $notification->id }}">
+                                حذف
+                            </button>
                         @endif
                     </li>
                 @endforeach
@@ -96,14 +98,12 @@
         @endif
     </div>
 
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal: حذف جميع الإشعارات المقروءة -->
+    <div class="modal fade" id="deleteAllReadModal" tabindex="-1" aria-labelledby="deleteAllReadLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">حذف جميع الإشعارات المقروءة</h5>
+                    <h5 class="modal-title" id="deleteAllReadLabel">حذف جميع الإشعارات المقروءة</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
                 </div>
                 <div class="modal-body">
@@ -121,8 +121,26 @@
         </div>
     </div>
 
-@endsection
+    <!-- Modal: حذف إشعار واحد -->
+    <div class="modal fade" id="deleteSingleModal" tabindex="-1" aria-labelledby="deleteSingleLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteSingleLabel">حذف الإشعار</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    هل تريد بالتأكيد حذف هذا الإشعار؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                    <button id="confirmDeleteBtn" type="button" class="btn btn-danger">نعم، حذف</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+@endsection
 
 @section('script')
     <script>
@@ -137,12 +155,9 @@
                     const blueElements = document.getElementsByClassName('bg-light-blue');
                     const grayElements = document.getElementsByClassName('bg-light-gray');
 
-                    // إخفاء العناصر الزرقاء
                     Array.from(blueElements).forEach(function (element) {
                         element.classList.add('hidden');
                     });
-
-                    // إظهار العناصر الرمادية
                     Array.from(grayElements).forEach(function (element) {
                         element.classList.remove('hidden');
                     });
@@ -155,12 +170,9 @@
                     const grayElements = document.getElementsByClassName('bg-light-gray');
                     const blueElements = document.getElementsByClassName('bg-light-blue');
 
-                    // إخفاء العناصر الرمادية
                     Array.from(grayElements).forEach(function (element) {
                         element.classList.add('hidden');
                     });
-
-                    // إظهار العناصر الزرقاء
                     Array.from(blueElements).forEach(function (element) {
                         element.classList.remove('hidden');
                     });
@@ -172,17 +184,40 @@
                 showAllButton.addEventListener('click', function () {
                     const allElements = document.querySelectorAll('.list-group-item');
                     Array.from(allElements).forEach(function (element) {
-                        element.classList.remove('hidden'); // إزالة كلاس الإخفاء
+                        element.classList.remove('hidden');
                     });
                 });
             }
 
-            // حذف الإشعار عند الضغط على زر الحذف
-            const deleteButtons = document.querySelectorAll('.delete-notification');
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const notificationId = this.getAttribute('data-id');
-                    fetch(`/dashboard/notifications/${notificationId}`, {
+            // =========================
+            // حذف إشعار واحد مع مودال تأكيد
+            // =========================
+            let notificationIdToDelete = null;
+            let liToRemove = null;
+
+            // افتح المودال عند الضغط على زر الحذف (لا تحذف مباشرة)
+            const singleDeleteButtons = document.querySelectorAll('.delete-notification');
+            singleDeleteButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    notificationIdToDelete = this.getAttribute('data-id');
+                    liToRemove = this.closest('li');
+
+                    const modalEl = document.getElementById('deleteSingleModal');
+                    const deleteModal = new bootstrap.Modal(modalEl);
+                    deleteModal.show();
+                });
+            });
+
+            // تنفيذ الحذف عند التأكيد
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            if (confirmDeleteBtn) {
+                confirmDeleteBtn.addEventListener('click', function () {
+                    if (!notificationIdToDelete) return;
+
+                    fetch(`/dashboard/notifications/${notificationIdToDelete}`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -191,18 +226,25 @@
                     })
                         .then(response => {
                             if (response.ok) {
-                                this.closest('li').remove();
+                                if (liToRemove) liToRemove.remove();
                             } else {
-                                alert('Failed to delete notification. Please try again.');
+                                alert('فشل حذف الإشعار، حاول مرة أخرى.');
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
+                        })
+                        .finally(() => {
+                            const modalEl = document.getElementById('deleteSingleModal');
+                            const inst = bootstrap.Modal.getInstance(modalEl);
+                            if (inst) inst.hide();
+
+                            // تنظيف المتغيرات
+                            notificationIdToDelete = null;
+                            liToRemove = null;
                         });
                 });
-            });
+            }
         });
     </script>
 @endsection
-
-

@@ -8,12 +8,7 @@
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div><!-- End Search Bar -->
+
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -34,7 +29,7 @@
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
                             You have {{ $notifications->count() }} new notifications
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                            <a href="{{ route('admin.notifications.index') }}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
 
@@ -69,14 +64,14 @@
                         @endforeach
 
                         <li class="dropdown-footer">
-                            <a href="{{ route('admin.notifications.index') }}">Show all notifications</a>
+
                         </li>
                     </ul><!-- End Notification Dropdown Items -->
                 @else
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
 
                         <li class="dropdown-footer">
-                            <a href="{{ route('admin.notifications.index') }}">Show all notifications</a>
+
                         </li>
                     </ul>
                 @endif
@@ -99,7 +94,7 @@
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
+                            <span>تسجيل الخروج</span>
                         </a>
 
 

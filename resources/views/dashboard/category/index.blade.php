@@ -9,7 +9,7 @@
 
 @section('content')
     <div  dir="rtl">
-        <h1>الفئات</h1>
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -23,9 +23,11 @@
             </div>
         @endif
 
-        <a href="{{ route('admin.categories.create') }}" class="btn button_Green" >إضافة فئة جديدة</a>
 
-        <div class="container mt-3">
+
+        <div class="container mt-5">
+            <h1>الفئات</h1>
+            <a href="{{ route('admin.categories.create') }}" class="btn button_Green" >إضافة فئة جديدة</a>
             <div style="overflow-x: auto; width: 100%;">
             <table class="table table datatable" style="min-width: 800px;">
                 <thead>

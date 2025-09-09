@@ -42,7 +42,7 @@
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <h2 class="fw-bold">تعديل المنتج</h2>
 
-                <a href="{{ route('admin.products.index') }}" class="back-button">الرجوع إلى المنتجات</a>
+             <!--   <a href="{{ route('admin.products.index') }}" class="back-button">الرجوع إلى المنتجات</a> -->
             </div>
         </div>
         @if($errors->any())
@@ -99,7 +99,7 @@
                         <input type="file" name="image" id="image" class="form-control">
                         @if($product->image)
                             <div class="mt-2">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" width="100" class="img-thumbnail">
+                                <img src="{{ asset('storage/app/public/' . $product->image) }}" alt="Product Image" width="100" class="img-thumbnail">
                             </div>
                         @endif
                     </div>
@@ -127,7 +127,7 @@
                                         @if($description->images)
                                             <div class="d-flex flex-wrap gap-2 mb-2">
                                                 @foreach(json_decode($description->images) as $image)
-                                                    <img src="{{ asset('storage/' . $image) }}" alt="Description Image" width="80" class="img-thumbnail">
+                                                    <img src="{{ asset('storage/app/public/' . $image) }}" alt="Description Image" width="80" class="img-thumbnail">
                                                 @endforeach
                                             </div>
                                         @endif

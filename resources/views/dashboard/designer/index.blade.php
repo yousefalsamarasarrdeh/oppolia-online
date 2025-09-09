@@ -19,7 +19,12 @@
             {{ session('error') }}
         </div>
     @endif
+
+
+    <div class="container mt-5" dir="rtl">
+        <h1>جدول المصممين</h1>
     <div style="overflow-x: auto; width: 100%;">
+
 
     <table class="table datatable" dir="rtl" style="min-width: 800px;">
         <thead>
@@ -44,28 +49,26 @@
                 <td>{{$designer->region->name_ar}}</td>
                 <td>
                     <!-- زر التعديل -->
-                    <a href="{{ route('designer.showEditForm', $designer->id) }}" class="btn btn-primary border-0 bg-transparent">
-                        <button type="submit" class="border-0 bg-transparent text-danger">
-                            <img src="{{ asset('Dashboard/assets/images/edit.png') }}">
-                        </button></a>
+
                     <a href="{{ route('designer.show', $designer->id) }}" class="btn btn-primary  bg-transparent border-0">
 
                         <button type="submit" class="btn btn-danger bg-transparent border-0">
                             <img src="{{ asset('Dashboard/assets/images/view.png') }}">
                         </button>
                     </a>
-                    <!-- زر الحذف -->
-                <!--       <form action="{{ route('admin.designers.destroy', $designer->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من أنك تريد حذف هذا المستخدم؟')">حذف</button>
--->
-                    </form>
+                    <a href="{{ route('designer.showEditForm', $designer->id) }}" class="btn btn-primary border-0 bg-transparent">
+                        <button type="submit" class="border-0 bg-transparent text-danger">
+                            <img src="{{ asset('Dashboard/assets/images/edit.png') }}">
+                        </button></a>
+
+
+
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+    </div>
     </div>
 @endsection
 

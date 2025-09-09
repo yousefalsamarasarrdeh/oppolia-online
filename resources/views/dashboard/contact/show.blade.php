@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container mt-5" dir="rtl">
-        <h2 class="mb-4">تفاصيل رسالة اتصل بنا</h2>
+        <h2 class="mb-4">تفاصيل الرسالة</h2>
 
         <div class="card p-4">
             <div class="mb-3">
@@ -39,15 +39,41 @@
                 <p>{{ $contact->created_at->format('Y-m-d H:i') }}</p>
             </div>
 
-            <div class="mt-4 text-end">
-                <a href="{{ route('dashboard.contact_us.index') }}" class="btn btn-secondary">رجوع</a>
+            <div class="mt-4 d-flex justify-content-start gap-2">
 
-                <form action="{{ route('dashboard.contact_us.delete', $contact->id) }}" method="POST" class="d-inline-block">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذه الرسالة؟')">حذف</button>
-                </form>
+
+                {{-- زر يفتح مودال التأكيد --}}
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteSingleModal">
+                    حذف
+                </button>
             </div>
         </div>
     </div>
+
+    {{-- Modal تأكيد الحذف (بدون JS مخصص) --}}
+    <div class="modal fade" id="deleteSingleModal" tabindex="-1" aria-labelledby="deleteSingleLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteSingleLabel">تأكيد الحذف</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    هل تريد بالتأكيد حذف هذه الرسالة؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <form action="{{ route('dashboard.contact_us.delete', $contact->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">نعم، حذف</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    {{-- لا تستخدم SweetAlert هنا. يكفي سكربتات Bootstrap الأساسية المضمنة في لياوتك --}}
 @endsection

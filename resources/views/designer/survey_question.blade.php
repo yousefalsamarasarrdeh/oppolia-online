@@ -181,7 +181,7 @@
 
                             <!-- زر الإرسال -->
                             <div class="text-center m-2">
-                                <button type="submit" class="btn text-white px-5 py-2 button_Green" >إرسال الاستبيان</button>
+                                <button type="submit" class="btn text-white px-5 py-2 button_Green" >حفظ الاستبيان</button>
                             </div>
                         </form>
                     </div>

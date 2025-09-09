@@ -56,6 +56,7 @@ Route::middleware(['admin'])->group(function () {
 
 Route::prefix('dashboard')->middleware(['adminOrsales_manager'])->group(function () {
     Route::get('admin/regions', [RegionController::class, 'index'])->name('admin.regions');
+    Route::delete('orders/{order}', [DashboardOrderController::class, 'destroy'])->name('admin.orders.destroy');
 });
 
 

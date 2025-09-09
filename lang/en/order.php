@@ -11,7 +11,7 @@ return [
     'order_statuses' => [
         'accepted' => 'Accepted',
         'rejected' => 'Rejected',
-        'closed' => 'Closed',
+        'closed' => 'Completed',
         'pending' => 'Pending'
     ],
     'processing_stages' => [
@@ -51,24 +51,41 @@ return [
 
 
     'time_ranges' => [
-        'شهر' => 'One Month',
-        'شهرين' => 'Two Months',
-        'ثلاثة أشهر' => 'Three Months',
-        'أربعة أشهر' => 'Four Months',
-        'خمسة أشهر' => 'Five Months',
-        'ستة أشهر' => 'Six Months',
+        'شهر' => '1 Month',
+        'شهرين' => '2 Months',
+        'ثلاثة أشهر' => '3 Months',
+        'أربعة أشهر' => '4 Months',
+        'خمسة أشهر' => '5 Months',
+        'ستة أشهر' => '6 Months',
+        'سبعة أشهر' => '7 Months',
+        'ثمانية أشهر' => '8 Months',
+        'تسعة أشهر' => '9 Months',
+        'عشرة أشهر' => '10 Months',
+        'أحد عشر شهر' => '11 Months',
+        'اثنا عشر شهر' => '12 Months',
+        '3 أشهر' => '3 Months',
+        '4 أشهر' => '4 Months',
+        '5 أشهر' => '5 Months',
+        '6 أشهر' => '6 Months',
+        '7 أشهر' => '7 Months',
+        '8 أشهر' => '8 Months',
+        '9 أشهر' => '9 Months',
+        '10 أشهر' => '10 Months',
+        '11 شهر' => '11 Months',
+        '12 شهر' => '12 Months',
     ],
 
     'details_title' => 'Order Details',
-    'back' => 'Back ➡',
+    'back' => 'Back',
 
     'status_details' => 'Status Details',
     'more' => 'More',
     'order_info' => 'Order Information',
 
     'kitchen_area' => 'Kitchen Area',
-    'kitchen_shape' => 'Kitchen Shape',
-    'kitchen_style' => 'Kitchen Style',
+    'kitchen_shape' => 'Select Kitchen Shape',
+    'kitchen_style' => 'Select Kitchen Style',
+    'personal_information' => 'Personal Information',
 
     'design' => 'Design',
     'price' => 'Price',
@@ -149,12 +166,12 @@ return [
     'close' => 'Close',
     'save_changes' => 'Save Changes',
     'processing_stages_title' => 'Processing Stages for Order #:id',
-    'current_status_label' => 'Current Status',
+    'current_status_label' => 'You Are Here',
 
     'username' => 'User Name',
     'email' => 'email',
-    'next_button' => 'Next ➡',
-    'back_button' => ' ⬅ Back',
+    'next_button' => 'Next',
+    'back_button' => 'Back',
     'kitchen_area_and_shape' => 'Kitchen Area and Shape',
     'select_expected_cost' => 'Select Expected Cost',
     'cost_below_20' => 'Less than 20,000',
@@ -172,6 +189,16 @@ return [
     'search_location' => 'Search for Location:',
     'search_here_placeholder' => 'Search here...',
     'submit_request' => 'Submit Request',
+
+    // Order creation steps
+    'step_kitchen_area_shape' => 'Kitchen Area and Shape',
+    'step_kitchen_type_cost' => 'Kitchen Type and Cost',
+    'step_time_style' => 'Time Range and Kitchen Style',
+    'step_meeting_location' => 'Meeting Time and Location',
+
+    'basic_information' => 'Basic Information',
+    'email' => 'E-mail',
+    'username' => 'Full Name',
 
 
 

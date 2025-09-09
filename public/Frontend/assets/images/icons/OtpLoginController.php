@@ -46,18 +46,18 @@ class OtpLoginController extends Controller
         $message = "Your OTP code is: $otp";
 
         // إرسال طلب الـ SMS عبر API
-      /*  $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
-            'api_key' => env('SMS_API_KEY'),
-           'username' => env('SMS_USERNAME'),
+        $response = Http::asForm()->post('https://mora-sa.com/api/v1/sendsms', [
+            'api_key' => 'a1621845a9dcc1e8fc7b226d130a3ddc7bf6475f',
+            'username' =>'Muneef',
             'message' => $message,
-             'sender' => env('SMS_SENDER'),
+            'sender' => 'OPPOLIA',
             'numbers' => $request->phone
         ]);
 
 
         if ($response->failed()) {
             return response()->json(['success' => false, 'message' => 'Failed to send OTP.'], 500);
-        }*/
+        }
 
         return response()->json(['success' => true, 'message' => 'OTP sent successfully.']);
     }

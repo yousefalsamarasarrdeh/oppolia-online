@@ -1,6 +1,6 @@
 @extends('layouts.Dashboard.mainlayout')
 
-@section('title', 'إدارة المستخدمين')
+@section('title', 'إدارة المصممين')
 
 @section('css')
     <!-- تضمين CSS الخاص بـ DataTables -->
@@ -17,7 +17,7 @@
         </div>
     @endif
     <div class="container" dir="rtl">
-        <h1>تعديل المصمم</h1>
+        <h1>تعديل معلومات المصمم</h1>
         <form action="{{ route('designer.storeOrUpdate', $designer->user_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')

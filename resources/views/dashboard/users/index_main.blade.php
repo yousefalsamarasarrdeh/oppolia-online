@@ -19,6 +19,8 @@
             {{ session('error') }}
         </div>
     @endif
+    <div class="container mt-5" dir="rtl">
+        <h1>جدول المستخدمين</h1>
 
     <div style="overflow-x: auto; width: 100%;">
         <table class="table datatable" dir="rtl" style="min-width: 800px;">
@@ -67,6 +69,7 @@
             @endforeach
             </tbody>
         </table>
+    </div>
     </div>
 
 

@@ -17,7 +17,7 @@
     @endif
 
     <div class="container mt-4">
-        <h2 class="mb-4">📜 تفاصيل المبيعات والدفعات للمبيع رقم {{ $sale->id }}</h2>
+        <h2 class="mb-4"> تفاصيل المبيعات والدفعات للطلب  رقم {{ $sale->order->id }}</h2>
 
         @php
             $canEditPrice = ($sale->installments_count == 1 && $sale->installments->first()->status != 'paid');

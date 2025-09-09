@@ -1348,4 +1348,13 @@ h6 {
 }
 
 
+.sidebar-nav .nav-content a.active i {
+    background-color: #509f96;
+}
+.sidebar-nav .nav-link i {
 
+    color: #509f96;
+}
+sidebar-nav .nav-link.collapsed i {
+    color: #509f96;
+}

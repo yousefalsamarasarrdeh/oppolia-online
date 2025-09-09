@@ -20,11 +20,12 @@
             margin-bottom: 10px;
         }
         .accordion-button {
-            background-color: rgba(0, 0, 0, 0.13);
+            background-color: white;
             color: rgba(28, 28, 28, 1);
         }
         .accordion-button:not(.collapsed) {
-            background-color:  #f8f9fa;
+
+            background-color: rgba(0, 0, 0, 0.13);
             color: black;
         }
         .accordion-button[aria-expanded="true"]::after {
@@ -123,29 +124,31 @@
                 <div id="collapseOne" class="collapse accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#orderAccordion">
                     <div class="accordion-body">
                         <div class="order-info">
-                            <p><strong>رقم الطلب:</strong> {{ $order->id }}</p>
-                            <p><strong>مساحة المطبخ:</strong> {{ $order->kitchen_area }} متر مربع</p>
-                            <p><strong>شكل المطبخ:</strong> {{ $order->kitchen_shape }}</p>
-                            <p><strong>التكلفة المتوقعة:</strong> {{ $order->expected_cost }} SAR</p>
-                            <p><strong>حالة الطلب:</strong>
-                                @switch($order->order_status)
-                                    @case('accepted')
-                                    مقبول
-                                    @break
-                                    @case('rejected')
-                                    مرفوض
-                                    @break
-                                    @case('closed')
-                                    مغلق
-                                    @break
-                                    @case('pending')
-                                    قيد الانتظار
-                                    @break
-                                    @default
-                                    غير معروف
-                                @endswitch
+                            <p class="text-center">رقم الطلب <strong>{{ $order->id }} </strong></p>
+                            <p class="text-center">مساحة المطبخ <strong>{{ $order->kitchen_area }} متر مربع  </strong></p>
+                            <p class="text-center">شكل المطبخ<strong>{{ $order->kitchen_shape }} </strong></p>
+                            <p class="text-center">التكلفة المتوقعة <strong>{{ $order->expected_cost }} SAR </strong></p>
+                            <p class="text-center">حالة الطلب
+                                <strong>
+                                    @switch($order->order_status)
+                                        @case('accepted')
+                                        مقبول
+                                        @break
+                                        @case('rejected')
+                                        مرفوض
+                                        @break
+                                        @case('closed')
+                                        مغلق
+                                        @break
+                                        @case('pending')
+                                        قيد الانتظار
+                                        @break
+                                        @default
+                                        غير معروف
+                                    @endswitch
+                                </strong>
                             </p>
-                            <p><strong>منطقة الطلب :</strong> {{ $order->region->name_ar}}</p>
+                            <p class="text-center">منطقة الطلب <strong>{{ $order->region->name_ar}} </strong></p>
                         </div>
                     </div>
                 </div>
@@ -161,9 +164,9 @@
                 <div id="collapseTwo" class="collapse accordion-collapse" aria-labelledby="headingTwo" data-bs-parent="#orderAccordion">
                     <div class="accordion-body">
                         <div class="user-info">
-                            <p><strong>الاسم:</strong> {{ $order->user->name }}</p>
-                            <p><strong>البريد الإلكتروني:</strong> {{ $order->user->email }}</p>
-                            <p><strong>رقم الهاتف:</strong> {{ $order->user->phone }}</p>
+                            <p class="text-center">الاسم <strong>{{ $order->user->name }} </strong></p>
+                            <p class="text-center">البريد الإلكتروني <strong>{{ $order->user->email }} </strong></p>
+                            <p class="text-center">رقم الهاتف <strong>{{ $order->user->phone }} </strong></p>
                         </div>
                     </div>
                 </div>
@@ -180,12 +183,12 @@
                     <div class="accordion-body">
                         <div class="designer-info">
                             @isset($order->approved_designer_id)
-                                <p><strong>اسم المصمم:</strong> {{ $order->designer->user->name }}</p>
+                                <p class="text-center">اسم المصمم<strong>{{ $order->designer->user->name }} </strong> </p>
 
                                 @if ($order->designerMeeting)
-                                    <p><strong>تاريخ الزيارة:</strong> {{ $order->designerMeeting->meeting_time }}</p>
+                                    <p class="text-center">تاريخ الزيارة <strong>{{ $order->designerMeeting->meeting_time }} </strong></p>
                                 @else
-                                    <p>لم يتم تحديد موعد زيارة المصمم بعد.</p>
+                                    <p class="text-center">لم يتم تحديد موعد زيارة المصمم بعد.</p>
                                 @endif
                             @endisset
                         </div>
@@ -201,36 +204,58 @@
                     </button>
                 </h2>
                 <div id="collapseFour" class="collapse accordion-collapse" aria-labelledby="headingFour" data-bs-parent="#orderAccordion">
-                    <div class="accordion-body">
-                        <div class="survey-questions">
-                            @if ($order->surveyQuestion)
-                                <p><strong>كيف علمت عن اوبوليا اونلاين؟ </strong> {{ $order->surveyQuestion->hear_about_oppolia }}</p>
-                                <p><strong>متى التاريخ المتوقع للتوصيل؟ </strong> {{ $order->surveyQuestion->expected_delivery_time }}</p>
-                                <p><strong>ما هي ميزانية الزبون؟ </strong>SAR{{ $order->surveyQuestion->client_budget }}</p>
-                                <p><strong>ما هي أبعاد المطبخ المطلوب تصميمه؟ </strong> {{ $order->surveyQuestion->kitchen_room_size }} متر مربع</p>
-                                <p><strong>ما هو مغزى المطبخ؟</strong> {{ $order->surveyQuestion->kitchen_use }}</p>
-                                <p><strong>ما هو نوع المطبخ الذي طلبه الزبون؟ </strong> {{ $order->surveyQuestion->kitchen_style_preference }}</p>
-                                <p><strong>ما هي المستلزمات اللازمة للزبون؟ </strong> {{ $order->surveyQuestion->appliances_needed }}</p>
-                                <p><strong>ما هو نوع المغسلة التي طلبها الزبون؟</strong> {{ $order->surveyQuestion->sink_type }}</p>
-                                <p><strong>ما نوع الكاونتر التي طلبها الزبون؟ </strong> {{ $order->surveyQuestion->worktop_preference }}</p>
-                                <p><strong>معلومات عامة عن مكان العمل, المنزل, الزبون, الأمور المالية, الأمور العائلية؟ </strong> {{ $order->surveyQuestion->general_info }}</p>
-                                <p><strong>أي سؤال أو استفسار تم توجيهه من الزبون؟ </strong> {{ $order->surveyQuestion->customer_concerns }}</p>
-                                <p><strong>الخطوات القادمة و مخططاتك؟ </strong> {{ $order->surveyQuestion->next_steps_strategy }}</p>
-                                <p><strong>تفاصيل التذكير:</strong> {{ $order->surveyQuestion->reminder_details }}</p>
-                                <p><strong>احتمالية إغلاق الصفقة:</strong> {{ $order->surveyQuestion->deal_closing_likelihood }}</p>
+                    <div id="collapseFour" class="collapse accordion-collapse" aria-labelledby="headingFour" data-bs-parent="#orderAccordion">
+                        <div class="accordion-body">
+                            <div class="survey-questions">
+                                @if ($order->surveyQuestion)
+                                    <p class="text-center">كيف علمت عن اوبوليا اونلاين؟ <strong>{{ $order->surveyQuestion->hear_about_oppolia }}</strong></p>
+                                    <p class="text-center">متى التاريخ المتوقع للتوصيل؟ <strong>{{ $order->surveyQuestion->expected_delivery_time }}</strong></p>
+                                    <p class="text-center">ما هي ميزانية الزبون؟ <strong>SAR{{ $order->surveyQuestion->client_budget }}</strong></p>
+                                    <p class="text-center">ما هي أبعاد المطبخ المطلوب تصميمه؟ <strong>{{ $order->surveyQuestion->kitchen_room_size }} متر مربع</strong></p>
+                                    <p class="text-center">ما هو مغزى المطبخ؟ <strong>{{ $order->surveyQuestion->kitchen_use }}</strong></p>
+                                    <p class="text-center">ما هو نوع المطبخ الذي طلبه الزبون؟ <strong>{{ $order->surveyQuestion->kitchen_style_preference }}</strong></p>
+                                    <p class="text-center">ما هي المستلزمات اللازمة للزبون؟ <strong>{{ $order->surveyQuestion->appliances_needed }}</strong></p>
+                                    <p class="text-center">ما هو نوع المغسلة التي طلبها الزبون؟ <strong>{{ $order->surveyQuestion->sink_type }}</strong></p>
+                                    <p class="text-center">ما نوع الكاونتر التي طلبها الزبون؟ <strong>{{ $order->surveyQuestion->worktop_preference }}</strong></p>
+                                    <p class="text-center">معلومات عامة عن مكان العمل, المنزل, الزبون, الأمور المالية, الأمور العائلية؟ <strong>{{ $order->surveyQuestion->general_info }}</strong></p>
+                                    <p class="text-center">أي سؤال أو استفسار تم توجيهه من الزبون؟ <strong>{{ $order->surveyQuestion->customer_concerns }}</strong></p>
+                                    <p class="text-center">الخطوات القادمة و مخططاتك؟ <strong>{{ $order->surveyQuestion->next_steps_strategy }}</strong></p>
+                                    <p class="text-center">تفاصيل التذكير <strong>{{ $order->surveyQuestion->reminder_details }}</strong></p>
+                                    <p class="text-center">احتمالية إغلاق الصفقة <strong>{{ $order->surveyQuestion->deal_closing_likelihood }}</strong></p>
 
-                                @if(!empty($order->surveyQuestion->measurements_images))
-                                    <ul>
-                                        @foreach (json_decode($order->surveyQuestion->measurements_images, true) as $imagePath)
-                                            <li>
-                                                <img src="{{ asset('storage/' . $imagePath) }}" alt="صورة القياس" style="max-width: 100px;">
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <p>لا توجد صور تم تحميلها لهذا الطلب.</p>
-                                @endif
+                            </div>
+                            @if(!empty($order->surveyQuestion->measurements_images))
+                                <ul style="list-style: none; padding: 0; text-align: center; gap: 10px; flex-wrap: wrap;">
+                                    @foreach (json_decode($order->surveyQuestion->measurements_images, true) as $index => $imagePath)
+                                        <li >
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#lightboxModal{{ $index }}">
+                                                <img src="{{ asset('storage/' . $imagePath) }}"
+                                                     alt="صورة المسودة"
+                                                     class="img-thumbnail"
+                                                     style="width: 400px; height: 400px; object-fit: cover; cursor: pointer;">
+                                            </a>
+                                        </li>
+
+                                        <!-- Modal لكل صورة -->
+                                        <div class="modal fade" id="lightboxModal{{ $index }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                <div class="modal-content bg-transparent border-0">
+                                                    <div class="modal-body text-center">
+                                                        <img src="{{ asset('storage/' . $imagePath) }}" class="img-fluid rounded shadow">
+                                                    </div>
+                                                    <div class="modal-footer justify-content-center border-0">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p>لا توجد صور تم تحميلها لهذا الطلب.</p>
                             @endif
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -247,78 +272,125 @@
                     <div class="accordion-body">
                         @if ($order->orderDraft->count() > 0)
                             <div style="overflow-x: auto; width: 100%;">
-                            <table class="table table-bordered table-hover"  style="min-width: 800px;">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th width="5%">#</th>
-                                    <th width="15%">السعر</th>
-                                    <th width="30%">الصور</th>
-                                    <th width="20%">PDF</th>
-                                    <th width="15%">الحالة</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($order->orderDraft as $draft)
+                                <table class="table table-bordered table-hover"  style="min-width: 800px;">
+                                    <thead class="thead-light">
                                     <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ number_format($draft->price, 2) }} ر.س</td>
-                                        <td>
-                                            @if (!empty($draft->images))
-                                                <div class="d-flex flex-wrap gap-2">
-                                                    @foreach (json_decode($draft->images, true) as $image)
-                                                        <a href="{{ asset('storage/' . $image) }}" target="_blank">
-                                                            <img src="{{ asset('storage/' . $image) }}"
-                                                                 alt="صورة المسودة"
-                                                                 class="img-thumbnail"
-                                                                 style="width: 80px; height: 80px; object-fit: cover;">
-                                                        </a>
-                                                    @endforeach
-                                                </div>
-                                            @else
-                                                <span class="text-muted">لا توجد صور</span>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @if ($draft->pdf)
-                                                <a href="{{ asset('storage/' . $draft->pdf) }}"
-                                                   target="_blank"
-                                                   class="btn button_Green ">
-                                                    <i class="fas fa-file-pdf"></i> عرض PDF
-                                                </a>
-                                            @else
-                                                <span class="text-muted">لا يوجد ملف</span>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @php
-                                                $stateClasses = [
-                                                    'draft' => 'badge bg-secondary',
-                                                    'finalized' => 'badge bg-success',
-                                                    'approved' => 'badge bg-primary',
-                                                    'rejected' => 'badge bg-danger',
-                                                    'designer_changed' => 'badge bg-warning text-dark',
-                                                    'redesign' => 'badge bg-info',
-                                                    'modified' => 'badge bg-purple'
-                                                ];
-                                            @endphp
-
-                                            <span class="{{ $stateClasses[$draft->state] ?? 'badge bg-light text-dark' }}">
-                        @switch($draft->state)
-                                                    @case('draft') مسودة @break
-                                                    @case('finalized') نهائي @break
-                                                    @case('approved') معتمد @break
-                                                    @case('rejected') مرفوض @break
-                                                    @case('designer_changed') تعديل المصمم @break
-                                                    @case('redesign') إعادة تصميم @break
-                                                    @case('modified') معدل @break
-                                                    @default غير معروف
-                                                @endswitch
-                    </span>
-                                        </td>
+                                        <th width="5%">#</th>
+                                        <th width="15%">السعر</th>
+                                        <th width="30%">الصور</th>
+                                        <th width="20%">PDF</th>
+                                        <th width="15%">الحالة</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($order->orderDraft as $draft)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td class="text-center">{{ number_format($draft->price, 2) }} ر.س</td>
+                                            <td>
+                                                @if (!empty($draft->images))
+                                                    @php $images = json_decode($draft->images, true) ?? []; @endphp
+
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                    @foreach ($images as $idx => $image)
+                                                        <!-- Thumbnail يفتح المودال على الشريحة المناسبة -->
+                                                            <a href="#"
+                                                               class="d-inline-block"
+                                                               data-bs-toggle="modal"
+                                                               data-bs-target="#draftLightboxModal{{ $draft->id }}"
+                                                               data-bs-slide-to="{{ $idx }}">
+                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                     alt="صورة المسودة"
+                                                                     class="img-thumbnail"
+                                                                     style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;">
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+
+                                                    <!-- Modal + Carousel لكل مسودة -->
+                                                    <!-- Modal + Carousel لكل مسودة -->
+                                                    <div class="modal fade" id="draftLightboxModal{{ $draft->id }}" tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                                            <div class="modal-content bg-transparent border-0 shadow-none">
+                                                                <div class="modal-body p-0 d-flex justify-content-center align-items-center">
+                                                                    <div id="draftCarousel{{ $draft->id }}" class="carousel slide" data-bs-ride="false">
+                                                                        <div class="carousel-inner">
+                                                                            @foreach ($images as $i => $image)
+                                                                                <div class="carousel-item {{ $i === 0 ? 'active' : '' }} text-center">
+                                                                                    <img src="{{ asset('storage/' . $image) }}"
+                                                                                         class="img-fluid rounded"
+                                                                                         alt="صورة المسودة"
+                                                                                         style="max-height: 85vh; object-fit: contain;">
+                                                                                </div>
+                                                                            @endforeach
+                                                                        </div>
+
+                                                                        <!-- أزرار التنقّل -->
+                                                                        <button class="carousel-control-prev" type="button"
+                                                                                data-bs-target="#draftCarousel{{ $draft->id }}" data-bs-slide="prev">
+                                                                            <span class="carousel-control-prev-icon"></span>
+                                                                            <span class="visually-hidden">السابق</span>
+                                                                        </button>
+                                                                        <button class="carousel-control-next" type="button"
+                                                                                data-bs-target="#draftCarousel{{ $draft->id }}" data-bs-slide="next">
+                                                                            <span class="carousel-control-next-icon"></span>
+                                                                            <span class="visually-hidden">التالي</span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- زر الإغلاق أعلى اليمين -->
+                                                                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                @else
+                                                    <span class="text-muted">لا توجد صور</span>
+                                                @endif
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if ($draft->pdf)
+                                                    <a href="{{ asset('storage/' . $draft->pdf) }}"
+                                                       target="_blank"
+                                                       class="btn button_Green ">
+                                                        <i class="fas fa-file-pdf"></i> عرض PDF
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted">لا يوجد ملف</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                @php
+                                                    $stateClasses = [
+                                                        'draft' => 'badge bg-secondary',
+                                                        'finalized' => 'badge bg-success',
+                                                        'approved' => 'badge bg-primary',
+                                                        'rejected' => 'badge bg-danger',
+                                                        'designer_changed' => 'badge bg-warning text-dark',
+                                                        'redesign' => 'badge bg-info',
+                                                        'modified' => 'badge bg-purple'
+                                                    ];
+                                                @endphp
+
+                                                <span class="{{ $stateClasses[$draft->state] ?? 'badge bg-light text-dark' }}">
+                        @switch($draft->state)
+                                                        @case('draft') مسودة @break
+                                                        @case('finalized') نهائي @break
+                                                        @case('approved') معتمد @break
+                                                        @case('rejected') مرفوض @break
+                                                        @case('designer_changed') تعديل المصمم @break
+                                                        @case('redesign') إعادة تصميم @break
+                                                        @case('modified') معدل @break
+                                                        @default غير معروف
+                                                    @endswitch
+                    </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         @else
                             <p>لا توجد مسودات لهذا الطلب.</p>
@@ -364,7 +436,30 @@
                                                     <td>{{ number_format($installment->installment_amount, 2) }}</td>
                                                     <td>{{ $installment->percentage }}%</td>
                                                     <td>{{ $installment->due_date }}</td>
-                                                    <td>{{ $installment->status }}</td>
+                                                    <td> @switch($installment->status)
+                                                            @case('pending')
+                                                            <span class="badge bg-warning text-dark">قيد الانتظار</span>
+                                                            @break
+
+                                                            @case('paid')
+                                                            <span class="badge bg-success">مدفوع</span>
+                                                            @break
+
+                                                            @case('overdue')
+                                                            <span class="badge bg-danger">متأخر</span>
+                                                            @break
+
+                                                            @case('awaiting_customer_payment')
+                                                            <span class="badge bg-info text-dark">بانتظار دفع العميل</span>
+                                                            @break
+
+                                                            @case('receipt_uploaded')
+                                                            <span class="badge bg-primary">تم رفع الإيصال</span>
+                                                            @break
+
+                                                            @default
+                                                            <span class="badge bg-secondary">{{ $installment->status }}</span>
+                                                        @endswitch</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -406,5 +501,28 @@
                 map: map
             });
         }
+    </script>
+
+
+    <script>
+        document.addEventListener('click', function (e) {
+            const trigger = e.target.closest('[data-bs-target][data-bs-slide-to]');
+            if (!trigger) return;
+
+            const modalSelector = trigger.getAttribute('data-bs-target');
+            const slideTo = parseInt(trigger.getAttribute('data-bs-slide-to'), 10);
+
+            // عندما يُفتح المودال، نوجّه الكاروسيل إلى الشريحة المطلوبة
+            const modalEl = document.querySelector(modalSelector);
+            if (!modalEl) return;
+
+            modalEl.addEventListener('shown.bs.modal', function onShown() {
+                const carouselEl = modalEl.querySelector('.carousel');
+                if (!carouselEl) return;
+                const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl, { interval: false });
+                carousel.to(slideTo);
+                modalEl.removeEventListener('shown.bs.modal', onShown);
+            }, { once: true });
+        }, false);
     </script>
 @endsection

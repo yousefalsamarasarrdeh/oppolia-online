@@ -2,50 +2,361 @@
 
 @section('title', 'الطلب')
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Modern Order Details Page Styling */
+        .order-details-container {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
 
-        .timeline {
-            border-left: 2px solid #dee2e6;
-            margin-left: 16px;
+        .order-header {
+            background: linear-gradient(135deg, #0A4740, #509F96);
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* .order-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        } */
+
+        .order-header h1 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .order-header .back-link {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .order-header .back-link:hover {
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .order-status-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .status-item:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .status-label {
+            font-weight: 600;
+            color: #495057;
+            min-width: 120px;
+        }
+
+        .status-value {
+            color: #0A4740;
+            font-weight: 500;
+        }
+
+        .info-link {
+            color: #0A4740;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        /* ✅ Images Grid Styling */
+        .images-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* العنصر الحاوي لكل صورة */
+        .images-grid .thumb {
+            flex: 0 0 calc(50% - 6px); /* صورتين بالعرض على الموبايل */
+        }
+
+        /* الصورة نفسها */
+        .images-grid .thumb img {
+            width: 100%;
+            height: auto;            /* تحافظ على النسبة */
+            display: block;
+            border-radius: 8px;
+        }
+
+        .lightbox-thumb {
+            display: block;
+            text-decoration: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .lightbox-thumb:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        .lightbox-thumb .show_order_img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-thumb:hover .show_order_img {
+            transform: scale(1.05);
+        }
+
+        /* ✅ Lightbox Modal Styling */
+        .lightbox-modal .modal-content {
+            background: #f8f9fa;
+            border-radius: 16px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .lightbox-modal .modal-header {
+            background: linear-gradient(135deg, #0A4740, #509F96);
+            color: white;
+            border-bottom: none;
+            padding: 1.5rem 2rem;
+            position: relative;
         }
 
 
+
+        .lightbox-modal .modal-title {
+            font-weight: 700;
+            font-size: 1.4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lightbox-modal .btn-close {
+            filter: invert(1);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lightbox-modal .btn-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .lightbox-modal .modal-body {
+            padding: 0;
+            background: white;
+        }
+
+        .lightbox-modal .carousel {
+            border-radius: 0;
+        }
+
+        /* بدّل هذا السطر لأنه يظهر كل الشرائح */
+        .lightbox-modal .carousel-item {
+            /* احذف display:flex من هنا */
+            background: #f8f9fa;
+            /* يفضّل عدم إجبار transition/transform على none */
+        }
+
+        /* اجعل الـflex للنشطة فقط */
+        .lightbox-modal .carousel-item.active {
+            display: flex;            /* الآن فقط الشريحة النشطة تظهر */
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        /* لو حاب تثبّت الارتفاع للصورة نفسها */
+        .lightbox-modal .carousel-item.active img {
+            max-height: 70vh;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+
+        .lightbox-modal .carousel-inner {
+            transition: none !important;
+        }
+
+        .lightbox-modal .carousel {
+            transition: none !important;
+        }
+
+        .lightbox-modal .carousel-control-prev,
+        .lightbox-modal .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background: rgba(10, 71, 64, 0.8);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-modal .carousel-control-prev:hover,
+        .lightbox-modal .carousel-control-next:hover {
+            background: rgba(10, 71, 64, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-modal .carousel-control-prev-icon,
+        .lightbox-modal .carousel-control-next-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Image counter */
+        .lightbox-modal .image-counter {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(10, 71, 64, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        /* ✅ PDF Icon Styling */
+        .pdf-button .pdf-icon {
+            color: #0A4740;
+            transition: color 0.3s ease;
+        }
+
+        .pdf-button:hover .pdf-icon {
+            color: #FFFFFF;
+        }
+
+
+        .info-link:hover {
+            color: #509F96;
+            transform: scale(1.1);
+        }
+
+        .timeline {
+            border-left: none; /* remove full border */
+            margin-left: 0;
+            padding-left: 0;
+            position: relative;
+        }
+
         .timeline-item {
             position: relative;
-            padding-left: 30px;
-            margin-bottom: 20px;
+            padding-left: 40px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        /* Single per-step segment; defaults to gray (incomplete) */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 8.5px; /* align with thumb center */
+            top: 30px; /* from center of thumb */
+            width: 3px;
+            height: 60px; /* fixed height to connect to next thumb */
+            background: #D3D3D3; /* incomplete */
+            z-index: 0;
+        }
+        /* Do not draw a segment after the last item */
+        .timeline-item:last-child::after { display: none; }
+        /* Completed or active segments turn green */
+        .timeline-item.completed::after,
+        .timeline-item.active::after { background: #0A4740; }
+
+        .timeline-content:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #0A4740;
         }
 
         .timeline-marker {
             position: absolute;
-            left: -8px;
-            top: 0;
-            width: 16px;
-            height: 16px;
+            left: 0; /* align thumb with text start */
+            top: 25%;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: #dee2e6;
+            background: #D3D3D3; /* default not complete */
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        .timeline-item.completed .timeline-marker,
+        .timeline-item.active .timeline-marker {
+            background: #0A4740;
         }
 
-        .current-dot {
-            width: 12px;
-            height: 12px;
-            background: #0A4740;
-            border-radius: 50%;
-            position: absolute;
-            left: 2px;
-            top: 2px;
-        }
+        /* remove current-dot visuals entirely */
+        .current-dot { display: none; }
 
         .timeline-content {
-            padding: 5px 15px;
-            background: #f8f9fa;
-            border-radius: 5px;
+            padding: 15px 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
 
         .current {
             font-weight: bold;
             color: #0A4740;
+        }
+
+        .current .timeline-content {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-color: #0A4740;
         }
 
 
@@ -85,7 +396,57 @@
             color: #ffd700;
         }
         .accordion-body {
-            background-color: #f3f3f3;
+            background-color: #f8f9fa;
+            border-radius: 0 0 12px 12px;
+            padding: 2rem;
+        }
+
+        .accordion-item {
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #0A4740;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            padding: 1.5rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-button:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            color: #0A4740;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #0A4740, #509F96);
+            color: white !important;
+            box-shadow: none;
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Order details text color when accordion is open */
+        .accordion-button:not(.collapsed) + .accordion-collapse .accordion-body {
+            color: #495057;
+        }
+
+        /* Remove arrow from back button
+        .order-header .back-link i {
+            display: none;
+        } */
+
+        .accordion-button:focus {
+            border-color: #0A4740;
+            box-shadow: 0 0 0 0.2rem rgba(10, 71, 64, 0.25);
         }
         @if (app()->getLocale() == 'ar')
         .accordion-button::after {
@@ -121,37 +482,64 @@
         .show_order_img{
             width: 328px;
             height: 230px;
-            border-radius: 6.58px;
-            margin-inline: 25px;
+            border-radius: 12px;
+            margin: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            object-fit: cover;
+        }
+
+        .show_order_img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         .show_order_font1{
 
-            font-family:"Ubuntu Sans", system-ui;
-            font-size: 18px;
+            font-family:"tajawal";
+            font-size: 16px;
             font-style: normal;
 
             line-height: normal;
         }
         .show_order_border_button{
-            border-radius: 4px;
-            border: 1px solid var(--Dark-Green, #0A4740) !important;
-            padding-left: 20px;
-            padding-right: 20px;
+            border-radius: 8px;
+            border: 2px solid #0A4740 !important;
+            padding: 12px 24px;
             color: #0A4740 !important;
-
+            background: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
         }
-        .show_order_border_button_red{
-            border-radius: 4px;
-            border: 1px solid red !important;
-            padding-left: 20px;
-            padding-right: 20px;
-            color: red !important;
 
+        .show_order_border_button:hover {
+            background: #0A4740 !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 71, 64, 0.3);
+        }
+
+        .show_order_border_button_red{
+            border-radius: 8px;
+            border: 2px solid #dc3545 !important;
+            padding: 12px 24px;
+            color: #dc3545 !important;
+            background: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .show_order_border_button_red:hover {
+            background: #dc3545 !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
         }
         .more_button{
             color: var(--Gray-Text-Color, #444);
 
-            font-size: 16px;
+            font-size: 14px;
             margin-inline: 15px;
             font-weight: 400;
             line-height: normal;
@@ -178,7 +566,7 @@
                 font-size: 11px;
             }
             .show_order_font1{
-                font-size: 14px;
+                font-size: 13px;
                 padding:2px;
             }
             .accordion-button {
@@ -199,29 +587,41 @@
 
 
 
-    <div class="card m-md-5 p-4">
-        <!-- رسائل التنبيه -->
-
-
-        <div class="d-flex justify-content-between align-items-center mb-4 my-orders-title-border-b">
-            <h1 class="fw-bold mb-0">@lang('order.details_title')</h1>
-            <a href="{{ url('/my-orders') }}" class="black-color">
-                <i class="fas  me-2 "></i> @lang('order.back')
-            </a>
+    <div class="order-details-container">
+        <!-- Header Section -->
+        <div class="order-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 style="color: #FFF;">@lang('order.details_title')</h1>
+                <a href="{{ url('/my-orders') }}" class="back-link">
+                    @if(app()->getLocale() === 'ar')
+                        @lang('order.back') <i class="fas fa-arrow-left me-2"></i>
+                    @else
+                        <i class="fas fa-arrow-left me-2"></i> @lang('order.back')
+                    @endif
+                </a>
+            </div>
         </div>
 
-        <div class="row m-4">
-            <div class="col-6 col-md-2 fw-bold mt-2 show_order_font1">@lang('order.order_status') </div>
-            <div class="col-6 col-md-2 mt-2 show_order_font1 Dark_Green">{{ __('order.order_statuses.' . $order->order_status) }}</div>
+        <!-- Order Status Section -->
+        <div class="order-status-section">
+            <div class="status-item">
+                <div class="status-label">@lang('order.order_status'):</div>
+                <div class="status-value">
+                    {{ __('order.order_statuses.' . $order->order_status) }}
+                    @if($order->order_status === 'closed')
+                        <i class="fas fa-check-circle ms-2" style="color: #0A4740;"></i>
+                    @endif
+                </div>
+            </div>
 
-            <div class="col-6 col-md-2 fw-bold mt-2 show_order_font1">@lang('order.status_details')</div>
-            <div class="col-6 col-md-6 mt-2 show_order_font1">
-                <span class="Dark_Green">{{ __('order.processing_stages.' . $order->processing_stage) }} </span>
-                <!-- زر فتح المودال -->
-                <a  type=button class="Dark_Green" data-bs-toggle="modal" data-bs-target="#stageModal">
-
-                    <span class="more_button">@lang('order.more')</span>
-                </a>
+            <div class="status-item">
+                <div class="status-label">@lang('order.status_details'):</div>
+                <div class="status-value">
+                    <span>{{ __('order.processing_stages.' . $order->processing_stage) }}</span>
+                    <a type="button" class="info-link ms-2" data-bs-toggle="modal" data-bs-target="#stageModal" title="@lang('order.more')">
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -255,10 +655,17 @@
                                 <div class="col-6 col-md-2 mt-2 show_order_font1">{{ $order->expected_cost }} @lang('order.saudi_riyals')</div>
 
                                 <div class="col-6 col-md-2 mt-2 fw-bold show_order_font1"> @lang('order.time_range'):</div>
-                                <div class="col-6 col-md-2 mt-2 show_order_font1">{{ __('order.time_ranges.' . $order->time_range) }} </div>
+                                <div class="col-6 col-md-2 mt-2 show_order_font1">
+                                    {{ __('order.time_ranges.' . $order->time_range) }}
+                                </div>
 
                                 <div class="col-6 col-md-2 fw-bold mt-2 show_order_font1">@lang('order.order_status'):</div>
-                                <div class="col-6 col-md-2 mt-2 show_order_font1">{{ __('order.order_statuses.' . $order->order_status) }}</div>
+                                <div class="col-6 col-md-2 mt-2 show_order_font1">
+                                    {{ __('order.order_statuses.' . $order->order_status) }}
+                                    @if($order->order_status === 'closed')
+                                        <i class="fas fa-check-circle ms-2" style="color: #0A4740;"></i>
+                                    @endif
+                                </div>
 
                             </div>
                         </div>
@@ -278,12 +685,24 @@
                     <div class="accordion-body">
                         <div class="user-info">
                             @foreach ($orderDraft as $draft)
-                                @if($draft->images)
-                                    @foreach(json_decode($draft->images) as $image)
+                                @php
+                                    $images = $draft->images ? json_decode($draft->images, true) : [];
+                                @endphp
 
-                                        <img class="show_order_img" src="{{ asset('storage/' . $image) }}" alt="Draft Image" >
-                                    @endforeach
-
+                                @if(!empty($images))
+                                    <div class="images-grid">
+                                        @foreach($images as $idx => $image)
+                                            <a href="#"
+                                               class="thumb lightbox-thumb"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#lightbox-{{ $draft->id }}"
+                                               data-index="{{ $idx }}">
+                                                <img class="show_order_img"
+                                                     src="{{ asset('storage/' . $image) }}"
+                                                     alt="Draft Image {{ $idx + 1 }}">
+                                            </a>
+                                        @endforeach
+                                    </div>
                                 @else
                                     @lang('order.No images')
                                 @endif
@@ -295,8 +714,8 @@
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-6" style="display: inline-flex;">
 
-                                            <a class="btn show_order_border_button " href="{{ asset('storage/' . $draft->pdf) }}" target="_blank">
-                                                <img src="{{asset('Frontend/assets/images/icons/Vector202.png')}}" alt="Icon" width="20" height="20" style="margin-left: 5px;">
+                                            <a class="btn show_order_border_button pdf-button" href="{{ asset('storage/' . $draft->pdf) }}" target="_blank">
+                                                <i class="fas fa-file-pdf pdf-icon" style="margin-left: 5px;"></i>
                                                 @lang('order.view_pdf')</a>
                                         </div>
                                     </div>
@@ -404,6 +823,46 @@
                                         </div>
                                     </div>
 
+                                    <!-- ✅ Lightbox Modal for Draft Images -->
+                                    <div class="modal fade lightbox-modal" id="lightbox-{{ $draft->id }}" tabindex="-1" aria-labelledby="lightboxLabel-{{ $draft->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-white" id="lightboxLabel-{{ $draft->id }}">@lang('order.design')</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="carousel-{{ $draft->id }}" class="carousel slide" data-bs-ride="false">
+                                                        <div class="carousel-inner">
+                                                            @foreach($images as $idx => $image)
+                                                                <div class="carousel-item {{ $idx === 0 ? 'active' : '' }}">
+                                                                    <img src="{{ asset('storage/' . $image) }}"
+                                                                         class="d-block w-100"
+                                                                         alt="Draft Image {{ $idx + 1 }}">
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        @if(count($images) > 1)
+                                                            <button class="carousel-control-prev" type="button">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Previous</span>
+                                                            </button>
+                                                            <button class="carousel-control-next" type="button">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Next</span>
+                                                            </button>
+                                                        @endif
+                                                        @if(count($images) > 1)
+                                                            <div class="image-counter">
+                                                                <span class="current-image">1</span> / <span class="total-images">{{ count($images) }}</span>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
 
                             @endforeach
@@ -438,7 +897,12 @@
                                     <div class="col-6 col-md-2 mt-2 show_order_font1">{{ $order->sale->amount_paid }} {{ __('order.saudi_riyals') }}</div>
 
                                     <div class="col-6 col-md-2 fw-bold mt-2 show_order_font1">{{ __('order.status') }}:</div>
-                                    <div class="col-6 col-md-2 mt-2 show_order_font1">{{ __('order.statuses.' . $order->sale->status) }}</div>
+                                    <div class="col-6 col-md-2 mt-2 show_order_font1 {{ $order->sale->status === 'completed' ? 'text-success fw-bold' : '' }}">
+                                        {{ __('order.statuses.' . $order->sale->status) }}
+                                        @if($order->sale->status === 'completed')
+                                            <i class="fas fa-check-circle ms-2" style="color: #0A4740;"></i>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -637,7 +1101,7 @@
                     </div>
                     <div class="modal-body">
                         <p>{{ __('order.terms_notice') }}</p>
-                        <a href="" target="_blank">{{ __('order.view_terms') }}</a>
+                        <a href="{{ route('privacypolicy') }}" target="_blank">{{ __('order.view_terms') }}</a>
                         <div class="form-check mt-3">
                             <input class="form-check-input" type="checkbox" id="agreeCheckbox">
                             <label class="form-check-label" for="agreeCheckbox">
@@ -647,7 +1111,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 4px;">
-                            {{ __('order.Cancel') }}
+                            {{ __('order.close') }}
                         </button>
                         <button type="button" class="btn button_Dark_Green" id="confirmTermsButton" disabled>
                             {{ __('order.confirm_purchase') }}
@@ -656,7 +1120,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
             <div class="modal-dialog">
@@ -721,14 +1184,17 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
+                        @php
+                            $currentIndex = array_search($order->processing_stage, $all_stages, true);
+                            if ($currentIndex === false) { $currentIndex = 0; }
+                        @endphp
                         <div class="timeline">
-                            @foreach($all_stages as $stage)
-                                <div class="timeline-item {{ $stage === $order->processing_stage ? 'current' : '' }}">
-                                    <div class="timeline-marker">
-                                        @if($stage === $order->processing_stage)
-                                            <div class="current-dot"></div>
-                                        @endif
-                                    </div>
+                            @foreach($all_stages as $idx => $stage)
+                                @php
+                                    $rowState = $idx < $currentIndex ? 'completed' : ($idx === $currentIndex ? 'active' : '');
+                                @endphp
+                                <div class="timeline-item {{ $rowState }} {{ $stage === $order->processing_stage ? 'current' : '' }}">
+                                    <div class="timeline-marker"></div>
                                     <div class="timeline-content">
                                         {{ __('order.processing_stages.' . $stage) }}
                                         @if($stage === $order->processing_stage)
@@ -872,6 +1338,97 @@
                         console.log("المودال مغلق! سيتم إعادة تحميل الصفحة...");
                         location.reload(); // إعادة تحميل الصفحة
                     });
+                });
+            </script>
+
+            <!-- ✅ Lightbox JavaScript -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Initialize all lightbox modals
+                    document.querySelectorAll('.lightbox-modal').forEach(function(modal) {
+                        var carouselEl = modal.querySelector('.carousel');
+                        if (carouselEl) {
+                            // Create carousel instance with auto-slide disabled and no transitions
+                            var carousel = new bootstrap.Carousel(carouselEl, {
+                                interval: false,
+                                ride: false,
+                                wrap: true
+                            });
+
+                            // Disable CSS transitions on carousel elements
+                            carouselEl.style.transition = 'none';
+                            var carouselInner = carouselEl.querySelector('.carousel-inner');
+                            if (carouselInner) {
+                                carouselInner.style.transition = 'none';
+                            }
+                        }
+                    });
+
+                    // Handle thumbnail clicks
+                    document.querySelectorAll('.lightbox-thumb').forEach(function (thumb) {
+                        thumb.addEventListener('click', function () {
+                            var modalId = this.getAttribute('data-bs-target');
+                            var index = parseInt(this.getAttribute('data-index'), 10) || 0;
+                            var modalEl = document.querySelector(modalId);
+                            var carouselEl = modalEl.querySelector('.carousel');
+
+                            // Get or create carousel instance
+                            var carousel = bootstrap.Carousel.getInstance(carouselEl);
+                            if (!carousel) {
+                                carousel = new bootstrap.Carousel(carouselEl, {
+                                    interval: false,
+                                    ride: false,
+                                    wrap: true
+                                });
+                            }
+
+                            // Navigate to clicked image when modal opens
+                            var onShown = function () {
+                                setTimeout(function() {
+                                    carousel.to(index);
+                                    updateImageCounter(modalEl, index + 1);
+                                }, 100);
+                                modalEl.removeEventListener('shown.bs.modal', onShown);
+                            };
+                            modalEl.addEventListener('shown.bs.modal', onShown);
+                        });
+                    });
+
+                    // Update image counter when carousel slides
+                    document.querySelectorAll('.lightbox-modal .carousel').forEach(function(carousel) {
+                        carousel.addEventListener('slid.bs.carousel', function(event) {
+                            var modal = this.closest('.lightbox-modal');
+                            var currentIndex = event.to + 1;
+                            updateImageCounter(modal, currentIndex);
+                        });
+                    });
+
+                    // Handle navigation button clicks manually
+                    document.querySelectorAll('.lightbox-modal .carousel-control-prev, .lightbox-modal .carousel-control-next').forEach(function(button) {
+                        button.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            var carouselEl = this.closest('.carousel');
+                            var carousel = bootstrap.Carousel.getInstance(carouselEl);
+                            if (carousel) {
+                                if (this.classList.contains('carousel-control-prev')) {
+                                    carousel.prev();
+                                } else {
+                                    carousel.next();
+                                }
+                            }
+                        });
+                    });
+
+                    function updateImageCounter(modal, currentIndex) {
+                        var counter = modal.querySelector('.image-counter');
+                        if (counter) {
+                            var currentSpan = counter.querySelector('.current-image');
+                            if (currentSpan) {
+                                currentSpan.textContent = currentIndex;
+                            }
+                        }
+                    }
                 });
             </script>
 

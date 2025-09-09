@@ -10,6 +10,7 @@ use App\Models\Designer;
 use App\Models\Region;
 use App\Notifications\DesignerAssigned;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -65,6 +66,8 @@ class OrderController extends Controller
         // جلب قائمة المصممين والمناطق للفلترة مع حساب عدد الطلبات لكل منهم
         $designers = Designer::withCount('orders')->get();
         $regions = Region::withCount('orders')->get();
+
+        $notifications = auth()->user()->unreadNotifications;
 
         return view('dashboard.orders.index', compact('orders', 'orderCount', 'designers', 'regions'));
     }
@@ -129,60 +132,174 @@ class OrderController extends Controller
 
     public function getOrders(Request $request)
     {
-        if ($request->ajax()) {
-            // جلب الطلبات مع العلاقات
-            $data = Order::with(['user', 'region', 'subRegion', 'designer'])
+        if (!$request->ajax()) {
+            abort(404);
+        }
+
+        // جلب الطلبات مع العلاقات
+        $data = Order::with(['user', 'region', 'subRegion', 'designer.user'])
             ->select('orders.*')
             ->orderBy('created_at', 'desc');
 
-            // إذا كان المستخدم مدير منطقة، يتم تصفية الطلبات بناءً على منطقته
-            if (auth()->user()->role === 'Area manager') {
-                $regionId = auth()->user()->region_id;
-                $data = $data->where('region_id', $regionId);
-            }
-
-            return DataTables::of($data)
-                ->addIndexColumn() // إضافة عمود الترقيم
-                ->addColumn('user_name', function ($row) {
-                    return $row->user ? $row->user->name : 'N/A'; // جلب اسم المستخدم
-                })
-                ->addColumn('region_name', function ($row) {
-                    return $row->region ? $row->region->name_ar : 'N/A'; // اسم المنطقة
-                })
-                ->addColumn('sub_region_name', function ($row) {
-                    return $row->subRegion ? $row->subRegion->name_ar : 'N/A'; // اسم المنطقة الفرعية
-                })
-                ->addColumn('designer_name', function ($row) {
-                    // الوصول إلى اسم المستخدم الخاص بالمصمم
-                    return $row->designer && $row->designer->user
-                        ? $row->designer->user->name
-                        : 'N/A';
-                })
-                ->addColumn('order_status_label', function ($row) {
-                    $statusLabels = [
-                        'pending' => 'قيد الانتظار',
-                        'accepted' => 'مقبول',
-                        'rejected' => 'مرفوض',
-                        'closed' => 'مغلق',
-                    ];
-                    return $statusLabels[$row->order_status] ?? 'غير معروف';
-                })
-                ->addColumn('action', function ($row) {
-                    $editUrl = route('admin.order.show', $row->id);
-
-                    return '
-                    <a href="' . $editUrl . '" class="btn btn-sm">
-                        <button type="submit" class="btn btn-info bg-transparent border-0">
-                            <img src="' . asset('Dashboard/assets/images/view.png') . '" alt="View">
-                        </button>
-                    </a>
-                ';
-                })
-                ->rawColumns(['action']) // تفعيل HTML في عمود "خيارات"
-                ->make(true);
+        // إذا كان المستخدم مدير منطقة، يتم تصفية الطلبات بناءً على منطقته
+        if (auth()->user()->role === 'Area manager') {
+            $regionId = auth()->user()->region_id;
+            $data->where('region_id', $regionId);
         }
+
+        return DataTables::of($data)
+            // ✅ فلترة مخصصة لتفعيل البحث على الأعمدة المحسوبة والعلاقات
+            ->filter(function ($query) use ($request) {
+                $search = $request->input('search.value');
+                if (!$search) {
+                    return;
+                }
+
+                $search = trim($search);
+
+                $query->where(function ($q) use ($search) {
+                    // حقول من جدول orders
+                    $q->where('orders.id', 'like', "%{$search}%")
+                        ->orWhere('orders.geocode_string', 'like', "%{$search}%")
+                        ->orWhere('orders.processing_stage', 'like', "%{$search}%");
+
+                    // دعم البحث بالعربي/الإنجليزي لحالة الطلب
+                    $statusMap = [
+                        'قيد' => 'pending',
+                        'الانتظار' => 'pending',
+                        'pending' => 'pending',
+                        'مقبول' => 'accepted',
+                        'accepted' => 'accepted',
+                        'مرفوض' => 'rejected',
+                        'rejected' => 'rejected',
+                        'مغلق' => 'closed',
+                        'closed' => 'closed',
+                    ];
+                    foreach ($statusMap as $needle => $status) {
+                        if (mb_stripos($search, $needle) !== false) {
+                            $q->orWhere('orders.order_status', $status);
+                            break;
+                        }
+                    }
+
+                    // علاقات: user / region / subRegion / designer.user
+                    $q->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%");
+                    })
+                        ->orWhereHas('region', function ($rq) use ($search) {
+                            $rq->where('name_ar', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('subRegion', function ($sq) use ($search) {
+                            $sq->where('name_ar', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('designer.user', function ($dq) use ($search) {
+                            $dq->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+
+            ->addIndexColumn() // إضافة عمود الترقيم
+
+            ->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : 'N/A'; // جلب اسم المستخدم
+            })
+            ->addColumn('region_name', function ($row) {
+                return $row->region ? $row->region->name_ar : 'N/A'; // اسم المنطقة
+            })
+            ->addColumn('sub_region_name', function ($row) {
+                return $row->subRegion ? $row->subRegion->name_ar : 'N/A'; // اسم المنطقة الفرعية
+            })
+            ->addColumn('designer_name', function ($row) {
+                // الوصول إلى اسم المستخدم الخاص بالمصمم
+                return $row->designer && $row->designer->user
+                    ? $row->designer->user->name
+                    : 'N/A';
+            })
+            ->addColumn('order_status_label', function ($row) {
+                $statusLabels = [
+                    'pending'  => 'قيد الانتظار',
+                    'accepted' => 'مقبول',
+                    'rejected' => 'مرفوض',
+                    'closed'   => 'مغلق',
+                ];
+                return $statusLabels[$row->order_status] ?? 'غير معروف';
+            })
+            ->addColumn('action', function ($row) {
+                // روابط وأيقونات
+                $showUrl    = route('admin.order.show', $row->id);       // عدّل إن لزم
+                $deleteUrl  = route('admin.orders.destroy', $row->id);    // عدّل إن لزم
+                $viewIcon   = asset('Dashboard/assets/images/view.png');
+                $deleteIcon = asset('Dashboard/assets/images/delete.png'); // أيقونة الحذف
+
+                // زر العرض (أيقونة)
+                $html = '
+                <a href="' . e($showUrl) . '" class="btn btn-sm" title="عرض">
+                    <button type="button" class="btn btn-info bg-transparent border-0">
+                        <img src="' . e($viewIcon) . '" alt="View">
+                    </button>
+                </a>
+            ';
+
+                // زر الحذف يظهر فقط للـ admin و Sales manager
+                $role = strtolower(trim(auth()->user()->role));
+                if (in_array($role, ['admin', 'sales manager', 'sales_manager'])) {
+                    $html .= '
+                    <form action="' . e($deleteUrl) . '" method="POST" class="d-inline-block js-delete-form" data-order-id="' . e($row->id) . '">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="submit" class="btn bg-transparent border-0 js-delete-btn" title="حذف">
+                            <img src="' . e($deleteIcon) . '" alt="Delete">
+                        </button>
+                    </form>
+                ';
+                }
+
+                return $html;
+            })
+            ->rawColumns(['action']) // تفعيل HTML في عمود "خيارات"
+            ->make(true);
     }
 
+
+
+
+
+    public function destroy(Order $order)
+    {
+        // تحقّق الصلاحية: فقط admin أو sales manager
+        $role = strtolower(trim(auth()->user()->role));
+        if (! in_array($role, ['admin', 'sales manager', 'sales_manager'])) {
+            abort(403, 'ليس لديك صلاحية الحذف.');
+        }
+
+        DB::transaction(function () use ($order) {
+            // 1) حذف العلاقات التابعة
+            optional($order->designerMeeting)->forceDelete();
+            optional($order->surveyQuestion)->forceDelete();
+
+            foreach ($order->orderDraft as $draft) {
+                $draft->forceDelete();
+            }
+
+            optional($order->sale)->forceDelete();
+
+            // 2) حذف الإشعارات المرتبطة بالطلب (بالاعتماد على وجود order_id داخل data)
+            // هذا يحذف أي Notification محفوظ في جدول notifications يحمل data->order_id == $order->id
+            DB::table('notifications')
+                ->whereJsonContains('data->order_id', (int) $order->id)
+                ->delete();
+
+            // ملاحظة: لو عندك أنواع إشعارات مختلفة وما كلها فيها order_id،
+            // إمّا توحّد الـ payload على "order_id"، أو تضيف شروط إضافية حسب "type".
+
+            // 3) حذف الطلب نفسه حذف نهائي
+            $order->forceDelete();
+        });
+
+        return redirect()
+            ->route('admin.orders.index')
+            ->with('success', 'تم حذف الطلب وكل ما يرتبط به (بما في ذلك الإشعارات) بنجاح.');
+    }
 
 
 }
