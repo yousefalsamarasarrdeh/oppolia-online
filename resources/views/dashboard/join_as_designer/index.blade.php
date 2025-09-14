@@ -26,24 +26,19 @@
             <table class="table datatable">
                 <thead>
                 <tr>
+                    <th>الإجراءات</th>
                     <th>الرقم</th>
                     <th>الاسم</th>
                     <th>البريد الإلكتروني</th>
                     <th>الهاتف</th>
                     <th>المدينة</th>
-                    <th>الإجراءات</th>
+
                 </tr>
                 </thead>
 
                 <tbody>
                 @foreach ($designerRequests as $request)
                     <tr class="{{ $request->status === 'unread' ? 'status-unread' : '' }}">
-                        <td>{{ $request->id }}</td>
-                        <td>{{ $request->name }}</td>
-                        <td>{{ $request->email_address }}</td>
-                        <td>{{ $request->phone_number }}</td>
-                        <td>{{ $request->subRegion->name_ar }}</td>
-
                         <td class="text-nowrap">
                             {{-- عرض --}}
                             <a href="{{ route('admin.joinasdesigner.show', $request->id) }}"
@@ -86,6 +81,13 @@
                             </div>
                             {{-- نهاية مودال الصف --}}
                         </td>
+                        <td>{{ $request->id }}</td>
+                        <td>{{ $request->name }}</td>
+                        <td>{{ $request->email_address }}</td>
+                        <td>{{ $request->phone_number }}</td>
+                        <td>{{ $request->subRegion->name_ar }}</td>
+
+
                     </tr>
                 @endforeach
                 </tbody>

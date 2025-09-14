@@ -29,24 +29,19 @@
     <table class="table datatable" dir="rtl" style="min-width: 800px;">
         <thead>
         <tr>
+            <th>الإجراء</th>
             <th>الاسم</th>
             <th>البريد الإلكتروني</th>
             <th>الهاتف</th>
             <th>الدور</th>
             <th>الخبرة</th>
             <th>المنطقة</th>
-            <th>الإجراء</th>
+
         </tr>
         </thead>
         <tbody>
         @foreach ($user as $designer)
             <tr>
-                <td>{{ $designer->name }}</td>
-                <td>{{ $designer->email }}</td>
-                <td>{{ $designer->phone ?? 'غير متوفر' }}</td>
-                <td>{{ $designer->role }}</td>
-                <td>{{ optional($designer->designer)->experience_years }} سنوات</td> <!-- استخدام optional لتجنب أخطاء إذا كان $designer->designer null -->
-                <td>{{$designer->region->name_ar}}</td>
                 <td>
                     <!-- زر التعديل -->
 
@@ -64,6 +59,13 @@
 
 
                 </td>
+                <td>{{ $designer->name }}</td>
+                <td>{{ $designer->email }}</td>
+                <td>{{ $designer->phone ?? 'غير متوفر' }}</td>
+                <td>{{ $designer->role }}</td>
+                <td>{{ optional($designer->designer)->experience_years }} سنوات</td> <!-- استخدام optional لتجنب أخطاء إذا كان $designer->designer null -->
+                <td>{{$designer->region->name_ar}}</td>
+
             </tr>
         @endforeach
         </tbody>

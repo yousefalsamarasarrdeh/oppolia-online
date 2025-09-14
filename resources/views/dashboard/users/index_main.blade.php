@@ -26,31 +26,18 @@
         <table class="table datatable" dir="rtl" style="min-width: 800px;">
             <thead>
             <tr>
+                <th>الإجراء</th>
                 <th>المعرف</th>
                 <th>الاسم</th>
                 <th>البريد الإلكتروني</th>
                 <th>رقم الهاتف</th>
                 <th>الدور</th>
-                <th>الإجراء</th>
+
             </tr>
             </thead>
             <tbody style="text-align: center!important;">
             @foreach ($users as $user)
                 <tr style="text-align: center!important;">
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td dir="ltr">{{ $user->phone }}</td>
-                    <td>
-                        @switch($user->role)
-                            @case('admin') مدير النظام @break
-                            @case('designer') مصمم @break
-                            @case('user') مستخدم @break
-                            @case('Sales manager') مدير المبيعات @break
-                            @case('Area manager') مدير المنطقة @break
-                            @default غير معروف
-                        @endswitch
-                    </td>
                     <td>
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary bg-transparent border-0">
                             <button type="submit" class="border-0 bg-transparent text-danger">
@@ -65,6 +52,21 @@
                             </button>
                         </form>
                     </td>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td dir="ltr">{{ $user->phone }}</td>
+                    <td>
+                        @switch($user->role)
+                            @case('admin') مدير النظام @break
+                            @case('designer') مصمم @break
+                            @case('user') مستخدم @break
+                            @case('Sales manager') مدير المبيعات @break
+                            @case('Area manager') مدير المنطقة @break
+                            @default غير معروف
+                        @endswitch
+                    </td>
+
                 </tr>
             @endforeach
             </tbody>

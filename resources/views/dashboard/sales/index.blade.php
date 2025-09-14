@@ -48,6 +48,7 @@
             <table class=" table-bordered table-hover table datatable">
                 <thead >
                 <tr>
+                    <th>الإجراءات</th>
                     <th class="mysize">ID</th>
                     <th class="mysize">رقم الطلب</th>
                     <th class="mysize">اسم العميل</th>
@@ -63,12 +64,19 @@
                     <th>حالة البيع</th>
                     <th>تاريخ الإنشاء</th>
                     <th>تاريخ التحديث</th>
-                    <th>الإجراءات</th>
+
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($sales as $sale)
                     <tr>
+                        <td>
+                            <a href="{{ route('dashboard.sales.edit', $sale->id) }}" class="btn btn-primary btn-sm border-0 bg-transparent" >
+                                <button type="submit" class="border-0 bg-transparent text-danger">
+                                    <img src="{{ asset('Dashboard/assets/images/edit.png') }}">
+                                </button>
+                            </a>
+                        </td>
                         <td>{{ $sale->id }}</td>
                         <td>{{ $sale->order->id ?? 'غير متوفر' }}</td>
                         <td>{{ $sale->order->user->name ?? 'غير متوفر' }}</td>
@@ -93,13 +101,7 @@
                         <td>{{ $sale->created_at->format('Y-m-d') }}</td>
                         <td>{{ $sale->updated_at->format('Y-m-d') }}
 
-                        <td>
-                            <a href="{{ route('dashboard.sales.edit', $sale->id) }}" class="btn btn-primary btn-sm border-0 bg-transparent" >
-                                <button type="submit" class="border-0 bg-transparent text-danger">
-                                    <img src="{{ asset('Dashboard/assets/images/edit.png') }}">
-                                </button>
-                            </a>
-                        </td>
+
                     </tr>
                 @endforeach
                 </tbody>

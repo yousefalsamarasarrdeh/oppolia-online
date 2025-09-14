@@ -25,24 +25,18 @@
             <table class="table datatable">
                 <thead>
                 <tr>
+                    <th>الإجراءات</th>
                     <th>رقم التعريف</th>
                     <th>الاسم</th>
                     <th>البريد الإلكتروني</th>
                     <th>رقم الهاتف</th>
                     <th>المدينة</th>
                     <th>الرسالة</th>
-                    <th>الإجراءات</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach ($contacts as $contact)
                     <tr class="{{ ($contact->status ?? '') === 'unread' ? 'status-unread' : '' }}">
-                        <td>{{ $contact->id }}</td>
-                        <td>{{ $contact->name }}</td>
-                        <td>{{ $contact->email }}</td>
-                        <td>{{ $contact->phone }}</td>
-                        <td>{{ $contact->subRegion->name_ar ?? '-' }}</td>
-                        <td>{{ Str::limit($contact->message, 40) }}</td>
                         <td class="text-nowrap">
                             {{-- عرض --}}
                             <a href="{{ route('dashboard.contact_us.show', $contact->id) }}"
@@ -50,7 +44,7 @@
                                 <img class="action-icon" src="{{ asset('Dashboard/assets/images/view.png') }}" alt="عرض">
                             </a>
 
-                            {{-- حذف عبر Modal بدون JS مخصص --}}
+                            {{-- حذف عبر Modal --}}
                             <button type="button"
                                     class="btn border-0 bg-transparent"
                                     title="حذف"
@@ -59,7 +53,7 @@
                                 <img class="action-icon" src="{{ asset('Dashboard/assets/images/delete.png') }}" alt="حذف">
                             </button>
 
-                            {{-- مودال تأكيد الحذف لكل سطر --}}
+                            {{-- مودال تأكيد الحذف --}}
                             <div class="modal fade" id="deleteModal{{ $contact->id }}" tabindex="-1"
                                  aria-labelledby="deleteLabel{{ $contact->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -85,10 +79,18 @@
                             </div>
                             {{-- نهاية المودال --}}
                         </td>
+
+                        <td>{{ $contact->id }}</td>
+                        <td>{{ $contact->name }}</td>
+                        <td>{{ $contact->email }}</td>
+                        <td>{{ $contact->phone }}</td>
+                        <td>{{ $contact->subRegion->name_ar ?? '-' }}</td>
+                        <td>{{ Str::limit($contact->message, 40) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+
         </div>
     </div>
 @endsection

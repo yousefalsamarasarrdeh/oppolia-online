@@ -15,22 +15,18 @@
         <table class="table table datatable" style="min-width: 800px;">
             <thead>
             <tr>
+                <th>الإجراءات</th>
                 <th>#</th>
                 <th>اسم المنتج</th>
                 <th>اسم المنتج بالعربية</th>
                 <th>SKU</th>
                 <th>الفئة</th>
-                <th>الإجراءات</th>
+
             </tr>
             </thead>
             <tbody>
             @foreach ($products as $product)
                 <tr>
-                    <td>{{ $product->id }}</td>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->name_ar }}</td>
-                    <td>{{ $product->sku }}</td>
-                    <td>{{ $product->category->title ?? 'غير متوفر' }}</td>
                     <td>
                         <div class="d-flex flex-row align-items-center justify-content-center">
                             <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-info bg-transparent border-0">
@@ -54,6 +50,12 @@
                             </form>
                         </div>
                     </td>
+                    <td>{{ $product->id }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->name_ar }}</td>
+                    <td>{{ $product->sku }}</td>
+                    <td>{{ $product->category->title ?? 'غير متوفر' }}</td>
+
                 </tr>
             @endforeach
             </tbody>

@@ -3,6 +3,39 @@
 @section('title', 'تفاصيل رسالة اتصل بنا')
 
 @section('content')
+
+    @php
+        // تنظيف الرقم: أرقام فقط
+        $rawPhone = $contact->phone ?? '';
+        $digits   = preg_replace('/\D+/', '', $rawPhone);
+
+        // محاولة توليد رقم دولي بسيط +XXXXXXXX (تقدر تعدّل حسب دولتك)
+        $intlPhone = $digits ? ('+' . ltrim($digits, '0')) : '';
+
+        // نص الرسالة الافتراضي
+        $mailSubject = 'رد على رسالتك من موقعنا';
+        $mailBody    = "مرحباً {$contact->name},\n\nشكراً لتواصلك معنا. سنقوم بالرد عليك في أقرب وقت ممكن.\n\nتحياتنا";
+
+        // روابط أساسية
+        $telHref     = $intlPhone ? "tel:{$intlPhone}" : null;
+        $mailtoHref  = $contact->email
+            ? 'mailto:' . $contact->email
+              . '?subject=' . rawurlencode($mailSubject)
+              . '&body='    . rawurlencode($mailBody)
+            : null;
+
+        // بدائل ويب (تعمل بالمتصفح)
+        $gmailCompose = $contact->email
+            ? 'https://mail.google.com/mail/?view=cm&to=' . rawurlencode($contact->email)
+              . '&su=' . rawurlencode($mailSubject)
+              . '&body=' . rawurlencode($mailBody)
+            : null;
+
+        $whatsAppUrl = $intlPhone
+            ? 'https://wa.me/' . ltrim($intlPhone, '+')
+            : null;
+    @endphp
+
     <div class="container mt-5" dir="rtl">
         <h2 class="mb-4">تفاصيل الرسالة</h2>
 
@@ -41,8 +74,29 @@
 
             <div class="mt-4 d-flex justify-content-start gap-2">
 
+                @if($telHref)
+                    <a href="{{ $telHref }}" class="btn btn-success" role="button">
+                         اتصال
+                    </a>
+                    {{-- بديل واتساب في حال ما اشتغل tel --}}
+                    <a href="{{ $whatsAppUrl }}" target="_blank" rel="noopener" class="btn btn-outline-success">
+                        واتساب
+                    </a>
+                @endif
 
+                {{-- رد عبر البريد --}}
+                @if($mailtoHref)
+                    <a href="{{ $mailtoHref }}" class="btn btn-primary" role="button">
+                         رد عبر البريد
+                    </a>
+                    {{-- بديل Gmail ويب في حال ما اشتغل mailto --}}
+                    <a href="{{ $gmailCompose }}" target="_blank" rel="noopener" class="btn btn-outline-primary">
+                        فتح في Gmail
+                    </a>
+                @endif
                 {{-- زر يفتح مودال التأكيد --}}
+
+
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteSingleModal">
                     حذف
                 </button>

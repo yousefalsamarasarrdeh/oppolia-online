@@ -171,6 +171,7 @@
             <table id="ordersTable" class="display nowrap" style="width:100%">
                 <thead>
                 <tr>
+                    <th class="no-export">خيارات</th>
                     <th>id</th>
                     <th>اسم المستخدم</th>
                     <th>اسم المنطقة</th>
@@ -188,7 +189,7 @@
                     <th>اسم المصمم</th>
                     <th>الحالة</th>
                     <th>مرحلة علاج الطلب</th>
-                    <th class="no-export">خيارات</th>
+
                 </tr>
                 </thead>
             </table>
@@ -235,6 +236,7 @@
                 ajax: "{{ route('orders.data') }}", // عدّل الاسم لو مختلف
                 columns: [
                     //  { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
                     { data: 'id', name: 'id' },
                     { data: 'user_name', name: 'user_name' },
                     { data: 'region_name', name: 'region_name' },
@@ -252,7 +254,7 @@
                     { data: 'designer_name', name: 'designer_name' },
                     { data: 'order_status_label', name: 'order_status' },
                     { data: 'processing_stage', name: 'processing_stage' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
+
                 ],
                 dom: 'Bfrtip',        // نولّد الأزرار والفلتر ثم ننقلهم
                 autoWidth: false,
