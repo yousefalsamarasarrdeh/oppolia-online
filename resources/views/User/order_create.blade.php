@@ -860,7 +860,7 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('orders.store') }}" method="POST">
+                        <form action="{{ route('orders.store') }}" method="POST" onsubmit="return debugFormValues()">
                         @csrf
 
                         <!-- الخطوة 1: المعلومات الأساسية (تظهر فقط إذا لم يكن للمستخدم اسم) -->
@@ -1114,16 +1114,16 @@
 
                                 <div class="mb-3">
                                     <label for="meeting_time">@lang('order.meeting_time'):</label>
-                                    <div class="datetime-input-wrapper" style="position: relative; cursor: pointer;">
+                                    <div class="datetime-field-wrapper" style="position: relative; cursor: pointer;">
                                         <input class="form-control {{ $errors->has('meeting_time') ? 'is-invalid' : '' }}"
                                                type="datetime-local"
                                                name="meeting_time"
                                                id="meeting_time"
                                                value="{{ old('meeting_time') }}"
                                                min="{{ date('Y-m-d\TH:i') }}"
-                                               style="cursor: pointer; pointer-events: none;"
+                                               style="cursor: pointer; padding-right: 40px;"
                                                required>
-                                        <div class="datetime-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; cursor: pointer; z-index: 1;"></div>
+                                        <div class="datetime-field-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; cursor: pointer; z-index: 1; background: transparent;"></div>
                                     </div>
                                     @error('meeting_time')
                                     <p style="color: red;">{{ $message }}</p>
@@ -1142,7 +1142,10 @@
 
                                 <div class="mb-3">
                                     <label for="search_map">@lang('order.search_location')</label>
-                                    <input id="search_map" type="text" placeholder="@lang('order.search_here_placeholder')" class="form-control">
+                                    <input id="search_map" type="text" placeholder="{{ app()->getLocale() == 'ar' ? 'ابحث عن موقعك أو انقر على الخريطة' : 'Search for your location or click on the map' }}" class="form-control">
+                                    <small class="form-text text-muted">
+                                        {{ app()->getLocale() == 'ar' ? 'يمكنك البحث عن موقعك أو النقر مباشرة على الخريطة لتحديد الموقع' : 'You can search for your location or click directly on the map to select a location' }}
+                                    </small>
                                 </div>
 
                                 <div class="navigation-buttons">
@@ -1181,13 +1184,8 @@
 
             // Initialize Bootstrap Stepper
             document.addEventListener('DOMContentLoaded', function() {
-                console.log('DOM Content Loaded - Initializing Bootstrap Stepper');
                 const currentLang = '{{ app()->getLocale() }}';
                 const isRTL = currentLang === 'ar';
-
-                console.log('Current language:', currentLang);
-                console.log('Is RTL:', isRTL);
-                console.log('Current step index:', currentStepIndex);
 
                 // Initialize stepper
                 stepper = new Stepper(document.getElementById('bs-stepper'), {
@@ -1195,13 +1193,11 @@
                     animation: true
                 });
 
-                console.log('Stepper initialized:', stepper);
 
                 // Set RTL direction if Arabic
                 if (isRTL) {
                     document.getElementById('bs-stepper').style.direction = 'rtl';
                     document.getElementById('bs-stepper').classList.add('rtl');
-                    console.log('RTL styling applied');
                 }
 
                 // Set current step and update visual state
@@ -1240,12 +1236,9 @@
 
             // Update stepper when step changes
             function updateStepper(stepIndex) {
-                console.log('updateStepper called with stepIndex:', stepIndex);
                 if (stepper) {
                     stepper.to(stepIndex + 1);
-                    console.log('Stepper moved to step:', stepIndex + 1);
                 } else {
-                    console.log('Stepper not initialized yet');
                 }
                 // Also update the visual state
                 updateStepperVisual(stepIndex);
@@ -1256,9 +1249,6 @@
                 const steps = document.querySelectorAll('.bs-stepper .step');
                 const lines = document.querySelectorAll('.bs-stepper .bs-stepper-line');
 
-                console.log('Updating stepper visual state for step:', stepIndex);
-                console.log('Found steps:', steps.length);
-                console.log('Found lines:', lines.length);
 
                 steps.forEach((step, index) => {
                     const circle = step.querySelector('.bs-stepper-circle');
@@ -1274,15 +1264,12 @@
                         step.classList.add('active');
                         circle.classList.add('active');
                         label.classList.add('active');
-                        console.log('Step', index + 1, 'is ACTIVE');
                     } else if (index < stepIndex) {
                         // Completed steps
                         step.classList.add('completed');
                         circle.classList.add('completed');
                         label.classList.add('completed');
-                        console.log('Step', index + 1, 'is COMPLETED');
                     } else {
-                        console.log('Step', index + 1, 'is FUTURE');
                     }
                 });
 
@@ -1291,11 +1278,9 @@
                     if (index < stepIndex) {
                         // Line is completed (fill with #0A4740)
                         line.classList.add('completed');
-                        console.log('Line', index + 1, 'is COMPLETED');
                     } else {
                         // Line is not completed yet
                         line.classList.remove('completed');
-                        console.log('Line', index + 1, 'is FUTURE');
                     }
                 });
 
@@ -1310,7 +1295,6 @@
                 const steps = document.querySelectorAll('.bs-stepper .step');
                 const lines = document.querySelectorAll('.bs-stepper .bs-stepper-line');
 
-                console.log('Highlighting error step:', errorStepIndex);
 
                 // Remove any existing error classes
                 steps.forEach(step => {
@@ -1320,13 +1304,11 @@
                 // Add error class to the step with errors
                 if (steps[errorStepIndex]) {
                     steps[errorStepIndex].classList.add('has-error');
-                    console.log('Added error class to step:', errorStepIndex + 1);
                 }
 
                 // Also highlight the line before the error step if it exists
                 if (errorStepIndex > 0 && lines[errorStepIndex - 1]) {
                     lines[errorStepIndex - 1].classList.add('has-error');
-                    console.log('Added error class to line before step:', errorStepIndex + 1);
                 }
             }
 
@@ -1340,6 +1322,8 @@
             let marker;
             let geocoder;
             let autocomplete;
+            let locationManuallySelected = false; // Flag to track if user has manually selected a location
+            let currentLocationUsed = false; // Flag to track if current location was used initially
 
             function initMap() {
                 // Check if we have old location data from validation errors
@@ -1358,13 +1342,17 @@
 
                     const regionName = getRegionNameFromLatLng(oldLocation, map);
                     if (regionName) {
-                        document.getElementById('region_name').value = regionName;
+                        // Convert Arabic name to English if needed
+                        const englishRegionName = regionNameMapping[regionName] || regionName;
+                        document.getElementById('region_name').value = englishRegionName;
                     }
                 } else {
-                    // أول شيء نحاول نجيب موقع المستخدم
+                    // Try to get user's current location for better UX, but make it overridable
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(
                             function (position) {
+                                // Only use current location if user hasn't manually selected one
+                                if (!locationManuallySelected) {
                                 const userLocation = {
                                     lat: position.coords.latitude,
                                     lng: position.coords.longitude
@@ -1376,18 +1364,25 @@
 
                                 const regionName = getRegionNameFromLatLng(userLocation, map);
                                 if (regionName) {
-                                    document.getElementById('region_name').value = regionName;
+                                        // Convert Arabic name to English if needed
+                                        const englishRegionName = regionNameMapping[regionName] || regionName;
+                                        document.getElementById('region_name').value = englishRegionName;
                                 }
 
                                 placeMarker(userLocation, map);
+                                    currentLocationUsed = true;
+                                    
+                                    // Show a subtle message that current location was used
+                                    showLocationSelectedMessage('تم استخدام موقعك الحالي. يمكنك البحث عن موقع آخر أو النقر على الخريطة لتغييره.');
+                                }
                             },
                             function () {
-                                console.warn("لم يتم السماح بالحصول على الموقع.");
-                                initMapAtDefaultLocation(); // في حال الرفض
+                                console.warn("لم يتم السماح بالحصول على الموقع أو فشل في الحصول عليه.");
+                                initMapAtDefaultLocation(); // في حال الرفض أو الفشل
                             }
                         );
                     } else {
-                        alert("المتصفح لا يدعم تحديد الموقع الجغرافي.");
+                        console.warn("المتصفح لا يدعم تحديد الموقع الجغرافي.");
                         initMapAtDefaultLocation();
                     }
                 }
@@ -1408,8 +1403,15 @@
                 // تحميل الحدود الإدارية للسعودية
                 map.data.loadGeoJson('/saudi-arabia-with-regions_1509.geojson', null, function (features) {
                     map.data.addListener('click', function (event) {
+                        // Mark that user has manually selected a location
+                        locationManuallySelected = true;
+                        
+                        // If current location was used initially, show a message that it's being overridden
+                        
                         const regionName = event.feature.getProperty('name');
-                        document.getElementById('region_name').value = regionName;
+                        // Convert Arabic name to English if needed
+                        const englishRegionName = regionNameMapping[regionName] || regionName;
+                        document.getElementById('region_name').value = englishRegionName;
                         placeMarker(event.latLng, map);
                         geocodeLatLng(event.latLng);
                     });
@@ -1430,25 +1432,202 @@
                         alert("لا توجد تفاصيل للعنصر: '" + place.name + "'");
                         return;
                     }
+                    
+                    // Mark that user has manually selected a location
+                    locationManuallySelected = true;
+                    
+                    // If current location was used initially, show a message that it's being overridden
+             
+                    
                     if (place.geometry.viewport) {
                         map.fitBounds(place.geometry.viewport);
                     } else {
                         map.setCenter(place.geometry.location);
                         map.setZoom(17);
                     }
+                    
+                    // Clear any existing location data and set new location
                     placeMarker(place.geometry.location, map);
                     geocodeLatLng(place.geometry.location);
+                    
+                    // First try to get region from place address components (most reliable for search)
+                    const addressComponents = place.address_components;
+                    let regionSet = false;
+                    
+                    if (addressComponents) {
+                        for (let component of addressComponents) {
+                            if (component.types.includes('administrative_area_level_1')) {
+                                const foundRegion = component.long_name;
+                                
+                                // First try direct mapping
+                                let englishName = regionNameMapping[foundRegion];
+                                
+                                // If not found, try normalized version
+                                if (!englishName) {
+                                    const normalizedRegion = normalizeRegionName(foundRegion);
+                                    englishName = regionNameMapping[normalizedRegion] || normalizedRegion;
+                                }
+                                
+                                document.getElementById('region_name').value = englishName;
+                                regionSet = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // If not set from address components, try GeoJSON
+                    if (!regionSet) {
+                        const regionName = getRegionNameFromLatLng(place.geometry.location, map);
+                        if (regionName) {
+                            // Convert Arabic name to English if needed
+                            const englishName = regionNameMapping[regionName] || regionName;
+                            document.getElementById('region_name').value = englishName;
+                            regionSet = true;
+                        }
+                    }
+                    
+                    // Final fallback: if still no region found, try to detect from address text
+                    if (!regionSet) {
+                        const addressText = place.formatted_address || place.name || '';
+                        
+                        // Check if address contains region names
+                        for (const [arabicName, englishName] of Object.entries(regionNameMapping)) {
+                            if (addressText.includes(arabicName) || addressText.includes(englishName)) {
+                                document.getElementById('region_name').value = englishName;
+                                regionSet = true;
+                                break;
+                            }
+                        }
+                        
+                        // Also check for normalized versions
+                        if (!regionSet) {
+                            const normalizedAddress = normalizeRegionName(addressText);
+                            for (const [arabicName, englishName] of Object.entries(regionNameMapping)) {
+                                if (normalizedAddress.includes(arabicName) || normalizedAddress.includes(englishName)) {
+                                    document.getElementById('region_name').value = englishName;
+                                    regionSet = true;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // Ultimate fallback
+                        if (!regionSet) {
+                            console.warn('No region found, setting default to Riyadh');
+                            document.getElementById('region_name').value = 'Riyadh';
+                        }
+                    }
+                    
+                    // Debug: Log final region value
+                    
+                    // Show success message
+                    showLocationSelectedMessage(place.formatted_address || place.name);
                 });
+            }
+
+            // Mapping of Arabic region names to English region names (matching GeoJSON file)
+            // Based on actual region names found in saudi-arabia-with-regions_1509.geojson
+            const regionNameMapping = {
+                'الرياض': 'Riyadh',
+                'مكة المكرمة': 'Makkah',
+                'المدينة المنورة': 'Madinah',
+                'القصيم': 'Qassim',
+                'الشرقية': 'Eastern Region',
+                'عسير': 'Asir',
+                'تبوك': 'Tabuk',
+                'حائل': 'Hail',
+                'الحدود الشمالية': 'Northern Region',
+                'جازان': 'Jizan',
+                'نجران': 'Najran',
+                'الباحة': 'Bahah',
+                'الجوف': 'Jawf',
+                // Additional variations that Google Places API might return
+                'Riyadh Province': 'Riyadh',
+                'Makkah Province': 'Makkah',
+                'Madinah Province': 'Madinah',
+                'Qassim Province': 'Qassim',
+                'Eastern Province': 'Eastern Region',
+                'Asir Province': 'Asir',
+                'Tabuk Province': 'Tabuk',
+                'Hail Province': 'Hail',
+                'Northern Province': 'Northern Region',
+                'Jizan Province': 'Jizan',
+                'Najran Province': 'Najran',
+                'Bahah Province': 'Bahah',
+                'Jawf Province': 'Jawf'
+            };
+
+            // Reverse mapping for fallback (English to Arabic)
+            const reverseRegionMapping = {
+                'Riyadh': 'الرياض',
+                'Makkah': 'مكة المكرمة',
+                'Madinah': 'المدينة المنورة',
+                'Qassim': 'القصيم',
+                'Eastern Region': 'الشرقية',
+                'Asir': 'عسير',
+                'Tabuk': 'تبوك',
+                'Hail': 'حائل',
+                'Northern Region': 'الحدود الشمالية',
+                'Jizan': 'جازان',
+                'Najran': 'نجران',
+                'Bahah': 'الباحة',
+                'Jawf': 'الجوف'
+            };
+
+            // Function to normalize region names (remove common suffixes/prefixes)
+            function normalizeRegionName(regionName) {
+                if (!regionName) return regionName;
+                
+                // Remove common suffixes
+                let normalized = regionName
+                    .replace(/\s+Province$/i, '')
+                    .replace(/\s+Region$/i, '')
+                    .replace(/\s+Governorate$/i, '')
+                    .replace(/\s+Emirate$/i, '')
+                    .trim();
+                
+                return normalized;
             }
 
             function getRegionNameFromLatLng(latLng, map) {
                 let regionName = null;
+                
+                // First try to get region from GeoJSON
+                try {
                 map.data.forEach(function (feature) {
                     const geometry = feature.getGeometry();
                     if (google.maps.geometry.poly.containsLocation(latLng, geometry)) {
                         regionName = feature.getProperty('name');
-                    }
-                });
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error checking GeoJSON regions:', error);
+                }
+                
+                // If no region found from GeoJSON, try to get it from geocoding
+                if (!regionName) {
+                    geocoder.geocode({ location: latLng }, function (results, status) {
+                        if (status === 'OK' && results[0]) {
+                            // Try to extract region from address components
+                            const addressComponents = results[0].address_components;
+                            for (let component of addressComponents) {
+                                if (component.types.includes('administrative_area_level_1')) {
+                                    let foundRegion = component.long_name;
+                                    // Convert Arabic name to English if needed
+                                    const englishName = regionNameMapping[foundRegion] || foundRegion;
+                                    document.getElementById('region_name').value = englishName;
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Convert Arabic name to English if needed
+                    const englishName = regionNameMapping[regionName] || regionName;
+                    document.getElementById('region_name').value = englishName;
+                    return englishName;
+                }
+                
                 return regionName;
             }
 
@@ -1463,10 +1642,32 @@
                     }
                 });
                 if (isInsideRegion) {
-                    placeMarkerAndPanTo(latLng, map, regionName);
+                    // Mark that user has manually selected a location
+                    locationManuallySelected = true;
+                    
+                  
+                    
+                    // Convert Arabic name to English if needed
+                    const englishRegionName = regionNameMapping[regionName] || regionName;
+                    document.getElementById('region_name').value = englishRegionName;
+                    
+                    placeMarkerAndPanTo(latLng, map, englishRegionName);
                     geocodeLatLng(latLng);
+                    
+                    // Show success message for map click
+                    geocoder.geocode({ location: latLng }, function (results, status) {
+                        if (status === 'OK' && results[0]) {
+                            showLocationSelectedMessage(results[0].formatted_address);
+                        }
+                    });
                 } else {
                     alert('لا يمكنك اختيار نقطة خارج مناطق السعودية.');
+                }
+                
+                // Final fallback: if still no region found, set a default
+                if (!document.getElementById('region_name').value) {
+                    console.warn('No region found from map click, setting default to Riyadh');
+                    document.getElementById('region_name').value = 'Riyadh';
                 }
             }
 
@@ -1499,6 +1700,56 @@
                         alert('فشل الـ Geocoder بسبب: ' + status);
                     }
                 });
+            }
+
+            // Function to show location selection confirmation
+            function showLocationSelectedMessage(address) {
+                const message = document.createElement('div');
+                message.className = 'alert alert-success location-selected-message';
+                message.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 1000;
+                    max-width: 300px;
+                    font-size: 14px;
+                    padding: 10px 15px;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                `;
+                message.innerHTML = `
+                    <i class="bx bx-check-circle"></i>
+                    <strong>{{ app()->getLocale() == 'ar' ? 'تم اختيار الموقع:' : 'Location selected:' }}</strong><br>
+                    ${address}
+                `;
+                
+                document.body.appendChild(message);
+                
+                // Remove message after 3 seconds
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.parentNode.removeChild(message);
+                    }
+                }, 3000);
+            }
+
+            // Debug function to check form values before submission
+            function debugFormValues() {
+             
+                
+                // Check if all required fields are filled
+                const requiredFields = ['length_step', 'width_step', 'region_name', 'geocode_string'];
+                const missingFields = requiredFields.filter(field => !document.getElementById(field).value);
+                
+                if (missingFields.length > 0) {
+                    console.warn('Missing required fields:', missingFields);
+                    alert('يرجى التأكد من تحديد الموقع على الخريطة');
+                    return false;
+                }
+                
+              
+                
+                return true;
             }
         </script>
 
@@ -1565,29 +1816,16 @@
             });
         </script>
         <script>
-            // مشان ازا كبس انتر بالخريطة
-            document.getElementById('search_map').addEventListener('keydown', function(event) {
+            // Prevent form submission when pressing Enter in search field
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('search_map');
+                if (searchInput) {
+                    searchInput.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault(); // منع إرسال الفورم
                 }
             });
-            var input = document.getElementById('search_map');
-            autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.bindTo('bounds', map);
-            autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    alert("لا توجد تفاصيل للعنصر: '" + place.name + "'");
-                    return;
                 }
-                if (place.geometry.viewport) {
-                    map.fitBounds(place.geometry.viewport);
-                } else {
-                    map.setCenter(place.geometry.location);
-                    map.setZoom(17);
-                }
-                placeMarker(place.geometry.location, map);
-                geocodeLatLng(place.geometry.location);
             });
         </script>
 
@@ -1779,7 +2017,7 @@
             // Meeting time validation and enhancement
             document.addEventListener('DOMContentLoaded', function() {
                 const meetingTimeInput = document.getElementById('meeting_time');
-                const datetimeOverlay = document.querySelector('.datetime-overlay');
+                const datetimeOverlay = document.querySelector('.datetime-field-overlay');
 
                 if (meetingTimeInput) {
                     // Set minimum date/time to current time

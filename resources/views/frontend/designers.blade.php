@@ -187,7 +187,8 @@
 
                             @if(count($portfolioImages) > 0)
                                 <div id="portfolioCarousel{{ $designer->id }}" class="carousel slide mt-4" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
+                                    <p class="text-center text-muted py-3">@lang('homepage.Previous Work')</p>
+                                <div class="carousel-inner">
                                         @foreach($portfolioImages as $key => $image)
                                             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                                                 <img src="{{ asset('storage/' . $image) }}" class="d-block w-100 rounded-4" alt="Portfolio Image" style="height: 300px; object-fit: cover;">

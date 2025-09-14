@@ -1138,7 +1138,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-payment-modal" data-bs-dismiss="modal" style="border-radius: 4px;">
-                            {{ __('order.Cancel') }}
+                            {{ __('order.close') }}
                         </button>
                     </div>
                 </div>
@@ -1165,7 +1165,7 @@
                                         <input type="file" class="form-control" id="payment_receipt" name="payment_receipt" required>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 4px">@lang('order.Cancel')</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 4px">@lang('order.close')</button>
                                         <button type="submit" class="btn  button_Dark_Green">@lang('order.upload_receipt')</button>
                                     </div>
                                 </form>

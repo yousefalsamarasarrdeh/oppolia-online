@@ -74,6 +74,7 @@ return [
     'Our designers work to understand your needs and provide you with the perfect home, turning your ideas into reality.'=>'Our designers work to understand your needs and provide you with the perfect home, turning your ideas into reality.',
     'Join Now!'=>'Join Now!',
     'Show All'=>'Show All',
+    'Previous Work'=>'Previous Work',
 
 
 ];

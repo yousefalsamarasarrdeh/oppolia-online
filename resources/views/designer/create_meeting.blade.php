@@ -35,7 +35,7 @@
                             <!-- تحديد وقت الاجتماع -->
                             <div class="mb-3">
                                 <label for="meeting_time" class="form-label">وقت الاجتماع</label>
-                                <input type="datetime-local" name="meeting_time" id="meeting_time" class="form-control" required>
+                                <input type="datetime-local" name="meeting_time" id="meeting_time" min="{{ now()->format('Y-m-d\TH:i') }}" class="form-control" required>
                             </div>
 
                             <!-- زر إنشاء الاجتماع -->
@@ -46,4 +46,11 @@
             </div>
         </div>
     </section>
+@endsection
+@section('script')
+    <script>
+    document.getElementById('meeting_time').addEventListener('focus', function() {
+    this.showPicker(); // مدعومة بكروم وإيدج فقط
+    });
+    </script>
 @endsection

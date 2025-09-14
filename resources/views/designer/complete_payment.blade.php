@@ -47,7 +47,20 @@
                             <td>{{ number_format($installment->installment_amount, 2) }}</td>
                             <td>{{ $installment->percentage }}%</td>
                             <td>{{ $installment->due_date }}</td>
-                            <td>{{ $installment->status }}</td>
+                            <td>
+                                @php
+                                    $statuses = [
+                                        'pending' => 'قيد الانتظار',
+                                        'paid' => 'مدفوع',
+                                        'overdue' => 'متأخر',
+                                        'awaiting_customer_payment' => 'بانتظار دفع العميل',
+                                        'receipt_uploaded' => 'تم رفع إيصال الدفع',
+                                    ];
+                                @endphp
+
+                                {{ $statuses[$installment->status] ?? $installment->status }}
+                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>

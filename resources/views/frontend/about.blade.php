@@ -94,7 +94,6 @@
             position: relative;
             width: 100%;
             height: 200px;
-            overflow: visible;
         }
 
         /* 1) Logo mark centered under everything */
@@ -147,6 +146,7 @@
             z-index: 3;
             width: 0;
             height: 0;
+            max-width: 100%;
         }
 
         /* SVG styling - positioned to the left of trophy images initially */
@@ -189,6 +189,7 @@
             left: -150px;
             z-index: 0;
             transition: transform 0.6s ease-in-out, left 0.6s ease-in-out;
+            max-width: 150px;
         }
 
         /* front trophy (second child) */
@@ -197,6 +198,7 @@
             z-index: 4;
             transform: scale(1.1);
             transition: transform 0.6s ease-in-out, left 0.6s ease-in-out;
+            max-width: 200px;
         }
 
         /* back trophy (third child) */
@@ -205,6 +207,7 @@
             z-index: 2;
             transform: scale(1);
             transition: transform 0.6s ease-in-out, left 0.6s ease-in-out;
+            max-width: 200px;
         }
 
         /* on hover: SVG moves right, trophies move left */
@@ -301,6 +304,14 @@
             .vision-image {
                 height: 300px;
             }
+            
+            .illu-container {
+                overflow: hidden;
+            }
+            
+            .container-fluid {
+                overflow-x: hidden;
+            }
         }
 
         @media (max-width: 576px) {
@@ -353,7 +364,7 @@
     <div class="container-fluid about-section position-relative">
         <div class="row">
             <div class="col-12 p-0">
-                <img src="{{ asset('Frontend/assets/images/banners/About-Banner.png') }}" alt="About Us Banner" class="img-fluid about-image">
+                <img src="{{ asset('Frontend/assets/images/banners/About-Banner.png') }}" alt="About Us Banner" class="img-fluid about-image" loading="lazy">
             </div>
         </div>
         <div class="about-text-overlay">
@@ -363,7 +374,7 @@
 
     <!-- Main Content Section -->
     <section class="container-fluid" style="background-color: rgba(243, 243, 243, 1);">
-        <div class="row p-0 p-lg-4">
+        <div class="row px-2 px-lg-4 py-1 py-lg-4">
             <!-- Sidebar Column - Hidden on mobile -->
             <div class="col-lg-2 order-lg-first d-none d-lg-block" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
                 <aside class="sticky-sidebar">
@@ -476,7 +487,7 @@
                             <div class="row">
                                 <div class="col-lg-5 p-0">
                                     <img src="{{ asset('Frontend/assets/images/gallery/vision.jpg') }}" alt="Modern Kitchen"
-                                         class="img-fluid w-100 vision-image">
+                                         class="img-fluid w-100 vision-image" loading="lazy">
                                 </div>
                                 <div class="col-lg-7 text-right d-flex flex-column justify-content-center p-4"
                                      style="background: #83B0AB">
@@ -525,7 +536,7 @@
                                 <!-- Image Section -->
                                 <div class="col-lg-4 col-md-12 p-0 d-flex align-items-stretch">
                                     <img src="{{ asset('Frontend/assets/images/gallery/production.webp') }}"
-                                         alt="Production Line" class="img-fluid w-100" style="object-fit: cover; height: 100%;">
+                                         alt="Production Line" class="img-fluid w-100" style="object-fit: cover; height: 100%;" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -732,20 +743,20 @@
                             <div class="col-lg-6 d-none d-lg-flex justify-content-center {{ app()->getLocale() === 'ar' ? 'order-lg-1' : 'order-lg-2' }}">
                                 <div class="illu-container">
                                     <!-- 1) your circle+roof SVG as a true <img> or inline SVG -->
-                                    <img src="Frontend/assets/images/gallery/logo.webp" alt="" class="logomark">
+                                    <img src="Frontend/assets/images/gallery/logo.webp" alt="" class="logomark" loading="lazy">
 
                                     <!-- 2) top‐left dot grid -->
-                                    <img src="Frontend/assets/images/icons/Dots-illu-top.webp" alt="" class="dots dots-top">
+                                    <img src="Frontend/assets/images/icons/Dots-illu-top.webp" alt="" class="dots dots-top" loading="lazy">
 
                                     <!-- 3) bottom‐right dot grid -->
-                                    <img src="Frontend/assets/images/icons/Dots-illu-bottom.webp" alt="" class="dots dots-bottom">
+                                    <img src="Frontend/assets/images/icons/Dots-illu-bottom.webp" alt="" class="dots dots-bottom" loading="lazy">
 
                                     <!-- 4) trophies stacked -->
                                     <div class="awards">
                                         <!-- SVG positioned to the left of MUSE award -->
-                                        <img class="awards-svg" src="Frontend/assets/images/icons/Oppolia online Icon.svg" alt="Awards SVG">
-                                        <img src="Frontend/assets/images/gallery/red-dot.webp" alt="Back trophy">
-                                        <img src="Frontend/assets/images/gallery/muse.webp" alt="Front trophy">
+                                        <img class="awards-svg" src="Frontend/assets/images/icons/Oppolia online Icon.svg" alt="Awards SVG" loading="lazy">
+                                        <img src="Frontend/assets/images/gallery/red-dot.webp" alt="Back trophy" loading="lazy">
+                                        <img src="Frontend/assets/images/gallery/muse.webp" alt="Front trophy" loading="lazy">
                                     </div>
                                 </div>
                             </div>
@@ -799,7 +810,7 @@
                                         <div class="col-lg-4 col-md-12 d-flex">
                                             <div class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                                 <img src="{{ asset('Frontend/assets/images/gallery/Blum-Logo-.png') }}"
-                                                     alt="Blum Logo" class="supplier-logo">
+                                                     alt="Blum Logo" class="supplier-logo" loading="lazy">
                                                 <p>@lang('about.blum_collaboration')</p>
                                             </div>
                                         </div>
@@ -807,7 +818,7 @@
                                             <div
                                                 class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                                 <img src="{{ asset('Frontend/assets/images/gallery/SKAI-Logo-webp.png') }}"
-                                                     alt="Skai Logo" class="supplier-logo">
+                                                     alt="Skai Logo" class="supplier-logo" loading="lazy">
                                                 <p>@lang('about.skai_description')</p>
                                             </div>
                                         </div>
@@ -815,7 +826,7 @@
                                             <div
                                                 class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                                 <img src="{{ asset('Frontend/assets/images/icons/suspa.webp') }}"
-                                                     alt="Suspa Logo" class="supplier-logo">
+                                                     alt="Suspa Logo" class="supplier-logo" loading="lazy">
                                                 <p>@lang('about.suspa_description')</p>
                                             </div>
                                         </div>
@@ -824,7 +835,7 @@
                                             <div
                                                 class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                                 <img src="{{ asset('Frontend/assets/images/icons/eger.webp') }}"
-                                                     alt="EEGGER Logo" class="supplier-logo">
+                                                     alt="EEGGER Logo" class="supplier-logo" loading="lazy">
                                                 <p>@lang('about.egger_description')</p>
                                             </div>
                                         </div>
@@ -832,7 +843,7 @@
                                             <div
                                                 class="supplier-card d-flex flex-column align-items-center justify-content-center w-100">
                                                 <img src="{{ asset('Frontend/assets/images/icons/bostik.webp') }}"
-                                                     alt="Bostik Logo" class="supplier-logo">
+                                                     alt="Bostik Logo" class="supplier-logo" loading="lazy">
                                                 <p>@lang('about.bostik_description')</p>
                                             </div>
                                         </div>

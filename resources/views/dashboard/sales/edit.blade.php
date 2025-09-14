@@ -17,7 +17,7 @@
     @endif
 
     <div class="container mt-4">
-        <h2 class="mb-4"> تفاصيل المبيعات والدفعات للطلب  رقم {{ $sale->order->id }}</h2>
+        <h2 class="mb-4"> تفاصيل المبيع والدفعات للطلب  رقم {{ $sale->order->id }}</h2>
 
         @php
             $canEditPrice = ($sale->installments_count == 1 && $sale->installments->first()->status != 'paid');
@@ -35,26 +35,52 @@
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">تفاصيل المبيع</div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label for="total_cost" class="form-label">التكلفة الإجمالية</label>
-                        <input type="number" step="0.01" class="form-control" id="total_cost" name="total_cost"
-                               value="{{ $sale->total_cost }}"
-                               {{ ($disableEdit || !$canEditPrice) ? 'readonly' : '' }}
-                               oninput="calculateDiscount()">
-                    </div>
+                    <div class="row">
+                        <!-- العمود الأيمن - بيانات العميل -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="customer_name" class="form-label">اسم العميل</label>
+                                <input type="text" class="form-control" id="customer_name" name="customer_name"
+                                       value="{{ $sale->order->user->name }}" readonly>
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="price_after_discount" class="form-label">السعر بعد الخصم</label>
-                        <input type="number" step="0.01" class="form-control" id="price_after_discount" name="price_after_discount"
-                               value="{{ $sale->price_after_discount }}"
-                               {{ ($disableEdit || !$canEditPrice) ? 'readonly' : '' }}
-                               oninput="calculateDiscount(); updateInstallmentPercentages();">
-                    </div>
+                            <div class="mb-3">
+                                <label for="customer_email" class="form-label">البريد الإلكتروني</label>
+                                <input type="email" class="form-control" id="customer_email" name="customer_email"
+                                       value="{{ $sale->order->user->email }}" readonly>
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="discount_percentage" class="form-label">نسبة الخصم</label>
-                        <input type="number" step="0.01" class="form-control" id="discount_percentage" name="discount_percentage"
-                               value="{{ $sale->discount_percentage }}" readonly>
+                            <div class="mb-3">
+                                <label for="customer_phone" class="form-label">رقم الهاتف</label>
+                                <input type="text" class="form-control" id="customer_phone" name="customer_phone"
+                                       value="{{ $sale->order->user->phone }}" readonly>
+                            </div>
+                        </div>
+
+                        <!-- العمود الأيسر - التفاصيل المالية -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="total_cost" class="form-label">التكلفة الإجمالية</label>
+                                <input type="number" step="0.01" class="form-control" id="total_cost" name="total_cost"
+                                       value="{{ $sale->total_cost }}"
+                                       {{ ($disableEdit || !$canEditPrice) ? 'readonly' : '' }}
+                                       oninput="calculateDiscount()">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="price_after_discount" class="form-label">السعر بعد الخصم</label>
+                                <input type="number" step="0.01" class="form-control" id="price_after_discount" name="price_after_discount"
+                                       value="{{ $sale->price_after_discount }}"
+                                       {{ ($disableEdit || !$canEditPrice) ? 'readonly' : '' }}
+                                       oninput="calculateDiscount(); updateInstallmentPercentages();">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="discount_percentage" class="form-label">نسبة الخصم</label>
+                                <input type="number" step="0.01" class="form-control" id="discount_percentage" name="discount_percentage"
+                                       value="{{ $sale->discount_percentage }}" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,7 +144,7 @@
 
             <!-- زر الحفظ -->
             @if (!$disableEdit)
-                <button type="submit" class="btn btn-success">💾 حفظ التعديلات</button>
+                <button type="submit" class="btn btn-success"> حفظ التعديلات</button>
             @else
                 <div class="alert alert-danger text-center">
                     🚫 لا يمكن التعديل لأن مجموع الدفعات يساوي السعر بعد الخصم ويوجد 3 دفعات.

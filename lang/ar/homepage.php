@@ -71,6 +71,7 @@ return [
     'Our designers work to understand your needs and provide you with the perfect home, turning your ideas into reality.'=>'يعمل مصممونا على فهم احتياجاتك وتوفيرك لبيت مثالي، وتحويل أفكارك إلى واقع.',
     'Join Now!'=>'انضم الآن و كن جزء من فريق التصميم!',
     'Show All'=>'مشاهدة الكل',
+    'Previous Work'=>'الأعمال السابقة',
 
 
 ];

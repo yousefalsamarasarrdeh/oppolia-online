@@ -111,7 +111,7 @@
                 <div class="col-lg-6 col-md-6 mb-3">
                     <div class="form-group">
                         <label for="due_date">تاريخ الاستحقاق</label>
-                        <input type="date" name="due_date" id="due_date" class="form-control" required>
+                        <input min="{{ now()->format('Y-m-d') }}" type="date" name="due_date" id="due_date" class="form-control" required>
                     </div>
                 </div>
 
@@ -240,6 +240,12 @@
 
             installmentAmountInput.addEventListener('input', calculateInstallmentPercentage);
             percentageInput.addEventListener('input', updateInstallmentAmount);
+        });
+    </script>
+
+    <script>
+        document.getElementById('due_date').addEventListener('focus', function() {
+            this.showPicker(); // مدعومة بكروم وإيدج فقط
         });
     </script>
 

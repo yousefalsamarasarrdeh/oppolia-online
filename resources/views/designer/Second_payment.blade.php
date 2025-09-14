@@ -56,7 +56,20 @@
                             <td>{{ number_format($installment->installment_amount, 2) }}</td>
                             <td>{{ $installment->percentage }}%</td>
                             <td>{{ $installment->due_date }}</td>
-                            <td>{{ $installment->status }}</td>
+                            <td>
+                                @php
+                                    $statuses = [
+                                        'pending' => 'قيد الانتظار',
+                                        'paid' => 'مدفوع',
+                                        'overdue' => 'متأخر',
+                                        'awaiting_customer_payment' => 'بانتظار دفع العميل',
+                                        'receipt_uploaded' => 'تم رفع إيصال الدفع',
+                                    ];
+                                @endphp
+
+                                {{ $statuses[$installment->status] ?? $installment->status }}
+                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -150,7 +163,7 @@
 
                     <div class="mb-3">
                         <label for="due_date" class="form-label">تاريخ الاستحقاق</label>
-                        <input type="date" name="due_date" class="form-control" required>
+                        <input min="{{ now()->format('Y-m-d') }}" type="date" id="due_date" name="due_date" class="form-control" required>
                     </div>
 
                     <button type="submit" class="btn button_Green">إضافة دفعة</button>
@@ -223,6 +236,12 @@
             // حساب النسبة الجديدة بناءً على المبلغ المطلوب
             let newPercentage = (remainingAmount / totalCostAfterDiscount) * 100;
             percentageInput.value = newPercentage.toFixed(2);
+        });
+    </script>
+
+    <script>
+        document.getElementById('due_date').addEventListener('focus', function() {
+            this.showPicker(); // مدعومة بكروم وإيدج فقط
         });
     </script>
 @endsection
